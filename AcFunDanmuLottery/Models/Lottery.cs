@@ -13,17 +13,19 @@ namespace AcFunDanmuLottery.Models
 {
     class Lottery : INotifyPropertyChanged
     {
-        public string UserId { get; set; }
+        public long UserId { get; set; } = -1;
 
         private string _currentStatus;
         public string CurrentStatus { get { return _currentStatus; } set { _currentStatus = value; OnPropertyChanged(nameof(CurrentStatus)); } }
 
-        private bool _connected;
-        public bool Connected { get { return _connected; } set { _connected = value; OnPropertyChanged(nameof(Connected)); OnPropertyChanged(nameof(ConnectBtnContent)); } }
+        public bool Connected { get; private set; } = false;
 
-        public string ConnectBtnContent => _connected ? "断开" : "连接";
+        public string ConnectBtnContent => Connected ? "断开" : "连接";
 
-        public string Pattern { get; set; }
+        private string _pattern;
+        public string Pattern { get { return _pattern; } set { _pattern = value.Trim(); OnPropertyChanged(nameof(Pattern)); OnPropertyChanged(nameof(CanStart)); } }
+
+        public bool CanStart => Connected && !string.IsNullOrEmpty(_pattern);
 
         public string SearchBtnContent => SearchStart ? "结束" : "开始";
 
@@ -38,7 +40,7 @@ namespace AcFunDanmuLottery.Models
         public ReadOnlyObservableCollection<Comment> Comments => new ReadOnlyObservableCollection<Comment>(ShowAll ? _comments : _pool);
 
         public bool Ready => !SearchStart && _comments.Count > 0;
-        public string Amount { get; set; }
+        public int Amount { get; set; }
 
         private readonly ObservableCollection<Comment> _result = new ObservableCollection<Comment>();
         public ReadOnlyObservableCollection<Comment> Result => new ReadOnlyObservableCollection<Comment>(_result);
@@ -52,41 +54,47 @@ namespace AcFunDanmuLottery.Models
 
         public async void Connect()
         {
-            CurrentStatus = "连接中";
-
-            client = new Client();
-            client.Handler = HandleSignal;
-
-            await client.Initialize(UserId);
-
-            var retry = 0;
-            var resetTimer = new Timer(5000);
-            resetTimer.Elapsed += (s, e) => retry = 0;
-
-            CurrentStatus = "已连接";
-            Connected = true;
-
-            while (Connected && !await client.Start() && retry < 5)
+            if (UserId > 0)
             {
-                CurrentStatus = "断线重连中";
-                if (retry > 0) { resetTimer.Stop(); }
-                retry++;
-                resetTimer.Start();
+                CurrentStatus = "连接中";
+
+                client = new Client();
+                client.Handler = HandleSignal;
+
+                await client.Initialize(UserId.ToString());
+
+                var retry = 0;
+                var resetTimer = new Timer(5000);
+                resetTimer.Elapsed += (s, e) => retry = 0;
+
+                CurrentStatus = "已连接";
+                Connected = true;
+                OnPropertyChanged(nameof(ConnectBtnContent));
+
+                while (Connected && !await client.Start() && retry < 5)
+                {
+                    CurrentStatus = "断线重连中";
+                    if (retry > 0) { resetTimer.Stop(); }
+                    retry++;
+                    resetTimer.Start();
+                }
+                if (retry > 0)
+                {
+                    CurrentStatus = "连接已断开";
+                }
+                else
+                {
+                    CurrentStatus = "直播已结束";
+                }
+                Connected = false;
+                OnPropertyChanged(nameof(ConnectBtnContent));
             }
-            if (retry > 0)
-            {
-                CurrentStatus = "连接已断开";
-            }
-            else
-            {
-                CurrentStatus = "直播已结束";
-            }
-            Connected = false;
         }
 
         public async void Stop()
         {
             Connected = false;
+            OnPropertyChanged(nameof(ConnectBtnContent));
             await client.Stop("Disconnect");
         }
 
@@ -124,12 +132,12 @@ namespace AcFunDanmuLottery.Models
             OnPropertyChanged(nameof(Comments));
         }
 
-        public void Roll(int amount)
+        public void Roll()
         {
             _result.Clear();
             var rnd = new Random();
-            HashSet<int> indexes = new HashSet<int>(amount);
-            while (indexes.Count < amount)
+            HashSet<int> indexes = new HashSet<int>(Amount);
+            while (indexes.Count < Amount)
             {
                 indexes.Add(rnd.Next(_pool.Count));
             }
