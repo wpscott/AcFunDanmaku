@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu;
+
+import "Register.proto";
+import "PushServiceToken.proto";
+import "AccessPointsConfig.proto";
+
+message KeepAliveRequest {
+	RegisterRequest.PresenceStatus presenceStatus = 1;
+	RegisterRequest.ActiveStatus appActiveStatus = 2;
+	PushServiceToken pushServiceToken = 3;
+	repeated PushServiceToken pushServiceTokenList = 4;
+	int32 keepaliveIntervalSec = 5;
+}
+
+message KeepAliveResponse {
+	AccessPointsConfig accessPointsConfig = 1;
+	int64 serverMsec = 2;
+	AccessPointsConfig accessPointsConfigIpv6 = 3;
+}

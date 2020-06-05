@@ -1,0 +1,1311 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu.Im;
+
+message Basic {
+	message PacketHeader {
+        int32 appId = 1;
+        int64 uid = 2;
+        int64 instanceId = 3;
+        uint32 flags = 5;
+        EncodingType encodingType = 6;
+        int32 decodedPayloadLen = 7;
+        EncryptionMode encryptionMode = 8;
+        TokenInfo tokenInfo = 9;
+        int64 seqId = 10;
+        repeated Feature features = 11;
+        string kpn = 12;
+
+        enum Flags {
+            option allow_alias = true;
+            kDirUpstream = 0;
+            kDirDownstream = 1;
+            kDirMask = 1;
+        }
+        enum EncodingType {
+            kEncodingNone = 0;
+            kEncodingLz4 = 1;
+        }
+        enum EncryptionMode {
+            kEncryptionNone = 0;
+            kEncryptionServiceToken =1;
+            kEncryptionSessionKey = 2;
+        }
+        enum Feature {
+            kReserve = 0;
+            kCompressLz4 = 1;
+        }
+    }
+
+    message User {
+        int32 appId = 1;
+        int64 uid = 2;
+    }
+
+    message UserInstance {
+        User user = 1;
+        int64 instanceId = 2;
+    }
+
+    message UpstreamPayload {
+        string command = 1;
+        int64 seqId = 2;
+        uint32 retryCount = 3;
+        bytes payloadData = 4;
+        UserInstance userInstance = 5;
+        int32 errorCode = 6;
+        SettingInfo settingInfo = 7;
+        RequestBasicInfo requestBasicInfo = 8;
+        string subBiz = 9;
+        FrontendInfo frontendInfo = 10;
+        string kpn = 11;
+        bool anonymouseUser = 12;
+    }
+
+    message DownstreamPayload {
+        string command = 1;
+        int64 seqId = 2;
+        int32 errorCode = 3;
+        bytes payloadData = 4;
+        string errorMsg = 5;
+        bytes errorData = 6;
+        string subBiz = 7;
+    }
+
+    message PingRequest {
+        enum PingType {
+            kInvalid = 0;
+            kPriorRegister = 1;
+            kPostRegister = 2;
+        }
+        PingType pingType = 1;
+        uint32 pingRound = 2;
+    }
+
+    message PingResponse {
+        sfixed32 serverTimestamp = 1;
+        fixed32 clientIp = 2;
+        fixed32 redirectIp = 3;
+        uint32 redirectPort = 4;
+    }
+
+    message RegisterRequest {
+	    AppInfo appInfo = 1;
+	    DeviceInfo deviceInfo = 2;
+	    EnvInfo envInfo = 3;
+	    PresenceStatus presenceStatus = 4;
+	    ActiveStatus appActiveStatus = 5;
+	    bytes appCustomStatus = 6;
+	    PushServiceToken pushServiceToken = 7;
+	    int64 instanceId = 8;
+	    repeated PushServiceToken pushServiceTokenList = 9;
+	    int32 keepaliveIntervalSec = 10;
+	    ZtCommonInfo ztCommonInfo = 11;
+
+	    enum PresenceStatus {
+		    kPresenceOffline = 0;
+		    kPresenceOnline = 1;
+	    }
+
+	    enum ActiveStatus {
+		    kInvalid = 0;
+		    kAppInForeground = 1;
+		    kAppinBackground = 2;
+	    }
+    }
+
+    message RegisterResponse {
+	    AccessPointsConfig accessPointsConfig = 1;
+	    bytes sessKey = 2;
+	    int64 instanceId = 3;
+	    SdkOption sdkOption = 4;
+	    AccessPointsConfig accessPointsCOnfigIpv6 = 5;
+    }
+
+    message AccessPointsConfig {
+	    repeated AccessPoint optimalAps = 1;
+	    repeated AccessPoint backupAps = 2;
+	    repeated uint32 availablePorts = 3;
+	    AccessPoint foreceLastConnectedAp = 4;
+    }
+
+    message UnregisterRequest {}
+
+    message UnregisterResponse {}
+
+    message KeepAliveRequest {
+	    RegisterRequest.PresenceStatus presenceStatus = 1;
+	    RegisterRequest.ActiveStatus appActiveStatus = 2;
+	    PushServiceToken pushServiceToken = 3;
+	    repeated PushServiceToken pushServiceTokenList = 4;
+	    int32 keepaliveIntervalSec = 5;
+    }
+
+    message KeepAliveResponse {
+	    AccessPointsConfig accessPointsConfig = 1;
+	    int64 serverMsec = 2;
+	    AccessPointsConfig accessPointsConfigIpv6 = 3;
+    }
+
+    message AccessPoint {
+	    AddressType addressType = 1;
+	    uint32 port = 2;
+	    fixed32 ipV4 = 3;
+	    bytes ipV6= 4;
+	    string domain = 5;
+
+	    enum AddressType{
+		    kIPV4 = 0;
+		    kIPV6= 1;
+		    kDomain = 2;
+	    }
+    }
+
+    message TokenInfo {
+	    TokenType tokenType = 1;
+	    bytes token = 2;
+
+	    enum TokenType {
+		    kInvalid = 0;
+		    kServiceToken = 1;
+	    }
+    }
+
+    message PushServiceToken {
+	    PushType pushType = 1;
+	    bytes token = 2;
+	    bool isPassThrough = 3;
+	    enum PushType {
+		    kPushTypeInvalid = 0;
+		    kPushTypeAPNS = 1;
+		    kPushTypeXmPush = 2;
+		    kPushTypeJgPush = 3;
+		    kPushTypeGtPUsh = 4;
+		    kPushTypeOpPush = 5;
+		    kPushTYpeVvPush = 6;
+		    kPushTypeHwPush = 7;
+		    kPushTYpeFcm = 8;
+	    }
+    }
+
+    message SettingInfo {
+	    string locale = 1;
+	    sint32 timezone = 2;
+    }
+
+    message AppInfo {
+        string appName = 1;
+        string appVersion = 2;
+        string appChannel = 3;
+        string sdkVersion = 4;
+        string extensionInfo = 11;
+    }
+
+    message DeviceInfo {
+        enum PlatformType {
+            kInvalid = 0;
+            kAndroid = 1;
+            kiOS = 2;
+            kWindows = 3;
+            WECHAT_ANDROID = 4;
+            WECHAT_IOS = 5;
+            H5 = 6;
+            kPlatformNum = 7;
+        }
+        PlatformType platformType = 1;
+        string osVersion = 2;
+        string deviceModel = 3;
+        bytes imeiMd5 = 4;
+        string deviceId = 5;
+        string softDid = 6;
+        string kwaiDid = 7;
+        string manufacturer = 8;
+        string deviceName = 9;
+    }
+
+    message EnvInfo {
+        enum NetworkType {
+            kInvalid = 0;
+            kWIFI = 1;
+            kCellular = 2;
+        }
+        NetworkType networkType = 1;
+        bytes appName = 2;
+    }
+
+    enum SharePlatform {
+        kSharePlatformInvalid= 0;
+        kSharePlatformWechat= 1;
+        kSharePlatformWechatMoments= 2;
+        kSharePlatformQQ= 3;
+        kSharePlatformQzone= 4;
+        kSharePlatformWeibo=5;
+        kSharePlatformKuaishou= 6;
+        kSharePlatformFacebook= 7;
+        kSharePlatformTwitter= 8;
+        kSharePlatformGoogle= 9;
+        kSharePlatformKakao= 10;
+        kSharePlatformZalo= 11;
+    }
+
+    message RequestBasicInfo {
+        DeviceInfo.PlatformType clientType = 1;
+        string deviceId = 2;
+        string clientIp = 3;
+        string appVersion = 4;
+        string channel = 5;
+        AppInfo appInfo = 6;
+        DeviceInfo deviceInfo = 7;
+        EnvInfo envInfo = 8;
+        int32 clientPort = 9;
+        string location = 10;
+        string kpf = 11;
+    }
+
+    message SyncCookie {
+        int64 syncOffset = 1;
+    }
+
+    message I18nCopyWriting {
+        string formatKey = 1;
+        repeated string formatParam = 2;
+    }
+
+    message SdkOption {
+	    int32 reportIntervalSeconds = 1;
+	    string reportSecurity = 2;
+	    int32 lz4CompressionThresholdBytes = 3;
+	    repeated string netCheckServers = 4;
+    }
+
+
+    message ZtCommonInfo {
+	    string kpn = 1;
+	    string kpf = 2;
+	    string subBiz = 3;
+	    int64 uid = 4;
+	    string did = 5;
+	    int64 clientIp = 6;
+	    string appVer = 7;
+	    string ver = 8;
+	    string lat = 9;
+	    string lon = 10;
+	    string mond = 11;
+	    string net = 12;
+	    string sys = 13;
+	    string c = 14;
+	    string language = 15;
+	    string countryCode = 16;
+    }
+
+    message FrontendInfo {
+        string ip = 1;
+        int32 port = 2;
+    }
+}
+
+message Message {
+    message Message {
+		int64 seqId = 1;
+		int64 clientSeqId = 2;
+		int64 timestampMs = 3;
+		Basic.User fromUser = 4;
+		int64 targetId = 5;
+		Basic.User toUser = 6;
+		string title = 7;
+		int32 contentType = 8;
+		bytes content = 9;
+		string buckupTips = 10;
+		repeated Basic.User receivers = 11;
+		bool notContentUnread = 12;
+		int32 sessionPriority = 13;
+		int32 sessionCategoryId = 14;
+		int32 sessionAccountType = 15;
+		bool notAutoCreateSession = 16;
+		int32 userRelationship = 17;
+		string strTargetId = 18;
+		repeated Basic.User excludeReceivers = 19;
+		bool markDelte = 20;
+		Reminder reminder = 21;
+		bytes extra = 22;
+		bool receiptRequired = 23;
+	}
+
+	enum KsUserRelationShip {
+		kUNKNOW = 0;
+		FOLLOW_EACH_OTHER = 1;
+		TO_FOLLOW_FROM = 2;
+		FROM_FOLLOW_TO = 3;
+	}
+
+	message SendMessageResponse {
+		int64 clientSeqId = 1;
+		int64 messageTimestamp = 2;
+		int64 seqId = 3;
+		int32 sessionAccountType = 4;
+		int32 sessionPriority = 5;
+		int32 sessionCategoryId = 6;
+	}
+
+	message PullOldRequest {
+		Basic.User target = 1;
+		int64 minSeq = 2;
+		int64 maxSeq = 3;
+		int32 count = 4;
+		int64 targetId = 5;
+		string strTargetId = 6;
+	}
+
+	message PullOldResponse {
+		repeated Message messages = 1;
+		int64 serverTime = 2;
+	}
+
+	message PullNewRequest {
+		Basic.User target = 1;
+		int64 minSeq = 2;
+		int32 count = 3;
+		int64 targetId = 4;
+		string strTargetId = 5;
+	}
+
+	message PullNewResponse {
+		repeated Message messages = 1;
+	}
+
+	message SessionListRequest {
+		Basic.SyncCookie syncCookie =1;
+		int32 categoryId = 2;
+		int32 localDataStatus = 3;
+	}
+
+	message ChatSession {
+		Basic.User target = 1;
+		int64 maxSeqId = 2;
+		int64 readSeqId = 3;
+		int32 unreadMsgCount = 4;
+		repeated Message latestMessage = 5;
+		ChatTargetType chatTargetType = 8;
+		int64 targetId = 9;
+		int64 activeTime = 10;
+		int32 priority = 11;
+		int32 categoryId = 12;
+		string cursor = 13;
+		int32 accountType = 14;
+		bool aggregateSession = 15;
+		int32 jumpCategoryId = 16;
+		int64 expireAt = 17;
+		int64 effectiveFrom = 18;
+		string strTargetId = 19;
+		repeated RemindBody remindBody = 20;
+		int64 targetReadSeqId = 21;
+	}
+
+	message Reminder {
+		string originText = 1;
+		repeated RemindBody remindBody = 2;
+	}
+
+	message RemindBody {
+		RemindType remindType = 1;
+		int64 seqId = 2;
+		int64 targetId = 3;
+		string userName = 4;
+		int32 startIndex = 5;
+		int32 length = 6;
+
+		enum RemindType {
+			UNKNOWN = 0;
+			AT_ALL = 1;
+			AT_USER = 2;
+			GROUP_BULLETIN = 3;
+			RECEIPT_MESSAGE = 4;
+			GROUP_JOIN_REQUEST = 5;
+		}
+	}
+
+	enum AccountType {
+		UNKNOWN = 0;
+		OFFICIAL = 1;
+		NORMAL = 2;
+		STRANGER = 3;
+	}
+
+	enum ChatTargetType {
+		CTT_USER = 0;
+		CTT_CHAT_ROOM = 2;
+		CTT_MULTI_PLAYER_ROOM = 3;
+		CTT_GROUP = 4;
+		CTT_CHANNEL = 5;
+		CTT_AGGREGATE = 6;
+	}
+
+	message ChatTarget {
+		string targetId = 1;
+		ChatTargetType targetType = 2;
+	}
+
+	message SessionListResponse {
+		Basic.SyncCookie syncCookie = 1;
+		repeated ChatSession sessions = 2;
+		bool notFullFetch = 3;
+		int64 serverTime = 4;
+		bool clearLocalData = 5;
+		int32 categoryId = 6;
+		int32 clientDataStatus = 7;
+	}
+
+	message SessionPageListRequest {
+		string cursor = 1;
+		int32 count = 2;
+		int32 categoryId = 3;
+	}
+
+	message SessionPageListResponse {
+		bool hasMore = 1;
+		repeated ChatSession sessions = 2;
+	}
+
+	message SessionRemoveRequest {
+		int64 targetId = 1;
+		ChatTargetType chatTargetType = 2;
+		int32 categoryId = 3;
+		string strTargetId = 4;
+		bool notCleanAllMessages = 5;
+	}
+
+	message SessionRemoveResponse {}
+
+	message SessionCleanRequest {
+		ChatTarget chatTarget = 1;
+	}
+
+	message SessionCleanResponse {}
+
+	message MessageDeleteRequest {
+		int64 targetId = 1;
+		ChatTargetType chatTargetType = 2;
+		repeated int64 seqId = 3;
+		string strTargetId = 4;
+	}
+
+	message MessageDeleteResponse {}
+
+	message MessageCancelRequest {
+		ChatTarget chatTarget = 1;
+		repeated int64 seqId = 2;
+	}
+
+	message MessageCancelResponse {}
+
+	message MessageClearRequest {
+		ChatTarget chatTarget = 1;
+	}
+
+	message MessageClearResponse {}
+
+	message ReadSeqInfo {
+		ChatTarget chatTarget = 1;
+		int64 readSeq = 2;
+	}
+
+	message MessageReadSeqRequest {
+		repeated ChatTarget chatTarget = 1;
+	}
+
+	message MessageReadSeqResponse {
+		repeated ReadSeqInfo readSeqInfo = 1;
+	}
+
+	message MessageReadPush {
+		int64 targetId =1;
+		int64 readSeq = 2;
+		ChatTargetType chatTargetType = 3;
+		string strTargetId = 4;
+	}
+
+	message AllUnreadCountRequest {}
+
+	message AllUnreadCountResponse {
+		int32 allUnreadCount = 1;
+	}
+
+	message MessageReadAllRequest {
+		int32 sessionCategoryId = 1;
+	}
+
+	message MessageReadAllResponse {
+		int64 readAllTimestamp = 1;
+	}
+
+	message SesionStickyOnTopRequest {
+		ChatTarget chatTarget = 1;
+		bool stickyOnTop = 2;
+	}
+
+	message SessionStickyOnTopResponse {
+		ChatSession session = 1;
+	}
+
+	message SessionRaw {
+		map<string, bytes> raw = 1;
+	}
+
+	message MessageRecallRequest {
+		ChatTarget chatTarget = 1;
+		int64 seqId = 2;
+	}
+
+	message MessageRecallResponse {}
+
+	message MessageReceiptRequest {
+		repeated MessageReceiptInfo messageReceiptInfo = 1;
+		ChatTarget chatTarget = 2;
+	}
+
+	message MessageReceiptResponse {}
+
+	message MessageReceiptInfo {
+		int64 readSeq = 1;
+	}
+
+	message MessageReceiptCountGetRequest {
+		repeated int64 seqId = 1;
+		ChatTarget chatTarget = 2;
+	}
+
+	message MessageReceiptCountGetResponse {
+		repeated MessageReceiptStatus status = 1;
+	}
+
+	message MessageReceiptStatus {
+		int32 readCount = 1;
+		int32 unreadCount = 2;
+		int64 seqId = 3;
+		int64 serverTime = 4;
+	}
+
+	message MessageReceiptDetailGetRequest {
+		int64 seqId = 1;
+		ChatTarget chatTarget = 2;
+	}
+
+	message MessageReceiptDetailGetResponse {
+		repeated Basic.User readUser = 1;
+		repeated Basic.User unreadUser = 2;
+	}
+
+	message MessageBatchSendRequest {
+		repeated Message message = 1;
+	}
+
+	message MessageBatchSendResponse {
+		repeated SendMessageResponse response = 1;
+	}
+
+	message ImageAttachment {
+		string mimeType =1;
+		string url = 2;
+		int32 width =3;
+		int32 height =4;
+		int64 lengthInBytes = 5;
+	}
+
+	message AudioAttachment {
+		string mimeType = 1;
+		string url = 2;
+		int32 width = 3;
+		int32 height =4;
+		int64 lengthInBytes =5;
+	}
+
+	message GifAttachment {
+		string mimeType = 1;
+		string url = 2;
+		int32 width = 3;
+		int32 height = 4;
+		string thumbaUrl = 5;
+		string text = 6;
+	}
+
+	message Attachment {
+		oneof attacmnent {
+			ImageAttachment imageAttachment = 1;
+			AudioAttachment audioAttachment = 2;
+		}
+	}
+
+	message Attachments {
+		repeated Attachment attachments = 1;
+	}
+
+	message PlaceHolderMessage {
+		int64 minSeq = 1;
+		int64 maxSeq = 2;
+	}
+
+	message ImageTextMessage {
+		string title = 1;
+		string description = 2;
+		string imageUrl = 3;
+		string actionUrl = 4;
+		int32 width = 5;
+		float aspectRatio =6;
+	}
+
+	message RichTextMessage {
+		RichTextNoticeMessage richTextMessage = 1;
+	}
+
+	enum SystemUser {
+		kSystemUserInvalid = 0;
+		SYSTEM_USER_ID = 10000;
+	}
+
+	message NoticeMessage{
+		RichTextNoticeMessage richTextNotice = 2;
+		string msg = 5;
+		Basic.I18nCopyWriting i18nCopyWriting = 10;
+	}
+
+	message RichTextNoticeMessage{
+		repeated RichTextItem items = 1;
+
+		message RichTextItem {
+			int32 color =1;
+			int32 start = 2;
+			int32 len = 3;
+			string clickAction = 4;
+			bool underline = 5;
+		}
+	}
+}
+
+message Cloud {
+	message Channel {
+		message ChannelSubscribeRequest {
+			string channelId = 1;
+			bool setBarrier = 2;
+		}
+
+		message ChannelSubscribeResponse {}
+
+		message ChannelUnsubscribeRequest {
+			string channelId = 1;
+		}
+
+		message ChannelSubscribersGetRequest {
+			string channelId = 1;
+		}
+
+		message ChannelSubscribersGetResposne {
+			repeated Basic.User subscriber = 1;
+		}
+
+		message ChannelBasicInfo {
+			string channelId = 1;
+			int32 subscriberCount =2;
+		}
+
+		message UserActionInfo {
+			Basic.User user = 1;
+			UserAction action = 2;
+			int64 timestamp = 3;
+		}
+
+		enum UserAction {
+			USER_ACTION_UNKNOWN= 0;
+			USER_JOIN_CHANNEL = 1;
+			USER_QUIT_CHANNEL = 2;
+			USER_OFFLINE = 3;
+		}
+
+		message ChannelBasicInfoGetRequest {
+			repeated string channelId = 1;
+		}
+
+		message ChannelBasicInfoGetResponse {
+			repeated ChannelBasicInfo basicInfo = 1;
+		}
+
+		message ChannelHeartbeatRequest {
+			repeated string channelId =1;
+		}
+
+		message ChannelHeartbeatResponse {
+			repeated string notExistChannelId = 1;
+		}
+
+		message ChannelBasicInfoNotify {
+			UserActionInfo userActionInfo = 1;
+			ChannelBasicInfo basicInfo = 2;
+		}
+	}
+
+	message Config {
+		message ClientConfigGetRequest {
+			uint32 version = 1;
+		}
+
+		message ClientConfigGetResponse {
+			uint32 version = 1;
+			ClientConfig clientConfig = 2;
+		}
+
+		message NetworkQualityDetectionConfig {
+			string detectionDomain = 1;
+			int32 detectionInvervalSec = 2;
+		}
+
+		message ClientConfig {
+			int32 fetchUserStatusInterval = 1;
+			int32 channelUserHeartbeatInterval = 2;
+			NetworkQualityDetectionConfig networkQualityDetectionConfig = 3;
+			int32 inputtingTipDisplayInterval = 4;
+			int32 batchSendMessageMaxCount = 5;
+			string resourceUploadingDomain = 6;
+		}
+	}
+
+	message Profile {
+		message UserOnlineStatus{
+			Basic.User user = 1;
+			int64 lastOfflineTime = 2;
+			Status status = 3;
+
+			enum Status {
+				UNKNOWN = 0;
+				ONLINE = 1;
+				OFFLINE = 2;
+			}
+		}
+
+		message ProfileBatchOnlineTimeRequest {
+			repeated Basic.User user = 1;
+		}
+
+		message ProfileBatchOnlineTimeResponse {
+			repeated UserOnlineStatus userOnlineStatus = 1;
+		}
+	}
+
+	message Data {
+		message Update {
+			enum KsImDataUpdateType {
+				INVALID= 0;
+				GROUP_INFO_UPDATE= 1;
+				GROUP_MEMBER_LIST_UPDATE= 2;
+				YOU_BE_KICKED= 3;
+				MESSAGE_READ_EVENT= 4;
+				MESSAGE_RECEIPT_EVENT= 5;
+				FRIEND_LIST_UPDATE= 6;
+				FRIEND_REQUEST_COUNT_UPDATE= 7;
+				BLACK_LIST_UPDATE= 8;
+			}
+
+			message KsImDataUpdatePushPayload {
+				KsImDataUpdatePushPayload type = 1;
+				bytes content = 2;
+			}
+
+			message GroupInfoDataUpdate {
+				string groupId =1;
+			}
+
+			message GroupMemberListUpdate {
+				string groupId = 1;
+			}
+
+			message YouBeKicked {
+				string groupId = 1;
+			}
+
+			message MessageRead {
+				string strTargetId = 1;
+				int64 readSeq = 2;
+				Im.Message.ChatTargetType chatTargetType = 3;
+			}
+
+			message MessageReceipt {
+				Im.Message.ChatTarget chatTarget = 1;
+				Im.Message.MessageReceiptStatus receiptStatus = 2;
+			}
+		}
+	}
+
+	message Message {
+		enum ImcMessageType {
+			TEXT = 0;
+			IMAGE = 1;
+			CUSTOM = 2;
+			AUDIO = 3;
+			VIDEO = 4;
+			EMOTICON = 5;
+			FILE = 6;
+			NOTICE = 10;
+			RECALLED = 11;
+			REFERENCE = 12;
+			MERGE_FORWARD = 13;
+			PLACE_HOLDER = 100;
+			REPLACE = 101;
+			INVISIBLE_TYPE_MAS = 199;
+			RICH_NOTICE = 200;
+		}
+
+		message ImcRecalledMessage {
+			Im.Message.Message originMsg = 1;
+			ImcNoticeMessage noticeMsg = 2;
+		}
+
+		message ImcReplaceMessage {
+			Im.Message.Message replaceMsg = 1;
+		}
+
+		message Text {
+			string text = 1;
+		}
+
+		message Image {
+			string uri = 1;
+			int32 width = 2;
+			int32 height = 3;
+		}
+
+		message Audio {
+			string uri = 1;
+			int32 duration = 2;
+			string type = 3;
+		}
+
+		message Video {
+			string uri = 1;
+			int32 duration = 2;
+			int32 width = 3;
+			int32 height = 4;
+			string coverUri =5;
+			string type =6;
+		}
+
+		message Custon{
+			string payload= 1;
+		}
+
+		message PicUrl {
+			string cdn = 1;
+			string url = 2;
+			string urlPattern = 3;
+			string ip = 4;
+		}
+
+		message Emoticon {
+			string id = 1;
+			string packageId = 2;
+			string name = 3;
+			Type type = 4;
+			repeated PicUrl bigUrl = 5;
+			int32 width =6;
+			int32 height = 7;
+			repeated Code emoticonCOde = 8;
+
+			enum Type {
+				UNKNOWN = 0;
+				BASIC = 1;
+				IMAGE = 2;
+				GIF = 3;
+				SPECIAL_EFFECT = 4;
+				SCRIPT = 5;
+			}
+
+			message Code {
+				string language = 1;
+				repeated string code =2;
+			}
+		}
+
+		message File {
+			string uri = 1;
+			string name = 2;
+			string ext = 3;
+			string extra = 4;
+		}
+
+		message Reference {
+			Im.Message.Message originMsg = 1;
+			ReferenceMessage referenceMsg = 2;
+
+			message ReferenceMessage {
+				int32 contentType = 1;
+				bytes content = 2;
+			}
+		}
+
+		message ForwardMessageContent {
+			repeated Im.Message.Message message = 1;
+		}
+
+		message NoticePlaceholderMeta {
+			string targetId = 1;
+			int32 startIndex = 2;
+			int32 length = 3;
+		}
+
+		message ImcNoticeMessage {
+			string text = 1;
+			repeated NoticePlaceholderMeta noticePlaceholderMeta = 2;
+			int32 noticeMetaType = 3;
+			bytes noticeMetaInfo = 4;
+		}
+
+		enum NoticeMetaType {
+			UNKNOWN_NOTICE_META_TYPE= 0;
+			COMMON_NOTICE_META_TYPE= 1;
+			CONFIRM_INVITE_INTO_GROUP_META= 2;
+			CONFIRM_JOIN_INTO_GROUP_META= 3;
+			LINKED_PROFILE_META_TYPE= 4;
+		}
+
+		message LinkedProfileMetaInfo {
+			repeated int64 userId = 1;
+		}
+
+		message ConfirmInviteIntoGroupNoticeMetaInfo {
+			int64 requestId = 1;
+			string groupId = 2;
+			JoinRequestStatus status = 3;
+		}
+
+		message ConfirmJoinIntoGroupNoticeMetaInfo {
+			int64 requestId = 1;
+			string groupId = 2;
+			JoinRequestStatus status = 3;
+		}
+
+		enum GroupFindType {
+			BY_UNKNOWN= 0;
+			BY_ID= 1;
+			BY_NAME= 2;
+			BY_QR_CODE= 3;
+			BY_CARD= 4;
+			BY_INVITATION= 5;
+			BY_SHARE_LINK=6;
+		}
+
+		message GroupCreateRequest {
+			repeated Basic.User members = 1;
+		}
+
+		message GroupCreateReponse {
+			string groupId = 1;
+			GroupInfo groupInfo = 2;
+			repeated GroupMember members = 3;
+		}
+
+		message GroupDeleteRequest {
+			string groupId = 1;
+		}
+
+		message GroupDeleteResponse {}
+
+		message GroupInviteRequest {
+			string groupId = 1;
+			repeated Basic.User members = 2;
+			string descContent = 3;
+		}
+
+		message GroupInvideResponse {
+			string groupId = 1;
+			InviteStatus inviteStatus = 2;
+
+			enum InviteStatus {
+				UNKNOWN_STATUS = 0;
+				SUCC = 1;
+				PENDING = 2;
+			}
+		}
+
+		message GroupJoinRequest {
+			string groupId = 1;
+			Basic.User inviter = 2;
+			string descContent = 3;
+			GroupFindType findType = 4;
+		}
+
+		message GroupJoinResponse {
+			JoinStatus joinStatus = 1;
+
+			enum JoinStatus {
+				UNKNOWN_STATUS = 0;
+				SUCC = 1;
+				PENDING = 2;
+			}
+		}
+
+		message GroupJoinRequestAckRequest {
+			int64 reqId = 1;
+			string groupId = 2;
+			GroupJoinAckType groupJoinAckType = 3;
+
+			enum GroupJoinAckType {
+				UNKNOWN_TYPE = 0;
+				AGREE = 1;
+				REFUSE = 2;
+				IGNORE = 3;
+			}
+		}
+
+		message GroupJoinRequestAckResponse {}
+
+		message GroupJoinRequestGetRequest {
+			int64 reqSeq = 1;
+			string groupId = 2;
+		}
+
+		message GroupJoinRequestGetResponse {
+			string groupId = 1;
+			Basic.User inviter = 2;
+			repeated Basic.User invitees = 3;
+			GroupFindType findWay = 4;
+			string descContent = 5;
+			JoinRequestStatus status = 6;
+		}
+
+		message GroupJoinRequestCancelRequest {
+			int64 reqSeq = 1;
+			string groupId = 2;
+		}
+
+		message GroupJoinRequestCancelResposne {
+			string groupId = 1;
+			Basic.User inviter = 2;
+			repeated Basic.User invitees = 3;
+			GroupFindType findWay = 4;
+			string descContent = 5;
+			JoinRequestStatus status = 6;
+		}
+
+		enum JoinRequestStatus {
+			UNKNOWN_STATUS = 0;
+			REQUESTED = 1;
+			APPROVED = 2;
+			REFUSED = 3;
+		}
+
+		message GroupQuitRequest {
+			string groupId = 1;
+		}
+
+		message GroupQuitResponse {
+			string groupId = 1;
+		}
+
+		message GroupKickRequest {
+			string groupId = 1;
+			repeated Basic.User target = 2;
+		}
+
+		message GroupKickResponse {
+			string groupId = 1;
+		}
+
+		message GroupSettingRequest {
+			string groupId = 1;
+			oneof GroupSetting {
+				GroupSettingRename rename = 2;
+				GroupSettingDesc desc = 3;
+				GroupSettingJoinNeedPermission joinNeedPermission = 4;
+				GroupSettingInvitePermission invitePermission = 5;
+			}
+		}
+
+		message GroupSettingRename {
+			string groupName = 1;
+		}
+
+		message GroupSettingDesc {
+			string desc = 1;
+		}
+
+		message GroupSettingJoinNeedPermission {
+			JoinNeedPermissionType joinNeedPermission = 1;
+		}
+
+		message GroupSettingInvitePermission{
+			InvitePermissionType invitePermissionType = 1;
+		}
+
+		message GroupSettingResponse {}
+
+		message GroupMemberSettingRequest {
+			string groupId = 1;
+			oneof UserSetting {
+				SetUserNickname setNickname = 2;
+				SetUserAntiDisturbing setAntiDisturbing = 3;
+			}
+		}
+
+		message SetUserNickname {
+			string nickname = 1;
+		}
+
+		message SetUserAntiDisturbing {
+			bool antiDisturbing = 1;
+		}
+
+		message GroupMemberSettingResponse {}
+
+		message GroupMemberListGetRequest {
+			string groupId = 1;
+			Basic.SyncCookie syncCookie = 2;
+		}
+
+		message GroupMemberListGetResponse {
+			repeated GroupMember members = 1;
+			Basic.SyncCookie syncCookie = 2;
+		}
+
+		message GroupMemberGetRequest {
+			string groupId = 1;
+			Basic.User user = 2;
+		}
+
+		message GroupMemberGetResponse {
+			GroupMember member = 1;
+		}
+
+		message UserGroupListRequest {
+			Basic.SyncCookie syncCookie = 2;
+		}
+
+		message UserGroupListResponse {
+			repeated UserGroupInfo userGroupInfo = 1;
+			Basic.SyncCookie syncCookie = 2;
+		}
+
+		message UserGroupRecord {
+			string groupId = 1;
+			int64 updateTime = 2;
+		}
+
+		message UserGroupGetRequest {
+			repeated string groupId = 1;
+		}
+
+		message UserGroupGetResponse {
+			repeated UserGroupInfo userGroupInfo = 1;
+		}
+
+		message UserGroupInfo {
+			GroupInfo groupInfo = 1;
+			GroupMember groupMember = 2;
+		}
+
+		message GroupMember {
+			Basic.User user = 1;
+			string nickname = 2;
+			bool antiDisturbing = 3;
+			GroupMemberStatus status = 4;
+			int64 inviterId = 5;
+			int64 joinTime = 6;
+			int64 createTime = 7;
+			int64 updateTime = 8;
+			GroupMemberRole role = 9;
+			GroupFindType  findType = 10;
+
+			enum GroupMemberStatus {
+				UNKNOWN_MEMBER_STATUS= 0;
+				NORMAL= 1;
+				QUITTED= 2;
+				KICKED= 3;
+				DISMISSED= 4;
+			}
+
+			enum GroupMemberRole {
+				UNKNOWN_ROLE = 0;
+				COMMON = 1;
+				ADMIN = 2;
+			}
+		}
+
+		enum InvitePermissionType {
+			UNKNOWN_INVITE_PERMISSION_TYPE= 0;
+			EVERYONE= 1;
+			ONLY_ADMIN= 2;
+		}
+
+		enum JoinNeedPermissionType {
+			UNKNOWN_JOIN_NEED_PERMISSION_TYPE= 0;
+			NONE= 1;
+			ADMIN= 2;
+		}
+
+		message GroupInfo {
+			GroupBasicInfo basicInfo = 1;
+			GroupMemberBriefInfo groupMemberBriefInfo = 2;
+		}
+
+		enum GroupStatus {
+			UNKNOW_GROUP_STATUS= 0;
+			VALID= 1;
+			INVALID= 2;
+		}
+
+		enum GroupType {
+			UNKNOW_GROUP_TYPE= 0;
+			PRIVATE=3;
+			PUBLIC= 4;
+		}
+
+		enum ForbiddenState {
+			UNKNOWN_FORBIDDEN_STATE= 0;
+			UN_FORBIDDEN= 1;
+			FORBID_MESSAGE= 2;
+		}
+
+		message GroupBasicInfo {
+			string groupId = 1;
+			string groupName = 2;
+			Basic.User admin = 3;
+			GroupStatus groupStatus = 4;
+			string description = 5;
+			JoinNeedPermissionType joinNeedPermission = 6;
+			int64 createTime = 7;
+			int64 updateTime = 8;
+			GroupType groupType = 9;
+			ForbiddenState forbiddenState = 10;
+			InvitePermissionType invitePermissionType = 11;
+			int32 bizDefCode = 12;
+			string defalutGroupName = 13;
+			string extra = 14;
+		}
+
+		message GroupMemberBriefInfo {
+			int32 memberCount = 1;
+			repeated Basic.User topMembers = 2;
+			int64 lastUpdateTime = 3;
+		}
+
+		message ImcPassThroughRequest {
+			Im.Message.ChatTarget chatTarget = 1;
+			bytes content =2;
+			int32 contentType = 3;
+		}
+
+		message ImcPassThroughResponse {}
+
+		message ImcPassThroughPush {
+			Im.Message.ChatTarget chatTarget = 1;
+			Basic.User fromUser = 2;
+			bytes content = 3;
+			int32 contentType = 4;
+		}
+
+		message InputtingContent {
+			int32 displayInterval = 1;
+		}
+
+		enum PassThroughType {
+			INVALID_PTT = 0;
+			INPUTTING = 1;
+		}
+	}
+}
