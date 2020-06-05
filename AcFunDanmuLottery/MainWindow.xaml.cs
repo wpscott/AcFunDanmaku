@@ -1,12 +1,5 @@
-﻿using AcFunDanmu;
-using AcFunDanmu.Enums;
-using AcFunDanmuLottery.Models;
-using System.Diagnostics;
-using System.Linq;
+﻿using AcFunDanmuLottery.Models;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Web;
 using System.Windows;
 using System.Windows.Input;
 
@@ -26,7 +19,7 @@ namespace AcFunDanmuLottery
         {
             InitializeComponent();
 
-            lottery = new Lottery { CurrentStatus = "未连接", Connected = false, Amount = "1", ShowAll = true };
+            lottery = new Lottery { CurrentStatus = "未连接", Connected = false, Amount = "1", ShowAll = false };
             DataContext = lottery;
         }
 
