@@ -19,15 +19,15 @@ namespace AcFunDanmuConsole
 
             var retry = 0;
 
-            Client client;
+            Client client = new Client();
 
             if (args.Length == 1)
             {
-                client = new Client(args[0]);  // Visitor/Anonymous mode
+                await client.Initialize(args[0]);  // Visitor/Anonymous mode
             }
             else if (args.Length == 3)
             {
-                client = new Client(args[0], args[1], args[2]); // User mode
+                await client.Login(args[0], args[1], args[2]); // User mode
             }
             else
             {
