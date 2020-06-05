@@ -8,9 +8,9 @@
     <Window.Resources>
         <DataTemplate x:Key="CommentTemplate">
             <TextBlock>
-                <Run Text="{Binding UserInfo.Nickname}" />
+                <Run Text="{Binding Nickname}" />
                 <Run Text=" ("/>
-                <Run Text="{Binding UserInfo.UserId}"/>
+                <Run Text="{Binding UserId}"/>
                 <Run Text="): "/>
                 <Run Text="{Binding Content}"/>
             </TextBlock>
@@ -24,11 +24,11 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="30"/>
             <RowDefinition Height="30" />
-            <RowDefinition />
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="60"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,12,0" Orientation="Horizontal">
