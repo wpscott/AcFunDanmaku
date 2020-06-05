@@ -128,16 +128,6 @@ namespace AcFunDanmu
             client = new ClientWebSocket();
         }
 
-        public Client(string uid) : this()
-        {
-            Initialize(uid).Wait();
-        }
-
-        public Client(string username, string password, string uid) : this()
-        {
-            Login(username, password, uid).Wait();
-        }
-
         public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach, string liveId) : this()
         {
             UserId = userId;
@@ -155,7 +145,7 @@ namespace AcFunDanmu
         }
         #endregion
 
-        private async Task Login(string username, string password, string uid)
+        public async Task Login(string username, string password, string uid)
         {
             if (!IsSignIn)
             {
@@ -221,7 +211,7 @@ namespace AcFunDanmu
             await Initialize(uid);
         }
 
-        private async Task Initialize(string uid)
+        public async Task Initialize(string uid)
         {
             Console.WriteLine("Client initializing");
 
@@ -397,7 +387,6 @@ namespace AcFunDanmu
                 #endregion
 
                 #region Timers
-                //Push message
                 using var heartbeatTimer = new System.Timers.Timer();
                 heartbeatTimer.Elapsed += async (s, e) =>
                 {

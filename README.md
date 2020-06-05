@@ -19,9 +19,9 @@ AcFun直播弹幕解析工具。**开发中**
 Using AcFunDanmu;
 ...
 三选一
-1. var client = new Client(主播ID);
-2. var client = new Client(用户ID, ServiceToken, SecurityKey, Tickets, EnteryRoomAttach, LiveId);
-3. var client = new Client(用户名, 密码, 主播ID);
+1. var client = new Client(用户ID, ServiceToken, SecurityKey, Tickets, EnteryRoomAttach, LiveId);
+2. var client = new Client(); await client.Initialize(主播ID);
+3. var client = new Client(); await client.Login(用户名, 密码, 主播ID);
 
 client.Handler = (你的自定义函数);
 await client.Start();
