@@ -19,7 +19,7 @@ namespace AcFunDanmuLottery
         {
             InitializeComponent();
 
-            lottery = new Lottery { CurrentStatus = "未连接"};
+            lottery = new Lottery { CurrentStatus = "未连接", Amount = 1 };
             DataContext = lottery;
         }
 
