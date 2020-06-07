@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcFunCommentLottery", "AcFunCommentLottery\AcFunCommentLottery.csproj", "{ADE48A38-4084-41C7-AC81-FB86CCF424BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{50F7456F-A731-429F-BDEC-E65FD5557BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50F7456F-A731-429F-BDEC-E65FD5557BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50F7456F-A731-429F-BDEC-E65FD5557BF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADE48A38-4084-41C7-AC81-FB86CCF424BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE48A38-4084-41C7-AC81-FB86CCF424BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE48A38-4084-41C7-AC81-FB86CCF424BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE48A38-4084-41C7-AC81-FB86CCF424BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
