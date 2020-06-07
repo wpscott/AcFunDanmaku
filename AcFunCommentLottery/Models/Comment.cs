@@ -30,8 +30,6 @@ namespace AcFunCommentLottery.Models
     {
         private const string FETCH_URL = "https://www.acfun.cn/rest/pc-direct/comment/list?sourceId={0}&sourceType=3&page={1}&t={2}";
 
-        private static readonly HttpClientHandler Handler = new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All };
-
         static CommentModel()
         {
 
@@ -42,7 +40,7 @@ namespace AcFunCommentLottery.Models
             IEnumerable<Comment> result = Array.Empty<Comment>();
             CommentList cList = new CommentList { curPage = 0 };
 
-            using var client = new HttpClient(Handler);
+            using var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All });
             client.DefaultRequestHeaders.AcceptEncoding.ParseAdd("gzip, deflate, br");
 
             do
