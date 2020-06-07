@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 
@@ -111,6 +112,11 @@ namespace AcFunCommentLottery.Models
                 _result.Add(Comments[index]);
             }
             OnPropertyChanged(nameof(Result));
+
+            using var writer = new StreamWriter(@$".\{ACId}-{DateTime.Now:yyyy-MM-dd HH_mm_ss}.txt");
+            writer.Write(string.Join("\r\n\r\n", _result.Select(comment => $"{comment.Header}\r\n{comment.content}")));
+            writer.Flush();
+            writer.Close();
         }
     }
 }

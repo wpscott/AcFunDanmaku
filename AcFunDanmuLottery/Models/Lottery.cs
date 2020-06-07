@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Timers;
@@ -162,6 +163,10 @@ namespace AcFunDanmuLottery.Models
                 _result.Add(Comments[index]);
             }
             OnPropertyChanged(nameof(Result));
+            using var writer = new StreamWriter(@$".\{UserId}-{DateTime.Now:yyyy-MM-dd HH_mm_ss}.txt");
+            writer.Write(string.Join("\r\n\r\n", _result.Select(comment => $"{comment.Nickname}({comment.UserId})\r\n{comment.Content}")));
+            writer.Flush();
+            writer.Close();
         }
 
         private Client client;
