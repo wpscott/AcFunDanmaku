@@ -46,7 +46,7 @@ await client.Start();
 6. 查看抽奖结果
 
 ## AcFunCommentLottery
-使用AcFunDanmu的AcFun评论抽奖工具
+AcFun视频及文章评论区抽奖工具
 ### 使用方式
 1. 编译
 2. 运行AcFunCommentLottery.exe
