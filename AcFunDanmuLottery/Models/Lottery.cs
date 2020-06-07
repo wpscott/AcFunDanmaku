@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Timers;
 using System.Web;
 
@@ -17,6 +18,9 @@ namespace AcFunDanmuLottery.Models
 
         private string _currentStatus;
         public string CurrentStatus { get { return _currentStatus; } set { _currentStatus = value; OnPropertyChanged(nameof(CurrentStatus)); } }
+
+        private bool _canConnect = true;
+        public bool CanConnect { get { return _canConnect; } set { _canConnect = value; OnPropertyChanged(nameof(CanConnect)); } }
 
         public bool Connected { get; private set; } = false;
 
@@ -39,8 +43,10 @@ namespace AcFunDanmuLottery.Models
         private readonly ObservableCollection<Comment> _pool = new ObservableCollection<Comment>();
         public ReadOnlyObservableCollection<Comment> Comments => new ReadOnlyObservableCollection<Comment>(ShowAll ? _comments : _pool);
 
-        public bool Ready => !SearchStart && _comments.Count > 0;
-        public int Amount { get; set; }
+        public bool Ready => !SearchStart && Comments.Count > 0 && Amount < Comments.Count;
+
+        private int _amount = 1;
+        public int Amount { get { return _amount; } set { _amount = value; OnPropertyChanged(nameof(Amount)); OnPropertyChanged(nameof(Ready)); } }
 
         private readonly ObservableCollection<Comment> _result = new ObservableCollection<Comment>();
         public ReadOnlyObservableCollection<Comment> Result => new ReadOnlyObservableCollection<Comment>(_result);
@@ -57,6 +63,7 @@ namespace AcFunDanmuLottery.Models
             if (UserId > 0)
             {
                 CurrentStatus = "连接中";
+                CanConnect = false;
 
                 client = new Client();
                 client.Handler = HandleSignal;
@@ -71,6 +78,7 @@ namespace AcFunDanmuLottery.Models
                 Connected = true;
                 OnPropertyChanged(nameof(ConnectBtnContent));
 
+                CanConnect = true;
                 while (Connected && !await client.Start() && retry < 5)
                 {
                     CurrentStatus = "断线重连中";
@@ -87,6 +95,7 @@ namespace AcFunDanmuLottery.Models
                     CurrentStatus = "直播已结束";
                 }
                 Connected = false;
+
                 OnPropertyChanged(nameof(ConnectBtnContent));
             }
         }
@@ -135,15 +144,22 @@ namespace AcFunDanmuLottery.Models
         public void Roll()
         {
             _result.Clear();
-            var rnd = new Random();
+
+            using var provider = new RNGCryptoServiceProvider();
+            //var rnd = new Random();
             HashSet<int> indexes = new HashSet<int>(Amount);
             while (indexes.Count < Amount)
             {
-                indexes.Add(rnd.Next(_pool.Count));
+                var bytes = new byte[4];
+                provider.GetBytes(bytes);
+                var randInt = BitConverter.ToUInt32(bytes);
+                indexes.Add((int)(randInt % (uint)Comments.Count));
+
+                //indexes.Add(rnd.Next(Comments.Count));
             }
             foreach (var index in indexes)
             {
-                _result.Add(_pool[index]);
+                _result.Add(Comments[index]);
             }
             OnPropertyChanged(nameof(Result));
         }
@@ -167,10 +183,6 @@ namespace AcFunDanmuLottery.Models
                                 {
                                     var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
                                     Trace.WriteLine($"{comment.SendTimeMs} - {comment.UserInfo.Nickname}({comment.UserInfo.UserId}): {comment.Content}");
-                                    //System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                                    //{
-                                    //    AddComment(comment);
-                                    //});
                                     AddComment(comment);
                                 }
                                 break;
@@ -282,10 +294,6 @@ namespace AcFunDanmuLottery.Models
                                 foreach (var comment in comments.Comment)
                                 {
                                     Trace.WriteLine($"{comment.SendTimeMs} - {comment.UserInfo.Nickname}({comment.UserInfo.UserId}): {comment.Content}");
-                                    //System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                                    //{
-                                    //    AddComment(comment);
-                                    //});
                                     AddComment(comment);
                                 }
                                 break;

@@ -50,7 +50,7 @@
             <TextBlock Width="64" Margin="0,0,6,0" VerticalAlignment="Center">主播ID</TextBlock>
             <TextBox x:Name="UserId" Width="120" MaxLength="16" VerticalAlignment="Center" Style="{StaticResource TextBoxValidation}" Text="{Binding Path=UserId, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" PreviewTextInput="CheckInput" />
         </StackPanel>
-        <Button x:Name="ConnectBtn" Grid.Row="0" Grid.Column="1" Margin="3" Content="{Binding Path=ConnectBtnContent, Mode=OneWay}" Click="Connect">
+        <Button x:Name="ConnectBtn" Grid.Row="0" Grid.Column="1" Margin="3" IsEnabled="{Binding Path=CanConnect, Mode=OneWay}" Content="{Binding Path=ConnectBtnContent, Mode=OneWay}" Click="Connect">
             <Button.Style>
                 <Style TargetType="Button">
                     <Style.Triggers>
