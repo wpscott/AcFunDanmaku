@@ -62,7 +62,7 @@ namespace AcFunDanmuLottery
         private void ShowUser(object sender, MouseButtonEventArgs e)
         {
             var comment = (Comment)(sender as ListBox).SelectedItem;
-            Process.Start(new ProcessStartInfo { FileName = $"http://www.acfun.cn/u/{comment.UserId}", UseShellExecute = true });
+            Process.Start(new ProcessStartInfo { FileName = $"https://www.acfun.cn/u/{comment.UserId}", UseShellExecute = true });
         }
     }
 }
