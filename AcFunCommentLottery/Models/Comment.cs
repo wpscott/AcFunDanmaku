@@ -16,7 +16,7 @@ namespace AcFunCommentLottery.Models
         public string content { get; set; }
 
         public string Header => $"# {floor}\t{userName}({userId})";
-        public string Content => HttpUtility.HtmlEncode(content);
+        public string Content => HttpUtility.HtmlDecode(content);
     }
 
     struct CommentList
@@ -28,7 +28,7 @@ namespace AcFunCommentLottery.Models
 
     static class CommentModel
     {
-        private const string FETCH_URL = "https://www.acfun.cn/rest/pc-direct/comment/list?sourceId={0}&sourceType=3&page={1}&t={2}";
+        private const string FETCH_URL = "https://www.acfun.cn/rest/pc-direct/comment/list?sourceId={0}&sourceType=3&page={1}&t={2}&supportZtEmot=true";
 
         static CommentModel()
         {

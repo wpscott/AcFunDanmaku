@@ -22,6 +22,8 @@ namespace AcFunCommentLottery
 
             lottery = new Lottery { };
             DataContext = lottery;
+
+            EmotIconModel.Fetch();
         }
 
         private void CheckInput(object sender, TextCompositionEventArgs e)
