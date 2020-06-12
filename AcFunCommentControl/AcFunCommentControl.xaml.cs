@@ -20,7 +20,7 @@ namespace AcFunCommentControl
         private const RegexOptions Options = RegexOptions.IgnoreCase | RegexOptions.Compiled;
         private static readonly Regex AtReg = new Regex(@"\[at uid=\d+\](?<at>.*?)\[\/at\]", Options);
         private static readonly Regex EmotReg = new Regex(@"\[emot=(?<emot>.*?)\/\]", Options);
-        private static readonly Regex ImgReg = new Regex(@"\[img=ͼƬ\](?<img>.*?)\[\/img\]", Options);
+        private static readonly Regex ImgReg = new Regex(@"\[img=图片\](?<img>.*?)\[\/img\]", Options);
         private static readonly Regex ColorReg = new Regex(@"\[color=(?<color>.*?)\](?<content>.*?)\[\/color\]", Options);
         private static readonly Regex BoldReg = new Regex(@"\[b\](?<bold>.*?)\[\/b\]", Options);
         private static readonly Regex ItalicReg = new Regex(@"\[i\](?<italic>.*?)\[\/i\]", Options);
