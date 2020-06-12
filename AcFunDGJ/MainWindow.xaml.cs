@@ -27,7 +27,7 @@ namespace AcFunDGJ
         {
             DGJ.AddSongEvent += song => { if (!IsPlaying) { IsPlaying = true; Next(null, null); } };
 
-            await DGJ.Initialize();
+            var ready = await DGJ.Initialize();
             Trace.WriteLine("DGJ initialized");
 #if DEBUG
             await DGJ.AddSong("喜欢你 乌拉喵");
@@ -91,33 +91,42 @@ namespace AcFunDGJ
                 DurationTimer.Stop();
                 DurationTimer = null;
             }
-            var song = await DGJ.NextSong();
-            if (song == null)
+            if (DGJ.IsRunning)
             {
-                IsPlaying = false;
-                Player.Stop();
-                Song.Text = "没有歌曲";
-                Album.Text = "请点歌";
-                Duration.Text = "--:--/--:--";
+                var song = await DGJ.NextSong();
+                if (song == null)
+                {
+                    IsPlaying = false;
+                    Player.Stop();
+                    Song.Text = "没有歌曲";
+                    Album.Text = "欢迎点歌";
+                    Duration.Text = "--:--/--:--";
+                }
+                else
+                {
+                    Player.Source = new Uri(song.Source);
+                    Song.Text = $"{song.Artist} - {song.Name}";
+                    Album.Text = $"专辑：{song.Album}";
+                    if (DurationTimer != null)
+                    {
+                        DurationTimer.Stop();
+                        DurationTimer = null;
+                    }
+                    DurationTimer = new DispatcherTimer();
+                    DurationTimer.Interval = TimeSpan.FromSeconds(1);
+                    DurationTimer.Tick += (s, e) =>
+                    {
+                        Duration.Text = $"{Player.Position:mm\\:ss}/{song.Duration:mm\\:ss}";
+                    };
+                    DurationTimer.Start();
+                    Player.Play();
+                }
             }
             else
             {
-                Player.Source = new Uri(song.Source);
-                Song.Text = $"{song.Artist} - {song.Name}";
-                Album.Text = $"专辑：{song.Album}";
-                if (DurationTimer != null)
-                {
-                    DurationTimer.Stop();
-                    DurationTimer = null;
-                }
-                DurationTimer = new DispatcherTimer();
-                DurationTimer.Interval = TimeSpan.FromSeconds(1);
-                DurationTimer.Tick += (s, e) =>
-                {
-                    Duration.Text = $"{Player.Position:mm\\:ss}/{song.Duration:mm\\:ss}";
-                };
-                DurationTimer.Start();
-                Player.Play();
+                Song.Text = "连接已断开或直播已结束";
+                Album.Text = "按ESC关闭点歌姬";
+                Duration.Text = "--:--/--:--";
             }
         }
 

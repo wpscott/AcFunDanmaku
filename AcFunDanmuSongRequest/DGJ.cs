@@ -9,19 +9,20 @@ using System.Timers;
 
 namespace AcFunDanmuSongRequest
 {
-    public delegate void DGJEvent(ISong song);
+    public delegate void DGJAddSongEvent(ISong song);
     public static class DGJ
     {
         static DGJ()
         {
-
+            IsRunning = false;
         }
 
         private static Regex Pattern;
         private static Config Config;
         private static IPlatform platform = null;
 
-        public static DGJEvent AddSongEvent { get; set; }
+        public static bool IsRunning { get; private set; }
+        public static DGJAddSongEvent AddSongEvent { get; set; }
 
         public static async Task<bool> Initialize()
         {
@@ -32,6 +33,9 @@ namespace AcFunDanmuSongRequest
             {
                 Connect();
             }
+#if DEBUG
+            IsRunning = true;
+#endif
             return platform == null;
         }
 
@@ -46,12 +50,14 @@ namespace AcFunDanmuSongRequest
             var resetTimer = new Timer(5000);
             resetTimer.Elapsed += (s, e) => retry = 0;
 
+            IsRunning = true;
             while (!await client.Start() && retry < 5)
             {
                 if (retry > 0) { resetTimer.Stop(); }
                 retry++;
                 resetTimer.Start();
             }
+            IsRunning = false;
         }
 
         public static async Task AddSong(string keyword)

@@ -9,16 +9,16 @@
         ShowInTaskbar="True"
         AllowsTransparency="False"
         ResizeMode="CanResize"
-        Title="AcFun点歌姬" MinHeight="112" MinWidth="280" Height="112" Width="280" KeyDown="Window_KeyDown" MouseDown="Window_MouseDown">
+        Title="AcFun点歌姬" MinHeight="112" MinWidth="236" Height="112" Width="236" KeyDown="Window_KeyDown" MouseDown="Window_MouseDown">
     <StackPanel>
         <MediaElement x:Name="Player" LoadedBehavior="Manual" UnloadedBehavior="Stop" MediaEnded="MediaEnded"/>
         <TextBlock x:Name="Song" FontSize="20"/>
         <TextBlock x:Name="Album" FontSize="20"/>
         <TextBlock x:Name="Duration" FontSize="20"/>
         <StackPanel Orientation="Horizontal">
-            <Button x:Name="PlayBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE769;" Click="Play" />
-            <Button Margin="64,0,64,0" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE893;" Click="Next" />
-            <Button x:Name="MuteBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE767;" Click="Mute" />
+            <Button x:Name="PlayBtn" Focusable="False" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE769;" Click="Play" />
+            <Button Margin="64,0,64,0" Focusable="False" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE893;" Click="Next" />
+            <Button x:Name="MuteBtn" Focusable="False" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE767;" Click="Mute" />
         </StackPanel>
     </StackPanel>
 </Window>
