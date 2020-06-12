@@ -21,17 +21,24 @@ namespace AcFunDanmuSongRequest.Platform.QQ
         public override async Task<ISong> AddSong(string keyword)
         {
             var result = await GetAsync<SearchResponse>(new SearchRequest { Keyword = keyword }, SearchResponse.Options);
-            var item = result.Data.Song.List[0];
-            var song = new Song
+            if (result.Data.Song.List.Length > 0)
             {
-                SongMid = item.Songmid,
-                Album = item.Albumname,
-                Artist = item.Singer[0].Name,
-                Name = item.Songname,
-                Duration = item.Interval
-            };
-            Songs.Enqueue(song);
-            return song;
+                var item = result.Data.Song.List[0];
+                var song = new Song
+                {
+                    SongMid = item.Songmid,
+                    Album = item.Albumname,
+                    Artist = item.Singer[0].Name,
+                    Name = item.Songname,
+                    Duration = item.Interval
+                };
+                Songs.Enqueue(song);
+                return song;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public override async Task<ISong> NextSong()
@@ -58,8 +65,12 @@ namespace AcFunDanmuSongRequest.Platform.QQ
                         VKey = resp.Data.Data.MidUrlInfo[0].VKey;
                         ExpireTime = DateTime.Now.AddHours(2);
                     }
+                    return song;
                 }
-                return song;
+                else
+                {
+                    return null;
+                }
             }
             else
             {

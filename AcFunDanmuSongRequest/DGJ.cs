@@ -56,7 +56,11 @@ namespace AcFunDanmuSongRequest
 
         public static async Task AddSong(string keyword)
         {
-            AddSongEvent(await platform.AddSong(keyword));
+            var song = await platform.AddSong(keyword);
+            if (song != null)
+            {
+                AddSongEvent(song);
+            }
         }
 
         public static ISong Peek()

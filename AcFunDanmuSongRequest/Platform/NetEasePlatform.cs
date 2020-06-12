@@ -24,10 +24,17 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
             //await Request<SearchGetResponse, EncodedResponse>(new SearchGetRequest { Keyword = keyword, Offset = 0, Limit = 1 }, SearchResult.Options);
 
             var result = await GetAsync<CloudSearchResponse, EncodedResponse>(new CloudSearchGetRequest { Keyword = keyword, Offset = 0, Limit = 1 }, SearchResult.Options);
-            var item = result.Songs[0];
-            var song = new Song { Id = item.Id, Name = item.Name, Artist = item.Ar[0].Name, Album = item.Al.Name, Duration = item.Dt };
-            Songs.Enqueue(song);
-            return song;
+            if (result.Songs.Length > 0)
+            {
+                var item = result.Songs[0];
+                var song = new Song { Id = item.Id, Name = item.Name, Artist = item.Ar[0].Name, Album = item.Al.Name, Duration = item.Dt };
+                Songs.Enqueue(song);
+                return song;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public override async Task<ISong> NextSong()

@@ -242,6 +242,7 @@ namespace AcFunDanmuConsole
             {
                 if (message.type == "send")
                 {
+#if DEBUG
                     var us = client.DecodeUpstream(Convert.FromBase64String(message.data));
                     writer.WriteLine("Up\tSeqId {0}, Command: {1}", us.SeqId, us.Command);
                     //writer.Write("\t\t");
@@ -299,6 +300,7 @@ namespace AcFunDanmuConsole
                             break;
                     }
                     writer.WriteLine("--------------------------------");
+#endif
                 }
                 else if (message.type == "receive")
                 {
