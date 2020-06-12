@@ -65,6 +65,7 @@ AcFun视频及文章评论区抽奖工具
 ```
 using AcFunDanmuSongRequest;
 ...
+DGJ.ExitEvent += (你的自定义函数);
 DGJ.AddSongEvent += (你的自定义函数);
 await DGJ.Initialize();
 ```
