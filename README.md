@@ -2,7 +2,7 @@
 
 # AcFunDanmaku
 AcFunDanmaku是用C# 和 .Net Core 3.1编写的AcFun直播弹幕工具。
-该项目分为6个子项目。
+该项目分为8个子项目。
 **不提供32位程序。**
 
 ## AcFunDanmu 
@@ -45,6 +45,11 @@ await client.Start();
 4. 输入弹幕关键词，点击开始
 5. 点击结束，输入抽选数量，点击抽！
 6. 查看抽奖结果
+
+## AcFunCommentControl
+AcFun评论组件
+### 使用方式
+*请参考AcFunCommentLottery及AcFunMomentLottery*
 
 ## AcFunCommentLottery
 AcFun视频及文章评论区抽奖工具
@@ -89,3 +94,13 @@ await DGJ.Initialize();
 ```
 3. 运行AcFunDGJ.exe
 4. 等待点歌，点歌后会自动播放
+
+## AcFunMomentLottery
+AcFun动态评论区抽奖工具
+### 使用方式
+1. 编译
+2. 运行AcFunMomentLottery.exe
+3. 输入动态ID，点击获取
+4. （可选）输入评论关键词，点击筛选
+5. 输入抽选数量，点击抽！
+6. 查看抽奖结果
