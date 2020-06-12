@@ -1,0 +1,24 @@
+﻿<Window x:Class="AcFunDGJ.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AcFunDGJ"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        ShowInTaskbar="True"
+        AllowsTransparency="False"
+        ResizeMode="CanResize"
+        Title="AcFun点歌姬" MinHeight="112" MinWidth="280" Height="112" Width="280" KeyDown="Window_KeyDown" MouseDown="Window_MouseDown">
+    <StackPanel>
+        <MediaElement x:Name="Player" LoadedBehavior="Manual" UnloadedBehavior="Stop" MediaEnded="MediaEnded"/>
+        <TextBlock x:Name="Song" FontSize="20"/>
+        <TextBlock x:Name="Album" FontSize="20"/>
+        <TextBlock x:Name="Duration" FontSize="20"/>
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="PlayBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE769;" Click="Play" />
+            <Button Margin="64,0,64,0" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE893;" Click="Next" />
+            <Button x:Name="MuteBtn" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE767;" Click="Mute" />
+        </StackPanel>
+    </StackPanel>
+</Window>
