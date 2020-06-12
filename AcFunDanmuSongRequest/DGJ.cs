@@ -9,6 +9,7 @@ using System.Timers;
 
 namespace AcFunDanmuSongRequest
 {
+    public delegate void DGJExitEvent();
     public delegate void DGJAddSongEvent(ISong song);
     public static class DGJ
     {
@@ -22,6 +23,7 @@ namespace AcFunDanmuSongRequest
         private static IPlatform platform = null;
 
         public static bool IsRunning { get; private set; }
+        public static DGJExitEvent ExitEvent { get; set; }
         public static DGJAddSongEvent AddSongEvent { get; set; }
 
         public static async Task<bool> Initialize()
@@ -58,6 +60,7 @@ namespace AcFunDanmuSongRequest
                 resetTimer.Start();
             }
             IsRunning = false;
+            ExitEvent();
         }
 
         public static async Task AddSong(string keyword)

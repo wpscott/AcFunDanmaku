@@ -25,6 +25,15 @@ namespace AcFunDGJ
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            DGJ.ExitEvent += () =>
+            {
+                if (!IsPlaying)
+                {
+                    Song.Text = "连接已断开或直播已结束";
+                    Album.Text = "按ESC关闭点歌姬";
+                    Duration.Text = "--:--/--:--";
+                }
+            };
             DGJ.AddSongEvent += song => { if (!IsPlaying) { IsPlaying = true; Next(null, null); } };
 
             var ready = await DGJ.Initialize();
@@ -124,6 +133,7 @@ namespace AcFunDGJ
             }
             else
             {
+                IsPlaying = false;
                 Song.Text = "连接已断开或直播已结束";
                 Album.Text = "按ESC关闭点歌姬";
                 Duration.Text = "--:--/--:--";
