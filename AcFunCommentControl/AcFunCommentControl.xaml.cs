@@ -1,6 +1,5 @@
 using AcFunCommentControl.Models;
 using System;
-using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -12,10 +11,7 @@ using System.Windows.Media.Imaging;
 
 namespace AcFunCommentControl
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
-    public partial class AcFunCommentControl : UserControl
+    public partial class AcFunCommentControl : TextBlock
     {
         private const RegexOptions Options = RegexOptions.IgnoreCase | RegexOptions.Compiled;
         private static readonly Regex AtReg = new Regex(@"\[at uid=\d+\](?<at>.*?)\[\/at\]", Options);
@@ -128,7 +124,7 @@ namespace AcFunCommentControl
             }
             if (text.Length > 0)
             {
-                Block.Inlines.Add(new Run(text.ToString()));
+                Inlines.Add(new Run(text.ToString()));
             }
         }
 
@@ -137,8 +133,8 @@ namespace AcFunCommentControl
             var match = reg.Match(content);
             if (match.Groups[0].Index == 0)
             {
-                if (text.Length > 0) { Block.Inlines.Add(new Run(text.ToString())); text.Clear(); }
-                Block.Inlines.Add(process(match));
+                if (text.Length > 0) { Inlines.Add(new Run(text.ToString())); text.Clear(); }
+                Inlines.Add(process(match));
                 return (true, match.Length);
             }
             return (false, 0);
