@@ -77,7 +77,7 @@
         <Button Grid.Row="2" Grid.Column="1" Margin="3" Content="抽！" IsEnabled="{Binding Path=Ready, Mode=OneWay}" Click="Roll"/>
         <TextBlock Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Text="抽选结果" TextAlignment="Center"/>
         
-        <ListBox x:Name="CommentList" Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Path=Comments, Mode=OneWay}" ItemTemplate="{StaticResource CommentTemplate}" ItemContainerStyle="{StaticResource CommentStyle}"/>
+        <ListBox x:Name="CommentList" Grid.Row="3" Grid.Column="0" VirtualizingPanel.IsVirtualizing="True" ItemsSource="{Binding Path=Comments, Mode=OneWay}" ItemTemplate="{StaticResource CommentTemplate}" ItemContainerStyle="{StaticResource CommentStyle}"/>
         <ListBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding Path=Result, Mode=OneWay}"  ItemTemplate="{StaticResource CommentTemplate}" MouseDoubleClick="ShowUser"/>
     </Grid>
 </Window>
