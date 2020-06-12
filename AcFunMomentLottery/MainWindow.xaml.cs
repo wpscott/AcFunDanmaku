@@ -1,16 +1,13 @@
-﻿using AcFunCommentLottery.Models;
-using AcFunCommentControl.Models;
+﻿using AcFunCommentControl.Models;
+using AcFunMomentLottery.Models;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace AcFunCommentLottery
+namespace AcFunMomentLottery
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private static readonly Regex NumberOnly = new Regex(@"^[\d]+$");

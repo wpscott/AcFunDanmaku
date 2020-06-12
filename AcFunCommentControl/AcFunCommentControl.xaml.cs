@@ -1,4 +1,4 @@
-﻿using AcFunCommentLottery.Models;
+using AcFunCommentControl.Models;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -9,26 +9,30 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace AcFunCommentLottery
-{
 
-    public partial class AcFunComment : UserControl
+namespace AcFunCommentControl
+{
+    /// <summary>
+    /// Interaction logic for UserControl1.xaml
+    /// </summary>
+    public partial class AcFunCommentControl : UserControl
     {
         private const RegexOptions Options = RegexOptions.IgnoreCase | RegexOptions.Compiled;
         private static readonly Regex AtReg = new Regex(@"\[at uid=\d+\](?<at>.*?)\[\/at\]", Options);
         private static readonly Regex EmotReg = new Regex(@"\[emot=(?<emot>.*?)\/\]", Options);
-        private static readonly Regex ImgReg = new Regex(@"\[img=图片\](?<img>.*?)\[\/img\]", Options);
+        private static readonly Regex ImgReg = new Regex(@"\[img=ͼƬ\](?<img>.*?)\[\/img\]", Options);
         private static readonly Regex ColorReg = new Regex(@"\[color=(?<color>.*?)\](?<content>.*?)\[\/color\]", Options);
         private static readonly Regex BoldReg = new Regex(@"\[b\](?<bold>.*?)\[\/b\]", Options);
         private static readonly Regex ItalicReg = new Regex(@"\[i\](?<italic>.*?)\[\/i\]", Options);
         private static readonly Regex EmailReg = new Regex(@"\[email\](?<content>.*?)\[\/email\]", Options);
         private static readonly Regex FontReg = new Regex("<font color=\"(?<color>#[\\w\\d]{6})\">(?<content>.*?)</font>", Options);
 
-        public AcFunComment()
+        public AcFunCommentControl()
         {
             InitializeComponent();
 
             DataContextChanged += AcFunComment_DataContextChanged;
+
         }
 
         private void AcFunComment_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

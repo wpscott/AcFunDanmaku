@@ -7,13 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace AcFunCommentLottery.Models
+namespace AcFunMomentLottery.Models
 {
     class Lottery : INotifyPropertyChanged
     {
         private string _commentStatus;
         public string CommentStatus { get { return _commentStatus; } set { _commentStatus = value; OnPropertyChanged(nameof(CommentStatus)); } }
-        public long ACId { get; set; } = -1;
+        public long MomentId { get; set; } = -1;
 
         private bool _canFetch = true;
         public bool CanFetch { get { return _canFetch; } set { _canFetch = value; OnPropertyChanged(nameof(CanFetch)); } }
@@ -55,7 +55,7 @@ namespace AcFunCommentLottery.Models
             CommentStatus = "获取中，请稍等";
             CanFetch = false;
 
-            var comments = await CommentModel.Fetch(ACId, (cur, total) => CommentStatus = $"已获取{cur}/{total}页评论");
+            var comments = await CommentModel.FetchMoment(MomentId, total => CommentStatus = $"已获取{total}条评论");
 
             _comments.Clear();
             foreach (var comment in comments)
@@ -114,10 +114,11 @@ namespace AcFunCommentLottery.Models
             }
             OnPropertyChanged(nameof(Result));
 
-            using var writer = new StreamWriter(@$".\{ACId}-{DateTime.Now:yyyy-MM-dd HH_mm_ss}.txt");
+            using var writer = new StreamWriter(@$".\{MomentId}-{DateTime.Now:yyyy-MM-dd HH_mm_ss}.txt");
             writer.Write(string.Join("\r\n\r\n", _result.Select(comment => $"{comment.Header}\r\n{comment.content}")));
             writer.Flush();
             writer.Close();
         }
+
     }
 }

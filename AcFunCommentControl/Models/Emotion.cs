@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace AcFunCommentLottery.Models
+namespace AcFunCommentControl.Models
 {
     struct EmotionUrl
     {
@@ -37,7 +35,7 @@ namespace AcFunCommentLottery.Models
         public int result { get; set; }
     }
 
-    static class EmotIconModel
+    public static class EmotIconModel
     {
         private const string EMOT_ICON_URL = "https://zt.gifshow.com/rest/zt/emoticon/package/list?kpn=ACFUN_APP";
 
