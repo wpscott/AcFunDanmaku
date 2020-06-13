@@ -2,7 +2,7 @@
 
 namespace AcFunDanmu.Models.Client
 {
-    public class VisitorToken
+    public struct VisitorToken
     {
         public int result { get; set; }
         [JsonPropertyName("acfun.api.visitor_st")]

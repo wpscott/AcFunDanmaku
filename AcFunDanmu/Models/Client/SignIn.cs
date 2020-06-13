@@ -1,6 +1,6 @@
 ﻿namespace AcFunDanmu.Models.Client
 {
-    public class SignIn
+    public struct SignIn
     {
         public int result { get; set; }
         public string img { get; set; }

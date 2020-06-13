@@ -55,7 +55,7 @@ namespace AcFunDanmuSongRequest
             resetTimer.Elapsed += (s, e) => retry = 0;
 
             IsRunning = true;
-            OnConnect();
+            OnConnect?.Invoke();
             while (!await client.Start() && retry < 5)
             {
                 if (retry > 0) { resetTimer.Stop(); }
@@ -63,7 +63,7 @@ namespace AcFunDanmuSongRequest
                 resetTimer.Start();
             }
             IsRunning = false;
-            OnExit();
+            OnExit?.Invoke();
         }
 
         public static async Task AddSong(string keyword)
@@ -71,7 +71,7 @@ namespace AcFunDanmuSongRequest
             var song = await platform.AddSong(keyword);
             if (song != null)
             {
-                OnAddSong(song);
+                OnAddSong?.Invoke(song);
             }
         }
 

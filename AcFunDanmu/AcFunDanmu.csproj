@@ -6,6 +6,18 @@
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 
 		<Platforms>x64</Platforms>
+
+		<Authors>wpscott</Authors>
+
+		<Product />
+
+		<Version>1.0.2</Version>
+
+		<Description>AcFun直播弹幕客户端</Description>
+
+		<PackageProjectUrl>https://github.com/wpscott/AcFunDanmaku</PackageProjectUrl>
+
+		<Company />
 	</PropertyGroup>
 
 	<ItemGroup>

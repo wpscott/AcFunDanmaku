@@ -145,7 +145,7 @@ namespace AcFunDanmu
         }
         #endregion
 
-        public async Task Login(string username, string password, string uid)
+        public async ValueTask<bool> Login(string username, string password)
         {
             if (!IsSignIn)
             {
@@ -167,7 +167,7 @@ namespace AcFunDanmu
                 if (!login.IsSuccessStatusCode)
                 {
                     Console.WriteLine(await login.Content.ReadAsStringAsync());
-                    return;
+                    return false;
                 }
 
                 using var signinContent = new FormUrlEncodedContent(new Dictionary<string, string>
@@ -181,7 +181,7 @@ namespace AcFunDanmu
                 if (!signin.IsSuccessStatusCode)
                 {
                     Console.WriteLine(await signin.Content.ReadAsStringAsync());
-                    return;
+                    return false;
                 }
                 var user = await JsonSerializer.DeserializeAsync<SignIn>(await signin.Content.ReadAsStreamAsync());
 
@@ -190,7 +190,7 @@ namespace AcFunDanmu
                 if (!sid.IsSuccessStatusCode)
                 {
                     Console.WriteLine(await sid.Content.ReadAsStringAsync());
-                    return;
+                    return false;
                 }
                 var safetyid = await JsonSerializer.DeserializeAsync<SafetyId>(await sid.Content.ReadAsStreamAsync());
 
@@ -202,16 +202,17 @@ namespace AcFunDanmu
                 });
 
                 IsSignIn = true;
-
-#if DEBUG
-                Console.WriteLine("Client signed in");
-#endif
             }
-
-            await Initialize(uid);
+            return true;
         }
 
-        public async Task Initialize(string uid)
+        public async ValueTask<Play.PlayData> InitializeWithLogin(string username, string password, string uid)
+        {
+            await Login(username, password);
+            return await Initialize(uid);
+        }
+
+        public async Task<Play.PlayData> Initialize(string uid)
         {
             Console.WriteLine("Client initializing");
 
@@ -230,7 +231,7 @@ namespace AcFunDanmu
             if (!index.IsSuccessStatusCode)
             {
                 Console.WriteLine(await index.Content.ReadAsStringAsync());
-                return;
+                return default;
             }
             if (string.IsNullOrEmpty(DeviceId))
             {
@@ -244,7 +245,7 @@ namespace AcFunDanmu
                 if (!get.IsSuccessStatusCode)
                 {
                     Console.WriteLine(await get.Content.ReadAsStringAsync());
-                    return;
+                    return default;
                 }
                 var token = await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
                 UserId = token.userId;
@@ -258,7 +259,7 @@ namespace AcFunDanmu
                 if (!login.IsSuccessStatusCode)
                 {
                     Console.WriteLine(await login.Content.ReadAsStringAsync());
-                    return;
+                    return default;
                 }
                 var token = await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
 
@@ -273,14 +274,14 @@ namespace AcFunDanmu
             if (!play.IsSuccessStatusCode)
             {
                 Console.WriteLine(await play.Content.ReadAsStringAsync());
-                return;
+                return default;
             }
 
             var playData = await JsonSerializer.DeserializeAsync<Play>(await play.Content.ReadAsStreamAsync());
             if (playData.result != 1)
             {
                 Console.WriteLine(playData.error_msg);
-                return;
+                return default;
             }
             Tickets = playData.data.availableTickets;
             EnterRoomAttach = playData.data.enterRoomAttach;
@@ -290,6 +291,8 @@ namespace AcFunDanmu
             UpdateGiftList();
 
             Console.WriteLine("Client initialized");
+
+            return playData.data;
         }
 
         private async void UpdateGiftList()
@@ -502,11 +505,11 @@ namespace AcFunDanmu
                     {
                         case Enums.PushMessage.ACTION_SIGNAL:
                             // Handled by user
-                            Handler(message.MessageType, payload.ToByteArray());
+                            Handler?.Invoke(message.MessageType, payload.ToByteArray());
                             break;
                         case Enums.PushMessage.STATE_SIGNAL:
                             // Handled by user
-                            Handler(message.MessageType, payload.ToByteArray());
+                            Handler?.Invoke(message.MessageType, payload.ToByteArray());
                             break;
                         case Enums.PushMessage.STATUS_CHANGED:
                             var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);

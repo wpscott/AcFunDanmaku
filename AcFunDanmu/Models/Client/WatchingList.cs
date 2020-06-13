@@ -2,16 +2,16 @@
 
 namespace AcFunDanmu.Models.Client
 {
-    public class WatchingList
+    public struct WatchingList
     {
         public int result { get; set; }
         public WatchingData data { get; set; }
 
-        public class WatchingData
+        public struct WatchingData
         {
             public User[] list { get; set; }
 
-            public class User
+            public struct User
             {
                 public long userId { get; set; }
                 public string nickname { get; set; }
@@ -21,7 +21,7 @@ namespace AcFunDanmu.Models.Client
 
                 public Avatar[] avatar { get; set; }
 
-                public class Avatar
+                public struct Avatar
                 {
                     public string cdn { get; set; }
                     public bool freeTraffic { get; set; }

@@ -2,7 +2,7 @@
 
 namespace AcFunDanmu.Models.Client
 {
-    public class MidgroundToken
+    public struct MidgroundToken
     {
         public int result { get; set; }
         [JsonPropertyName("acfun.midground.api_st")]

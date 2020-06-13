@@ -1,16 +1,16 @@
 ﻿namespace AcFunDanmu.Models.Client
 {
-    public class GiftList
+    public struct GiftList
     {
         public int result { get; set; }
         public GiftData data { get; set; }
 
-        public class GiftData
+        public struct GiftData
         {
             public Gift[] giftList { get; set; }
             public string giftListHash { get; set; }
 
-            public class Gift
+            public struct Gift
             {
                 public int giftId { get; set; }
                 public string giftName { get; set; }

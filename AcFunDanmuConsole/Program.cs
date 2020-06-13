@@ -27,7 +27,7 @@ namespace AcFunDanmuConsole
             }
             else if (args.Length == 3)
             {
-                await client.Login(args[0], args[1], args[2]); // User mode
+                await client.InitializeWithLogin(args[0], args[1], args[2]); // User mode
             }
             else
             {
