@@ -55,7 +55,7 @@ namespace AcFunMomentLottery.Models
             CommentStatus = "获取中，请稍等";
             CanFetch = false;
 
-            var comments = await CommentModel.FetchMoment(MomentId, total => CommentStatus = $"已获取{total}条评论");
+            var comments = await CommentModel.FetchMoment(MomentId, total => CommentStatus = $"获取中，已获取{total}条评论");
 
             _comments.Clear();
             foreach (var comment in comments)

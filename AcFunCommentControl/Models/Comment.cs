@@ -32,35 +32,27 @@ namespace AcFunCommentControl.Models
 
     public static class CommentModel
     {
-        private const string FETCH_URL = "https://www.acfun.cn/rest/pc-direct/comment/list?sourceId={0}&sourceType=3&page={1}&t={2}&supportZtEmot=true";
-        private const string FETCH_MOMENT_URL = "https://api-new.acfunchina.com/rest/app/comment/list?count=100&sourceType=4&sourceId={0}&pcursor={1}";
+        private const int Count = 50;
+        private const string FETCH_URL = "https://api-new.acfunchina.com/rest/app/comment/list?sourceId={0}&sourceType={1}&count={2}&pcursor={3}&supportZtEmot=true";
+        private const string FETCH_COMMENT_URL = "https://www.acfun.cn/rest/pc-direct/comment/list?sourceId={0}&sourceType=3&page={1}&t={2}&supportZtEmot=true";
+        private const string FETCH_MOMENT_URL = "https://api-new.acfunchina.com/rest/app/comment/list?sourceId={0}&sourceType=4&count=100&pcursor={1}&supportZtEmot=true";
         private const string FETCH_MOMENT_DETAIL = "https://api-new.acfunchina.com/rest/app/moment/detail?momentId={0}";
         static CommentModel()
         {
 
         }
 
-        public static async ValueTask<Comment[]> Fetch(long acId, Action<int, int> progress)
+        public static async ValueTask<Comment[]> Fetch(long acId, Action<int> progress)
         {
-            IEnumerable<Comment> result = Array.Empty<Comment>();
-            CommentList cList = new CommentList { curPage = 0 };
-
-            using var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All });
-            client.DefaultRequestHeaders.AcceptEncoding.ParseAdd("gzip, deflate, br");
-
-            do
-            {
-                using var list = await client.GetAsync(string.Format(FETCH_URL, acId, cList.curPage + 1, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()));
-                cList = await JsonSerializer.DeserializeAsync<CommentList>(await list.Content.ReadAsStreamAsync());
-
-                result = result.Concat(cList.rootComments);
-                progress(cList.curPage, cList.totalPage);
-            } while (cList.totalPage > 0 && cList.curPage != cList.totalPage);
-
-            return result.ToArray();
+            return await Fetch(acId, 3, progress);
         }
 
         public static async ValueTask<Comment[]> FetchMoment(long momentId, Action<int> progress)
+        {
+            return await Fetch(momentId, 4, progress);
+        }
+
+        private static async ValueTask<Comment[]> Fetch(long id, int type, Action<int> progress)
         {
             IEnumerable<Comment> result = Array.Empty<Comment>();
             CommentList cList = new CommentList { pcursor = "0" };
@@ -70,7 +62,7 @@ namespace AcFunCommentControl.Models
             client.DefaultRequestHeaders.AcceptEncoding.ParseAdd("gzip, deflate, br");
             do
             {
-                using var list = await client.GetAsync(string.Format(FETCH_MOMENT_URL, momentId, cList.pcursor));
+                using var list = await client.GetAsync(string.Format(FETCH_URL, id, type, Count, cList.pcursor));
                 cList = await JsonSerializer.DeserializeAsync<CommentList>(await list.Content.ReadAsStreamAsync());
 
                 result = result.Concat(cList.rootComments);

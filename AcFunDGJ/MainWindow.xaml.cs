@@ -16,8 +16,8 @@ namespace AcFunDGJ
             InitializeComponent();
             WindowChrome.SetWindowChrome(this, new WindowChrome());
 
-            Song.Text = "没有歌曲";
-            Album.Text = "欢迎点歌";
+            Song.Text = "连接弹幕服务器中";
+            Album.Text = "请稍等";
             Duration.Text = "--:--/--:--";
 
             Loaded += MainWindow_Loaded;
@@ -25,7 +25,8 @@ namespace AcFunDGJ
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            DGJ.ExitEvent += () =>
+            DGJ.OnConnect += () => { Song.Text = "没有歌曲"; Album.Text = "欢迎点歌"; };
+            DGJ.OnExit += () =>
             {
                 if (!IsPlaying)
                 {
@@ -34,7 +35,7 @@ namespace AcFunDGJ
                     Duration.Text = "--:--/--:--";
                 }
             };
-            DGJ.AddSongEvent += song => { if (!IsPlaying) { IsPlaying = true; Next(null, null); } };
+            DGJ.OnAddSong += song => { if (!IsPlaying) { IsPlaying = true; Next(null, null); } };
 
             var ready = await DGJ.Initialize();
             Trace.WriteLine("DGJ initialized");

@@ -1,7 +1,6 @@
 ﻿using AcFunDanmuSongRequest.Platform.Interfaces;
 using AcFunDanmuSongRequest.Platform.NetEase;
 using AcFunDanmuSongRequest.Platform.QQ;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -20,9 +19,9 @@ namespace AcFunDanmuSongRequest.Platform
             Songs = new Queue<ISong>();
         }
 
-        public abstract Task<ISong> AddSong(string keyword);
+        public abstract ValueTask<ISong> AddSong(string keyword);
         public ISong Peek() => Songs.Peek();
-        public abstract Task<ISong> NextSong();
+        public abstract ValueTask<ISong> NextSong();
 
         public static IPlatform CreatePlatform(Config config)
         {
@@ -44,7 +43,7 @@ namespace AcFunDanmuSongRequest.Platform
             return client;
         }
 
-        protected static async Task<T> GetAsync<T>(IGetRequest request, JsonSerializerOptions options)
+        protected static async ValueTask<T> GetAsync<T>(IGetRequest request, JsonSerializerOptions options)
         {
             using var client = CreateClient();
 
@@ -53,7 +52,7 @@ namespace AcFunDanmuSongRequest.Platform
             return json;
         }
 
-        protected static async Task<TResult> GetAsync<TResult, TEncodedResponse>(IGetRequest request, JsonSerializerOptions options) where TEncodedResponse : IEncodedResponse
+        protected static async ValueTask<TResult> GetAsync<TResult, TEncodedResponse>(IGetRequest request, JsonSerializerOptions options) where TEncodedResponse : IEncodedResponse
         {
             using var client = CreateClient();
 
@@ -64,7 +63,7 @@ namespace AcFunDanmuSongRequest.Platform
             return result;
         }
 
-        protected static async Task<T> PostAsync<T>(IPostRequest request, JsonSerializerOptions options)
+        protected static async ValueTask<T> PostAsync<T>(IPostRequest request, JsonSerializerOptions options)
         {
             using var client = CreateClient();
 
@@ -83,7 +82,7 @@ namespace AcFunDanmuSongRequest.Platform
             }
         }
 
-        protected static async Task<TResult> PostAsync<TResult, TEncodeResponse>(IPostRequest request, JsonSerializerOptions options) where TEncodeResponse : IEncodedResponse
+        protected static async ValueTask<TResult> PostAsync<TResult, TEncodeResponse>(IPostRequest request, JsonSerializerOptions options) where TEncodeResponse : IEncodedResponse
         {
             using var client = CreateClient();
 

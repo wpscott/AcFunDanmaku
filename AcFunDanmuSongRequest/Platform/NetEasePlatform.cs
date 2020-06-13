@@ -18,7 +18,7 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
     class NetEasePlatform : BasePlatform
     {
         public NetEasePlatform(Config config) : base(config) { }
-        public override async Task<ISong> AddSong(string keyword)
+        public override async ValueTask<ISong> AddSong(string keyword)
         {
             //await Request<SuggestSearchResult>(new SuggestSearchGetRequest { Keyword = keyword, Offset = 0, Limit = 1 }, SearchResult.Options);
             //await Request<SearchGetResponse, EncodedResponse>(new SearchGetRequest { Keyword = keyword, Offset = 0, Limit = 1 }, SearchResult.Options);
@@ -37,7 +37,7 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
             }
         }
 
-        public override async Task<ISong> NextSong()
+        public override async ValueTask<ISong> NextSong()
         {
             if (Songs.Count > 0)
             {

@@ -18,7 +18,7 @@ namespace AcFunDanmuSongRequest.Platform.QQ
             Uin = rnd.Next(131072, int.MaxValue);
             ExpireTime = DateTime.Now;
         }
-        public override async Task<ISong> AddSong(string keyword)
+        public override async ValueTask<ISong> AddSong(string keyword)
         {
             var result = await GetAsync<SearchResponse>(new SearchRequest { Keyword = keyword }, SearchResponse.Options);
             if (result.Data.Song.List.Length > 0)
@@ -41,7 +41,7 @@ namespace AcFunDanmuSongRequest.Platform.QQ
             }
         }
 
-        public override async Task<ISong> NextSong()
+        public override async ValueTask<ISong> NextSong()
         {
             if (Songs.Count > 0)
             {
