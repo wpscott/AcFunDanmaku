@@ -34,7 +34,7 @@ namespace AcFunDanmuConsole
                 return;
             }
 
-            client.Handler = HandleSignal; // Use your own signal handler
+            client.Handler += HandleSignal; // Use your own signal handler
 
             var resetTimer = new System.Timers.Timer(5000);
             resetTimer.Elapsed += (s, e) =>

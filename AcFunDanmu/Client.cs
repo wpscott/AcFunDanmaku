@@ -362,86 +362,97 @@ namespace AcFunDanmu
                 Console.WriteLine("Not initialized or live is ended");
                 return false;
             }
-
-            await client.ConnectAsync(Host, default);
-            if (client.State == WebSocketState.Open)
+            using var ws = new ClientWebSocket();
+            client = ws;
+            try
             {
-                #region Register & Enter Room
-                //Register
-                await client.SendAsync(Register(), WebSocketMessageType.Binary, true, default);
-                var resp = new byte[BufferSize];
-                await client.ReceiveAsync(resp, default);
-                var registerDown = Decode(resp);
-                var regResp = RegisterResponse.Parser.ParseFrom(registerDown.PayloadData);
-                InstanceId = regResp.InstanceId;
-                SessionKey = regResp.SessKey.ToBase64();
-                Lz4CompressionThreshold = regResp.SdkOption.Lz4CompressionThresholdBytes;
-
-                //Ping
-                //await client.SendAsync(Ping(), WebSocketMessageType.Binary, true, default);
-
-                //Keep Alive
-                await client.SendAsync(KeepAlive(), WebSocketMessageType.Binary, true, default);
-                SeqId++;
-                HeaderSeqId++;
-
-                //Enter room
-                await client.SendAsync(EnterRoom(), WebSocketMessageType.Binary, true, default);
-                #endregion
-
-                #region Timers
-                using var heartbeatTimer = new System.Timers.Timer();
-                heartbeatTimer.Elapsed += async (s, e) =>
+                await client.ConnectAsync(Host, default);
+                if (client.State == WebSocketState.Open)
                 {
-                    if (client.State == WebSocketState.Open)
+                    #region Register & Enter Room
+                    //Register
+                    await client.SendAsync(Register(), WebSocketMessageType.Binary, true, default);
+                    var resp = new byte[BufferSize];
+                    await client.ReceiveAsync(resp, default);
+                    var registerDown = Decode(resp);
+                    var regResp = RegisterResponse.Parser.ParseFrom(registerDown.PayloadData);
+                    InstanceId = regResp.InstanceId;
+                    SessionKey = regResp.SessKey.ToBase64();
+                    Lz4CompressionThreshold = regResp.SdkOption.Lz4CompressionThresholdBytes;
+
+                    //Ping
+                    //await client.SendAsync(Ping(), WebSocketMessageType.Binary, true, default);
+
+                    //Keep Alive
+                    await client.SendAsync(KeepAlive(), WebSocketMessageType.Binary, true, default);
+                    SeqId++;
+                    HeaderSeqId++;
+
+                    //Enter room
+                    await client.SendAsync(EnterRoom(), WebSocketMessageType.Binary, true, default);
+                    #endregion
+
+                    #region Timers
+                    using var heartbeatTimer = new System.Timers.Timer();
+                    heartbeatTimer.Elapsed += async (s, e) =>
+                    {
+                        if (client.State == WebSocketState.Open)
+                        {
+                            try
+                            {
+                                await client.SendAsync(
+                                    Heartbeat(),
+                                    WebSocketMessageType.Binary,
+                                    true,
+                                    default
+                                );
+
+                                await client.SendAsync(KeepAlive(), WebSocketMessageType.Binary, true, default);
+                            }
+                            catch (WebSocketException ex)
+                            {
+                                Console.WriteLine("Heartbeat - WebSocket Exception: {0}", ex);
+                                heartbeatTimer.Stop();
+                            }
+                        }
+                        else
+                        {
+                            heartbeatTimer.Stop();
+                        }
+                    };
+                    heartbeatTimer.AutoReset = true;
+                    #endregion
+
+                    #region Main loop
+                    while (client.State == WebSocketState.Open)
                     {
                         try
                         {
-                            await client.SendAsync(
-                                Heartbeat(),
-                                WebSocketMessageType.Binary,
-                                true,
-                                default
-                            );
+                            var buffer = new byte[BufferSize];
+                            await client.ReceiveAsync(buffer, default);
 
-                            await client.SendAsync(KeepAlive(), WebSocketMessageType.Binary, true, default);
+                            var stream = Decode(buffer);
+
+                            HandleCommand(stream, heartbeatTimer);
+
                         }
-                        catch (WebSocketException ex)
+                        catch (WebSocketException e)
                         {
-                            Console.WriteLine("Heartbeat - WebSocket Exception: {0}", ex);
-                            heartbeatTimer.Stop();
+                            Console.WriteLine("Main - WebSocket Exception: {0}", e.Message);
+                            break;
                         }
                     }
-                    else
-                    {
-                        heartbeatTimer.Stop();
-                    }
-                };
-                heartbeatTimer.AutoReset = true;
-                #endregion
-
-                #region Main loop
-                while (client.State == WebSocketState.Open)
-                {
-                    try
-                    {
-                        var buffer = new byte[BufferSize];
-                        await client.ReceiveAsync(buffer, default);
-
-                        var stream = Decode(buffer);
-
-                        HandleCommand(stream, heartbeatTimer);
-
-                    }
-                    catch (WebSocketException e)
-                    {
-                        Console.WriteLine("Main - WebSocket Exception: {0}", e);
-                        break;
-                    }
+                    #endregion
                 }
-                #endregion
             }
-
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine("Start - HttpRequestException: {0}", ex.Message);
+            }
+            catch (WebSocketException ex)
+            {
+                Console.WriteLine("Start - WebSocketException: {0}", ex.Message);
+            }
             return client.State == WebSocketState.Closed;
         }
 
@@ -454,7 +465,7 @@ namespace AcFunDanmu
             }
             catch (WebSocketException ex)
             {
-                Console.WriteLine("WebSocketException: {0}", ex);
+                Console.WriteLine("WebSocketException: {0}", ex.Message);
             }
         }
 
@@ -470,7 +481,7 @@ namespace AcFunDanmu
                     {
                         case GlobalCommand.ENTER_ROOM_ACK:
                             var enterRoom = ZtLiveCsEnterRoomAck.Parser.ParseFrom(cmd.Payload);
-                            heartbeatTimer.Interval = enterRoom.HeartbeatIntervalMs;
+                            heartbeatTimer.Interval = enterRoom.HeartbeatIntervalMs > 0 ? enterRoom.HeartbeatIntervalMs : 10000;
                             heartbeatTimer.Start();
                             break;
                         case GlobalCommand.HEARTBEAT_ACK:
