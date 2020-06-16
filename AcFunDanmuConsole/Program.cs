@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static AcFunDanmu.ClientUtils;
 
 namespace AcFunDanmuConsole
 {
@@ -36,13 +37,13 @@ namespace AcFunDanmuConsole
 
             client.Handler += HandleSignal; // Use your own signal handler
 
-            var resetTimer = new System.Timers.Timer(5000);
+            var resetTimer = new System.Timers.Timer(10000);
             resetTimer.Elapsed += (s, e) =>
             {
                 retry = 0;
             };
 
-            while (!await client.Start() && retry < 5)
+            while (!await client.Start() && retry < 3)
             {
                 if (retry > 0)
                 {
@@ -52,8 +53,8 @@ namespace AcFunDanmuConsole
                 retry++;
                 resetTimer.Start();
             }
-
-            //DecodeHar(@".\your.own.har");
+            Console.WriteLine("Client closed, maybe live is end");
+            //DecodeHar(@".\your own.har");
             //await LoginToGetGiftList();
         }
 
@@ -149,7 +150,7 @@ namespace AcFunDanmuConsole
                             default:
                                 foreach (var p in item.Payload)
                                 {
-                                    var pi = Client.Parse(item.SingalType, p);
+                                    var pi = Parse(item.SingalType, p);
 #if DEBUG
                                     Console.WriteLine("Unhandled action type: {0}, content: {1}", item.SingalType, pi);
 #endif
@@ -186,7 +187,7 @@ namespace AcFunDanmuConsole
                                 }
                                 break;
                             default:
-                                var pi = Client.Parse(item.SingalType, item.Payload);
+                                var pi = Parse(item.SingalType, item.Payload);
 #if DEBUG
                                 Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SingalType, pi);
 #endif
@@ -218,15 +219,8 @@ namespace AcFunDanmuConsole
         }
         static void DecodeHar(string filePath)
         {
-            var client = new Client(
-                1000000040695861,
-                "ChRhY2Z1bi5hcGkudmlzaXRvci5zdBJwtK7G9ZWM4z4HKc4lbhpGECjvz6aOCfXQ36xgrn8wRFvS_L30QdkR2wQ9pRfxcj6GRn3Ymv2UwSrJpfzIDny8yDcqoDTdxFahdqhV58kJFnAUAQy8bZNgZksalDUyBi4Z9FTKRNKmxK5Xyz9typfPwhoS7u141z2YqvpCVbrK-LpEG0LFIiALNuXXoUE54trRZ9ZsQ-vcUwYRRvGOdTyZ4-mFNzz-bigFMAE",
-                "emX88MTKZHee/PwU8yYLMw==",
-                new string[] { "CgwxMC40NC4yMjIuMjMQkk4=", "CgwxMC40NC40MC4xODEQkk4=", "CgwxMC40NC4yMjIuMjMQk04=", "Cg0xMC41Mi4xODkuMTczEJNO" },
-                "nXc9rLOlKxcYhjIIURG6ZpXGOeCGewCG8aeVAQrHzMi7a/Pw9njsOuwH49nQwWf4HmSyLmC6yWz/cagN4tcSbg==",
-                 "y9Pi8EC4ulk",
-                 "JV3kqr1nefizjwACBCJ0DA=="
-                );
+            string securityKey = "sVBa8Yy0xjAwXo+WQnmwcg==";
+            string sessionKey = "OQqKxKrYZ5cg1au2IN0WvA==";
 
             using var file = new StreamReader(filePath);
 
@@ -243,9 +237,10 @@ namespace AcFunDanmuConsole
                 if (message.type == "send")
                 {
 #if DEBUG
-                    var us = client.DecodeUpstream(Convert.FromBase64String(message.data));
-                    writer.WriteLine("Up\tSeqId {0}, Command: {1}", us.SeqId, us.Command);
-                    //writer.Write("\t\t");
+                    var us = Decode(typeof(UpstreamPayload), Convert.FromBase64String(message.data), securityKey, sessionKey, out var header) as UpstreamPayload;
+                    writer.WriteLine("Up\t\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, us.SeqId, us.Command);
+                    writer.WriteLine("Header: {0}", header);
+                    writer.WriteLine("Payload: {0}", us);
                     switch (us.Command)
                     {
                         case Command.REGISTER:
@@ -278,13 +273,20 @@ namespace AcFunDanmuConsole
                             break;
                         case Command.GLOBAL_COMMAND:
                             ZtLiveCsCmd cmd = ZtLiveCsCmd.Parser.ParseFrom(us.PayloadData);
+                            writer.WriteLine("\t{0}: {1}", Command.GLOBAL_COMMAND, cmd);
                             switch (cmd.CmdType)
                             {
                                 case GlobalCommand.ENTER_ROOM:
                                     var enterRoom = ZtLiveCsEnterRoom.Parser.ParseFrom(cmd.Payload);
+                                    writer.WriteLine("\t\t{0}", enterRoom);
                                     break;
                                 case GlobalCommand.HEARTBEAT:
                                     var heartbeat = ZtLiveCsHeartbeat.Parser.ParseFrom(cmd.Payload);
+                                    writer.WriteLine("\t\t{0}", heartbeat);
+                                    break;
+                                case GlobalCommand.USER_EXIT:
+                                    var userExit = ZtLiveCsUserExit.Parser.ParseFrom(cmd.Payload);
+                                    writer.WriteLine("\t\t{0}", userExit);
                                     break;
                                 default:
                                     Console.WriteLine("Unhandled Global.ZtLiveInteractive.CsCmd: {0}", cmd.CmdType);
@@ -293,10 +295,10 @@ namespace AcFunDanmuConsole
                             }
                             break;
                         case Command.PUSH_MESSAGE:
-                            Console.WriteLine(us.PayloadData.ToBase64());
+                            writer.WriteLine("\tUpstream Push.Message: {0}", us.PayloadData.ToBase64());
                             break;
                         default:
-                            writer.WriteLine(us);
+                            writer.WriteLine("Unknown upstream: {0}",us);
                             break;
                     }
                     writer.WriteLine("--------------------------------");
@@ -304,13 +306,15 @@ namespace AcFunDanmuConsole
                 }
                 else if (message.type == "receive")
                 {
-                    var ds = client.Decode(Convert.FromBase64String(message.data));
-                    writer.WriteLine("Down\tSeqId {0}, Command: {1}", ds.SeqId, ds.Command);
-                    //writer.Write("\t\t");
+                    var ds = Decode(typeof(DownstreamPayload), Convert.FromBase64String(message.data), securityKey, sessionKey, out var header) as DownstreamPayload;
+                    writer.WriteLine("Down\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, ds.SeqId, ds.Command);
+                    writer.WriteLine("Header: {0}", header);
+                    writer.WriteLine("Payload: {0}", ds);
                     switch (ds.Command)
                     {
                         case Command.REGISTER:
                             var register = RegisterResponse.Parser.ParseFrom(ds.PayloadData);
+                            sessionKey = register.SessKey.ToBase64();
                             writer.WriteLine(register);
                             break;
                         case Command.KEEP_ALIVE:
@@ -339,13 +343,20 @@ namespace AcFunDanmuConsole
                             break;
                         case Command.GLOBAL_COMMAND:
                             ZtLiveCsCmdAck cmd = ZtLiveCsCmdAck.Parser.ParseFrom(ds.PayloadData);
+                            writer.WriteLine("\t{0}: {1}", Command.GLOBAL_COMMAND, cmd);
                             switch (cmd.CmdAckType)
                             {
                                 case GlobalCommand.ENTER_ROOM_ACK:
                                     var enterRoom = ZtLiveCsEnterRoomAck.Parser.ParseFrom(cmd.Payload);
+                                    writer.WriteLine("\t\t{0}", enterRoom);
                                     break;
                                 case GlobalCommand.HEARTBEAT_ACK:
                                     var heartbeat = ZtLiveCsHeartbeatAck.Parser.ParseFrom(cmd.Payload);
+                                    writer.WriteLine("\t\t{0}", heartbeat);
+                                    break;
+                                case GlobalCommand.USER_EXIT_ACK:
+                                    var userexit = ZtLiveCsUserExitAck.Parser.ParseFrom(cmd.Payload);
+                                    writer.WriteLine("\t\t{0}", userexit);
                                     break;
                                 default:
                                     Console.WriteLine("Unhandled Global.ZtLiveInteractive.CsCmd: {0}", cmd.CmdAckType);
@@ -355,8 +366,8 @@ namespace AcFunDanmuConsole
                             break;
                         case Command.PUSH_MESSAGE:
                             ZtLiveScMessage scmessage = ZtLiveScMessage.Parser.ParseFrom(ds.PayloadData);
-
-                            var payload = scmessage.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip ? Client.Decompress(scmessage.Payload) : scmessage.Payload;
+                            writer.WriteLine("\t{0}: {1}", Command.PUSH_MESSAGE, scmessage);
+                            var payload = scmessage.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip ? Decompress(scmessage.Payload) : scmessage.Payload;
 
                             switch (scmessage.MessageType)
                             {
@@ -370,9 +381,11 @@ namespace AcFunDanmuConsole
                                     break;
                                 case PushMessage.STATUS_CHANGED:
                                     var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);
+                                    writer.WriteLine("\t\t{0}", statusChanged);
                                     break;
                                 case PushMessage.TICKET_INVALID:
                                     var ticketInvalid = ZtLiveScTicketInvalid.Parser.ParseFrom(payload);
+                                    writer.WriteLine("\t\t{0}", ticketInvalid);
                                     break;
                                 default:
                                     Console.WriteLine("Unhandled Push.ZtLiveInteractive.Message: {0}", scmessage.MessageType);
@@ -380,7 +393,7 @@ namespace AcFunDanmuConsole
                             }
                             break;
                         default:
-                            writer.WriteLine(ds);
+                            writer.WriteLine("Unkown downstream: {0}", ds);
                             break;
                     }
                     writer.WriteLine("--------------------------------");

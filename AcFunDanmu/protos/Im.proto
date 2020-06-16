@@ -374,7 +374,7 @@ message Message {
 	}
 
 	message SessionListRequest {
-		Basic.SyncCookie syncCookie =1;
+		Basic.SyncCookie syncCookie = 1;
 		int32 categoryId = 2;
 		int32 localDataStatus = 3;
 	}

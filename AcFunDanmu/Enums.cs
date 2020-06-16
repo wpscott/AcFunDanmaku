@@ -16,7 +16,6 @@
         public const string GLOBAL_COMMAND = "Global.ZtLiveInteractive.CsCmd";
 
         public const string PUSH_MESSAGE = "Push.ZtLiveInteractive.Message";
-
     }
 
     public static class GlobalCommand
@@ -25,6 +24,8 @@
         public const string ENTER_ROOM_ACK = "ZtLiveCsEnterRoomAck";
         public const string HEARTBEAT = "ZtLiveCsHeartbeat";
         public const string HEARTBEAT_ACK = "ZtLiveCsHeartbeatAck";
+        public const string USER_EXIT = "ZtLiveCsUserExit";
+        public const string USER_EXIT_ACK = "ZtLiveCsUserExitAck";
     }
 
     public static class PushMessage
