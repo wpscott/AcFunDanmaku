@@ -51,12 +51,12 @@ namespace AcFunDanmuSongRequest
             await client.Initialize(Config.UserId.ToString());
 
             var retry = 0;
-            var resetTimer = new Timer(5000);
+            var resetTimer = new Timer(10000);
             resetTimer.Elapsed += (s, e) => retry = 0;
 
             IsRunning = true;
             OnConnect?.Invoke();
-            while (!await client.Start() && retry < 5)
+            while (!await client.Start() && retry < 3)
             {
                 if (retry > 0) { resetTimer.Stop(); }
                 retry++;

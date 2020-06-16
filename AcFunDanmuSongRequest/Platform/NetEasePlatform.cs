@@ -61,127 +61,81 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
 
         internal static class NetEaseDecodeUtil
         {
-            private const string Key = "fuck~#$%^&*(458";
+            //private const string Key = "fuck~#$%^&*(458";
             private const int BlockSize = 64;
-            private const int OFFSET = 4;
+            private const int LengthOffset = 4;
 
-            private static readonly int[] DecodecKey = new int[] { 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56 };
-            private static readonly int[] FullKey = new int[] { 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56, 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56, 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56, 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56, 102, 117, 99, 107 };
+            //private static readonly int[] DecodecKey = new int[] { 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56 };
+            private static readonly byte[] FullKey = new byte[] { 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56, 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56, 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56, 102, 117, 99, 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56, 102, 117, 99, 107 };
             private static readonly int[] Code = new int[] { 82, 9, 106, -43, 48, 54, -91, 56, -65, 64, -93, -98, -127, -13, -41, -5, 124, -29, 57, -126, -101, 47, -1, -121, 52, -114, 67, 68, -60, -34, -23, -53, 84, 123, -108, 50, -90, -62, 35, 61, -18, 76, -107, 11, 66, -6, -61, 78, 8, 46, -95, 102, 40, -39, 36, -78, 118, 91, -94, 73, 109, -117, -47, 37, 114, -8, -10, 100, -122, 104, -104, 22, -44, -92, 92, -52, 93, 101, -74, -110, 108, 112, 72, 80, -3, -19, -71, -38, 94, 21, 70, 87, -89, -115, -99, -124, -112, -40, -85, 0, -116, -68, -45, 10, -9, -28, 88, 5, -72, -77, 69, 6, -48, 44, 30, -113, -54, 63, 15, 2, -63, -81, -67, 3, 1, 19, -118, 107, 58, -111, 17, 65, 79, 103, -36, -22, -105, -14, -49, -50, -16, -76, -26, 115, -106, -84, 116, 34, -25, -83, 53, -123, -30, -7, 55, -24, 28, 117, -33, 110, 71, -15, 26, 113, 29, 41, -59, -119, 111, -73, 98, 14, -86, 24, -66, 27, -4, 86, 62, 75, -58, -46, 121, 32, -102, -37, -64, -2, 120, -51, 90, -12, 31, -35, -88, 51, -120, 7, -57, 49, -79, 18, 16, 89, 39, -128, -20, 95, 96, 81, 127, -87, 25, -75, 74, 13, 45, -27, 122, -97, -109, -55, -100, -17, -96, -32, 59, 77, -82, 42, -11, -80, -56, -21, -69, 60, -125, 83, -103, 97, 23, 43, 4, 126, -70, 119, -42, 38, -31, 105, 20, 99, 85, 33, 12, 125 };
-            private static readonly char[] Char = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-            public static string Decode(string data)
+            //private static readonly char[] Char = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+            #region Decode Key to byte array
+#if DEBUG
+            private static byte[] DecodeKey(string key)
             {
-                if (string.IsNullOrEmpty(data)) { return data; }
-                var decodedData = DecodeData(data);
-
-                var decryptedData = Decrypt(decodedData);
-
-                var chard = string.Join(string.Empty, decryptedData.Select(data => $"%{Char[(data >> 4) & 15]}{Char[data & 15]}"));
-                var decoded = HttpUtility.UrlDecode(chard);
-
-                return decoded;
-            }
-
-            private static int[] DecodeData(string data)
-            {
-                var result = new int[data.Length >> 1];
-                for (var i = 0; i < result.Length; i++)
-                {
-                    result[i] = sbyte.Parse($"{data[i << 1]}{data[(i << 1) + 1]}", NumberStyles.HexNumber);
-                }
-                return result.ToArray();
-            }
-
-            private static int[] DecodeKey(string key)
-            {
-                var encoded = HttpUtility.UrlEncode(key);
-                var result = new List<int>();
+                var encoded = HttpUtility.UrlEncode(key).AsSpan();
+                Span<byte> result = stackalloc byte[encoded.Length];
+                int count = encoded.Length;
                 for (var i = 0; i < encoded.Length; i++)
                 {
                     if (encoded[i] == '%')
                     {
-                        result.Add(byte.Parse($"{encoded[++i]}{encoded[++i]}", NumberStyles.HexNumber));
+                        result[count] = byte.Parse(encoded.Slice(i + 1, 2), NumberStyles.HexNumber);
+                        i += 2;
+                        count++;
                     }
                     else
                     {
-                        result.Add((byte)encoded[i]);
+                        result[count] = (byte)encoded[i];
+                        count++;
+                    }
+                }
+                return result.Slice(0, count).ToArray();
+            }
+            private static byte[] ExpandKey(ReadOnlySpan<byte> key)
+            {
+                Span<byte> result = stackalloc byte[BlockSize];
+                if (key == null || key.Length == 0) { result.Fill(0); }
+                else if (key.Length >= BlockSize) { key.Slice(0, BlockSize).CopyTo(result); }
+                else
+                {
+                    for (var index = 0; index < BlockSize; index++)
+                    {
+                        result[index] = key[index % key.Length];
                     }
                 }
                 return result.ToArray();
             }
-            private static int[] ExpandKey(int[] key)
+#endif
+            #endregion
+            public static string Decode(string data)
             {
-                var result = new int[BlockSize];
-                if (key == null || key.Length == 0) { Array.Fill(result, 0); }
-                if (key.Length >= BlockSize)
+                if (string.IsNullOrEmpty(data)) { return null; }
+
+                var dataLength = data.Length >> 1;
+                if ((dataLength & 63) != 0) { return null; }
+
+                ReadOnlySpan<char> dataSpan = data.AsSpan();
+                Span<byte> decodedData = stackalloc byte[dataLength];
+                for (var i = 0; i < dataLength; i++)
                 {
-                    Array.Copy(key, 0, result, 0, BlockSize);
-                }
-                else
-                {
-                    var offset = 0;
-                    for (; offset + key.Length < BlockSize; offset += key.Length)
-                    {
-                        Array.Copy(key, 0, result, offset, key.Length);
-                    }
-                    Array.Copy(key, 0, result, offset, BlockSize - offset);
-                }
-                return result;
-            }
-
-            private static int[] Decrypt(int[] data)
-            {
-                var decryptedData = new int[data.Length];
-                if (data == null) { return null; }
-                if (data.Length == 0) { return null; }
-                if ((data.Length & 63) != 0) { return null; }
-
-                var groups = SplitData(data);
-                var tempKey = FullKey;
-                var offset = 0;
-
-
-                foreach (var group in groups)
-                {
-                    var decryptedGroup = group
-                        .Select(val => Code[((val >> 4 & 15) << 4) + (val & 15)])
-                        .Select(val => Code[((val >> 4 & 15) << 4) + (val & 15)])
-                        .Select((val, index) => val ^ tempKey[index])
-                        .Select((val, index) => val - tempKey[index])
-                        .Select((val, index) => val ^ FullKey[index])
-                        .ToArray();
-                    Array.Copy(decryptedGroup, 0, decryptedData, offset, BlockSize);
-
-                    tempKey = group;
-
-                    offset += BlockSize;
+                    decodedData[i] = byte.Parse(dataSpan.Slice(i << 1, 2), NumberStyles.HexNumber);
                 }
 
-                var lenthData = new int[OFFSET];
-                Array.Copy(decryptedData, decryptedData.Length - OFFSET, lenthData, 0, OFFSET);
-                int length = lenthData.Select((block, index) => (block & 255) << ((3 - index) << 3)).Sum();
-                if (length > data.Length)
+                Span<byte> decryptedData = stackalloc byte[dataLength];
+                for (var offset = 0; offset < dataLength; offset++)
                 {
-                    return null;
+                    var key = offset < BlockSize ? FullKey[offset] : decodedData[offset - BlockSize];
+                    decryptedData[offset] = (byte)((((byte)Code[(byte)Code[decodedData[offset]]] ^ key) - key) ^ FullKey[offset & 63]);
                 }
-                var result = new int[length];
-                Array.Copy(decryptedData, 0, result, 0, length);
-                return result;
-            }
 
-            private static int[][] SplitData(int[] data)
-            {
-                if (data == null || (data.Length & 63) != 0) { return Array.Empty<int[]>(); }
-                var len = data.Length >> 6;
-                var result = new int[len][];
-                var offset = 0;
-                for (var i = 0; i < len; i++)
-                {
-                    result[i] = new int[BlockSize];
-                    Array.Copy(data, offset, result[i], 0, BlockSize);
-                    offset += BlockSize;
-                }
-                return result;
+                var lenData = decryptedData.Slice(dataLength - LengthOffset, LengthOffset);
+                if (BitConverter.IsLittleEndian) { lenData.Reverse(); }
+                var length = BitConverter.ToInt32(lenData);
+                if (length > dataLength) { return null; }
+
+                var hex = '%' + BitConverter.ToString(decryptedData.Slice(0, length).ToArray()).Replace('-', '%');
+                return HttpUtility.UrlDecode(hex);
             }
         }
 
@@ -212,7 +166,7 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
                     );
             }
 
-            private static string EncryptKey(BigInteger exponent, BigInteger modulus, byte[] random)
+            private static string EncryptKey(BigInteger exponent, BigInteger modulus, ReadOnlySpan<byte> random)
             {
                 var data = Encoding.UTF8.GetBytes(Encoding.UTF8.GetString(random).Reverse().ToArray());
 
@@ -225,12 +179,12 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
                 return hex;
             }
 
-            private static string EncodeParams(string data, byte[] aeskey, byte[] random)
+            private static string EncodeParams(string data, ReadOnlySpan<byte> aeskey, ReadOnlySpan<byte> random)
             {
                 return EncodeParams(Encoding.UTF8.GetBytes(data), aeskey, random);
             }
 
-            private static string EncodeParams(byte[] data, byte[] aeskey, byte[] random)
+            private static string EncodeParams(ReadOnlySpan<byte> data, ReadOnlySpan<byte> aeskey, ReadOnlySpan<byte> random)
             {
                 var pass1 = AESEncrypt(aeskey, IV, data);
 
@@ -239,13 +193,13 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
                 return Convert.ToBase64String(pass2);
             }
 
-            private static byte[] AESEncrypt(byte[] key, byte[] iv, byte[] text)
+            private static byte[] AESEncrypt(ReadOnlySpan<byte> key, ReadOnlySpan<byte> iv, ReadOnlySpan<byte> text)
             {
                 using var aes = Aes.Create();
                 aes.Mode = CipherMode.CBC;
                 aes.Padding = PaddingMode.PKCS7;
 
-                using var encryptor = aes.CreateEncryptor(key, iv);
+                using var encryptor = aes.CreateEncryptor(key.ToArray(), iv.ToArray());
                 using var ms = new MemoryStream();
                 using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
                 cs.Write(text);
@@ -258,10 +212,15 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
             private static readonly char[] Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".ToCharArray();
             private static byte[] GenerateRandom()
             {
-                byte[] data = new byte[RandomSize];
+                Span<byte> data = stackalloc byte[RandomSize];
+                Span<char> randomString = stackalloc char[RandomSize];
                 using var crypto = new RNGCryptoServiceProvider();
                 crypto.GetBytes(data);
-                return Encoding.UTF8.GetBytes(data.Select(b => Chars[b & 63]).ToArray());
+                for (var i = 0; i < RandomSize; i++)
+                {
+                    randomString[i] = Chars[data[i] & 63];
+                }
+                return Encoding.UTF8.GetBytes(randomString.ToArray()).ToArray();
 
             }
         }
