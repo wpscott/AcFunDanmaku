@@ -1,0 +1,81 @@
+﻿<Window x:Class="AcFunVideoDanmuLottery.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AcFunVideoDanmuLottery"
+        mc:Ignorable="d"
+        Title="AcFun视频弹幕抽奖" Width="800" Height="600">
+    <Window.Resources>
+        <DataTemplate x:Key="DanmuTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding Header}"/>
+                <TextBlock Text="{Binding Content}"/>
+            </StackPanel>
+        </DataTemplate>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <DockPanel>
+                <AdornedElementPlaceholder/>
+                <TextBlock Foreground="Red" FontSize="16">!</TextBlock>
+            </DockPanel>
+        </ControlTemplate>
+        <Style x:Key="DanmuStyle" TargetType="ListBoxItem">
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
+        <Style x:Key="TextBoxValidation" TargetType="TextBox">
+            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationTemplate}"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,12,0" Orientation="Horizontal">
+            <TextBlock Width="64" Margin="0,0,6,0" VerticalAlignment="Center">AC号</TextBlock>
+            <TextBox x:Name="ACId" Width="120" MaxLength="16" VerticalAlignment="Center" Style="{StaticResource TextBoxValidation}" Text="{Binding Path=ACId, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" PreviewTextInput="CheckInput" />
+        </StackPanel>
+        <Button x:Name="FetchBtn" Grid.Row="0" Grid.Column="1" Margin="3" IsEnabled="{Binding Path=CanFetch, Mode=OneWay}" Content="获取" Click="Fetch">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=ACId}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <TextBlock Grid.Row="0" Grid.Column="2" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding Path=DanmuStatus, Mode=OneWay}"/>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,12,0" Orientation="Horizontal">
+            <TextBlock Width="64" Margin="0,0,6,0" VerticalAlignment="Center">弹幕关键词</TextBlock>
+            <TextBox Width="120" MaxLength="16" VerticalAlignment="Center" Text="{Binding Path=Pattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <Button Grid.Row="1" Grid.Column="1" Margin="3" IsEnabled="{Binding Path=CanFilter, Mode=OneWay}" Content="{Binding Path=FilterBtnContent, Mode=OneWay}" Click="Filter" />
+        <TextBlock Grid.Row="1" Grid.Column="2" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding Path=FilterResult, Mode=OneWay}" />
+
+        <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,12,0" Orientation="Horizontal">
+            <TextBlock Width="64" Margin="0,0,6,0" VerticalAlignment="Center">抽选数量</TextBlock>
+            <TextBox Name="Amount" Width="120" MaxLength="2" VerticalAlignment="Center" Style="{StaticResource TextBoxValidation}" Text="{Binding Path=Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" PreviewTextInput="CheckInput"/>
+        </StackPanel>
+        <Button Grid.Row="2" Grid.Column="1" Margin="3" Content="抽！" IsEnabled="{Binding Path=Ready, Mode=OneWay}" Click="Roll"/>
+        <TextBlock Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Text="抽选结果" TextAlignment="Center"/>
+
+        <ListBox x:Name="DanmuList" Grid.Row="3" Grid.Column="0" VirtualizingPanel.IsVirtualizing="True" ItemsSource="{Binding Path=Danmus, Mode=OneWay}" ItemTemplate="{StaticResource DanmuTemplate}" ItemContainerStyle="{StaticResource DanmuStyle}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+        <ListBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding Path=Result, Mode=OneWay}"  ItemTemplate="{StaticResource DanmuTemplate}" MouseDoubleClick="ShowUser" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+    </Grid>
+</Window>
