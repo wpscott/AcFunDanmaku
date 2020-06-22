@@ -59,42 +59,54 @@ namespace AcFunDanmu {
             "CkJhbm5lZEluZm8SEQoJYmFuUmVhc29uGAEgASgJIl4KBFR5cGUSCwoHVU5L",
             "Tk9XThAAEg8KC0xJVkVfQ0xPU0VEEAESEQoNTElWRV9SRU9QRU5FRBACEhQK",
             "EExJVkVfVVJMX0NIQU5HRUQQAxIPCgtMSVZFX0JBTk5FRBAEIhcKFVp0TGl2",
-            "ZVNjVGlja2V0SW52YWxpZCIuCgpadFVzZXJJbmZvEg4KBnVzZXJJZBgBIAEo",
-            "AxIQCghuaWNrbmFtZRgCIAEoCSJqChlDb21tb25BY3Rpb25TaWduYWxDb21t",
-            "ZW50Eg8KB2NvbnRlbnQYASABKAkSEgoKc2VuZFRpbWVNcxgCIAEoAxIoCgh1",
-            "c2VySW5mbxgDIAEoCzIWLkFjRnVuRGFubXUuWnRVc2VySW5mbyJWChZDb21t",
-            "b25BY3Rpb25TaWduYWxMaWtlEigKCHVzZXJJbmZvGAEgASgLMhYuQWNGdW5E",
-            "YW5tdS5adFVzZXJJbmZvEhIKCnNlbmRUaW1lTXMYAiABKAMiXwofQ29tbW9u",
-            "QWN0aW9uU2lnbmFsVXNlckVudGVyUm9vbRIoCgh1c2VySW5mbxgBIAEoCzIW",
-            "LkFjRnVuRGFubXUuWnRVc2VySW5mbxISCgpzZW5kVGltZU1zGAIgASgDImIK",
-            "IkNvbW1vbkFjdGlvblNpZ25hbFVzZXJGb2xsb3dBdXRob3ISKAoIdXNlcklu",
-            "Zm8YASABKAsyFi5BY0Z1bkRhbm11Llp0VXNlckluZm8SEgoKc2VuZFRpbWVN",
-            "cxgCIAEoAyItChtDb21tb25Ob3RpZnlTaWduYWxLaWNrZWRPdXQSDgoGcmVh",
-            "c29uGAEgASgJIjwKIENvbW1vbk5vdGlmeVNpZ25hbFZpb2xhdGlvbkFsZXJ0",
-            "EhgKEHZpb2xhdGlvbkNvbnRlbnQYASABKAkiSAocQ29tbW9uU3RhdGVTaWdu",
-            "YWxEaXNwbGF5SW5mbxIVCg13YXRjaGluZ0NvdW50GAEgASgJEhEKCWxpa2VD",
-            "b3VudBgCIAEoCSL4AQoKQWNVc2VySW5mbxItCgZkZXRhaWwYASABKAsyHS5B",
-            "Y0Z1bkRhbm11LkFjVXNlckluZm8uRGV0YWlsEhQKDHVzZXJJbmZvSnNvbhgD",
-            "IAEoCRIPCgd1bmtub3duGAQgASgJGpMBCgZEZXRhaWwSDgoGdXNlcklkGAEg",
-            "ASgDEgwKBG5hbWUYAiABKAkSNAoGYXZhdG9yGAMgASgLMiQuQWNGdW5EYW5t",
-            "dS5BY1VzZXJJbmZvLkRldGFpbC5BdmF0YXIaNQoGQXZhdGFyEg8KB3Vua25v",
-            "d24YASABKAkSDAoEdXJsMRgCIAEoCRIMCgR1cmwyGAMgASgJIkEKGUNvbW1v",
-            "blN0YXRlU2lnbmFsVG9wVXNlcnMSJAoEdXNlchgBIAMoCzIWLkFjRnVuRGFu",
-            "bXUuQWNVc2VySW5mbyJYCh5Db21tb25TdGF0ZVNpZ25hbFJlY2VudENvbW1l",
-            "bnQSNgoHY29tbWVudBgBIAMoCzIlLkFjRnVuRGFubXUuQ29tbW9uQWN0aW9u",
-            "U2lnbmFsQ29tbWVudCLGAQoWQ29tbW9uQWN0aW9uU2lnbmFsR2lmdBIrCgR1",
-            "c2VyGAEgASgLMh0uQWNGdW5EYW5tdS5BY1VzZXJJbmZvLkRldGFpbBISCgpz",
-            "ZW5kVGltZU1zGAIgASgDEg4KBml0ZW1JZBgDIAEoBRINCgVjb3VudBgEIAEo",
-            "BRINCgVjb21ibxgFIAEoBRINCgV2YWx1ZRgGIAEoBRIMCgR1dWlkGAcgASgJ",
-            "Eg8KB251bWJlcjUYCCABKAUSDwoHbnVtYmVyNhgJIAEoBSrFAQoOQ3NBY2tF",
-            "cnJvckNvZGUSEgoOU1VDQ0VTU19DU19BQ0sQABIPCgtMSVZFX0NMT1NFRBAB",
-            "EhIKDlRJQ0tFVF9JTExFR0FMEAISEgoOQVRUQUNIX0lMTEVHQUwQAxIUChBV",
-            "U0VSX05PVF9JTl9ST09NEAQSEAoMU0VSVkVSX0VSUk9SEAUSGQoVUkVRVUVT",
-            "VF9QQVJBTV9JTlZBTElEEAYSIwofUk9PTV9OT1RfRVhJU1RfSU5fU1RBVEVf",
-            "TUFOQUdFUhAHKpcBCiBadExpdmVEb3duc3RyZWFtUGF5bG9hZEVycm9yQ29k",
-            "ZRIeChpTVUNDRVNTX0RPV05TVFJFQU1fUEFZTE9BRBAAEhgKEkNTX0NNRF9Q",
-            "QVJTRV9FUlJPUhChjQYSHAoWQ1NfQ01EX0NNRF9OT1RfU1VQUE9SVBCijQYS",
-            "GwoVQ1NfQ01EX1RJQ0tFVF9JTExFR0FMEKONBmIGcHJvdG8z"));
+            "ZVNjVGlja2V0SW52YWxpZCJcCg5adExpdmVVc2VySW5mbxIOCgZ1c2VySWQY",
+            "ASABKAMSEAoIbmlja25hbWUYAiABKAkSKAoGYXZhdGFyGAMgAygLMhguQWNG",
+            "dW5EYW5tdS5JbWFnZUNkbk5vZGUiPAoMSW1hZ2VDZG5Ob2RlEgsKA2NkbhgB",
+            "IAEoCRILCgN1cmwYAiABKAkSEgoKdXJsUGF0dGVybhgDIAEoCSJuChlDb21t",
+            "b25BY3Rpb25TaWduYWxDb21tZW50Eg8KB2NvbnRlbnQYASABKAkSEgoKc2Vu",
+            "ZFRpbWVNcxgCIAEoAxIsCgh1c2VySW5mbxgDIAEoCzIaLkFjRnVuRGFubXUu",
+            "WnRMaXZlVXNlckluZm8iWgoWQ29tbW9uQWN0aW9uU2lnbmFsTGlrZRIsCgh1",
+            "c2VySW5mbxgBIAEoCzIaLkFjRnVuRGFubXUuWnRMaXZlVXNlckluZm8SEgoK",
+            "c2VuZFRpbWVNcxgCIAEoAyJjCh9Db21tb25BY3Rpb25TaWduYWxVc2VyRW50",
+            "ZXJSb29tEiwKCHVzZXJJbmZvGAEgASgLMhouQWNGdW5EYW5tdS5adExpdmVV",
+            "c2VySW5mbxISCgpzZW5kVGltZU1zGAIgASgDImYKIkNvbW1vbkFjdGlvblNp",
+            "Z25hbFVzZXJGb2xsb3dBdXRob3ISLAoIdXNlckluZm8YASABKAsyGi5BY0Z1",
+            "bkRhbm11Llp0TGl2ZVVzZXJJbmZvEhIKCnNlbmRUaW1lTXMYAiABKAMiLQob",
+            "Q29tbW9uTm90aWZ5U2lnbmFsS2lja2VkT3V0Eg4KBnJlYXNvbhgBIAEoCSI8",
+            "CiBDb21tb25Ob3RpZnlTaWduYWxWaW9sYXRpb25BbGVydBIYChB2aW9sYXRp",
+            "b25Db250ZW50GAEgASgJIkgKHENvbW1vblN0YXRlU2lnbmFsRGlzcGxheUlu",
+            "Zm8SFQoNd2F0Y2hpbmdDb3VudBgBIAEoCRIRCglsaWtlQ291bnQYAiABKAki",
+            "cgoaQ29tbW9uU3RhdGVTaWduYWxDaGF0UmVhZHkSDgoGY2hhdElkGAEgASgJ",
+            "EjEKDWd1ZXN0VXNlckluZm8YAiABKAsyGi5BY0Z1bkRhbm11Llp0TGl2ZVVz",
+            "ZXJJbmZvEhEKCW1lZGlhVHlwZRgDIAEoBSKdAgoYQ29tbW9uU3RhdGVTaWdu",
+            "YWxDaGF0RW5kEg4KBmNoYXRJZBgBIAEoCRI9CgdlbmRUeXBlGAIgASgOMiwu",
+            "QWNGdW5EYW5tdS5Db21tb25TdGF0ZVNpZ25hbENoYXRFbmQuRW5kVHlwZSKx",
+            "AQoHRW5kVHlwZRILCgdVTktOT1dOEAASFAoQQ0FOQ0VMX0JZX0FVVEhPUhAB",
+            "EhEKDUVORF9CWV9BVVRIT1IQAhIQCgxFTkRfQllfR1VFU1QQAxIQCgxHVUVT",
+            "VF9SRUpFQ1QQBBIRCg1HVUVTVF9USU1FT1VUEAUSGwoXR1VFU1RfSEVBUlRC",
+            "RUFUX1RJTUVPVVQQBhIcChhBVVRIT1JfSEVBUlRCRUFUX1RJTUVPVVQQByL4",
+            "AQoKQWNVc2VySW5mbxItCgZkZXRhaWwYASABKAsyHS5BY0Z1bkRhbm11LkFj",
+            "VXNlckluZm8uRGV0YWlsEhQKDHVzZXJJbmZvSnNvbhgDIAEoCRIPCgd1bmtu",
+            "b3duGAQgASgJGpMBCgZEZXRhaWwSDgoGdXNlcklkGAEgASgDEgwKBG5hbWUY",
+            "AiABKAkSNAoGYXZhdG9yGAMgASgLMiQuQWNGdW5EYW5tdS5BY1VzZXJJbmZv",
+            "LkRldGFpbC5BdmF0YXIaNQoGQXZhdGFyEg8KB3Vua25vd24YASABKAkSDAoE",
+            "dXJsMRgCIAEoCRIMCgR1cmwyGAMgASgJIkEKGUNvbW1vblN0YXRlU2lnbmFs",
+            "VG9wVXNlcnMSJAoEdXNlchgBIAMoCzIWLkFjRnVuRGFubXUuQWNVc2VySW5m",
+            "byJYCh5Db21tb25TdGF0ZVNpZ25hbFJlY2VudENvbW1lbnQSNgoHY29tbWVu",
+            "dBgBIAMoCzIlLkFjRnVuRGFubXUuQ29tbW9uQWN0aW9uU2lnbmFsQ29tbWVu",
+            "dCLGAQoWQ29tbW9uQWN0aW9uU2lnbmFsR2lmdBIrCgR1c2VyGAEgASgLMh0u",
+            "QWNGdW5EYW5tdS5BY1VzZXJJbmZvLkRldGFpbBISCgpzZW5kVGltZU1zGAIg",
+            "ASgDEg4KBml0ZW1JZBgDIAEoBRINCgVjb3VudBgEIAEoBRINCgVjb21ibxgF",
+            "IAEoBRINCgV2YWx1ZRgGIAEoBRIMCgR1dWlkGAcgASgJEg8KB251bWJlcjUY",
+            "CCABKAUSDwoHbnVtYmVyNhgJIAEoBSrFAQoOQ3NBY2tFcnJvckNvZGUSEgoO",
+            "U1VDQ0VTU19DU19BQ0sQABIPCgtMSVZFX0NMT1NFRBABEhIKDlRJQ0tFVF9J",
+            "TExFR0FMEAISEgoOQVRUQUNIX0lMTEVHQUwQAxIUChBVU0VSX05PVF9JTl9S",
+            "T09NEAQSEAoMU0VSVkVSX0VSUk9SEAUSGQoVUkVRVUVTVF9QQVJBTV9JTlZB",
+            "TElEEAYSIwofUk9PTV9OT1RfRVhJU1RfSU5fU1RBVEVfTUFOQUdFUhAHKpcB",
+            "CiBadExpdmVEb3duc3RyZWFtUGF5bG9hZEVycm9yQ29kZRIeChpTVUNDRVNT",
+            "X0RPV05TVFJFQU1fUEFZTE9BRBAAEhgKEkNTX0NNRF9QQVJTRV9FUlJPUhCh",
+            "jQYSHAoWQ1NfQ01EX0NNRF9OT1RfU1VQUE9SVBCijQYSGwoVQ1NfQ01EX1RJ",
+            "Q0tFVF9JTExFR0FMEKONBmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AcFunDanmu.CsAckErrorCode), typeof(global::AcFunDanmu.ZtLiveDownstreamPayloadErrorCode), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -115,7 +127,8 @@ namespace AcFunDanmu {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveScNotifySignal), global::AcFunDanmu.ZtLiveScNotifySignal.Parser, new[]{ "Item" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveScStatusChanged), global::AcFunDanmu.ZtLiveScStatusChanged.Parser, new[]{ "Type", "MaxRandomDelayMs", "BannedInfo" }, null, new[]{ typeof(global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveScStatusChanged.Types.BannedInfo), global::AcFunDanmu.ZtLiveScStatusChanged.Types.BannedInfo.Parser, new[]{ "BanReason" }, null, null, null, null)}),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveScTicketInvalid), global::AcFunDanmu.ZtLiveScTicketInvalid.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtUserInfo), global::AcFunDanmu.ZtUserInfo.Parser, new[]{ "UserId", "Nickname" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveUserInfo), global::AcFunDanmu.ZtLiveUserInfo.Parser, new[]{ "UserId", "Nickname", "Avatar" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ImageCdnNode), global::AcFunDanmu.ImageCdnNode.Parser, new[]{ "Cdn", "Url", "UrlPattern" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalComment), global::AcFunDanmu.CommonActionSignalComment.Parser, new[]{ "Content", "SendTimeMs", "UserInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalLike), global::AcFunDanmu.CommonActionSignalLike.Parser, new[]{ "UserInfo", "SendTimeMs" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalUserEnterRoom), global::AcFunDanmu.CommonActionSignalUserEnterRoom.Parser, new[]{ "UserInfo", "SendTimeMs" }, null, null, null, null),
@@ -123,6 +136,8 @@ namespace AcFunDanmu {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonNotifySignalKickedOut), global::AcFunDanmu.CommonNotifySignalKickedOut.Parser, new[]{ "Reason" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonNotifySignalViolationAlert), global::AcFunDanmu.CommonNotifySignalViolationAlert.Parser, new[]{ "ViolationContent" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalDisplayInfo), global::AcFunDanmu.CommonStateSignalDisplayInfo.Parser, new[]{ "WatchingCount", "LikeCount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatReady), global::AcFunDanmu.CommonStateSignalChatReady.Parser, new[]{ "ChatId", "GuestUserInfo", "MediaType" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatEnd), global::AcFunDanmu.CommonStateSignalChatEnd.Parser, new[]{ "ChatId", "EndType" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType) }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AcUserInfo), global::AcFunDanmu.AcUserInfo.Parser, new[]{ "Detail", "UserInfoJson", "Unknown" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AcUserInfo.Types.Detail), global::AcFunDanmu.AcUserInfo.Types.Detail.Parser, new[]{ "UserId", "Name", "Avator" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AcUserInfo.Types.Detail.Types.Avatar), global::AcFunDanmu.AcUserInfo.Types.Detail.Types.Avatar.Parser, new[]{ "Unknown", "Url1", "Url2" }, null, null, null, null)})}),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalTopUsers), global::AcFunDanmu.CommonStateSignalTopUsers.Parser, new[]{ "User" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalRecentComment), global::AcFunDanmu.CommonStateSignalRecentComment.Parser, new[]{ "Comment" }, null, null, null, null),
@@ -3038,11 +3053,11 @@ namespace AcFunDanmu {
 
   }
 
-  public sealed partial class ZtUserInfo : pb::IMessage<ZtUserInfo> {
-    private static readonly pb::MessageParser<ZtUserInfo> _parser = new pb::MessageParser<ZtUserInfo>(() => new ZtUserInfo());
+  public sealed partial class ZtLiveUserInfo : pb::IMessage<ZtLiveUserInfo> {
+    private static readonly pb::MessageParser<ZtLiveUserInfo> _parser = new pb::MessageParser<ZtLiveUserInfo>(() => new ZtLiveUserInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ZtUserInfo> Parser { get { return _parser; } }
+    public static pb::MessageParser<ZtLiveUserInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -3055,22 +3070,23 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ZtUserInfo() {
+    public ZtLiveUserInfo() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ZtUserInfo(ZtUserInfo other) : this() {
+    public ZtLiveUserInfo(ZtLiveUserInfo other) : this() {
       userId_ = other.userId_;
       nickname_ = other.nickname_;
+      avatar_ = other.avatar_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ZtUserInfo Clone() {
-      return new ZtUserInfo(this);
+    public ZtLiveUserInfo Clone() {
+      return new ZtLiveUserInfo(this);
     }
 
     /// <summary>Field number for the "userId" field.</summary>
@@ -3095,13 +3111,23 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "avatar" field.</summary>
+    public const int AvatarFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::AcFunDanmu.ImageCdnNode> _repeated_avatar_codec
+        = pb::FieldCodec.ForMessage(26, global::AcFunDanmu.ImageCdnNode.Parser);
+    private readonly pbc::RepeatedField<global::AcFunDanmu.ImageCdnNode> avatar_ = new pbc::RepeatedField<global::AcFunDanmu.ImageCdnNode>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as ZtUserInfo);
+    public pbc::RepeatedField<global::AcFunDanmu.ImageCdnNode> Avatar {
+      get { return avatar_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ZtUserInfo other) {
+    public override bool Equals(object other) {
+      return Equals(other as ZtLiveUserInfo);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ZtLiveUserInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -3110,6 +3136,7 @@ namespace AcFunDanmu {
       }
       if (UserId != other.UserId) return false;
       if (Nickname != other.Nickname) return false;
+      if(!avatar_.Equals(other.avatar_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3118,6 +3145,7 @@ namespace AcFunDanmu {
       int hash = 1;
       if (UserId != 0L) hash ^= UserId.GetHashCode();
       if (Nickname.Length != 0) hash ^= Nickname.GetHashCode();
+      hash ^= avatar_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3139,6 +3167,7 @@ namespace AcFunDanmu {
         output.WriteRawTag(18);
         output.WriteString(Nickname);
       }
+      avatar_.WriteTo(output, _repeated_avatar_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3153,6 +3182,7 @@ namespace AcFunDanmu {
       if (Nickname.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Nickname);
       }
+      size += avatar_.CalculateSize(_repeated_avatar_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3160,7 +3190,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ZtUserInfo other) {
+    public void MergeFrom(ZtLiveUserInfo other) {
       if (other == null) {
         return;
       }
@@ -3170,6 +3200,7 @@ namespace AcFunDanmu {
       if (other.Nickname.Length != 0) {
         Nickname = other.Nickname;
       }
+      avatar_.Add(other.avatar_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3189,6 +3220,195 @@ namespace AcFunDanmu {
             Nickname = input.ReadString();
             break;
           }
+          case 26: {
+            avatar_.AddEntriesFrom(input, _repeated_avatar_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class ImageCdnNode : pb::IMessage<ImageCdnNode> {
+    private static readonly pb::MessageParser<ImageCdnNode> _parser = new pb::MessageParser<ImageCdnNode>(() => new ImageCdnNode());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ImageCdnNode> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[18]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ImageCdnNode() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ImageCdnNode(ImageCdnNode other) : this() {
+      cdn_ = other.cdn_;
+      url_ = other.url_;
+      urlPattern_ = other.urlPattern_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ImageCdnNode Clone() {
+      return new ImageCdnNode(this);
+    }
+
+    /// <summary>Field number for the "cdn" field.</summary>
+    public const int CdnFieldNumber = 1;
+    private string cdn_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Cdn {
+      get { return cdn_; }
+      set {
+        cdn_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "url" field.</summary>
+    public const int UrlFieldNumber = 2;
+    private string url_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Url {
+      get { return url_; }
+      set {
+        url_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "urlPattern" field.</summary>
+    public const int UrlPatternFieldNumber = 3;
+    private string urlPattern_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string UrlPattern {
+      get { return urlPattern_; }
+      set {
+        urlPattern_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ImageCdnNode);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ImageCdnNode other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Cdn != other.Cdn) return false;
+      if (Url != other.Url) return false;
+      if (UrlPattern != other.UrlPattern) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Cdn.Length != 0) hash ^= Cdn.GetHashCode();
+      if (Url.Length != 0) hash ^= Url.GetHashCode();
+      if (UrlPattern.Length != 0) hash ^= UrlPattern.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Cdn.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Cdn);
+      }
+      if (Url.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Url);
+      }
+      if (UrlPattern.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(UrlPattern);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Cdn.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Cdn);
+      }
+      if (Url.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
+      }
+      if (UrlPattern.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(UrlPattern);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ImageCdnNode other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Cdn.Length != 0) {
+        Cdn = other.Cdn;
+      }
+      if (other.Url.Length != 0) {
+        Url = other.Url;
+      }
+      if (other.UrlPattern.Length != 0) {
+        UrlPattern = other.UrlPattern;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Cdn = input.ReadString();
+            break;
+          }
+          case 18: {
+            Url = input.ReadString();
+            break;
+          }
+          case 26: {
+            UrlPattern = input.ReadString();
+            break;
+          }
         }
       }
     }
@@ -3203,7 +3423,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[18]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3255,9 +3475,9 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "userInfo" field.</summary>
     public const int UserInfoFieldNumber = 3;
-    private global::AcFunDanmu.ZtUserInfo userInfo_;
+    private global::AcFunDanmu.ZtLiveUserInfo userInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AcFunDanmu.ZtUserInfo UserInfo {
+    public global::AcFunDanmu.ZtLiveUserInfo UserInfo {
       get { return userInfo_; }
       set {
         userInfo_ = value;
@@ -3350,7 +3570,7 @@ namespace AcFunDanmu {
       }
       if (other.userInfo_ != null) {
         if (userInfo_ == null) {
-          UserInfo = new global::AcFunDanmu.ZtUserInfo();
+          UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
         }
         UserInfo.MergeFrom(other.UserInfo);
       }
@@ -3375,7 +3595,7 @@ namespace AcFunDanmu {
           }
           case 26: {
             if (userInfo_ == null) {
-              UserInfo = new global::AcFunDanmu.ZtUserInfo();
+              UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
             }
             input.ReadMessage(UserInfo);
             break;
@@ -3394,7 +3614,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[19]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[20]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3423,9 +3643,9 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "userInfo" field.</summary>
     public const int UserInfoFieldNumber = 1;
-    private global::AcFunDanmu.ZtUserInfo userInfo_;
+    private global::AcFunDanmu.ZtLiveUserInfo userInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AcFunDanmu.ZtUserInfo UserInfo {
+    public global::AcFunDanmu.ZtLiveUserInfo UserInfo {
       get { return userInfo_; }
       set {
         userInfo_ = value;
@@ -3514,7 +3734,7 @@ namespace AcFunDanmu {
       }
       if (other.userInfo_ != null) {
         if (userInfo_ == null) {
-          UserInfo = new global::AcFunDanmu.ZtUserInfo();
+          UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
         }
         UserInfo.MergeFrom(other.UserInfo);
       }
@@ -3534,7 +3754,7 @@ namespace AcFunDanmu {
             break;
           case 10: {
             if (userInfo_ == null) {
-              UserInfo = new global::AcFunDanmu.ZtUserInfo();
+              UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
             }
             input.ReadMessage(UserInfo);
             break;
@@ -3557,7 +3777,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[20]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3586,9 +3806,9 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "userInfo" field.</summary>
     public const int UserInfoFieldNumber = 1;
-    private global::AcFunDanmu.ZtUserInfo userInfo_;
+    private global::AcFunDanmu.ZtLiveUserInfo userInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AcFunDanmu.ZtUserInfo UserInfo {
+    public global::AcFunDanmu.ZtLiveUserInfo UserInfo {
       get { return userInfo_; }
       set {
         userInfo_ = value;
@@ -3677,7 +3897,7 @@ namespace AcFunDanmu {
       }
       if (other.userInfo_ != null) {
         if (userInfo_ == null) {
-          UserInfo = new global::AcFunDanmu.ZtUserInfo();
+          UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
         }
         UserInfo.MergeFrom(other.UserInfo);
       }
@@ -3697,7 +3917,7 @@ namespace AcFunDanmu {
             break;
           case 10: {
             if (userInfo_ == null) {
-              UserInfo = new global::AcFunDanmu.ZtUserInfo();
+              UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
             }
             input.ReadMessage(UserInfo);
             break;
@@ -3720,7 +3940,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[21]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[22]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3749,9 +3969,9 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "userInfo" field.</summary>
     public const int UserInfoFieldNumber = 1;
-    private global::AcFunDanmu.ZtUserInfo userInfo_;
+    private global::AcFunDanmu.ZtLiveUserInfo userInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AcFunDanmu.ZtUserInfo UserInfo {
+    public global::AcFunDanmu.ZtLiveUserInfo UserInfo {
       get { return userInfo_; }
       set {
         userInfo_ = value;
@@ -3840,7 +4060,7 @@ namespace AcFunDanmu {
       }
       if (other.userInfo_ != null) {
         if (userInfo_ == null) {
-          UserInfo = new global::AcFunDanmu.ZtUserInfo();
+          UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
         }
         UserInfo.MergeFrom(other.UserInfo);
       }
@@ -3860,7 +4080,7 @@ namespace AcFunDanmu {
             break;
           case 10: {
             if (userInfo_ == null) {
-              UserInfo = new global::AcFunDanmu.ZtUserInfo();
+              UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
             }
             input.ReadMessage(UserInfo);
             break;
@@ -3883,7 +4103,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[22]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[23]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4012,7 +4232,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[23]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[24]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4141,7 +4361,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[24]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[25]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4290,6 +4510,372 @@ namespace AcFunDanmu {
 
   }
 
+  public sealed partial class CommonStateSignalChatReady : pb::IMessage<CommonStateSignalChatReady> {
+    private static readonly pb::MessageParser<CommonStateSignalChatReady> _parser = new pb::MessageParser<CommonStateSignalChatReady>(() => new CommonStateSignalChatReady());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<CommonStateSignalChatReady> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[26]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public CommonStateSignalChatReady() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public CommonStateSignalChatReady(CommonStateSignalChatReady other) : this() {
+      chatId_ = other.chatId_;
+      guestUserInfo_ = other.guestUserInfo_ != null ? other.guestUserInfo_.Clone() : null;
+      mediaType_ = other.mediaType_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public CommonStateSignalChatReady Clone() {
+      return new CommonStateSignalChatReady(this);
+    }
+
+    /// <summary>Field number for the "chatId" field.</summary>
+    public const int ChatIdFieldNumber = 1;
+    private string chatId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ChatId {
+      get { return chatId_; }
+      set {
+        chatId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "guestUserInfo" field.</summary>
+    public const int GuestUserInfoFieldNumber = 2;
+    private global::AcFunDanmu.ZtLiveUserInfo guestUserInfo_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::AcFunDanmu.ZtLiveUserInfo GuestUserInfo {
+      get { return guestUserInfo_; }
+      set {
+        guestUserInfo_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "mediaType" field.</summary>
+    public const int MediaTypeFieldNumber = 3;
+    private int mediaType_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MediaType {
+      get { return mediaType_; }
+      set {
+        mediaType_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as CommonStateSignalChatReady);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(CommonStateSignalChatReady other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ChatId != other.ChatId) return false;
+      if (!object.Equals(GuestUserInfo, other.GuestUserInfo)) return false;
+      if (MediaType != other.MediaType) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ChatId.Length != 0) hash ^= ChatId.GetHashCode();
+      if (guestUserInfo_ != null) hash ^= GuestUserInfo.GetHashCode();
+      if (MediaType != 0) hash ^= MediaType.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ChatId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(ChatId);
+      }
+      if (guestUserInfo_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(GuestUserInfo);
+      }
+      if (MediaType != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(MediaType);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ChatId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ChatId);
+      }
+      if (guestUserInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuestUserInfo);
+      }
+      if (MediaType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MediaType);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(CommonStateSignalChatReady other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ChatId.Length != 0) {
+        ChatId = other.ChatId;
+      }
+      if (other.guestUserInfo_ != null) {
+        if (guestUserInfo_ == null) {
+          GuestUserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
+        }
+        GuestUserInfo.MergeFrom(other.GuestUserInfo);
+      }
+      if (other.MediaType != 0) {
+        MediaType = other.MediaType;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            ChatId = input.ReadString();
+            break;
+          }
+          case 18: {
+            if (guestUserInfo_ == null) {
+              GuestUserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
+            }
+            input.ReadMessage(GuestUserInfo);
+            break;
+          }
+          case 24: {
+            MediaType = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class CommonStateSignalChatEnd : pb::IMessage<CommonStateSignalChatEnd> {
+    private static readonly pb::MessageParser<CommonStateSignalChatEnd> _parser = new pb::MessageParser<CommonStateSignalChatEnd>(() => new CommonStateSignalChatEnd());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<CommonStateSignalChatEnd> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[27]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public CommonStateSignalChatEnd() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public CommonStateSignalChatEnd(CommonStateSignalChatEnd other) : this() {
+      chatId_ = other.chatId_;
+      endType_ = other.endType_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public CommonStateSignalChatEnd Clone() {
+      return new CommonStateSignalChatEnd(this);
+    }
+
+    /// <summary>Field number for the "chatId" field.</summary>
+    public const int ChatIdFieldNumber = 1;
+    private string chatId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ChatId {
+      get { return chatId_; }
+      set {
+        chatId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "endType" field.</summary>
+    public const int EndTypeFieldNumber = 2;
+    private global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType endType_ = global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType.Unknown;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType EndType {
+      get { return endType_; }
+      set {
+        endType_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as CommonStateSignalChatEnd);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(CommonStateSignalChatEnd other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ChatId != other.ChatId) return false;
+      if (EndType != other.EndType) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ChatId.Length != 0) hash ^= ChatId.GetHashCode();
+      if (EndType != global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType.Unknown) hash ^= EndType.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ChatId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(ChatId);
+      }
+      if (EndType != global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType.Unknown) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) EndType);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ChatId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ChatId);
+      }
+      if (EndType != global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType.Unknown) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) EndType);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(CommonStateSignalChatEnd other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ChatId.Length != 0) {
+        ChatId = other.ChatId;
+      }
+      if (other.EndType != global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType.Unknown) {
+        EndType = other.EndType;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            ChatId = input.ReadString();
+            break;
+          }
+          case 16: {
+            EndType = (global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+
+    #region Nested types
+    /// <summary>Container for nested types declared in the CommonStateSignalChatEnd message type.</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static partial class Types {
+      public enum EndType {
+        [pbr::OriginalName("UNKNOWN")] Unknown = 0,
+        [pbr::OriginalName("CANCEL_BY_AUTHOR")] CancelByAuthor = 1,
+        [pbr::OriginalName("END_BY_AUTHOR")] EndByAuthor = 2,
+        [pbr::OriginalName("END_BY_GUEST")] EndByGuest = 3,
+        [pbr::OriginalName("GUEST_REJECT")] GuestReject = 4,
+        [pbr::OriginalName("GUEST_TIMEOUT")] GuestTimeout = 5,
+        [pbr::OriginalName("GUEST_HEARTBEAT_TIMEOUT")] GuestHeartbeatTimeout = 6,
+        [pbr::OriginalName("AUTHOR_HEARTBEAT_TIMEOUT")] AuthorHeartbeatTimeout = 7,
+      }
+
+    }
+    #endregion
+
+  }
+
   public sealed partial class AcUserInfo : pb::IMessage<AcUserInfo> {
     private static readonly pb::MessageParser<AcUserInfo> _parser = new pb::MessageParser<AcUserInfo>(() => new AcUserInfo());
     private pb::UnknownFieldSet _unknownFields;
@@ -4298,7 +4884,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[25]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[28]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4879,7 +5465,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[26]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[29]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5000,7 +5586,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[27]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[30]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5121,7 +5707,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[28]; }
+      get { return global::AcFunDanmu.ZtLiveInteractiveReflection.Descriptor.MessageTypes[31]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

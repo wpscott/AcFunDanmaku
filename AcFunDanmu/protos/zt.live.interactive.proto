@@ -105,29 +105,36 @@ message ZtLiveScStatusChanged {
 
 message ZtLiveScTicketInvalid {}
 
-message ZtUserInfo {
+message ZtLiveUserInfo {
 	int64 userId = 1;
 	string nickname = 2;
+	repeated ImageCdnNode avatar = 3;
+}
+
+message ImageCdnNode {
+	string cdn = 1;
+	string url = 2;
+	string urlPattern = 3;
 }
 
 message CommonActionSignalComment {
 	string content = 1;
 	int64 sendTimeMs = 2;
-	ZtUserInfo userInfo = 3;
+	ZtLiveUserInfo userInfo = 3;
 }
 
 message CommonActionSignalLike {
-	ZtUserInfo userInfo = 1;
+	ZtLiveUserInfo userInfo = 1;
 	int64 sendTimeMs = 2;
 }
 
 message CommonActionSignalUserEnterRoom {
-	ZtUserInfo userInfo = 1;
+	ZtLiveUserInfo userInfo = 1;
 	int64 sendTimeMs = 2;
 }
 
 message CommonActionSignalUserFollowAuthor {
-	ZtUserInfo userInfo = 1;
+	ZtLiveUserInfo userInfo = 1;
 	int64 sendTimeMs = 2;
 }
 
@@ -160,6 +167,28 @@ enum ZtLiveDownstreamPayloadErrorCode {
 	CS_CMD_PARSE_ERROR = 100001;
 	CS_CMD_CMD_NOT_SUPPORT = 100002;
 	CS_CMD_TICKET_ILLEGAL = 100003;
+}
+
+message CommonStateSignalChatReady {
+	string chatId = 1;
+	ZtLiveUserInfo guestUserInfo = 2;
+	int32 mediaType = 3;
+}
+
+message CommonStateSignalChatEnd {
+	string chatId = 1;
+	EndType endType = 2;
+
+	enum EndType {
+		UNKNOWN = 0;
+		CANCEL_BY_AUTHOR = 1;
+		END_BY_AUTHOR = 2;
+		END_BY_GUEST = 3;
+		GUEST_REJECT = 4;
+		GUEST_TIMEOUT = 5;
+		GUEST_HEARTBEAT_TIMEOUT = 6;
+		AUTHOR_HEARTBEAT_TIMEOUT = 7;
+	}
 }
 
 // Undocumented, Unhandled
