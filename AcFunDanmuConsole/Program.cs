@@ -137,12 +137,12 @@ namespace AcFunDanmuConsole
                                      * 22 - 六一快乐
                                      */
                                     var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
-                                    var giftName = Client.Gifts[gift.ItemId];
-                                    Console.WriteLine("{0} - {1}({2}) sent gift {3} × {4}, Combo: {5}, value: {6}", gift.SendTimeMs, gift.User.Name, gift.User.UserId, giftName, gift.Count, gift.Combo, gift.Value);
+                                    var giftName = Client.Gifts[gift.GiftId];
+                                    Console.WriteLine("{0} - {1}({2}) sent gift {3} × {4}, Combo: {5}, value: {6}", gift.SendTimeMs, gift.User.Nickname, gift.User.UserId, giftName, gift.Count, gift.Combo, gift.Value);
 #if DEBUG
                                     if (string.IsNullOrEmpty(giftName))
                                     {
-                                        Console.WriteLine("ItemId: {0}, Value: {1}", gift.ItemId, gift.Value);
+                                        Console.WriteLine("ItemId: {0}, Value: {1}", gift.GiftId, gift.Value);
                                     }
 #endif
                                 }
