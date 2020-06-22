@@ -144,6 +144,18 @@ message CommonActionSignalUserFollowAuthor {
 	int64 sendTimeMs = 2;
 }
 
+message CommonActionSignalGift {
+	ZtLiveUserInfo user = 1;
+	int64 sendTimeMs = 2;
+	int32 giftId = 3;
+	int32 count = 4;
+	int32 combo = 5;
+	int32 value = 6;
+	string comboId = 7;
+	int32 slotDisplayDurationMs = 8;
+	int32 expireDurationMs = 9;
+}
+
 message CommonNotifySignalKickedOut {
 	string reason = 1;
 }
@@ -155,6 +167,21 @@ message CommonNotifySignalViolationAlert {
 message CommonStateSignalDisplayInfo {
 	string watchingCount = 1;
 	string likeCount = 2;
+}
+
+message CommonStateSignalTopUsers {
+	repeated TopUser user = 1;
+	
+	message TopUser {
+		ZtLiveUserInfo userInfo = 1;
+		string customWatchingListData = 2;
+		string displaySendAmount = 3;
+		bool anonymousUser = 4;
+	}
+}
+
+message CommonStateSignalRecentComment {
+	repeated CommonActionSignalComment comment = 1;
 }
 
 enum CsAckErrorCode {
@@ -206,44 +233,4 @@ message CommonStateSignalChatEnd {
 		GUEST_HEARTBEAT_TIMEOUT = 6;
 		AUTHOR_HEARTBEAT_TIMEOUT = 7;
 	}
-}
-
-// Undocumented, Unhandled
-
-message AcUserInfo {
-	Detail detail = 1;
-	string userInfoJson = 3;
-	string unknown = 4;
-
-	message Detail {
-		int64 userId = 1;
-		string name = 2;
-		Avatar avator = 3;
-
-		message Avatar {
-			string unknown = 1;
-			string url1 = 2;
-			string url2 = 3;
-		}
-	}
-}
-
-message CommonStateSignalTopUsers {
-	repeated AcUserInfo user = 1;
-}
-
-message CommonStateSignalRecentComment {
-	repeated CommonActionSignalComment comment = 1;
-}
-
-message CommonActionSignalGift {
-	AcUserInfo.Detail user = 1;
-	int64 sendTimeMs = 2;
-	int32 itemId = 3;
-	int32 count = 4;
-	int32 combo = 5;
-	int32 value = 6;
-	string uuid = 7;
-	int32 number5 = 8;
-	int32 number6 = 9;
 }
