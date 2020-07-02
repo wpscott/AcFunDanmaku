@@ -18,9 +18,6 @@ namespace AcFunBlackBoxGuess
             game = new Game { };
 
             DataContext = game;
-
-            game.Start();
-            game.AddDanmu(new AcFunDanmu.CommonActionSignalComment { SendTimeMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), UserInfo = new AcFunDanmu.ZtLiveUserInfo { UserId = 1234, Nickname = "test" }, Content = "[test]" });
         }
 
         private void Connect(object sender, RoutedEventArgs e)
