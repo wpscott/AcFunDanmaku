@@ -24,7 +24,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunMomentLottery", "AcFun
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunCommentControl", "AcFunCommentControl\AcFunCommentControl.csproj", "{147E8830-F06A-4B2B-949B-2F6A9B561529}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcFunVideoDanmuLottery", "AcFunVideoDanmuLottery\AcFunVideoDanmuLottery.csproj", "{75A79141-EBAE-4E97-A5A0-06CD421375C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunVideoDanmuLottery", "AcFunVideoDanmuLottery\AcFunVideoDanmuLottery.csproj", "{75A79141-EBAE-4E97-A5A0-06CD421375C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunBlackBoxGuess", "AcFunBlackBoxGuess\AcFunBlackBoxGuess.csproj", "{7EC8419A-FE25-4414-8CE1-3A8B16D9BB4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{75A79141-EBAE-4E97-A5A0-06CD421375C8}.Debug|x64.Build.0 = Debug|x64
 		{75A79141-EBAE-4E97-A5A0-06CD421375C8}.Release|x64.ActiveCfg = Release|x64
 		{75A79141-EBAE-4E97-A5A0-06CD421375C8}.Release|x64.Build.0 = Release|x64
+		{7EC8419A-FE25-4414-8CE1-3A8B16D9BB4F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7EC8419A-FE25-4414-8CE1-3A8B16D9BB4F}.Debug|x64.Build.0 = Debug|Any CPU
+		{7EC8419A-FE25-4414-8CE1-3A8B16D9BB4F}.Release|x64.ActiveCfg = Release|Any CPU
+		{7EC8419A-FE25-4414-8CE1-3A8B16D9BB4F}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

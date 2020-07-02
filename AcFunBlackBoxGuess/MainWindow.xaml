@@ -1,0 +1,136 @@
+﻿<Window x:Class="AcFunBlackBoxGuess.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:model="clr-namespace:AcFunBlackBoxGuess.Models"
+        mc:Ignorable="d"
+        Title="ACFun黑箱盲猜" Height="600" Width="800">
+    <Window.Resources>
+        <Style x:Key="DanmuStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style x:Key="GuessResultStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Grid.RowSpan" Value="2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="GuessButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Grid.RowSpan" Value="2"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <DataTemplate x:Key="DanmuTemplate" DataType="{x:Type model:Danmu}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Header}" Style="{StaticResource DanmuStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Content}" Style="{StaticResource DanmuStyle}" TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TrueFalse}" Style="{StaticResource GuessResultStyle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Bingo}" Style="{StaticResource GuessResultStyle}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PendingDanmuTemplate" DataType="{x:Type model:Danmu}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Header}" Style="{StaticResource DanmuStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Content}" Style="{StaticResource DanmuStyle}" TextWrapping="Wrap"/>
+                <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource GuessButtonStyle}" Content="是" Click="Yes"/>
+                <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource GuessButtonStyle}" Content="否"  Click="No"/>
+                <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource GuessButtonStyle}" Content="盲猜" Click="Bingo"/>
+                <Button Grid.Row="0" Grid.Column="4" Style="{StaticResource GuessButtonStyle}" Content="已回答" Click="Remove"/>
+            </Grid>
+        </DataTemplate>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <DockPanel>
+                <AdornedElementPlaceholder/>
+                <TextBlock Foreground="Red" FontSize="16">!</TextBlock>
+            </DockPanel>
+        </ControlTemplate>
+        <Style x:Key="DanmuItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
+        <Style x:Key="TextBoxValidation" TargetType="TextBox">
+            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationTemplate}"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid Margin="6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="auto" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,12,0" Orientation="Horizontal">
+            <TextBlock Width="64" Margin="0,0,6,0" VerticalAlignment="Center">主播ID</TextBlock>
+            <TextBox x:Name="UserId" Width="120" MaxLength="16" VerticalAlignment="Center" Style="{StaticResource TextBoxValidation}" Text="{Binding Path=UserId, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" PreviewTextInput="CheckInput" />
+        </StackPanel>
+        <Button x:Name="ConnectBtn" Grid.Row="0" Grid.Column="1" Margin="3" IsEnabled="{Binding Path=CanConnect, Mode=OneWay}" Content="{Binding Path=ConnectBtnContent, Mode=OneWay}" Click="Connect">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=UserId, Path=Validation.HasError }" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <TextBlock Grid.Row="0" Grid.Column="2" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding Path=DanmuStatus, Mode=OneWay}"/>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,12,0" Orientation="Horizontal">
+            <TextBlock Width="64" Margin="0,0,6,0" VerticalAlignment="Center">答案</TextBlock>
+            <TextBox x:Name="Answer" Width="120" MaxLength="16" VerticalAlignment="Center" Text="{Binding Path=Answer, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"  Visibility="{Binding Path=ShowAnswer, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter }}" />
+            <TextBox Width="120" MaxLength="16" VerticalAlignment="Center" Text="********" IsReadOnly="True" IsEnabled="False">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=Answer, Path=Visibility}" Value="Visible">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=Answer, Path=Visibility}" Value="Collapsed">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </StackPanel>
+        <Button Grid.Row="1" Grid.Column="1" Margin="3" IsEnabled="{Binding Path=CanStart, Mode=OneWay}" Content="{Binding Path=StartBtnContent, Mode=OneWay}" Click="Start" />
+        <TextBlock Grid.Row="1" Grid.Column="2" Margin="12,0,0,0" TextAlignment="Center" Text="{Binding Path=GuessResult, Mode=OneWay}" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="待回答弹幕" TextAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="已回答弹幕" TextAlignment="Center" />
+
+        <ListBox x:Name="DanmuList" Grid.Row="3" Grid.Column="0" VirtualizingPanel.IsVirtualizing="True" ItemsSource="{Binding Path=PendingDanmu, Mode=OneWay}" ItemTemplate="{StaticResource PendingDanmuTemplate}" ItemContainerStyle="{StaticResource DanmuItemStyle}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch"/>
+        <ListBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding Path=Result, Mode=OneWay}" ItemTemplate="{StaticResource DanmuTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" MouseDoubleClick="ShowUser"/>
+    </Grid>
+</Window>
