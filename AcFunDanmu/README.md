@@ -1,17 +1,17 @@
 # AcfunDanmu AcFun直播弹幕工具
 
-Source: [6.js](https://cdnfile.aixifan.com/static/js/6.c9255644.js)
+Source: [6.js](https://cdnfile.aixifan.com/static/js/6.d20ff8e8.js)
 
-*[Im.proto](https://github.com/wpscott/DDTV-Core/blob/master/AcFunDanmu/protos/Im.proto)为主站websocket，主要负责私信、推送之类的。*
+*[Im.proto](https://github.com/wpscott/AcFunDanmaku/blob/master/AcFunDanmu/protos/Im.proto)为主站websocket，主要负责私信、推送之类的。*
 
 ## AcFun直播websocket数据结构
 
 | 起始位置，偏移量  |  结构 |  说明 |
 |---|---|---|
 |  0, 12 |  ABCD 0001 FFFF FFFF FFFF FFFF |  ABCD 0001为Magic Number， 第一组FFFF FFFF为头数据长度，第二组FFFF FFFF为具体数据长度 |
-|  12, 头数据长度 | [PacketHeader.proto](https://github.com/wpscott/DDTV-Core/blob/master/AcFunDanmu/protos/PacketHeader.proto) |  具体数据结构请查看[PacketHeader.proto](https://github.com/wpscott/DDTV-Core/blob/master/AcFunDanmu/protos/PacketHeader.proto) |
+|  12, 头数据长度 | [PacketHeader.proto](https://github.com/wpscott/AcFunDanmaku/blob/master/AcFunDanmu/protos/PacketHeader.proto) |  具体数据结构请查看[PacketHeader.proto](https://github.com/wpscott/AcFunDanmaku/blob/master/AcFunDanmu/protos/PacketHeader.proto) |
 |  12 + 头数据长度, 16 |  FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF |  4组int32作为AES IV，加解密用 |
-|  28 + 头数据长度, 具体数据长度 - 16 | AES加密的[UpstreamPayload.proto](https://github.com/wpscott/DDTV-Core/blob/master/AcFunDanmu/protos/UpstreamPayload.proto)或[DownstreamPayload.proto](https://github.com/wpscott/DDTV-Core/blob/master/AcFunDanmu/protos/DownstreamPayload.proto) | 密钥为SecurityKey或SessionKey（由[PacketHeader.proto](https://github.com/wpscott/DDTV-Core/blob/master/AcFunDanmu/protos/PacketHeader.proto)中的encryptionMode指定）。根据command选择对应的protobuf进行进一步的payload解析 |
+|  28 + 头数据长度, 具体数据长度 - 16 | AES加密的[UpstreamPayload.proto](https://github.com/wpscott/AcFunDanmaku/blob/master/AcFunDanmu/protos/UpstreamPayload.proto)或[DownstreamPayload.proto](https://github.com/wpscott/AcFunDanmaku/blob/master/AcFunDanmu/protos/DownstreamPayload.proto) | 密钥为SecurityKey或SessionKey（由[PacketHeader.proto](https://github.com/wpscott/AcFunDanmaku/blob/master/AcFunDanmu/protos/PacketHeader.proto)中的encryptionMode指定）。根据command选择对应的protobuf进行进一步的payload解析 |
 
 ## AcFun直播websocket流程
 ### 前置流程
