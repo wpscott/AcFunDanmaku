@@ -46,9 +46,12 @@ namespace AcFunDanmu
             "?",
             "?",
             "?",
-            "?",
-            "?",
-            "?",
+            "大触",
+            "鸽鸽",
+            "金坷垃",
+            "变身腰带",
+            "情书",
+            "狗粮",
         };
 
         private const string ACCEPTED_ENCODING = "gzip, deflate, br";
@@ -307,6 +310,11 @@ namespace AcFunDanmu
                 var giftList = await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
                 foreach (var item in giftList.data.giftList)
                 {
+                    if (Gifts.Length < item.giftId + 1)
+                    {
+                        Console.WriteLine("Gift array need to be reallocated");
+                        return;
+                    }
                     Gifts[item.giftId] = item.giftName;
                 }
 
