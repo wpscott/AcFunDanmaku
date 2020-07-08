@@ -135,6 +135,18 @@ namespace AcFunDanmuConsole
                                      * 20 - 
                                      * 21 - 生日快乐
                                      * 22 - 六一快乐
+                                     * 23 - 
+                                     * 24 - 
+                                     * 25 - 
+                                     * 26 - 
+                                     * 27 - 
+                                     * 28 - 
+                                     * 29 - 大触
+                                     * 30 - 鸽鸽
+                                     * 31 - 金坷垃
+                                     * 32 - 变身腰带
+                                     * 33 - 情书
+                                     * 34 - 狗粮
                                      */
                                     var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
                                     var giftName = Client.Gifts[gift.GiftId];
