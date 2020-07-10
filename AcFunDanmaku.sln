@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunVideoDanmuLottery", "A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunBlackBoxGuess", "AcFunBlackBoxGuess\AcFunBlackBoxGuess.csproj", "{7EC8419A-FE25-4414-8CE1-3A8B16D9BB4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcFunDMJ", "AcFunDMJ\AcFunDMJ.csproj", "{A0BF3FA4-9E81-4DCA-9FF5-22608780F927}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -74,6 +76,10 @@ Global
 		{7EC8419A-FE25-4414-8CE1-3A8B16D9BB4F}.Debug|x64.Build.0 = Debug|Any CPU
 		{7EC8419A-FE25-4414-8CE1-3A8B16D9BB4F}.Release|x64.ActiveCfg = Release|Any CPU
 		{7EC8419A-FE25-4414-8CE1-3A8B16D9BB4F}.Release|x64.Build.0 = Release|Any CPU
+		{A0BF3FA4-9E81-4DCA-9FF5-22608780F927}.Debug|x64.ActiveCfg = Debug|x64
+		{A0BF3FA4-9E81-4DCA-9FF5-22608780F927}.Debug|x64.Build.0 = Debug|x64
+		{A0BF3FA4-9E81-4DCA-9FF5-22608780F927}.Release|x64.ActiveCfg = Release|x64
+		{A0BF3FA4-9E81-4DCA-9FF5-22608780F927}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,38 @@
+.danmaku > p {
+    line-height: 30px;
+    font-size: 1.2em;
+    font-weight: 900;
+    font-family: 'Microsoft YaHei';
+    text-shadow: 0px 2px 2px #000, 0px -2px 2px #000, 2px 0px 2px #000, -2px 0px 2px #000, 2px 2px 2px #000, -2px -2px 2px #000, 2px -2px 2px #000, -2px 2px 2px #000;
+    padding: 1px 5px;
+    color: #fff;
+    width: max-content;
+    padding: 0 10px;
+}
+
+    .danmaku > p > span.name {
+        color: #b6d9fa;
+    }
+
+    .danmaku > p:not(.comment) {
+        color: #ddd;
+    }
+
+    .danmaku > p:not(.comment) > span.name {
+        margin-right: 10px;
+    }
+
+    .danmaku > p.like {
+    }
+
+    .danmaku > p.follow {
+    }
+
+    .danmaku > p.enter {
+        border-radius: 10px;
+    }
+
+    .danmaku > p.gift {
+        background: #fedf3b;
+        border-radius: 10px;
+    }

@@ -1,0 +1,207 @@
+﻿@page "/{UserId}"
+@implements IDisposable
+@inject IJSRuntime JSRuntime 
+
+@switch (CurrentStatus)
+{
+    case Status.Initializing:
+        <p>启动中</p>
+        break;
+    case Status.Stopped:
+        <p>已停止</p>
+        goto case Status.Running;
+    case Status.Running:
+        <div class="danmaku" @ref="danmaku">
+            @foreach (var dm in Danmakus)
+            {
+                switch (dm)
+                {
+                    case CommonActionSignalComment comment:
+                        <p class="comment"><span class="name">@comment.UserInfo.Nickname</span>: @comment.Content</p>
+                        break;
+                    case CommonActionSignalLike like:
+                        <p class="like"><span class="name">@like.UserInfo.Nickname</span>点赞了&#x2764;</p>
+                        break;
+                    case CommonActionSignalUserFollowAuthor follow:
+                        <p class="follow"><span class="name">@follow.UserInfo.Nickname</span>关注了你</p>
+                        break;
+                    case CommonActionSignalUserEnterRoom enter:
+                        <p class="enter"><span class="name">@enter.UserInfo.Nickname</span>进入直播间</p>
+                        break;
+                    case AcfunActionSignalThrowBanana banana:
+                        <p class="gift"><span class="name">@banana.Visitor.Name</span>送出 @banana.Count 个香蕉&#x1F34C;</p>
+                        break;
+                    case CommonActionSignalGift gift:
+                        <p class="gift"><span class="name">@gift.User.Nickname</span>送出 @gift.Count 个 @Client.Gifts[gift.GiftId]</p>
+                        break;
+                }
+            }
+        </div>
+        break;
+}
+
+@code {
+    @using AcFunDanmu;
+    @using AcFunDanmu.Enums;
+    @using System.Timers;
+
+    [Parameter]
+    public string UserId { get; set; }
+
+    private bool IsInitialized { get; set; }
+    private bool ShowLike { get; set; }
+    private bool ShowFollow { get; set; }
+    private bool ShowGift { get; set; }
+
+    private Status CurrentStatus { get; set; } = Status.Initializing;
+
+    enum Status { Initializing, Running, Stopped }
+
+    private Client _client = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Initialize();
+    }
+
+    public async void Dispose()
+    {
+        await _client.Stop("disconnect");
+    }
+
+
+
+    private async void Initialize()
+    {
+        _client = new AcFunDanmu.Client();
+        _client.Handler += HandleSignal;
+        await _client.Initialize(UserId);
+        await InvokeAsync(() =>
+        {
+            CurrentStatus = Status.Running;
+            StateHasChanged();
+        });
+        await _client.Start();
+        await InvokeAsync(() =>
+        {
+            CurrentStatus = Status.Stopped;
+            StateHasChanged();
+        });
+    }
+
+    ElementReference danmaku;
+
+    private IList<object> Danmakus = new List<object>();
+
+    private async void Invoke(object obj)
+    {
+        await InvokeAsync(async () =>
+        {
+            Danmakus.Add(obj);
+            StateHasChanged();
+            await JSRuntime.InvokeVoidAsync("scrollToEnd", danmaku);
+        });
+    }
+
+    private void HandleSignal(string messagetType, byte[] payload)
+    {
+        switch (messagetType)
+        {
+            // Includes comment, gift, enter room, like, follower
+            case PushMessage.ACTION_SIGNAL:
+                var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
+
+                foreach (var item in actionSignal.Item)
+                {
+                    switch (item.SingalType)
+                    {
+                        case PushMessage.ActionSignal.COMMENT:
+                            foreach (var pl in item.Payload)
+                            {
+                                var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
+                                Invoke(comment);
+                            }
+                            break;
+                        case PushMessage.ActionSignal.LIKE:
+                            foreach (var pl in item.Payload)
+                            {
+                                var like = CommonActionSignalLike.Parser.ParseFrom(pl);
+                                Invoke(like);
+                            }
+                            break;
+                        case PushMessage.ActionSignal.ENTER_ROOM:
+                            foreach (var pl in item.Payload)
+                            {
+                                var enter = CommonActionSignalUserEnterRoom.Parser.ParseFrom(pl);
+                                Invoke(enter);
+                            }
+                            break;
+                        case PushMessage.ActionSignal.FOLLOW:
+                            foreach (var pl in item.Payload)
+                            {
+                                var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
+                                Invoke(follower);
+                            }
+                            break;
+                        case PushMessage.ActionSignal.KICKED_OUT:
+                        case PushMessage.ActionSignal.VIOLATION_ALERT:
+                            break;
+                        case PushMessage.ActionSignal.THROW_BANANA:
+                            foreach (var pl in item.Payload)
+                            {
+                                var banana = AcfunActionSignalThrowBanana.Parser.ParseFrom(pl);
+                                Invoke(banana);
+                            }
+                            break;
+                        case PushMessage.ActionSignal.GIFT:
+                            foreach (var pl in item.Payload)
+                            {
+                                var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
+                                Invoke(gift);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+                // Includes current banana counts, watching count, like count and top 3 users sent gifts
+                //            case PushMessage.STATE_SIGNAL:
+                //                ZtLiveScStateSignal signal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
+
+                //                foreach (var item in signal.Item)
+                //                {
+                //                    switch (item.SingalType)
+                //                    {
+                //                        case PushMessage.StateSignal.ACFUN_DISPLAY_INFO:
+                //                            var acInfo = AcfunStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
+                //                            //Console.WriteLine("Current banada count: {0}", acInfo.BananaCount);
+                //                            break;
+                //                        case PushMessage.StateSignal.DISPLAY_INFO:
+                //                            var stateInfo = CommonStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
+                //                            //Console.WriteLine("{0} watching, {1} likes", stateInfo.WatchingCount, stateInfo.LikeCount);
+                //                            break;
+                //                        case PushMessage.StateSignal.TOP_USRES:
+                //                            var users = CommonStateSignalTopUsers.Parser.ParseFrom(item.Payload);
+                //                            //Console.WriteLine("Top 3 users: {0}", string.Join(", ", users.User.Select(user => user.Detail.Name)));
+                //                            break;
+                //                        case PushMessage.StateSignal.RECENT_COMMENT:
+                //                            var comments = CommonStateSignalRecentComment.Parser.ParseFrom(item.Payload);
+                //                            foreach (var comment in comments.Comment)
+                //                            {
+                //                                Console.WriteLine("{0} - {1}({2}): {3}", comment.SendTimeMs, comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
+                //                            }
+                //                            break;
+                //                        default:
+                //                            var pi = Parse(item.SingalType, item.Payload);
+                //#if DEBUG
+                //                            Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SingalType, pi);
+                //#endif
+                //                            break;
+                //                    }
+                //                }
+                //break;
+        }
+    }
+}
