@@ -52,6 +52,18 @@ namespace AcFunDanmu
             "变身腰带",
             "情书",
             "狗粮",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
         };
 
         private const string ACCEPTED_ENCODING = "gzip, deflate, br";
@@ -485,7 +497,7 @@ namespace AcFunDanmu
         {
             try
             {
-                if (_client.State == WebSocketState.Open)
+                if (_client != null && _client.State == WebSocketState.Open)
                 {
                     await _client.SendAsync(_requests.UserExitRequest(), WebSocketMessageType.Binary, true, default);
                     await _client.SendAsync(_requests.UnregisterRequest(), WebSocketMessageType.Binary, true, default);
