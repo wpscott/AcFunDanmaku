@@ -128,6 +128,7 @@ AcFun直播黑箱盲猜工具。**开发中**
 
 ## AcFunDMJ
 AcFun直播弹幕姬。**开发中**
+**本项目仅用于试验Blazor功能**
 ###使用方式
 1. 编译
 2. 运行AcFunDMJ.exe
