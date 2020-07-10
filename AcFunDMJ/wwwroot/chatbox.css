@@ -70,3 +70,8 @@ p {
         .gifts > p + p {
             margin-left: 10px;
         }
+
+.stopped {
+    color: #fd4c5d;
+    text-shadow: none;
+}
