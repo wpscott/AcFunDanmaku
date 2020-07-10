@@ -128,6 +128,8 @@ AcFun直播黑箱盲猜工具。**开发中**
 
 ## AcFunDMJ
 AcFun直播弹幕姬。**开发中（本项目仅用于试验Blazor功能）**
+
+[chatbox.css](https://github.com/wpscott/AcFunDanmaku/blob/master/AcFunDMJ/wwwroot/chatbox.css)基于[【教程】关于obs捕获浏览器窗口弹幕](https://www.acfun.cn/a/ac16690082)
 ### 使用方式
 1. 编译
 2. 运行AcFunDMJ.exe
