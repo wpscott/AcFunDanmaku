@@ -147,12 +147,16 @@ namespace AcFunDanmuConsole
                                      * 32 - 变身腰带
                                      * 33 - 情书
                                      * 34 - 狗粮
+                                     * 35 - 氧气瓶
                                      */
                                     var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
-                                    var giftName = Client.Gifts[gift.GiftId];
-                                    Console.WriteLine("{0} - {1}({2}) sent gift {3} × {4}, Combo: {5}, value: {6}", gift.SendTimeMs, gift.User.Nickname, gift.User.UserId, giftName, gift.Count, gift.Combo, gift.Value);
+                                    if (Client.Gifts.ContainsKey(gift.GiftId))
+                                    {
+                                        var giftInfo = Client.Gifts[gift.GiftId];
+                                        Console.WriteLine("{0} - {1}({2}) sent gift {3} × {4}, Combo: {5}, value: {6}", gift.SendTimeMs, gift.User.Nickname, gift.User.UserId, giftInfo.Name, gift.Count, gift.Combo, gift.Value);
+                                    }
 #if DEBUG
-                                    if (string.IsNullOrEmpty(giftName))
+                                    else
                                     {
                                         Console.WriteLine("ItemId: {0}, Value: {1}", gift.GiftId, gift.Value);
                                     }
