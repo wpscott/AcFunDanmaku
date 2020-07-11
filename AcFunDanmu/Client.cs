@@ -64,6 +64,23 @@ namespace AcFunDanmu
             "?",
             "?",
             "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
         };
 
         private const string ACCEPTED_ENCODING = "gzip, deflate, br";
