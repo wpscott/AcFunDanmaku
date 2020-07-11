@@ -19,7 +19,6 @@ p {
     text-shadow: 0px 2px 2px #000, 0px -2px 2px #000, 2px 0px 2px #000, -2px 0px 2px #000, 2px 2px 2px #000, -2px -2px 2px #000, 2px -2px 2px #000, -2px 2px 2px #000;
     color: #fff;
     padding: 2px 10px;
-    margin-right: 2px;
 }
 
 .danmaku {
@@ -30,6 +29,7 @@ p {
 
     .danmaku > p > span.name {
         color: #b6d9fa;
+        margin-right: 4px;
     }
 
     .danmaku > p:not(.comment) > span.name {
@@ -56,6 +56,11 @@ p {
     border-radius: 32px;
     width: max-content;
 }
+
+    .gift > .icon {
+        height: 1.5em;
+        vertical-align: middle;
+    }
 
 .gifts {
     position: fixed;

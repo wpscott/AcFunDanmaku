@@ -15,7 +15,7 @@
         <div class="gifts">
             @foreach (var gift in Gifts.Values)
             {
-                <p @key="gift.ComboId" class="gift">@gift.GiftName × @gift.Count</p>
+                <p @key="gift.ComboId" class="gift">@gift.Detail.Name × @gift.Count</p>
             }
         </div>
         <div class="danmaku" @ref="danmaku">
@@ -39,7 +39,7 @@
                         @*<p class="gift"><span class="name">@banana.Name</span>送出 @banana.Count 个香蕉🍌</p>*@
                         break;
                     case Gift gift:
-                        <p class="gift"><span class="name">@gift.Name</span>送出 @gift.GiftName</p>
+                        <p class="gift"><span class="name">@gift.Name</span>送出 @gift.Detail.Name<img class="icon" src="@gift.Detail.Pic"/></p>
                         break;
                 }
             }
@@ -129,8 +129,8 @@
     {
         public string Name { get; set; }
         public string ComboId { get; set; }
-        public string GiftName { get; set; }
         public int Count { get; set; }
+        public AcFunDanmu.Models.Client.GiftInfo Detail { get; set; }
     }
 
     private IList<object> Danmakus = new List<object>();
@@ -235,7 +235,7 @@
                             foreach (var pl in item.Payload)
                             {
                                 var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
-                                var sGift = new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, GiftName = Client.Gifts[gift.GiftId] };
+                                var sGift = new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, Detail = Client.Gifts[gift.GiftId] };
                                 UpdateGifts(sGift);
                             }
                             break;
