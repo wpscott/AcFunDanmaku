@@ -162,7 +162,7 @@
             }
             else
             {
-                GiftTimers[gift.ComboId] = new Timer(100000);
+                GiftTimers[gift.ComboId] = new Timer(10000);
                 GiftTimers[gift.ComboId].Elapsed += (s, e) =>
                 {
                     Gifts.Remove(gift.ComboId);
