@@ -27,7 +27,7 @@
                         <p class="comment"><span class="name">@comment.Name</span>: @comment.Content</p>
                         break;
                     case Like like:
-                        <p class="like"><span class="name">@like.Name</span>点赞了&#x2764;</p>
+                        <p class="like"><span class="name">@like.Name</span>点赞了 &#x1F496;</p>
                         break;
                     case Follow follow:
                         <p class="follow"><span class="name">@follow.Name</span>关注了你</p>
@@ -36,13 +36,10 @@
                         <p class="enter"><span class="name">@enter.Name</span>进入直播间</p>
                         break;
                     case Banana banana:
-                        <p class="gift"><span class="name">@banana.Name</span>送出 @banana.Count 个香蕉&#x1F34C;</p>
-                        break;
-                    case Gift gift:
-                        @if (!Gifts.ContainsKey(gift.ComboId))
-                        {
-                            <p class="gift"><span class="name">@gift.Name</span>送出 @gift.Count 个 @gift.GiftName</p>
-                        }
+                        @*<p class="gift"><span class="name">@banana.Name</span>送出 @banana.Count 个香蕉@((MarkupString)"&#x1F34C;")</p>*@
+                break;
+            case Gift gift:
+                        <p class="gift"><span class="name">@gift.Name</span>送出 @gift.GiftName</p>
                         break;
                 }
             }
@@ -103,7 +100,7 @@
             StateHasChanged();
         });
 
-        foreach(var timer in GiftTimers.Values)
+        foreach (var timer in GiftTimers.Values)
         {
             timer.Stop();
         }
@@ -134,7 +131,6 @@
         public string ComboId { get; set; }
         public string GiftName { get; set; }
         public int Count { get; set; }
-        public int Expiration { get; set; }
     }
 
     private IList<object> Danmakus = new List<object>();
@@ -153,25 +149,32 @@
 
     private async void UpdateGifts(Gift gift)
     {
-        await InvokeAsync(() =>
+        await InvokeAsync(async () =>
         {
+            if (!Danmakus.Any(obj => obj is Gift && ((Gift)obj).ComboId == gift.ComboId))
+            {
+                Danmakus.Add(gift);
+            }
+
             if (Gifts.ContainsKey(gift.ComboId))
             {
                 GiftTimers[gift.ComboId].Stop();
             }
             else
             {
-                GiftTimers[gift.ComboId] = new Timer(gift.Expiration);
+                GiftTimers[gift.ComboId] = new Timer(100000);
                 GiftTimers[gift.ComboId].Elapsed += (s, e) =>
                 {
                     Gifts.Remove(gift.ComboId);
                     GiftTimers.Remove(gift.ComboId);
+                    GC.Collect();
                 };
             }
             Gifts[gift.ComboId] = gift;
             GiftTimers[gift.ComboId].Start();
 
             StateHasChanged();
+            await JSRuntime.InvokeVoidAsync("scrollToEnd", danmaku);
         });
     }
 
@@ -229,8 +232,7 @@
                             foreach (var pl in item.Payload)
                             {
                                 var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
-                                var sGift = new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Count, GiftName = Client.Gifts[gift.GiftId], Expiration = gift.ExpireDurationMs };
-                                UpdateDanmaku(sGift);
+                                var sGift = new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, GiftName = Client.Gifts[gift.GiftId] };
                                 UpdateGifts(sGift);
                             }
                             break;
