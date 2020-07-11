@@ -53,6 +53,10 @@
             public const string DISPLAY_INFO = "CommonStateSignalDisplayInfo";
             public const string TOP_USRES = "CommonStateSignalTopUsers";
             public const string RECENT_COMMENT = "CommonStateSignalRecentComment";
+            public const string CHAT_CALL = "CommonStateSignalChatCall";
+            public const string CHAT_ACCEPT = "CommonStateSignalChatAccept";
+            public const string CHAT_READY = "CommonStateSignalChatReady";
+            public const string CHAT_END = "CommonStateSignalChatEnd";
         }
     }
 }

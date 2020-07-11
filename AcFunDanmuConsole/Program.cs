@@ -198,6 +198,11 @@ namespace AcFunDanmuConsole
                                     Console.WriteLine("{0} - {1}({2}): {3}", comment.SendTimeMs, comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
                                 }
                                 break;
+                            case PushMessage.StateSignal.CHAT_CALL:
+                            case PushMessage.StateSignal.CHAT_ACCEPT:
+                            case PushMessage.StateSignal.CHAT_READY:
+                            case PushMessage.StateSignal.CHAT_END:
+                                break;
                             default:
                                 var pi = Parse(item.SingalType, item.Payload);
 #if DEBUG
