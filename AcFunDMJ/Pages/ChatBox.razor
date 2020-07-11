@@ -37,8 +37,8 @@
                         break;
                     case Banana banana:
                         @*<p class="gift"><span class="name">@banana.Name</span>送出 @banana.Count 个香蕉@((MarkupString)"&#x1F34C;")</p>*@
-                break;
-            case Gift gift:
+                        break;
+                    case Gift gift:
                         <p class="gift"><span class="name">@gift.Name</span>送出 @gift.GiftName</p>
                         break;
                 }
@@ -165,9 +165,12 @@
                 GiftTimers[gift.ComboId] = new Timer(10000);
                 GiftTimers[gift.ComboId].Elapsed += (s, e) =>
                 {
-                    Gifts.Remove(gift.ComboId);
-                    GiftTimers.Remove(gift.ComboId);
-                    GC.Collect();
+                    InvokeAsync(() =>
+                    {
+                        Gifts.Remove(gift.ComboId);
+                        GiftTimers.Remove(gift.ComboId);
+                        StateHasChanged();
+                    });
                 };
             }
             Gifts[gift.ComboId] = gift;
