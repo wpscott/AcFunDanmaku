@@ -16,72 +16,8 @@ namespace AcFunDanmu
     public class Client
     {
         #region Constants
-        public static readonly string[] Gifts = new string[] {
-            "?",
-            "香蕉",
-            "吃瓜",
-            "?",
-            "牛啤",
-            "手柄",
-            "魔法棒",
-            "好人卡",
-            "星蕉雨",
-            "告白",
-            "666",
-            "菜鸡",
-            "打Call",
-            "立FLAG",
-            "窜天猴",
-            "AC机娘",
-            "猴岛",
-            "快乐水",
-            "?",
-            "?",
-            "?",
-            "生日快乐",
-            "六一快乐",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "大触",
-            "鸽鸽",
-            "金坷垃",
-            "变身腰带",
-            "情书",
-            "狗粮",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-            "?",
-        };
+        public static readonly SortedList<int, GiftInfo> Gifts = new SortedList<int, GiftInfo>();
+        private static DateTimeOffset _LastGiftUpdate = DateTimeOffset.MinValue;
 
         private const string ACCEPTED_ENCODING = "gzip, deflate, br";
         private const string VISITOR_ST = "acfun.api.visitor_st";
@@ -155,16 +91,7 @@ namespace AcFunDanmu
 #endif
                 try
                 {
-                    using var client = new HttpClient(
-                        new HttpClientHandler
-                        {
-                            AutomaticDecompression = DecompressionMethods.All,
-                            UseCookies = true,
-                            CookieContainer = CookieContainer
-                        }
-                    );
-                    client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent);
-                    client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(ACCEPTED_ENCODING);
+                    using var client = CreateHttpClient();
 
                     using var login = await client.GetAsync(ACFUN_LOGIN_URI);
                     if (!login.IsSuccessStatusCode)
@@ -228,16 +155,7 @@ namespace AcFunDanmu
             Console.WriteLine("Client initializing");
             try
             {
-                using var client = new HttpClient(
-                    new HttpClientHandler
-                    {
-                        AutomaticDecompression = DecompressionMethods.All,
-                        UseCookies = true,
-                        CookieContainer = CookieContainer
-                    }
-                );
-                client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent);
-                client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(ACCEPTED_ENCODING);
+                using var client = CreateHttpClient();
 
                 using var index = await client.GetAsync($"{LIVE_URL}/{uid}");
                 if (!index.IsSuccessStatusCode)
@@ -317,43 +235,34 @@ namespace AcFunDanmu
 
         private async void UpdateGiftList()
         {
-            try
+            var now = DateTimeOffset.Now;
+            if ((now - _LastGiftUpdate).TotalHours > 1)
             {
-                using var client = new HttpClient(
-                   new HttpClientHandler
-                   {
-                       AutomaticDecompression = DecompressionMethods.All,
-                       UseCookies = true,
-                       CookieContainer = CookieContainer
-                   }
-                );
-                client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent);
-                client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(ACCEPTED_ENCODING);
-
-                using var giftContent = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                {"visitorId", $"{UserId}" },
-                {"liveId", LiveId }
-            });
-                using var gift = await client.PostAsync(string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), giftContent);
-                var giftList = await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
-                foreach (var item in giftList.data.giftList)
+                _LastGiftUpdate = now;
+                try
                 {
-                    if (Gifts.Length < item.giftId + 1)
-                    {
-                        Console.WriteLine("Gift array need to be reallocated");
-                        return;
-                    }
-                    Gifts[item.giftId] = item.giftName;
-                }
+                    using var client = CreateHttpClient();
 
-                Console.WriteLine("Gift list updated");
-            }
-            catch (HttpRequestException e)
-            {
+                    using var giftContent = new FormUrlEncodedContent(new Dictionary<string, string>
+                    {
+                        {"visitorId", $"{UserId}" },
+                        {"liveId", LiveId }
+                    });
+                    using var gift = await client.PostAsync(string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), giftContent);
+                    var giftList = await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
+                    foreach (var item in giftList.data.giftList)
+                    {
+                        Gifts.Add(item.giftId, new GiftInfo { Name = item.giftName, Pic = new Uri(item.webpPicList[0].url) });
+                    }
+
+                    Console.WriteLine("Gift list updated");
+                }
+                catch (HttpRequestException e)
+                {
 #if DEBUG
-                Console.WriteLine("Update Gift List Exception: {0}", e.Message);
+                    Console.WriteLine("Update Gift List Exception: {0}", e.Message);
 #endif
+                }
             }
         }
 
@@ -365,16 +274,7 @@ namespace AcFunDanmu
             }
             try
             {
-                using var client = new HttpClient(
-                   new HttpClientHandler
-                   {
-                       AutomaticDecompression = DecompressionMethods.All,
-                       UseCookies = true,
-                       CookieContainer = CookieContainer
-                   }
-                );
-                client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent);
-                client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(ACCEPTED_ENCODING);
+                using var client = CreateHttpClient();
 
                 using var watchingContent = new FormUrlEncodedContent(new Dictionary<string, string>
             {
@@ -656,6 +556,21 @@ namespace AcFunDanmu
                     }
                     break;
             }
+        }
+
+        private static HttpClient CreateHttpClient()
+        {
+            var client = new HttpClient(
+                   new HttpClientHandler
+                   {
+                       AutomaticDecompression = DecompressionMethods.All,
+                       UseCookies = true,
+                       CookieContainer = CookieContainer
+                   }
+                );
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent);
+            client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(ACCEPTED_ENCODING);
+            return client;
         }
     }
 }
