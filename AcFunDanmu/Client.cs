@@ -13,6 +13,7 @@ using static AcFunDanmu.ClientUtils;
 namespace AcFunDanmu
 {
     public delegate void SignalHandler(string messageType, byte[] payload);
+    public delegate void DedicatedSignalHandler(string userId, string messageType, byte[] payload);
     public class Client
     {
         #region Constants
@@ -51,6 +52,7 @@ namespace AcFunDanmu
         #endregion
 
         public SignalHandler Handler { get; set; }
+        public DedicatedSignalHandler DedicatedHandler { get; set; }
 
         #region Properties and Fields
         private static readonly CookieContainer CookieContainer = new CookieContainer();
@@ -58,6 +60,7 @@ namespace AcFunDanmu
         private static bool IsSignIn = false;
 
         private long UserId = -1;
+        private string AVUPId;
         private string ServiceToken;
         private string SecurityKey;
         private string LiveId;
@@ -152,84 +155,93 @@ namespace AcFunDanmu
 
         public async Task<Play.PlayData> Initialize(string uid)
         {
-            Console.WriteLine("Client initializing");
-            try
+            if (long.TryParse(uid, out _))
             {
-                using var client = CreateHttpClient();
+                AVUPId = uid;
+                Console.WriteLine("Client initializing");
+                try
+                {
+                    using var client = CreateHttpClient();
 
-                using var index = await client.GetAsync($"{LIVE_URL}/{uid}");
-                if (!index.IsSuccessStatusCode)
-                {
-                    Console.WriteLine(await index.Content.ReadAsStringAsync());
-                    return default;
-                }
-                if (string.IsNullOrEmpty(DeviceId))
-                {
-                    DeviceId = CookieContainer.GetCookies(ACFUN_HOST).Where(cookie => cookie.Name == "_did").First().Value;
-                }
-
-                if (IsSignIn)
-                {
-                    using var getcontent = new FormUrlEncodedContent(GET_TOKEN_FORM);
-                    using var get = await client.PostAsync(GET_TOKEN_URI, getcontent);
-                    if (!get.IsSuccessStatusCode)
+                    using var index = await client.GetAsync($"{LIVE_URL}/{uid}");
+                    if (!index.IsSuccessStatusCode)
                     {
-                        Console.WriteLine(await get.Content.ReadAsStringAsync());
+                        Console.WriteLine(await index.Content.ReadAsStringAsync());
                         return default;
                     }
-                    var token = await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
-                    UserId = token.userId;
-                    ServiceToken = token.service_token;
-                    SecurityKey = token.ssecurity;
-                }
-                else
-                {
-                    using var loginContent = new FormUrlEncodedContent(LOGIN_FORM);
-                    using var login = await client.PostAsync(LOGIN_URI, loginContent);
-                    if (!login.IsSuccessStatusCode)
+                    if (string.IsNullOrEmpty(DeviceId))
                     {
-                        Console.WriteLine(await login.Content.ReadAsStringAsync());
+                        DeviceId = CookieContainer.GetCookies(ACFUN_HOST).Where(cookie => cookie.Name == "_did").First().Value;
+                    }
+
+                    if (IsSignIn)
+                    {
+                        using var getcontent = new FormUrlEncodedContent(GET_TOKEN_FORM);
+                        using var get = await client.PostAsync(GET_TOKEN_URI, getcontent);
+                        if (!get.IsSuccessStatusCode)
+                        {
+                            Console.WriteLine(await get.Content.ReadAsStringAsync());
+                            return default;
+                        }
+                        var token = await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
+                        UserId = token.userId;
+                        ServiceToken = token.service_token;
+                        SecurityKey = token.ssecurity;
+                    }
+                    else
+                    {
+                        using var loginContent = new FormUrlEncodedContent(LOGIN_FORM);
+                        using var login = await client.PostAsync(LOGIN_URI, loginContent);
+                        if (!login.IsSuccessStatusCode)
+                        {
+                            Console.WriteLine(await login.Content.ReadAsStringAsync());
+                            return default;
+                        }
+                        var token = await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
+
+                        UserId = token.userId;
+                        ServiceToken = token.service_token;
+                        SecurityKey = token.acSecurity;
+                    }
+
+                    using var form = new FormUrlEncodedContent(new Dictionary<string, string> { { "authorId", uid } });
+                    using var play = await client.PostAsync(string.Format(PLAY_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), form);
+
+                    if (!play.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine(await play.Content.ReadAsStringAsync());
                         return default;
                     }
-                    var token = await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
 
-                    UserId = token.userId;
-                    ServiceToken = token.service_token;
-                    SecurityKey = token.acSecurity;
+                    var playData = await JsonSerializer.DeserializeAsync<Play>(await play.Content.ReadAsStreamAsync());
+                    if (playData.result != 1)
+                    {
+                        Console.WriteLine(playData.error_msg);
+                        return default;
+                    }
+                    Tickets = playData.data.availableTickets;
+                    EnterRoomAttach = playData.data.enterRoomAttach;
+                    LiveId = playData.data.liveId;
+
+
+                    UpdateGiftList();
+
+                    Console.WriteLine("Client initialized");
+
+                    return playData.data;
                 }
-
-                using var form = new FormUrlEncodedContent(new Dictionary<string, string> { { "authorId", uid } });
-                using var play = await client.PostAsync(string.Format(PLAY_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), form);
-
-                if (!play.IsSuccessStatusCode)
+                catch (HttpRequestException e)
                 {
-                    Console.WriteLine(await play.Content.ReadAsStringAsync());
-                    return default;
-                }
-
-                var playData = await JsonSerializer.DeserializeAsync<Play>(await play.Content.ReadAsStreamAsync());
-                if (playData.result != 1)
-                {
-                    Console.WriteLine(playData.error_msg);
-                    return default;
-                }
-                Tickets = playData.data.availableTickets;
-                EnterRoomAttach = playData.data.enterRoomAttach;
-                LiveId = playData.data.liveId;
-
-
-                UpdateGiftList();
-
-                Console.WriteLine("Client initialized");
-
-                return playData.data;
-            }
-            catch (HttpRequestException e)
-            {
 #if DEBUG
                 Console.WriteLine("Initialize exception: {0}", e.Message);
 #endif
-                return await Initialize(uid);
+                    return await Initialize(uid);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Invliad user id: {uid}");
+                return default;
             }
         }
 
@@ -483,10 +495,12 @@ namespace AcFunDanmu
                         case PushMessage.ACTION_SIGNAL:
                             // Handled by user
                             Handler?.Invoke(message.MessageType, payload.ToByteArray());
+                            DedicatedHandler?.Invoke(AVUPId, message.MessageType, payload.ToByteArray());
                             break;
                         case PushMessage.STATE_SIGNAL:
                             // Handled by user
                             Handler?.Invoke(message.MessageType, payload.ToByteArray());
+                            DedicatedHandler?.Invoke(AVUPId, message.MessageType, payload.ToByteArray());
                             break;
                         case PushMessage.STATUS_CHANGED:
                             var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);

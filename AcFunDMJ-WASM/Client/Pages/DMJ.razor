@@ -1,0 +1,138 @@
+﻿@page "/{UserId}"
+@using Microsoft.AspNetCore.SignalR.Client
+@using AcFunDMJ_WASM.Shared
+@using System.Timers;
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@implements IDisposable
+
+@switch (CurrentStatus)
+{
+    case Status.Initializing:
+        <p>启动中</p>
+        break;
+    case Status.Stopped:
+    case Status.Running:
+        <div class="gifts">
+            @foreach (var gift in Gifts.Values)
+            {
+                <p @key="gift.ComboId" class="gift">@gift.Detail.Name × @gift.Count</p>
+            }
+        </div>
+        <div class="danmaku" @ref="danmaku">
+            @foreach (var dm in Danmakus)
+            {
+                switch (dm)
+                {
+                    case Comment comment:
+                        <p class="comment"><span class="name">@comment.Name</span>: @comment.Content</p>
+                        break;
+                    case Like like:
+                        <p class="like"><span class="name">@like.Name</span>点赞了 💖</p>
+                        break;
+                    case Follow follow:
+                        <p class="follow"><span class="name">@follow.Name</span>关注了你</p>
+                        break;
+                    case Enter enter:
+                        <p class="enter"><span class="name">@enter.Name</span>进入直播间</p>
+                        break;
+                    case Banana banana:
+                        @*<p class="gift"><span class="name">@banana.Name</span>送出 @banana.Count 个香蕉🍌</p>*@
+                        break;
+                    case Gift gift:
+                        <p class="gift"><span class="name">@gift.Name</span>送出 @gift.Detail.Name<img class="icon" src="@gift.Detail.Pic" /></p>
+                        break;
+                }
+            }
+            @if (CurrentStatus == Status.Stopped)
+            {
+                <p class="stopped">已停止</p>
+            }
+        </div>
+        break;
+}
+
+@code {
+    [Parameter]
+    public string UserId { get; set; }
+
+    private Status CurrentStatus { get; set; } = Status.Initializing;
+
+    enum Status { Initializing, Running, Stopped }
+
+    private HubConnection hubConnection;
+
+    private ElementReference danmaku;
+
+    private IList<object> Danmakus = new List<object>();
+    private Dictionary<string, Gift> Gifts = new Dictionary<string, Gift>();
+    private Dictionary<string, Timer> GiftTimers = new Dictionary<string, Timer>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/danmaku")).Build();
+
+        hubConnection.On<Comment>("SendComment", (comment) =>
+        {
+            UpdateDanmaku(comment);
+        });
+        hubConnection.On<Like>("SendLike", (like) => { UpdateDanmaku(like); });
+        hubConnection.On<Enter>("SendEnter", (enter) => { UpdateDanmaku(enter); });
+        hubConnection.On<Follow>("SendFollow", (follow) => { UpdateDanmaku(follow); });
+        hubConnection.On<Gift>("SendGift", (gift) => { UpdateGifts(gift); });
+
+        await hubConnection.StartAsync();
+
+        await hubConnection.SendAsync("Connect", UserId);
+        CurrentStatus = Status.Running;
+    }
+
+    public void Dispose()
+    {
+        _ = hubConnection.DisposeAsync();
+    }
+
+    private async void UpdateDanmaku(object obj)
+    {
+        await InvokeAsync(async () =>
+        {
+            Danmakus.Add(obj);
+            StateHasChanged();
+            await JSRuntime.InvokeVoidAsync("scrollToEnd", danmaku);
+        });
+    }
+
+    private async void UpdateGifts(Gift gift)
+    {
+        await InvokeAsync(async () =>
+        {
+            if (!Danmakus.Any(obj => obj is Gift && ((Gift)obj).ComboId == gift.ComboId))
+            {
+                Danmakus.Add(gift);
+            }
+
+            if (Gifts.ContainsKey(gift.ComboId))
+            {
+                GiftTimers[gift.ComboId].Stop();
+            }
+            else
+            {
+                GiftTimers[gift.ComboId] = new Timer(10000);
+                GiftTimers[gift.ComboId].Elapsed += (s, e) =>
+                {
+                    InvokeAsync(() =>
+                    {
+                        Gifts.Remove(gift.ComboId);
+                        GiftTimers.Remove(gift.ComboId);
+                        StateHasChanged();
+                    });
+                };
+            }
+            Gifts[gift.ComboId] = gift;
+            GiftTimers[gift.ComboId].Start();
+
+            StateHasChanged();
+            await JSRuntime.InvokeVoidAsync("scrollToEnd", danmaku);
+        });
+    }
+}
