@@ -1,6 +1,7 @@
 ﻿using AcFunDanmu.Enums;
 using AcFunDanmu.Models.Client;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -48,7 +49,6 @@ namespace AcFunDanmu
 
         private const string _Host = "wss://link.xiatou.com/";
         private static readonly Uri Host = new Uri(_Host);
-        private const int BufferSize = 1 << 16;
         #endregion
 
         public SignalHandler Handler { get; set; }
@@ -320,6 +320,7 @@ namespace AcFunDanmu
                 return false;
             }
 
+            using var owner = MemoryPool<byte>.Shared.Rent();
             _requests = new ClientRequests(UserId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach, Tickets);
             using var ws = new ClientWebSocket();
             _client = ws;
@@ -330,9 +331,9 @@ namespace AcFunDanmu
                 #region Register & Enter Room
                 //Register
                 await ws.SendAsync(_requests.RegisterRequest(), WebSocketMessageType.Binary, true, default);
-                var resp = new byte[BufferSize];
+                var resp = owner.Memory;
                 await ws.ReceiveAsync(resp, default);
-                var registerDown = Decode(typeof(DownstreamPayload), resp, SecurityKey, _requests.SessionKey, out _) as DownstreamPayload;
+                var registerDown = Decode(typeof(DownstreamPayload), resp.Span, SecurityKey, _requests.SessionKey, out _) as DownstreamPayload;
                 var regResp = RegisterResponse.Parser.ParseFrom(registerDown.PayloadData);
                 _requests.Register(regResp.InstanceId, regResp.SessKey.ToBase64(), regResp.SdkOption.Lz4CompressionThresholdBytes);
 
@@ -382,12 +383,12 @@ namespace AcFunDanmu
                 #region Main loop
                 while (ws.State == WebSocketState.Open)
                 {
+                    var buffer = owner.Memory;
                     try
                     {
-                        var buffer = new byte[BufferSize];
                         await ws.ReceiveAsync(buffer, default);
 
-                        var stream = Decode(typeof(DownstreamPayload), buffer, SecurityKey, _requests.SessionKey, out var header) as DownstreamPayload;
+                        var stream = Decode(typeof(DownstreamPayload), buffer.Span, SecurityKey, _requests.SessionKey, out var header) as DownstreamPayload;
 
                         HandleCommand(header, stream, heartbeatTimer);
 
