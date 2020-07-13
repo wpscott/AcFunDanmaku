@@ -1,0 +1,80 @@
+body, p {
+    margin: 0;
+}
+
+div {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+    div::-webkit-scrollbar {
+        display: none;
+    }
+
+p {
+    line-height: 1.5em;
+    font-size: 1.2em;
+    font-weight: 900;
+    font-family: 'Microsoft YaHei';
+    text-shadow: 0px 2px 2px #000, 0px -2px 2px #000, 2px 0px 2px #000, -2px 0px 2px #000, 2px 2px 2px #000, -2px -2px 2px #000, 2px -2px 2px #000, -2px 2px 2px #000;
+    color: #fff;
+    padding: 2px 10px;
+}
+
+.danmaku {
+    margin-top: 36px;
+    height: calc(100vh - 36px);
+    overflow: auto;
+}
+
+    .danmaku > p > span.name {
+        color: #b6d9fa;
+        margin-right: 4px;
+    }
+
+    .danmaku > p:not(.comment) > span.name {
+        margin-right: 10px;
+    }
+
+    .danmaku > p.like {
+    }
+
+    .danmaku > p.follow {
+        color: #ddd;
+    }
+
+    .danmaku > p.enter {
+        color: #ddd;
+    }
+
+    .danmaku > .gift + .gift {
+        margin-top: 6px;
+    }
+
+.gift {
+    background: #fedf3b;
+    border-radius: 32px;
+    width: max-content;
+}
+
+    .gift > .icon {
+        height: 1.5em;
+        vertical-align: middle;
+        margin-left: 2px;
+    }
+
+.gifts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+}
+
+    .gifts > .gift + .gift {
+        margin-left: 10px;
+    }
+
+.stopped {
+    color: #fd4c5d;
+    text-shadow: none;
+}

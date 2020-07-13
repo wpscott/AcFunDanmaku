@@ -2,7 +2,7 @@
 
 # AcFunDanmaku
 AcFunDanmaku是用C# 和 .Net Core 3.1编写的AcFun直播弹幕工具。
-该项目分为12个子项目。
+该项目分为13个子项目。
 **不提供32位程序。**
 
 ## AcFunDanmu 
@@ -149,4 +149,14 @@ AcFun直播弹幕姬服务器版。**开发中（本项目仅用于试验Blazor 
 1. 编译AcFunDMJ-WASM.Server
 2. 运行AcFunDMJ-WASM.Server.exe
 3. 打开浏览器，访问http://localhost:5000/[主播ID（需在appsettings.json的AVUP列表中）]
+4. 查看弹幕
+
+## AcFunDMJ.Vanilla
+AcFun直播弹幕姬OBS版。**开发中**
+
+[chatbox.css](https://github.com/wpscott/AcFunDanmaku/blob/master/AcFunDMJ/wwwroot/chatbox.css)基于[【教程】关于obs捕获浏览器窗口弹幕](https://www.acfun.cn/a/ac16690082)
+### 使用方式
+1. 编译
+2. 运行AcFunDMJ.Vanilla.exe
+3. 打开OBS，添加浏览器，地址为http://localhost:5000/[主播ID]
 4. 查看弹幕
