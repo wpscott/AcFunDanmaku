@@ -24,10 +24,11 @@ namespace AcFunDMJ.Vanilla
         static async Task Main(string[] args)
         {
             config = await Config.LoadConfig();
+            var address = $"http://localhost:{config.Port}/";
             using var server = new HttpListener();
-            server.Prefixes.Add($"http://{IPAddress.Loopback}:{config.Port}/");
+            server.Prefixes.Add(address);
             server.Start();
-            Console.WriteLine("弹幕姬已启动");
+            Console.WriteLine($"弹幕姬已启动，地址为{address}");
             while (true)
             {
                 var ctx = await server.GetContextAsync();
