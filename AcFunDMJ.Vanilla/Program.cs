@@ -15,6 +15,7 @@ namespace AcFunDMJ.Vanilla
     class Program
     {
         private static readonly Encoding Encoding = Encoding.UTF8;
+        private static readonly JsonSerializerOptions Options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         private static WebSocket ws;
         private static Client danmaku;
@@ -156,7 +157,7 @@ namespace AcFunDMJ.Vanilla
         {
             if (ws.State == WebSocketState.Open)
             {
-                var text = JsonSerializer.Serialize(new { Type = type, Obj = obj });
+                var text = JsonSerializer.Serialize(new { Type = type, Obj = obj }, Options);
                 await ws.SendAsync(Encoding.GetBytes(text), WebSocketMessageType.Text, true, default);
             }
             else
@@ -172,7 +173,6 @@ namespace AcFunDMJ.Vanilla
                 // Includes comment, gift, enter room, like, follower
                 case PushMessage.ACTION_SIGNAL:
                     var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
-
                     foreach (var item in actionSignal.Item)
                     {
                         switch (item.SingalType)
@@ -209,8 +209,8 @@ namespace AcFunDMJ.Vanilla
                                 {
                                     foreach (var pl in item.Payload)
                                     {
-                                        var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
-                                        SendMessage(MessageType.Follow, new Follow { Name = follower.UserInfo.Nickname });
+                                        var follow = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
+                                        SendMessage(MessageType.Follow, new Follow { Name = follow.UserInfo.Nickname });
                                     }
                                 }
                                 break;
@@ -231,7 +231,7 @@ namespace AcFunDMJ.Vanilla
                                     if (!config.GiftList.Contains(gift.GiftId))
                                     {
                                         var info = Client.Gifts[gift.GiftId];
-                                        SendMessage(MessageType.Gift, new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, Detail = new Gift.GiftInfo { Name = info.Name, Pic = info.Pic } });
+                                        SendMessage(MessageType.Gift, new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Count, Value = gift.Value, Combo = gift.Combo, Detail = info });
                                     }
                                 }
                                 break;
@@ -297,13 +297,9 @@ namespace AcFunDMJ.Vanilla
             public string Name { get; set; }
             public string ComboId { get; set; }
             public int Count { get; set; }
-            public GiftInfo Detail { get; set; }
-
-            public struct GiftInfo
-            {
-                public string Name { get; set; }
-                public Uri Pic { get; set; }
-            }
+            public int Combo { get; set; }
+            public int Value { get; set; }
+            public AcFunDanmu.Models.Client.GiftInfo Detail { get; set; }
         }
     }
 }

@@ -20,33 +20,35 @@
             client.onmessage = (evt) => {
                 const msg = JSON.parse(evt.data);
                 const p = document.createElement("p");
-                switch (msg.Type) {
+                switch (msg.type) {
                     case 0: //Comment
                         p.className = "comment";
-                        p.innerHTML = `<span class="name">${msg.Obj.Name}</span>: ${msg.Obj.Content}`;
+                        p.innerHTML = `<span class="name">${msg.obj.name}</span>: ${msg.obj.content}`;
                         break;
                     case 1: //Follow
                         p.className = "follow";
-                        p.innerHTML = `<span class="name">${msg.Obj.Name}</span>关注了你`;
+                        p.innerHTML = `<span class="name">${msg.obj.name}</span>关注了你`;
                         break;
                     case 2: //Like
                         p.className = "like";
-                        p.innerHTML = `<span class="name">${msg.Obj.Name}</span>点赞了 💖`;
+                        p.innerHTML = `<span class="name">${msg.obj.name}</span>点赞了 💖`;
                         break;
                     case 3: //Enter
                         p.className = "enter";
-                        p.innerHTML = `<span class="name">${msg.Obj.Name}</span>进入直播间`;
+                        p.innerHTML = `<span class="name">${msg.obj.name}</span>进入直播间`;
                         break;
                     case 4: //Gift
                         p.className = "gift";
-                        p.innerHTML = `<span class="name">${msg.Obj.Name}</span>送出${msg.Obj.Detail.Name}<img class="icon" src="${msg.Obj.Detail.Pic}" />`;
+                        p.innerHTML = `<span class="name">${msg.obj.name}</span>送出${msg.obj.detail.name}<img class="icon" src="${msg.obj.detail.pic}" />`;
                         break;
                     case 5: //Banana
                         p.className = "comment";
-                        p.innerHTML = `<span class="name">${msg.Obj.Name}</span>送出${msg.Count}个香蕉🍌" />`;
+                        p.innerHTML = `<span class="name">${msg.obj.name}</span>送出${msg.count}个香蕉🍌" />`;
                         break;
                     case 99: //Text
-                        p.innerText = msg.Obj;
+                        p.className = "text";
+                        p.innerText = msg.obj;
+                        break;
                 }
                 dmk.appendChild(p);
                 dmk.scrollTop = dmk.scrollHeight;
