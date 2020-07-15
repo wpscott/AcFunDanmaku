@@ -1,6 +1,6 @@
 # AcfunDanmu AcFun直播弹幕工具
 
-Source: [6.js](https://cdnfile.aixifan.com/static/js/6.d20ff8e8.js)
+Source: [6.js](https://cdnfile.aixifan.com/static/js/6.69265788.js)
 
 *[Im.proto](https://github.com/wpscott/AcFunDanmaku/blob/master/AcFunDanmu/protos/Im.proto)为主站websocket，主要负责私信、推送之类的。*
 

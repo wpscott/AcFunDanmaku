@@ -167,6 +167,7 @@ message CommonNotifySignalViolationAlert {
 message CommonStateSignalDisplayInfo {
 	string watchingCount = 1;
 	string likeCount = 2;
+	int32 likeDelta = 3;
 }
 
 message CommonStateSignalTopUsers {
