@@ -1,7 +1,6 @@
 ﻿using AcFunDanmu;
 using AcFunDanmu.Enums;
 using System;
-using System.Buffers;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -25,107 +24,69 @@ namespace AcFunDMJ.Vanilla
         static async Task Main(string[] args)
         {
             config = await Config.LoadConfig();
-            var server = new HttpListener();
+            using var server = new HttpListener();
             server.Prefixes.Add($"http://{IPAddress.Loopback}:{config.Port}/");
             server.Start();
-            Console.WriteLine("Started");
-            using var owner = MemoryPool<byte>.Shared.Rent();
+            Console.WriteLine("弹幕姬已启动");
             while (true)
             {
                 var ctx = await server.GetContextAsync();
                 var path = ctx.Request.Url.LocalPath.Substring(1);
 
-                if (long.TryParse(path, out _))
+                switch (path)
                 {
-                    if (ctx.Request.IsWebSocketRequest)
-                    {
-                        var wsCtx = await ctx.AcceptWebSocketAsync(null);
-                        Start(wsCtx.WebSocket, path);
-                    }
-                    else
-                    {
-                        var index = new FileInfo(@".\index.html");
-                        if (index.Exists)
+                    case string uid when long.TryParse(path, out _):
+                        if (ctx.Request.IsWebSocketRequest)
                         {
-                            using var reader = index.OpenRead();
-                            var buffer = owner.Memory;
-                            await reader.ReadAsync(buffer, default);
-
-                            ctx.Response.StatusCode = 200;
-                            ctx.Response.ContentType = "text/html";
-                            ctx.Response.ContentEncoding = Encoding;
-                            ctx.Response.ContentLength64 = buffer.Length;
-                            ctx.Response.OutputStream.Write(buffer.Span);
-
+                            var wsCtx = await ctx.AcceptWebSocketAsync(null);
+                            Start(wsCtx.WebSocket, uid);
                         }
                         else
                         {
-                            ctx.Response.StatusCode = 404;
+                            StaticFile(ctx.Response, "index.html", "text/html; charset=utf-8");
                         }
-
+                        break;
+                    case string css when path.EndsWith(".css"):
+                        StaticFile(ctx.Response, css, "text/css");
+                        break;
+                    case string js when path.EndsWith(".js"):
+                        StaticFile(ctx.Response, js, "application/javascript");
+                        break;
+                    case string json when path.EndsWith(".json"):
+                        StaticFile(ctx.Response, json, "application/json; charset=utf-8");
+                        break;
+                    default:
+                        ctx.Response.StatusCode = 404;
                         ctx.Response.Close();
-
-                    }
-                }
-                else if (path.EndsWith(".css"))
-                {
-                    var css = new FileInfo($@".\{path}");
-                    if (css.Exists)
-                    {
-                        using var reader = css.OpenRead();
-                        var buffer = owner.Memory;
-                        await reader.ReadAsync(buffer, default);
-
-                        ctx.Response.StatusCode = 200;
-                        ctx.Response.ContentType = "text/css";
-                        ctx.Response.ContentEncoding = Encoding;
-                        ctx.Response.ContentLength64 = buffer.Length;
-                        ctx.Response.OutputStream.Write(buffer.Span);
-
-                    }
-                    else
-                    {
-                        ctx.Response.StatusCode = 404;
-                    }
-
-                    ctx.Response.Close();
-                }
-                else if (path.EndsWith(".js"))
-                {
-                    var css = new FileInfo($@".\{path}");
-                    if (css.Exists)
-                    {
-                        using var reader = css.OpenRead();
-                        var buffer = owner.Memory;
-                        await reader.ReadAsync(buffer, default);
-
-                        ctx.Response.StatusCode = 200;
-                        ctx.Response.ContentType = "application/javascript";
-                        ctx.Response.ContentEncoding = Encoding;
-                        ctx.Response.ContentLength64 = buffer.Length;
-                        ctx.Response.OutputStream.Write(buffer.Span);
-
-                    }
-                    else
-                    {
-                        ctx.Response.StatusCode = 404;
-                    }
-
-                    ctx.Response.Close();
-                }
-                else
-                {
-                    ctx.Response.StatusCode = 404;
-                    ctx.Response.Close();
+                        break;
                 }
             }
+        }
+
+        private static async void StaticFile(HttpListenerResponse response, string file, string contentType)
+        {
+            if (File.Exists($@".\{file}"))
+            {
+                using var stream = File.Open($@".\{file}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+                response.StatusCode = 200;
+                response.ContentType = contentType;
+                response.ContentEncoding = Encoding;
+                await stream.CopyToAsync(response.OutputStream);
+
+            }
+            else
+            {
+                response.StatusCode = 404;
+            }
+            response.Close();
         }
 
         private static async void Start(WebSocket websocket, string uid)
         {
             if (danmaku != null)
             {
-                _ = danmaku.Stop("Disconnect");
+                await danmaku.Stop("Disconnect");
                 danmaku = null;
                 await ws.CloseAsync(WebSocketCloseStatus.Empty, string.Empty, default);
                 ws.Dispose();
