@@ -45,6 +45,8 @@
                         p.className = "comment";
                         p.innerHTML = `<span class="name">${msg.Obj.Name}</span>送出${msg.Count}个香蕉🍌" />`;
                         break;
+                    case 99: //Text
+                        p.innerText = msg.Obj;
                 }
                 dmk.appendChild(p);
                 dmk.scrollTop = dmk.scrollHeight;

@@ -5,158 +5,140 @@ using System.Buffers;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
-using System.Security.Cryptography;
+using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AcFunDMJ.Vanilla
 {
     class Program
     {
-        private static readonly byte[] NewLine = new byte[] { 0x0D, 0x0A }; // \r\n
-        private const string WSKey = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";    // RFC 6455
         private static readonly Encoding Encoding = Encoding.UTF8;
-        private static readonly Regex GetRegex = new Regex(@"^GET /(.*?) HTTP", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex SecKeyRegex = new Regex("Sec-WebSocket-Key: (.*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static NetworkStream ws;
+        private static WebSocket ws;
         private static Client danmaku;
 
-        private static readonly Config config;
-
-        private static readonly byte[] Index;
-        private static readonly byte[] Css;
-
-        static Program()
-        {
-            var index = new FileInfo(@".\index.html");
-            if (index.Exists)
-            {
-                Index = new byte[index.Length];
-                using var reader = index.OpenRead();
-                reader.Read(Index, 0, Index.Length);
-            }
-            var css = new FileInfo(@".\chatbox.css");
-            if (css.Exists)
-            {
-                Css = new byte[css.Length];
-                using var reader = css.OpenRead();
-                reader.Read(Css, 0, Css.Length);
-            }
-            config = Config.LoadConfig().Result;
-        }
+        private static Config config;
 
         static async Task Main(string[] args)
         {
-            var server = new TcpListener(IPAddress.Loopback, config.Port);
+            config = await Config.LoadConfig();
+            var server = new HttpListener();
+            server.Prefixes.Add($"http://{IPAddress.Loopback}:{config.Port}/");
             server.Start();
             Console.WriteLine("Started");
             using var owner = MemoryPool<byte>.Shared.Rent();
             while (true)
             {
-                var client = await server.AcceptTcpClientAsync();
-                var stream = client.GetStream();
-                _ = Task.Run(() => Serve(stream, owner.Memory));
-            }
-        }
+                var ctx = await server.GetContextAsync();
+                var path = ctx.Request.Url.LocalPath.Substring(1);
 
-        private static async void Serve(NetworkStream stream, Memory<byte> buffer)
-        {
-            try
-            {
-                var count = await stream.ReadAsync(buffer);
-                var data = Encoding.GetString(buffer.Span);
-                var match = GetRegex.Match(data);
-                if (match.Success)
+                if (long.TryParse(path, out _))
                 {
-                    var path = match.Groups[1].Value.Trim();
-                    if (long.TryParse(path, out var _))
+                    if (ctx.Request.IsWebSocketRequest)
                     {
-                        var key = SecKeyRegex.Match(data);
-                        if (key.Success)
-                        {
-                            using var sha1 = SHA1.Create();
-                            var acceptKey = Convert.ToBase64String(sha1.ComputeHash(Encoding.GetBytes(key.Groups[1].Value.Trim() + WSKey)));
-                            stream.Write(Encoding.GetBytes($"HTTP/1.1 101 Switching Protocols\r\nConnection: Upgrade\r\nUpgrade: websocket\r\nSec-WebSocket-Accept: {acceptKey}\r\n\r\n"));
-                            ws = stream;
-                            await Start(path);
-                            stream.Close();
-                            stream.Dispose();
-                            return;
-                        }
-                        else
-                        {
-                            StaticFile(stream, $"Content-Type: text/html; charset=utf-8", Index);
-                        }
-                    }
-                    else if (path == "chatbox.css")
-                    {
-                        StaticFile(stream, $"Content-Type: text/css", Css);
-                        stream.Close();
-                        stream.Dispose();
-                        return;
+                        var wsCtx = await ctx.AcceptWebSocketAsync(null);
+                        Start(wsCtx.WebSocket, path);
                     }
                     else
                     {
-                        NotFound(stream);
-                        stream.Close();
-                        stream.Dispose();
-                        return;
+                        var index = new FileInfo(@".\index.html");
+                        if (index.Exists)
+                        {
+                            using var reader = index.OpenRead();
+                            var buffer = owner.Memory;
+                            await reader.ReadAsync(buffer, default);
+
+                            ctx.Response.StatusCode = 200;
+                            ctx.Response.ContentType = "text/html";
+                            ctx.Response.ContentEncoding = Encoding;
+                            ctx.Response.ContentLength64 = buffer.Length;
+                            ctx.Response.OutputStream.Write(buffer.Span);
+
+                        }
+                        else
+                        {
+                            ctx.Response.StatusCode = 404;
+                        }
+
+                        ctx.Response.Close();
+
                     }
+                }
+                else if (path.EndsWith(".css"))
+                {
+                    var css = new FileInfo($@".\{path}");
+                    if (css.Exists)
+                    {
+                        using var reader = css.OpenRead();
+                        var buffer = owner.Memory;
+                        await reader.ReadAsync(buffer, default);
+
+                        ctx.Response.StatusCode = 200;
+                        ctx.Response.ContentType = "text/css";
+                        ctx.Response.ContentEncoding = Encoding;
+                        ctx.Response.ContentLength64 = buffer.Length;
+                        ctx.Response.OutputStream.Write(buffer.Span);
+
+                    }
+                    else
+                    {
+                        ctx.Response.StatusCode = 404;
+                    }
+
+                    ctx.Response.Close();
+                }
+                else if (path.EndsWith(".js"))
+                {
+                    var css = new FileInfo($@".\{path}");
+                    if (css.Exists)
+                    {
+                        using var reader = css.OpenRead();
+                        var buffer = owner.Memory;
+                        await reader.ReadAsync(buffer, default);
+
+                        ctx.Response.StatusCode = 200;
+                        ctx.Response.ContentType = "application/javascript";
+                        ctx.Response.ContentEncoding = Encoding;
+                        ctx.Response.ContentLength64 = buffer.Length;
+                        ctx.Response.OutputStream.Write(buffer.Span);
+
+                    }
+                    else
+                    {
+                        ctx.Response.StatusCode = 404;
+                    }
+
+                    ctx.Response.Close();
                 }
                 else
                 {
-                    NotFound(stream);
-                    stream.Close();
-                    stream.Dispose();
-                    return;
+                    ctx.Response.StatusCode = 404;
+                    ctx.Response.Close();
                 }
-                Serve(stream, buffer);
-            }
-            catch (IOException)
-            {
-                _ = danmaku?.Stop("Disconnect");
-                stream.Close();
-                stream.Dispose();
-                return;
-            }
-            catch (ObjectDisposedException)
-            {
-                _ = danmaku?.Stop("Disconnect");
-                return;
             }
         }
 
-        private static void StaticFile(NetworkStream stream, string header, byte[] content)
-        {
-            stream.Write(Encoding.GetBytes($"HTTP/1.1 200 OK\r\n{header}\r\nContent-Length: {content.Length}"));
-            stream.Write(NewLine);
-            stream.Write(NewLine);
-            stream.Write(content);
-            stream.Write(NewLine);
-        }
-
-        private static void NotFound(NetworkStream stream)
-        {
-            stream.Write(Encoding.GetBytes("HTTP/1.1 404 Not Found"));
-            stream.Write(NewLine);
-            stream.Write(NewLine);
-        }
-
-        private static async Task Start(string uid)
+        private static async void Start(WebSocket websocket, string uid)
         {
             if (danmaku != null)
             {
                 _ = danmaku.Stop("Disconnect");
                 danmaku = null;
+                await ws.CloseAsync(WebSocketCloseStatus.Empty, string.Empty, default);
+                ws.Dispose();
+                ws = null;
             }
+            ws = websocket;
             danmaku = new Client();
+            SendMessage(MessageType.Text, $"正在连接到直播间：{uid}");
             danmaku.Handler += HandleSignal;
+            SendMessage(MessageType.Text, $"正在初始化弹幕姬");
             await danmaku.Initialize(uid);
+            SendMessage(MessageType.Text, $"正在启动弹幕姬");
             await danmaku.Start();
+            SendMessage(MessageType.Text, $"直播已结束");
         }
 
         enum MessageType
@@ -166,52 +148,20 @@ namespace AcFunDMJ.Vanilla
             Like,
             Enter,
             Gift,
-            Banana
+            Banana,
+            Text = 99
         }
 
-        private static void SendMessage(MessageType type, object obj)
+        private static async void SendMessage(MessageType type, object obj)
         {
-            var text = JsonSerializer.Serialize(new { Type = type, Obj = obj });
-            var data = Encoding.GetBytes(text);
-            int offset = 0;
-            Span<byte> msg = stackalloc byte[data.Length + (data.Length < 126 ? 2 : 4)];
-            msg[offset++] = 0b10000001;
-
-            if (data.Length < 126)
+            if (ws.State == WebSocketState.Open)
             {
-                msg[offset++] = (byte)(0b00000000 | data.Length);
+                var text = JsonSerializer.Serialize(new { Type = type, Obj = obj });
+                await ws.SendAsync(Encoding.GetBytes(text), WebSocketMessageType.Text, true, default);
             }
             else
             {
-                msg[offset++] = 0b01111110;
-
-                var len = BitConverter.GetBytes(data.Length);
-                if (BitConverter.IsLittleEndian)
-                {
-                    msg[offset++] = len[1];
-                    msg[offset++] = len[0];
-                }
-                else
-                {
-                    msg[offset++] = len[3];
-                    msg[offset++] = len[4];
-                }
-            }
-            for (var i = 0; i < data.Length; i++)
-            {
-                msg[offset + i] = data[i];
-            }
-            try
-            {
-                ws.Write(msg);
-            }
-            catch (IOException)
-            {
-                ws.Dispose();
-            }
-            catch (ObjectDisposedException)
-            {
-                _ = danmaku.Stop("Disconnected");
+                await danmaku.Stop("Disconnect");
             }
         }
 
