@@ -460,6 +460,8 @@ namespace AcFunDanmu
                         case GlobalCommand.HEARTBEAT_ACK:
                             var heartbeat = ZtLiveCsHeartbeatAck.Parser.ParseFrom(cmd.Payload);
                             break;
+                        case GlobalCommand.USER_EXIT_ACK:
+                            break;
                         default:
                             Console.WriteLine("Unhandled Global.ZtLiveInteractive.CsCmd: {0}", cmd.CmdAckType);
                             Console.WriteLine(cmd);
