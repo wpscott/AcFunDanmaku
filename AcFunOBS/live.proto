@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+package AcFunOBS;
+
+message StartPushRequest {
+	int32 category = 1;
+	int32 type = 2;
+	int32 bitrate = 3;
+	int32 fps = 4;
+	int32 unknown1 = 5;
+	int32 unknown2 = 6;
+	int32 unknown3 = 7;
+}

@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunDMJ-WASM.Shared", "AcF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunDMJ.Vanilla", "AcFunDMJ.Vanilla\AcFunDMJ.Vanilla.csproj", "{A153BB06-2517-401E-BE81-8133E757D8A1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunOBS", "AcFunOBS\AcFunOBS.csproj", "{ADB16908-0FEB-4571-A190-0497A9FCB4BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -104,6 +106,10 @@ Global
 		{A153BB06-2517-401E-BE81-8133E757D8A1}.Debug|x64.Build.0 = Debug|x64
 		{A153BB06-2517-401E-BE81-8133E757D8A1}.Release|x64.ActiveCfg = Release|x64
 		{A153BB06-2517-401E-BE81-8133E757D8A1}.Release|x64.Build.0 = Release|x64
+		{ADB16908-0FEB-4571-A190-0497A9FCB4BC}.Debug|x64.ActiveCfg = Debug|x64
+		{ADB16908-0FEB-4571-A190-0497A9FCB4BC}.Debug|x64.Build.0 = Debug|x64
+		{ADB16908-0FEB-4571-A190-0497A9FCB4BC}.Release|x64.ActiveCfg = Release|x64
+		{ADB16908-0FEB-4571-A190-0497A9FCB4BC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
