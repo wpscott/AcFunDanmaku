@@ -167,8 +167,8 @@ namespace AcFunOBS
             Span<byte> rand = stackalloc byte[4];
             random.NextBytes(rand);
             long result = BitConverter.ToInt32(rand);
-            result = result << 0x20;
-            result = result | now;
+            result <<= 0x20;
+            result |= now;
             return result;
         }
 
