@@ -15,28 +15,30 @@ namespace AcFunOBS
 {
     class Program
     {
-        private const string StreamType = "https://api-new.acfunchina.com/rest/pc-client/live/type/list?kpf=WINDOWS_PC&appver=1.4.0.145";
+        private const string StreamCategory = "https://api-new.acfunchina.com/rest/pc-client/live/type/list?kpf=WINDOWS_PC&appver=1.4.0.145";
 
-        private static readonly SortedDictionary<string, string> QueryDict = new SortedDictionary<string, string> {
+        private static readonly SortedList<string, string> QueryDict = new SortedList<string, string> {
             { "appver", "1.4.0.145" },
             { "sys", "PC_10" },
             { "kpn", "ACFUN_APP.LIVE_MATE" },
             { "kpf", "WINDOWS_PC" },
             { "subBiz", "mainApp" },
         };
-        private static string Query => string.Join('&', QueryDict.OrderBy(query => query.Key).Select(query => $"{query.Key}={query.Value}"));
+        private static string Query => string.Join('&', QueryDict.Select(query => $"{query.Key}={query.Value}"));
 
         private const string StartPushHost = "https://api.kuaishouzt.com";
         private const string StartPush = "/rest/zt/live/startPush";
 
         private const string TokenHost = "https://id.app.acfun.cn";
         private const string Token = "/rest/app/token/get";
-        private const string key = "zqVDaMgabl6SjsS1EPlhJA==";
 
-        private static CookieContainer Container = new CookieContainer();
+        private const string DefaultKey = "zqVDaMgabl6SjsS1EPlhJA==";
+
+        private static readonly CookieContainer Container = new CookieContainer();
 
         static async Task Main(string[] args)
         {
+            if(args.Length != 8) { return; }
             var passToken = args[0];
             var uid = args[1];
             var category = args[2];
@@ -84,15 +86,15 @@ namespace AcFunOBS
             using var form = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("sid", "acfun.midground.api") });
 
             using var resp = await client.PostAsync($"{TokenHost}{Token}?{Query}", form);
-            var content = await JsonSerializer.DeserializeAsync<TokenResult>(await resp.Content.ReadAsStreamAsync());
-            return content;
+            var token = await JsonSerializer.DeserializeAsync<TokenResult>(await resp.Content.ReadAsStreamAsync());
+            return token;
         }
 
         static async Task StartPushReq(TokenResult token, string title, string cover, StartPushRequest startPushRequest)
         {
             var bizCustomData = $"{{\"typeId\":{startPushRequest.Category}}}";
             var req = Convert.ToBase64String(startPushRequest.ToByteArray());
-            var sign = Sign(StartPush, token.ssecurity, new SortedDictionary<string, string> { { "bizCustomData", bizCustomData }, { "caption", title }, { "videoPushReq", req } });
+            var sign = Sign(StartPush, token.ssecurity, new SortedList<string, string> { { "bizCustomData", bizCustomData }, { "caption", title }, { "videoPushReq", req } });
 
             using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
             client.DefaultRequestHeaders.ExpectContinue = true;
@@ -124,21 +126,12 @@ namespace AcFunOBS
             public string ssecurity { get; set; }
         }
 
-        static string Sign(string uri, string key, long rnd, Span<byte> bytes, SortedDictionary<string, string> extra = null)
+        static string Sign(string uri, string key, long rnd, Span<byte> bytes, SortedList<string, string> extra = null)
         {
             using var hmac = new HMACSHA256(Convert.FromBase64String(key));
-            string url;
-            if (extra == null)
-            {
-                url = $"POST&{uri}&{Query}&{rnd}";
-            }
-            else
-            {
-                var temp = QueryDict.Concat(extra).OrderBy(query => query.Key).Select(query => $"{query.Key}={query.Value}");
-                url = $"POST&{uri}&{string.Join('&', temp)}&{rnd}";
-            }
+            string query = extra == null ? Query : string.Join('&', QueryDict.Concat(extra).OrderBy(query => query.Key).Select(query => $"{query.Key}={query.Value}"));
 
-            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(url));
+            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{uri}&{query}&{rnd}"));
             Span<byte> sign = stackalloc byte[bytes.Length + hash.Length];
             if (BitConverter.IsLittleEndian) { bytes.Reverse(); }
 
@@ -151,13 +144,13 @@ namespace AcFunOBS
                 sign[8 + i] = hash[i];
             }
 
-            return ToBase64Url(Convert.ToBase64String(sign));
+            return ToBase64Url(sign);
         }
 
-        static string Sign(string url, string key, long rnd, SortedDictionary<string, string> extra = null) => Sign(url, key, rnd, BitConverter.GetBytes(rnd), extra);
+        static string Sign(string url, string key, long rnd, SortedList<string, string> extra = null) => Sign(url, key, rnd, BitConverter.GetBytes(rnd), extra);
 
 
-        static string Sign(string url, string key = key, SortedDictionary<string, string> extra = null) => Sign(url, key, Random(), extra);
+        static string Sign(string url, string key = DefaultKey, SortedList<string, string> extra = null) => Sign(url, key, Random(), extra);
 
 
         static long Random()
@@ -186,9 +179,9 @@ namespace AcFunOBS
             }
         }
 
-        static string ToBase64Url(string text)
+        static string ToBase64Url(ReadOnlySpan<byte> data)
         {
-            return text.Replace('/', '_').Replace('+', '-').Trim('=');
+            return Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
         }
     }
 }
