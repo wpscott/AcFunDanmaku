@@ -36,27 +36,45 @@ namespace AcFunOBS
 
         private static readonly CookieContainer Container = new CookieContainer();
 
+        struct Config
+        {
+            public string acPasstoken { get; set; }
+            public long uid { get; set; }
+            public int category { get; set; }
+            public int type { get; set; }
+            public int bitrate { get; set; }
+            public int fps { get; set; }
+            public string title { get; set; }
+            public string cover { get; set; }
+        }
+
         static async Task Main(string[] args)
         {
-            if(args.Length != 8) { return; }
-            var passToken = args[0];
-            var uid = args[1];
-            var category = args[2];
-            var type = args[3];
-            var bitrate = args[4];
-            var fps = args[5];
-            var title = args[6];
-            var cover = args[7];
+            var file = @".\config.json";
+            if (args.Length == 1)
+            {
+                file = args[0];
+            }
+            var fInfo = new FileInfo(file);
+            if (!fInfo.Exists)
+            {
+                using var writer = new StreamWriter(fInfo.OpenWrite());
+                writer.Write(JsonSerializer.Serialize(new Config(), new JsonSerializerOptions { WriteIndented = true }));
+                Console.WriteLine($"Cannot find {file}, created a defalut one");
+                return;
+            }
+            using var reader = fInfo.OpenText();
+            var config = JsonSerializer.Deserialize<Config>(reader.ReadToEnd());
 
-            Container.Add(new Cookie("acPasstoken", passToken, "/", ".acfun.cn"));
-            Container.Add(new Cookie("auth_key", uid, "/", ".acfun.cn"));
-            Container.Add(new Cookie("userId", uid, "/", ".kuaishouzt.com"));
+            Container.Add(new Cookie("acPasstoken", config.acPasstoken, "/", ".acfun.cn"));
+            Container.Add(new Cookie("auth_key", $"{config.uid}", "/", ".acfun.cn"));
+            Container.Add(new Cookie("userId", $"{config.uid}", "/", ".kuaishouzt.com"));
 
             var token = await GetToken();
 
             Container.Add(new Cookie("acfun.midground.api_st", token.st, "/", ".kuaishouzt.com"));
 
-            await StartPushReq(token, title, cover, new StartPushRequest { Category = int.Parse(category), Type = int.Parse(type), Bitrate = int.Parse(bitrate), Fps = int.Parse(fps), Unknown1 = 7, Unknown2 = 1, Unknown3 = 3000 });
+            await StartPushReq(token, config.title, config.cover, new StartPushRequest { Category = config.category, Type = config.type, Bitrate = config.bitrate, Fps = config.fps, Unknown1 = 7, Unknown2 = 1, Unknown3 = 3000 });
         }
 
         static void Test(string url, string key, string sign)
