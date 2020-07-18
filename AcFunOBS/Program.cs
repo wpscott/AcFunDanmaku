@@ -153,13 +153,13 @@ namespace AcFunOBS
             Span<byte> sign = stackalloc byte[bytes.Length + hash.Length];
             if (BitConverter.IsLittleEndian) { bytes.Reverse(); }
 
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < bytes.Length; i++)
             {
                 sign[i] = bytes[i];
             }
             for (var i = 0; i < hash.Length; i++)
             {
-                sign[8 + i] = hash[i];
+                sign[bytes.Length + i] = hash[i];
             }
 
             return ToBase64Url(sign);
