@@ -353,5 +353,7 @@ MigrationBackup/
 .ionide/
 
 AcFunDanmu/*/6.*.js
+AcFunDanmu/*/7.*.js
+AcFunDanmu/*/ImSdk.*.js
 
 AcFunOBS/config.json
