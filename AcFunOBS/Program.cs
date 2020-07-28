@@ -26,10 +26,11 @@ namespace AcFunOBS
         };
         private static string Query => string.Join('&', QueryDict.Select(query => $"{query.Key}={query.Value}"));
 
-        private const string StartPushHost = "https://api.kuaishouzt.com";
+        private const string KuaishouZt = "https://api.kuaishouzt.com";
+        private const string AuthorAuth = "/rest/zt/live/authorAuth";
         private const string StartPush = "/rest/zt/live/startPush";
 
-        private const string TokenHost = "https://id.app.acfun.cn";
+        private const string AppAcfun = "https://id.app.acfun.cn";
         private const string Token = "/rest/app/token/get";
 
         private const string DefaultKey = "zqVDaMgabl6SjsS1EPlhJA==";
@@ -74,7 +75,9 @@ namespace AcFunOBS
 
             Container.Add(new Cookie("acfun.midground.api_st", token.st, "/", ".kuaishouzt.com"));
 
-            await StartPushReq(token, config.title, config.cover, new StartPushRequest { Category = config.category, Type = config.type, Bitrate = config.bitrate, Fps = config.fps, Unknown1 = 7, Unknown2 = 1, Unknown3 = 3000 });
+            await PostAuthorAuth(token);
+
+            await PostStartPush(token, config.title, config.cover, new StartPushRequest { Category = config.category, Type = config.type, Bitrate = config.bitrate, Fps = config.fps, Unknown1 = 7, Unknown2 = 1, Unknown3 = 3000 });
         }
 
         static void Test(string url, string key, string sign)
@@ -103,12 +106,24 @@ namespace AcFunOBS
             using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
             using var form = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("sid", "acfun.midground.api") });
 
-            using var resp = await client.PostAsync($"{TokenHost}{Token}?{Query}", form);
+            using var resp = await client.PostAsync($"{AppAcfun}{Token}?{Query}", form);
             var token = await JsonSerializer.DeserializeAsync<TokenResult>(await resp.Content.ReadAsStreamAsync());
             return token;
         }
 
-        static async Task StartPushReq(TokenResult token, string title, string cover, StartPushRequest startPushRequest)
+        static async Task PostAuthorAuth(TokenResult token)
+        {
+            using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
+
+            var sign = Sign(AuthorAuth, token.ssecurity);
+
+            using var form = new StringContent(string.Empty);
+            using var resp = await client.PostAsync($"{KuaishouZt}{AuthorAuth}?{Query}&__clientsSign={sign}", form);
+            var content = await resp.Content.ReadAsStringAsync();
+            Console.WriteLine(content);
+        }
+
+        static async Task PostStartPush(TokenResult token, string title, string cover, StartPushRequest startPushRequest)
         {
             var bizCustomData = $"{{\"typeId\":{startPushRequest.Category}}}";
             var req = Convert.ToBase64String(startPushRequest.ToByteArray());
@@ -128,7 +143,7 @@ namespace AcFunOBS
             form.Add(biz, "bizCustomData");
             form.Add(file, "cover", "live-preview.jpg");
 
-            using var resp = await client.PostAsync($"{StartPushHost}{StartPush}?{Query}&__clientSign={sign}", form);
+            using var resp = await client.PostAsync($"{KuaishouZt}{StartPush}?{Query}&__clientSign={sign}", form);
             var content = await resp.Content.ReadAsStringAsync();
             Console.WriteLine(content);
         }
