@@ -19,7 +19,7 @@ POST Data
 `authorId=[AuthorId]`
 
 # AcFun Follow Feed V2
-GET`https://api-new.app.acfun.cn/rest/app/feed/followFeedV2`
+GET`https://api-new.app.acfun.cn/rest/app/feed/followFeedV2?pcursor=`
 
 Get Cookies
 * auth_key = UserId
