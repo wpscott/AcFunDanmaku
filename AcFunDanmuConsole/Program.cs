@@ -54,6 +54,7 @@ namespace AcFunDanmuConsole
                 resetTimer.Start();
             }
             Console.WriteLine("Client closed, maybe live is end");
+
             //DecodeHar(@".\your own.har");
             //await LoginToGetGiftList();
         }

@@ -241,35 +241,38 @@ message CommonStateSignalRichText {
 	int64 b = 2;
 
 	message ImageSegment {
-		repeated ImageCdnNode a = 1;
-		string b = 2;
-		string c = 3;
+		repeated ImageCdnNode pictures = 1;
+		string color = 2;	// unconfirmed
+		string alterText = 3;	// unconfirmed
 	}
 	message PlainSegment {
-		string a = 1;
-		string b = 2;
+		string text = 1;
+		string color = 2;
 	}
 	message RichTextSegment {
-		int32 a = 1;	// 1 = UserInfoSegment, 2 = PlainSegment, 3 = ImageSegment
-		bytes b = 2;
+		oneof segment {
+			UserInfoSegment userInfo = 1;
+			PlainSegment plain = 2;
+			ImageSegment image = 3;
+		}
 	}
 	message UserInfoSegment {
-		ZtLiveUserInfo a = 1;
-		string b = 2;
+		ZtLiveUserInfo user = 1;
+		string color = 2;
 	}
 }
 
 message CommonStateSignalCurrentRedpackList {
-	repeated Redpack a = 1;
+	repeated Redpack redpacks = 1;
 
 	message Redpack {
-		ZtLiveUserInfo a = 1;
-		int32 b = 2;
-		int64 c = 3;
-		int64 d = 4;
-		string e = 5;
-		string f = 6;
-		int64 g = 7;
+		ZtLiveUserInfo sender = 1;
+		int32 displayStatus = 2;
+		int64 amount = 3;	// unconfirmed
+		int64 grabBeginTimeInMs = 4;	// unconfirmed
+		string redPackId = 5;	// unconfirmed
+		string bizUnit = 6;	// unconfirmed
+		int64 getTokenLatestTimeInMs = 7;	// unconfirmed
 	}
 }
 
