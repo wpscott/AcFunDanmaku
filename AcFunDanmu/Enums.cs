@@ -45,6 +45,7 @@
             public const string VIOLATION_ALERT = "CommonNotifySignalViolationAlert";
             public const string THROW_BANANA = "AcfunActionSignalThrowBanana";
             public const string GIFT = "CommonActionSignalGift";
+            public const string RICH_TEXT = "CommonActionSignalRichText";
         }
 
         public static class StateSignal
@@ -57,6 +58,7 @@
             public const string CHAT_ACCEPT = "CommonStateSignalChatAccept";
             public const string CHAT_READY = "CommonStateSignalChatReady";
             public const string CHAT_END = "CommonStateSignalChatEnd";
+            public const string CURRENT_RED_PACK_LIST = "CommonStateSignalCurrentRedpackList";
         }
     }
 }
