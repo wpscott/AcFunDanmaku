@@ -236,7 +236,7 @@ message CommonStateSignalChatEnd {
 	}
 }
 
-message CommonStateSignalRichText {
+message CommonActionSignalRichText {
 	repeated RichTextSegment a = 1;
 	int64 b = 2;
 

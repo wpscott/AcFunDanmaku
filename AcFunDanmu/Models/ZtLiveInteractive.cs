@@ -101,38 +101,38 @@ namespace AcFunDanmu {
             "ABIUChBDQU5DRUxfQllfQVVUSE9SEAESEQoNRU5EX0JZX0FVVEhPUhACEhAK",
             "DEVORF9CWV9HVUVTVBADEhAKDEdVRVNUX1JFSkVDVBAEEhEKDUdVRVNUX1RJ",
             "TUVPVVQQBRIbChdHVUVTVF9IRUFSVEJFQVRfVElNRU9VVBAGEhwKGEFVVEhP",
-            "Ul9IRUFSVEJFQVRfVElNRU9VVBAHIrMEChlDb21tb25TdGF0ZVNpZ25hbFJp",
-            "Y2hUZXh0EkAKAWEYASADKAsyNS5BY0Z1bkRhbm11LkNvbW1vblN0YXRlU2ln",
-            "bmFsUmljaFRleHQuUmljaFRleHRTZWdtZW50EgkKAWIYAiABKAMaXAoMSW1h",
-            "Z2VTZWdtZW50EioKCHBpY3R1cmVzGAEgAygLMhguQWNGdW5EYW5tdS5JbWFn",
-            "ZUNkbk5vZGUSDQoFY29sb3IYAiABKAkSEQoJYWx0ZXJUZXh0GAMgASgJGisK",
-            "DFBsYWluU2VnbWVudBIMCgR0ZXh0GAEgASgJEg0KBWNvbG9yGAIgASgJGvEB",
-            "Cg9SaWNoVGV4dFNlZ21lbnQSSQoIdXNlckluZm8YASABKAsyNS5BY0Z1bkRh",
-            "bm11LkNvbW1vblN0YXRlU2lnbmFsUmljaFRleHQuVXNlckluZm9TZWdtZW50",
-            "SAASQwoFcGxhaW4YAiABKAsyMi5BY0Z1bkRhbm11LkNvbW1vblN0YXRlU2ln",
-            "bmFsUmljaFRleHQuUGxhaW5TZWdtZW50SAASQwoFaW1hZ2UYAyABKAsyMi5B",
-            "Y0Z1bkRhbm11LkNvbW1vblN0YXRlU2lnbmFsUmljaFRleHQuSW1hZ2VTZWdt",
-            "ZW50SABCCQoHc2VnbWVudBpKCg9Vc2VySW5mb1NlZ21lbnQSKAoEdXNlchgB",
-            "IAEoCzIaLkFjRnVuRGFubXUuWnRMaXZlVXNlckluZm8SDQoFY29sb3IYAiAB",
-            "KAkirgIKI0NvbW1vblN0YXRlU2lnbmFsQ3VycmVudFJlZHBhY2tMaXN0EkkK",
-            "CHJlZHBhY2tzGAEgAygLMjcuQWNGdW5EYW5tdS5Db21tb25TdGF0ZVNpZ25h",
-            "bEN1cnJlbnRSZWRwYWNrTGlzdC5SZWRwYWNrGrsBCgdSZWRwYWNrEioKBnNl",
-            "bmRlchgBIAEoCzIaLkFjRnVuRGFubXUuWnRMaXZlVXNlckluZm8SFQoNZGlz",
-            "cGxheVN0YXR1cxgCIAEoBRIOCgZhbW91bnQYAyABKAMSGQoRZ3JhYkJlZ2lu",
-            "VGltZUluTXMYBCABKAMSEQoJcmVkUGFja0lkGAUgASgJEg8KB2JpelVuaXQY",
-            "BiABKAkSHgoWZ2V0VG9rZW5MYXRlc3RUaW1lSW5NcxgHIAEoAyJMCiFDb21t",
-            "b25TdGF0ZVNpZ25hbEZlYXR1cmVTdGF0ZVN5bmMSJwoBYRgBIAMoCzIcLkFj",
-            "RnVuRGFubXUuTGl2ZUZlYXR1cmVTdGF0ZSIoChBMaXZlRmVhdHVyZVN0YXRl",
-            "EgkKAWEYASABKAUSCQoBYhgCIAEoBSoyCg1DaGF0TWVkaWFUeXBlEgsKB1VO",
-            "S05PV04QABIJCgVBVURJTxABEgkKBVZJREVPEAIqxQEKDkNzQWNrRXJyb3JD",
-            "b2RlEhIKDlNVQ0NFU1NfQ1NfQUNLEAASDwoLTElWRV9DTE9TRUQQARISCg5U",
-            "SUNLRVRfSUxMRUdBTBACEhIKDkFUVEFDSF9JTExFR0FMEAMSFAoQVVNFUl9O",
-            "T1RfSU5fUk9PTRAEEhAKDFNFUlZFUl9FUlJPUhAFEhkKFVJFUVVFU1RfUEFS",
-            "QU1fSU5WQUxJRBAGEiMKH1JPT01fTk9UX0VYSVNUX0lOX1NUQVRFX01BTkFH",
-            "RVIQByqXAQogWnRMaXZlRG93bnN0cmVhbVBheWxvYWRFcnJvckNvZGUSHgoa",
-            "U1VDQ0VTU19ET1dOU1RSRUFNX1BBWUxPQUQQABIYChJDU19DTURfUEFSU0Vf",
-            "RVJST1IQoY0GEhwKFkNTX0NNRF9DTURfTk9UX1NVUFBPUlQQoo0GEhsKFUNT",
-            "X0NNRF9USUNLRVRfSUxMRUdBTBCjjQZiBnByb3RvMw=="));
+            "Ul9IRUFSVEJFQVRfVElNRU9VVBAHIrgEChpDb21tb25BY3Rpb25TaWduYWxS",
+            "aWNoVGV4dBJBCgFhGAEgAygLMjYuQWNGdW5EYW5tdS5Db21tb25BY3Rpb25T",
+            "aWduYWxSaWNoVGV4dC5SaWNoVGV4dFNlZ21lbnQSCQoBYhgCIAEoAxpcCgxJ",
+            "bWFnZVNlZ21lbnQSKgoIcGljdHVyZXMYASADKAsyGC5BY0Z1bkRhbm11Lklt",
+            "YWdlQ2RuTm9kZRINCgVjb2xvchgCIAEoCRIRCglhbHRlclRleHQYAyABKAka",
+            "KwoMUGxhaW5TZWdtZW50EgwKBHRleHQYASABKAkSDQoFY29sb3IYAiABKAka",
+            "9AEKD1JpY2hUZXh0U2VnbWVudBJKCgh1c2VySW5mbxgBIAEoCzI2LkFjRnVu",
+            "RGFubXUuQ29tbW9uQWN0aW9uU2lnbmFsUmljaFRleHQuVXNlckluZm9TZWdt",
+            "ZW50SAASRAoFcGxhaW4YAiABKAsyMy5BY0Z1bkRhbm11LkNvbW1vbkFjdGlv",
+            "blNpZ25hbFJpY2hUZXh0LlBsYWluU2VnbWVudEgAEkQKBWltYWdlGAMgASgL",
+            "MjMuQWNGdW5EYW5tdS5Db21tb25BY3Rpb25TaWduYWxSaWNoVGV4dC5JbWFn",
+            "ZVNlZ21lbnRIAEIJCgdzZWdtZW50GkoKD1VzZXJJbmZvU2VnbWVudBIoCgR1",
+            "c2VyGAEgASgLMhouQWNGdW5EYW5tdS5adExpdmVVc2VySW5mbxINCgVjb2xv",
+            "chgCIAEoCSKuAgojQ29tbW9uU3RhdGVTaWduYWxDdXJyZW50UmVkcGFja0xp",
+            "c3QSSQoIcmVkcGFja3MYASADKAsyNy5BY0Z1bkRhbm11LkNvbW1vblN0YXRl",
+            "U2lnbmFsQ3VycmVudFJlZHBhY2tMaXN0LlJlZHBhY2sauwEKB1JlZHBhY2sS",
+            "KgoGc2VuZGVyGAEgASgLMhouQWNGdW5EYW5tdS5adExpdmVVc2VySW5mbxIV",
+            "Cg1kaXNwbGF5U3RhdHVzGAIgASgFEg4KBmFtb3VudBgDIAEoAxIZChFncmFi",
+            "QmVnaW5UaW1lSW5NcxgEIAEoAxIRCglyZWRQYWNrSWQYBSABKAkSDwoHYml6",
+            "VW5pdBgGIAEoCRIeChZnZXRUb2tlbkxhdGVzdFRpbWVJbk1zGAcgASgDIkwK",
+            "IUNvbW1vblN0YXRlU2lnbmFsRmVhdHVyZVN0YXRlU3luYxInCgFhGAEgAygL",
+            "MhwuQWNGdW5EYW5tdS5MaXZlRmVhdHVyZVN0YXRlIigKEExpdmVGZWF0dXJl",
+            "U3RhdGUSCQoBYRgBIAEoBRIJCgFiGAIgASgFKjIKDUNoYXRNZWRpYVR5cGUS",
+            "CwoHVU5LTk9XThAAEgkKBUFVRElPEAESCQoFVklERU8QAirFAQoOQ3NBY2tF",
+            "cnJvckNvZGUSEgoOU1VDQ0VTU19DU19BQ0sQABIPCgtMSVZFX0NMT1NFRBAB",
+            "EhIKDlRJQ0tFVF9JTExFR0FMEAISEgoOQVRUQUNIX0lMTEVHQUwQAxIUChBV",
+            "U0VSX05PVF9JTl9ST09NEAQSEAoMU0VSVkVSX0VSUk9SEAUSGQoVUkVRVUVT",
+            "VF9QQVJBTV9JTlZBTElEEAYSIwofUk9PTV9OT1RfRVhJU1RfSU5fU1RBVEVf",
+            "TUFOQUdFUhAHKpcBCiBadExpdmVEb3duc3RyZWFtUGF5bG9hZEVycm9yQ29k",
+            "ZRIeChpTVUNDRVNTX0RPV05TVFJFQU1fUEFZTE9BRBAAEhgKEkNTX0NNRF9Q",
+            "QVJTRV9FUlJPUhChjQYSHAoWQ1NfQ01EX0NNRF9OT1RfU1VQUE9SVBCijQYS",
+            "GwoVQ1NfQ01EX1RJQ0tFVF9JTExFR0FMEKONBmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AcFunDanmu.ChatMediaType), typeof(global::AcFunDanmu.CsAckErrorCode), typeof(global::AcFunDanmu.ZtLiveDownstreamPayloadErrorCode), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -169,10 +169,10 @@ namespace AcFunDanmu {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatAccept), global::AcFunDanmu.CommonStateSignalChatAccept.Parser, new[]{ "ChatId", "MediaType", "ArraySignalInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatReady), global::AcFunDanmu.CommonStateSignalChatReady.Parser, new[]{ "ChatId", "GuestUserInfo", "MediaType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatEnd), global::AcFunDanmu.CommonStateSignalChatEnd.Parser, new[]{ "ChatId", "EndType" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType) }, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalRichText), global::AcFunDanmu.CommonStateSignalRichText.Parser, new[]{ "A", "B" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalRichText.Types.ImageSegment), global::AcFunDanmu.CommonStateSignalRichText.Types.ImageSegment.Parser, new[]{ "Pictures", "Color", "AlterText" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalRichText.Types.PlainSegment), global::AcFunDanmu.CommonStateSignalRichText.Types.PlainSegment.Parser, new[]{ "Text", "Color" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalRichText.Types.RichTextSegment), global::AcFunDanmu.CommonStateSignalRichText.Types.RichTextSegment.Parser, new[]{ "UserInfo", "Plain", "Image" }, new[]{ "Segment" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalRichText.Types.UserInfoSegment), global::AcFunDanmu.CommonStateSignalRichText.Types.UserInfoSegment.Parser, new[]{ "User", "Color" }, null, null, null, null)}),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText), global::AcFunDanmu.CommonActionSignalRichText.Parser, new[]{ "A", "B" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment.Parser, new[]{ "Pictures", "Color", "AlterText" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment.Parser, new[]{ "Text", "Color" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment.Parser, new[]{ "UserInfo", "Plain", "Image" }, new[]{ "Segment" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment.Parser, new[]{ "User", "Color" }, null, null, null, null)}),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Parser, new[]{ "Redpacks" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack.Parser, new[]{ "Sender", "DisplayStatus", "Amount", "GrabBeginTimeInMs", "RedPackId", "BizUnit", "GetTokenLatestTimeInMs" }, null, null, null, null)}),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalFeatureStateSync), global::AcFunDanmu.CommonStateSignalFeatureStateSync.Parser, new[]{ "A" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.LiveFeatureState), global::AcFunDanmu.LiveFeatureState.Parser, new[]{ "A", "B" }, null, null, null, null)
@@ -6113,11 +6113,11 @@ namespace AcFunDanmu {
 
   }
 
-  public sealed partial class CommonStateSignalRichText : pb::IMessage<CommonStateSignalRichText> {
-    private static readonly pb::MessageParser<CommonStateSignalRichText> _parser = new pb::MessageParser<CommonStateSignalRichText>(() => new CommonStateSignalRichText());
+  public sealed partial class CommonActionSignalRichText : pb::IMessage<CommonActionSignalRichText> {
+    private static readonly pb::MessageParser<CommonActionSignalRichText> _parser = new pb::MessageParser<CommonActionSignalRichText>(() => new CommonActionSignalRichText());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<CommonStateSignalRichText> Parser { get { return _parser; } }
+    public static pb::MessageParser<CommonActionSignalRichText> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -6130,31 +6130,31 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public CommonStateSignalRichText() {
+    public CommonActionSignalRichText() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public CommonStateSignalRichText(CommonStateSignalRichText other) : this() {
+    public CommonActionSignalRichText(CommonActionSignalRichText other) : this() {
       a_ = other.a_.Clone();
       b_ = other.b_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public CommonStateSignalRichText Clone() {
-      return new CommonStateSignalRichText(this);
+    public CommonActionSignalRichText Clone() {
+      return new CommonActionSignalRichText(this);
     }
 
     /// <summary>Field number for the "a" field.</summary>
     public const int AFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::AcFunDanmu.CommonStateSignalRichText.Types.RichTextSegment> _repeated_a_codec
-        = pb::FieldCodec.ForMessage(10, global::AcFunDanmu.CommonStateSignalRichText.Types.RichTextSegment.Parser);
-    private readonly pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalRichText.Types.RichTextSegment> a_ = new pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalRichText.Types.RichTextSegment>();
+    private static readonly pb::FieldCodec<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> _repeated_a_codec
+        = pb::FieldCodec.ForMessage(10, global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment.Parser);
+    private readonly pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> a_ = new pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalRichText.Types.RichTextSegment> A {
+    public pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> A {
       get { return a_; }
     }
 
@@ -6171,11 +6171,11 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as CommonStateSignalRichText);
+      return Equals(other as CommonActionSignalRichText);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(CommonStateSignalRichText other) {
+    public bool Equals(CommonActionSignalRichText other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -6229,7 +6229,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(CommonStateSignalRichText other) {
+    public void MergeFrom(CommonActionSignalRichText other) {
       if (other == null) {
         return;
       }
@@ -6261,7 +6261,7 @@ namespace AcFunDanmu {
     }
 
     #region Nested types
-    /// <summary>Container for nested types declared in the CommonStateSignalRichText message type.</summary>
+    /// <summary>Container for nested types declared in the CommonActionSignalRichText message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
       public sealed partial class ImageSegment : pb::IMessage<ImageSegment> {
@@ -6272,7 +6272,7 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pbr::MessageDescriptor Descriptor {
-          get { return global::AcFunDanmu.CommonStateSignalRichText.Descriptor.NestedTypes[0]; }
+          get { return global::AcFunDanmu.CommonActionSignalRichText.Descriptor.NestedTypes[0]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6455,7 +6455,7 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pbr::MessageDescriptor Descriptor {
-          get { return global::AcFunDanmu.CommonStateSignalRichText.Descriptor.NestedTypes[1]; }
+          get { return global::AcFunDanmu.CommonActionSignalRichText.Descriptor.NestedTypes[1]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6612,7 +6612,7 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pbr::MessageDescriptor Descriptor {
-          get { return global::AcFunDanmu.CommonStateSignalRichText.Descriptor.NestedTypes[2]; }
+          get { return global::AcFunDanmu.CommonActionSignalRichText.Descriptor.NestedTypes[2]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6652,8 +6652,8 @@ namespace AcFunDanmu {
         /// <summary>Field number for the "userInfo" field.</summary>
         public const int UserInfoFieldNumber = 1;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public global::AcFunDanmu.CommonStateSignalRichText.Types.UserInfoSegment UserInfo {
-          get { return segmentCase_ == SegmentOneofCase.UserInfo ? (global::AcFunDanmu.CommonStateSignalRichText.Types.UserInfoSegment) segment_ : null; }
+        public global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment UserInfo {
+          get { return segmentCase_ == SegmentOneofCase.UserInfo ? (global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment) segment_ : null; }
           set {
             segment_ = value;
             segmentCase_ = value == null ? SegmentOneofCase.None : SegmentOneofCase.UserInfo;
@@ -6663,8 +6663,8 @@ namespace AcFunDanmu {
         /// <summary>Field number for the "plain" field.</summary>
         public const int PlainFieldNumber = 2;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public global::AcFunDanmu.CommonStateSignalRichText.Types.PlainSegment Plain {
-          get { return segmentCase_ == SegmentOneofCase.Plain ? (global::AcFunDanmu.CommonStateSignalRichText.Types.PlainSegment) segment_ : null; }
+        public global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment Plain {
+          get { return segmentCase_ == SegmentOneofCase.Plain ? (global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment) segment_ : null; }
           set {
             segment_ = value;
             segmentCase_ = value == null ? SegmentOneofCase.None : SegmentOneofCase.Plain;
@@ -6674,8 +6674,8 @@ namespace AcFunDanmu {
         /// <summary>Field number for the "image" field.</summary>
         public const int ImageFieldNumber = 3;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public global::AcFunDanmu.CommonStateSignalRichText.Types.ImageSegment Image {
-          get { return segmentCase_ == SegmentOneofCase.Image ? (global::AcFunDanmu.CommonStateSignalRichText.Types.ImageSegment) segment_ : null; }
+        public global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment Image {
+          get { return segmentCase_ == SegmentOneofCase.Image ? (global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment) segment_ : null; }
           set {
             segment_ = value;
             segmentCase_ = value == null ? SegmentOneofCase.None : SegmentOneofCase.Image;
@@ -6785,19 +6785,19 @@ namespace AcFunDanmu {
           switch (other.SegmentCase) {
             case SegmentOneofCase.UserInfo:
               if (UserInfo == null) {
-                UserInfo = new global::AcFunDanmu.CommonStateSignalRichText.Types.UserInfoSegment();
+                UserInfo = new global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment();
               }
               UserInfo.MergeFrom(other.UserInfo);
               break;
             case SegmentOneofCase.Plain:
               if (Plain == null) {
-                Plain = new global::AcFunDanmu.CommonStateSignalRichText.Types.PlainSegment();
+                Plain = new global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment();
               }
               Plain.MergeFrom(other.Plain);
               break;
             case SegmentOneofCase.Image:
               if (Image == null) {
-                Image = new global::AcFunDanmu.CommonStateSignalRichText.Types.ImageSegment();
+                Image = new global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment();
               }
               Image.MergeFrom(other.Image);
               break;
@@ -6815,7 +6815,7 @@ namespace AcFunDanmu {
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                 break;
               case 10: {
-                global::AcFunDanmu.CommonStateSignalRichText.Types.UserInfoSegment subBuilder = new global::AcFunDanmu.CommonStateSignalRichText.Types.UserInfoSegment();
+                global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment subBuilder = new global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment();
                 if (segmentCase_ == SegmentOneofCase.UserInfo) {
                   subBuilder.MergeFrom(UserInfo);
                 }
@@ -6824,7 +6824,7 @@ namespace AcFunDanmu {
                 break;
               }
               case 18: {
-                global::AcFunDanmu.CommonStateSignalRichText.Types.PlainSegment subBuilder = new global::AcFunDanmu.CommonStateSignalRichText.Types.PlainSegment();
+                global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment subBuilder = new global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment();
                 if (segmentCase_ == SegmentOneofCase.Plain) {
                   subBuilder.MergeFrom(Plain);
                 }
@@ -6833,7 +6833,7 @@ namespace AcFunDanmu {
                 break;
               }
               case 26: {
-                global::AcFunDanmu.CommonStateSignalRichText.Types.ImageSegment subBuilder = new global::AcFunDanmu.CommonStateSignalRichText.Types.ImageSegment();
+                global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment subBuilder = new global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment();
                 if (segmentCase_ == SegmentOneofCase.Image) {
                   subBuilder.MergeFrom(Image);
                 }
@@ -6855,7 +6855,7 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pbr::MessageDescriptor Descriptor {
-          get { return global::AcFunDanmu.CommonStateSignalRichText.Descriptor.NestedTypes[3]; }
+          get { return global::AcFunDanmu.CommonActionSignalRichText.Descriptor.NestedTypes[3]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
