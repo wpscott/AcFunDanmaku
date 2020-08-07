@@ -118,7 +118,7 @@ namespace AcFunOBS
             var sign = Sign(AuthorAuth, token.ssecurity);
 
             using var form = new StringContent(string.Empty);
-            using var resp = await client.PostAsync($"{KuaishouZt}{AuthorAuth}?{Query}&__clientsSign={sign}", form);
+            using var resp = await client.PostAsync($"{KuaishouZt}{AuthorAuth}?{Query}&__clientSign={sign}", form);
             var content = await resp.Content.ReadAsStringAsync();
             Console.WriteLine(content);
         }
