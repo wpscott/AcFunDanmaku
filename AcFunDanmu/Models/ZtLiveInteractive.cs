@@ -101,38 +101,38 @@ namespace AcFunDanmu {
             "ABIUChBDQU5DRUxfQllfQVVUSE9SEAESEQoNRU5EX0JZX0FVVEhPUhACEhAK",
             "DEVORF9CWV9HVUVTVBADEhAKDEdVRVNUX1JFSkVDVBAEEhEKDUdVRVNUX1RJ",
             "TUVPVVQQBRIbChdHVUVTVF9IRUFSVEJFQVRfVElNRU9VVBAGEhwKGEFVVEhP",
-            "Ul9IRUFSVEJFQVRfVElNRU9VVBAHIrgEChpDb21tb25BY3Rpb25TaWduYWxS",
-            "aWNoVGV4dBJBCgFhGAEgAygLMjYuQWNGdW5EYW5tdS5Db21tb25BY3Rpb25T",
-            "aWduYWxSaWNoVGV4dC5SaWNoVGV4dFNlZ21lbnQSCQoBYhgCIAEoAxpcCgxJ",
-            "bWFnZVNlZ21lbnQSKgoIcGljdHVyZXMYASADKAsyGC5BY0Z1bkRhbm11Lklt",
-            "YWdlQ2RuTm9kZRINCgVjb2xvchgCIAEoCRIRCglhbHRlclRleHQYAyABKAka",
-            "KwoMUGxhaW5TZWdtZW50EgwKBHRleHQYASABKAkSDQoFY29sb3IYAiABKAka",
-            "9AEKD1JpY2hUZXh0U2VnbWVudBJKCgh1c2VySW5mbxgBIAEoCzI2LkFjRnVu",
-            "RGFubXUuQ29tbW9uQWN0aW9uU2lnbmFsUmljaFRleHQuVXNlckluZm9TZWdt",
-            "ZW50SAASRAoFcGxhaW4YAiABKAsyMy5BY0Z1bkRhbm11LkNvbW1vbkFjdGlv",
-            "blNpZ25hbFJpY2hUZXh0LlBsYWluU2VnbWVudEgAEkQKBWltYWdlGAMgASgL",
-            "MjMuQWNGdW5EYW5tdS5Db21tb25BY3Rpb25TaWduYWxSaWNoVGV4dC5JbWFn",
-            "ZVNlZ21lbnRIAEIJCgdzZWdtZW50GkoKD1VzZXJJbmZvU2VnbWVudBIoCgR1",
-            "c2VyGAEgASgLMhouQWNGdW5EYW5tdS5adExpdmVVc2VySW5mbxINCgVjb2xv",
-            "chgCIAEoCSKuAgojQ29tbW9uU3RhdGVTaWduYWxDdXJyZW50UmVkcGFja0xp",
-            "c3QSSQoIcmVkcGFja3MYASADKAsyNy5BY0Z1bkRhbm11LkNvbW1vblN0YXRl",
-            "U2lnbmFsQ3VycmVudFJlZHBhY2tMaXN0LlJlZHBhY2sauwEKB1JlZHBhY2sS",
-            "KgoGc2VuZGVyGAEgASgLMhouQWNGdW5EYW5tdS5adExpdmVVc2VySW5mbxIV",
-            "Cg1kaXNwbGF5U3RhdHVzGAIgASgFEg4KBmFtb3VudBgDIAEoAxIZChFncmFi",
-            "QmVnaW5UaW1lSW5NcxgEIAEoAxIRCglyZWRQYWNrSWQYBSABKAkSDwoHYml6",
-            "VW5pdBgGIAEoCRIeChZnZXRUb2tlbkxhdGVzdFRpbWVJbk1zGAcgASgDIkwK",
-            "IUNvbW1vblN0YXRlU2lnbmFsRmVhdHVyZVN0YXRlU3luYxInCgFhGAEgAygL",
-            "MhwuQWNGdW5EYW5tdS5MaXZlRmVhdHVyZVN0YXRlIigKEExpdmVGZWF0dXJl",
-            "U3RhdGUSCQoBYRgBIAEoBRIJCgFiGAIgASgFKjIKDUNoYXRNZWRpYVR5cGUS",
-            "CwoHVU5LTk9XThAAEgkKBUFVRElPEAESCQoFVklERU8QAirFAQoOQ3NBY2tF",
-            "cnJvckNvZGUSEgoOU1VDQ0VTU19DU19BQ0sQABIPCgtMSVZFX0NMT1NFRBAB",
-            "EhIKDlRJQ0tFVF9JTExFR0FMEAISEgoOQVRUQUNIX0lMTEVHQUwQAxIUChBV",
-            "U0VSX05PVF9JTl9ST09NEAQSEAoMU0VSVkVSX0VSUk9SEAUSGQoVUkVRVUVT",
-            "VF9QQVJBTV9JTlZBTElEEAYSIwofUk9PTV9OT1RfRVhJU1RfSU5fU1RBVEVf",
-            "TUFOQUdFUhAHKpcBCiBadExpdmVEb3duc3RyZWFtUGF5bG9hZEVycm9yQ29k",
-            "ZRIeChpTVUNDRVNTX0RPV05TVFJFQU1fUEFZTE9BRBAAEhgKEkNTX0NNRF9Q",
-            "QVJTRV9FUlJPUhChjQYSHAoWQ1NfQ01EX0NNRF9OT1RfU1VQUE9SVBCijQYS",
-            "GwoVQ1NfQ01EX1RJQ0tFVF9JTExFR0FMEKONBmIGcHJvdG8z"));
+            "Ul9IRUFSVEJFQVRfVElNRU9VVBAHIr8EChpDb21tb25BY3Rpb25TaWduYWxS",
+            "aWNoVGV4dBJICghzZWdtZW50cxgBIAMoCzI2LkFjRnVuRGFubXUuQ29tbW9u",
+            "QWN0aW9uU2lnbmFsUmljaFRleHQuUmljaFRleHRTZWdtZW50EgkKAWIYAiAB",
+            "KAMaXAoMSW1hZ2VTZWdtZW50EioKCHBpY3R1cmVzGAEgAygLMhguQWNGdW5E",
+            "YW5tdS5JbWFnZUNkbk5vZGUSDQoFY29sb3IYAiABKAkSEQoJYWx0ZXJUZXh0",
+            "GAMgASgJGisKDFBsYWluU2VnbWVudBIMCgR0ZXh0GAEgASgJEg0KBWNvbG9y",
+            "GAIgASgJGvQBCg9SaWNoVGV4dFNlZ21lbnQSSgoIdXNlckluZm8YASABKAsy",
+            "Ni5BY0Z1bkRhbm11LkNvbW1vbkFjdGlvblNpZ25hbFJpY2hUZXh0LlVzZXJJ",
+            "bmZvU2VnbWVudEgAEkQKBXBsYWluGAIgASgLMjMuQWNGdW5EYW5tdS5Db21t",
+            "b25BY3Rpb25TaWduYWxSaWNoVGV4dC5QbGFpblNlZ21lbnRIABJECgVpbWFn",
+            "ZRgDIAEoCzIzLkFjRnVuRGFubXUuQ29tbW9uQWN0aW9uU2lnbmFsUmljaFRl",
+            "eHQuSW1hZ2VTZWdtZW50SABCCQoHc2VnbWVudBpKCg9Vc2VySW5mb1NlZ21l",
+            "bnQSKAoEdXNlchgBIAEoCzIaLkFjRnVuRGFubXUuWnRMaXZlVXNlckluZm8S",
+            "DQoFY29sb3IYAiABKAkirgIKI0NvbW1vblN0YXRlU2lnbmFsQ3VycmVudFJl",
+            "ZHBhY2tMaXN0EkkKCHJlZHBhY2tzGAEgAygLMjcuQWNGdW5EYW5tdS5Db21t",
+            "b25TdGF0ZVNpZ25hbEN1cnJlbnRSZWRwYWNrTGlzdC5SZWRwYWNrGrsBCgdS",
+            "ZWRwYWNrEioKBnNlbmRlchgBIAEoCzIaLkFjRnVuRGFubXUuWnRMaXZlVXNl",
+            "ckluZm8SFQoNZGlzcGxheVN0YXR1cxgCIAEoBRIOCgZhbW91bnQYAyABKAMS",
+            "GQoRZ3JhYkJlZ2luVGltZUluTXMYBCABKAMSEQoJcmVkUGFja0lkGAUgASgJ",
+            "Eg8KB2JpelVuaXQYBiABKAkSHgoWZ2V0VG9rZW5MYXRlc3RUaW1lSW5NcxgH",
+            "IAEoAyJMCiFDb21tb25TdGF0ZVNpZ25hbEZlYXR1cmVTdGF0ZVN5bmMSJwoB",
+            "YRgBIAMoCzIcLkFjRnVuRGFubXUuTGl2ZUZlYXR1cmVTdGF0ZSIoChBMaXZl",
+            "RmVhdHVyZVN0YXRlEgkKAWEYASABKAUSCQoBYhgCIAEoBSoyCg1DaGF0TWVk",
+            "aWFUeXBlEgsKB1VOS05PV04QABIJCgVBVURJTxABEgkKBVZJREVPEAIqxQEK",
+            "DkNzQWNrRXJyb3JDb2RlEhIKDlNVQ0NFU1NfQ1NfQUNLEAASDwoLTElWRV9D",
+            "TE9TRUQQARISCg5USUNLRVRfSUxMRUdBTBACEhIKDkFUVEFDSF9JTExFR0FM",
+            "EAMSFAoQVVNFUl9OT1RfSU5fUk9PTRAEEhAKDFNFUlZFUl9FUlJPUhAFEhkK",
+            "FVJFUVVFU1RfUEFSQU1fSU5WQUxJRBAGEiMKH1JPT01fTk9UX0VYSVNUX0lO",
+            "X1NUQVRFX01BTkFHRVIQByqXAQogWnRMaXZlRG93bnN0cmVhbVBheWxvYWRF",
+            "cnJvckNvZGUSHgoaU1VDQ0VTU19ET1dOU1RSRUFNX1BBWUxPQUQQABIYChJD",
+            "U19DTURfUEFSU0VfRVJST1IQoY0GEhwKFkNTX0NNRF9DTURfTk9UX1NVUFBP",
+            "UlQQoo0GEhsKFUNTX0NNRF9USUNLRVRfSUxMRUdBTBCjjQZiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AcFunDanmu.ChatMediaType), typeof(global::AcFunDanmu.CsAckErrorCode), typeof(global::AcFunDanmu.ZtLiveDownstreamPayloadErrorCode), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -169,7 +169,7 @@ namespace AcFunDanmu {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatAccept), global::AcFunDanmu.CommonStateSignalChatAccept.Parser, new[]{ "ChatId", "MediaType", "ArraySignalInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatReady), global::AcFunDanmu.CommonStateSignalChatReady.Parser, new[]{ "ChatId", "GuestUserInfo", "MediaType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatEnd), global::AcFunDanmu.CommonStateSignalChatEnd.Parser, new[]{ "ChatId", "EndType" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType) }, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText), global::AcFunDanmu.CommonActionSignalRichText.Parser, new[]{ "A", "B" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment.Parser, new[]{ "Pictures", "Color", "AlterText" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText), global::AcFunDanmu.CommonActionSignalRichText.Parser, new[]{ "Segments", "B" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment.Parser, new[]{ "Pictures", "Color", "AlterText" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment.Parser, new[]{ "Text", "Color" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment.Parser, new[]{ "UserInfo", "Plain", "Image" }, new[]{ "Segment" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment.Parser, new[]{ "User", "Color" }, null, null, null, null)}),
@@ -6138,7 +6138,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public CommonActionSignalRichText(CommonActionSignalRichText other) : this() {
-      a_ = other.a_.Clone();
+      segments_ = other.segments_.Clone();
       b_ = other.b_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -6148,14 +6148,14 @@ namespace AcFunDanmu {
       return new CommonActionSignalRichText(this);
     }
 
-    /// <summary>Field number for the "a" field.</summary>
-    public const int AFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> _repeated_a_codec
+    /// <summary>Field number for the "segments" field.</summary>
+    public const int SegmentsFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> _repeated_segments_codec
         = pb::FieldCodec.ForMessage(10, global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment.Parser);
-    private readonly pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> a_ = new pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment>();
+    private readonly pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> segments_ = new pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> A {
-      get { return a_; }
+    public pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> Segments {
+      get { return segments_; }
     }
 
     /// <summary>Field number for the "b" field.</summary>
@@ -6182,7 +6182,7 @@ namespace AcFunDanmu {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!a_.Equals(other.a_)) return false;
+      if(!segments_.Equals(other.segments_)) return false;
       if (B != other.B) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -6190,7 +6190,7 @@ namespace AcFunDanmu {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= a_.GetHashCode();
+      hash ^= segments_.GetHashCode();
       if (B != 0L) hash ^= B.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -6205,7 +6205,7 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      a_.WriteTo(output, _repeated_a_codec);
+      segments_.WriteTo(output, _repeated_segments_codec);
       if (B != 0L) {
         output.WriteRawTag(16);
         output.WriteInt64(B);
@@ -6218,7 +6218,7 @@ namespace AcFunDanmu {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += a_.CalculateSize(_repeated_a_codec);
+      size += segments_.CalculateSize(_repeated_segments_codec);
       if (B != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(B);
       }
@@ -6233,7 +6233,7 @@ namespace AcFunDanmu {
       if (other == null) {
         return;
       }
-      a_.Add(other.a_);
+      segments_.Add(other.segments_);
       if (other.B != 0L) {
         B = other.B;
       }
@@ -6249,7 +6249,7 @@ namespace AcFunDanmu {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            a_.AddEntriesFrom(input, _repeated_a_codec);
+            segments_.AddEntriesFrom(input, _repeated_segments_codec);
             break;
           }
           case 16: {
