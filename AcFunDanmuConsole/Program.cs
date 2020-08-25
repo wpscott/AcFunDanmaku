@@ -207,6 +207,7 @@ namespace AcFunDanmuConsole
                             case PushMessage.StateSignal.CHAT_ACCEPT:
                             case PushMessage.StateSignal.CHAT_READY:
                             case PushMessage.StateSignal.CHAT_END:
+                            case PushMessage.StateSignal.CURRENT_RED_PACK_LIST:
                                 break;
                             default:
                                 var pi = Parse(item.SingalType, item.Payload);

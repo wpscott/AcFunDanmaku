@@ -94,8 +94,8 @@ namespace AcFunDanmu
 #endif
                 try
                 {
-                    using var client = CreateHttpClient();
-
+                    using var client = CreateHttpClient(ACFUN_LOGIN_URI);
+                    
                     using var login = await client.GetAsync(ACFUN_LOGIN_URI);
                     if (!login.IsSuccessStatusCode)
                     {
@@ -161,7 +161,7 @@ namespace AcFunDanmu
                 Console.WriteLine("Client initializing");
                 try
                 {
-                    using var client = CreateHttpClient();
+                    using var client = CreateHttpClient($"{LIVE_URL}/{uid}");
 
                     using var index = await client.GetAsync($"{LIVE_URL}/{uid}");
                     if (!index.IsSuccessStatusCode)
@@ -253,7 +253,7 @@ namespace AcFunDanmu
                 _LastGiftUpdate = now;
                 try
                 {
-                    using var client = CreateHttpClient();
+                    using var client = CreateHttpClient(LIVE_URL);
 
                     using var giftContent = new FormUrlEncodedContent(new Dictionary<string, string>
                     {
@@ -286,7 +286,7 @@ namespace AcFunDanmu
             }
             try
             {
-                using var client = CreateHttpClient();
+                using var client = CreateHttpClient(LIVE_URL);
 
                 using var watchingContent = new FormUrlEncodedContent(new Dictionary<string, string>
             {
@@ -575,7 +575,12 @@ namespace AcFunDanmu
             }
         }
 
-        private static HttpClient CreateHttpClient()
+        private static HttpClient CreateHttpClient(string referer)
+        {
+            return CreateHttpClient(new Uri(referer));
+        }
+
+        private static HttpClient CreateHttpClient(Uri referer)
         {
             var client = new HttpClient(
                    new HttpClientHandler
@@ -587,6 +592,7 @@ namespace AcFunDanmu
                 );
             client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent);
             client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(ACCEPTED_ENCODING);
+            client.DefaultRequestHeaders.Referrer = referer;
             return client;
         }
     }
