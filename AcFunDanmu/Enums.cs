@@ -32,6 +32,7 @@
     {
         public const string ACTION_SIGNAL = "ZtLiveScActionSignal";
         public const string STATE_SIGNAL = "ZtLiveScStateSignal";
+        public const string NOTIFY_SIGNAL = "ZtLiveScNotifySignal";
         public const string STATUS_CHANGED = "ZtLiveScStatusChanged";
         public const string TICKET_INVALID = "ZtLiveScTicketInvalid";
 
@@ -41,8 +42,6 @@
             public const string LIKE = "CommonActionSignalLike";
             public const string ENTER_ROOM = "CommonActionSignalUserEnterRoom";
             public const string FOLLOW = "CommonActionSignalUserFollowAuthor";
-            public const string KICKED_OUT = "CommonNotifySignalKickedOut";
-            public const string VIOLATION_ALERT = "CommonNotifySignalViolationAlert";
             public const string THROW_BANANA = "AcfunActionSignalThrowBanana";
             public const string GIFT = "CommonActionSignalGift";
             public const string RICH_TEXT = "CommonActionSignalRichText";
@@ -59,6 +58,13 @@
             public const string CHAT_READY = "CommonStateSignalChatReady";
             public const string CHAT_END = "CommonStateSignalChatEnd";
             public const string CURRENT_RED_PACK_LIST = "CommonStateSignalCurrentRedpackList";
+        }
+
+        public static class NotifySignal
+        {
+            public const string KICKED_OUT = "CommonNotifySignalKickedOut";
+            public const string VIOLATION_ALERT = "CommonNotifySignalViolationAlert";
+            public const string LIVE_MANAGER_STATE = "CommonNotifySignalLiveManagerState";
         }
     }
 }

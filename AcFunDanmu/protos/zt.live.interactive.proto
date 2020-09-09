@@ -105,11 +105,21 @@ message ZtLiveScStatusChanged {
 
 message ZtLiveScTicketInvalid {}
 
+message ZtLiveUserIdentity {
+	ManagerType managerType = 1;
+
+	enum ManagerType {
+		UNKNOWN_MANAGER_TYPE = 0;
+		NORMAL = 1;
+	}
+}
+
 message ZtLiveUserInfo {
 	int64 userId = 1;
 	string nickname = 2;
 	repeated ImageCdnNode avatar = 3;
-	string badge = 4;
+	string badge = 4;  // bizCustomInfo
+    ZtLiveUserIdentity userIdentity = 5;
 }
 
 message ImageCdnNode {
@@ -149,12 +159,13 @@ message CommonActionSignalGift {
 	ZtLiveUserInfo user = 1;
 	int64 sendTimeMs = 2;
 	int32 giftId = 3;
-	int32 count = 4;
-	int32 combo = 5;
-	int32 value = 6;
+	int32 count = 4;  //batchSize
+	int32 combo = 5;  //comboCount
+	int32 value = 6;  //rank
 	string comboId = 7;
 	int32 slotDisplayDurationMs = 8;
 	int32 expireDurationMs = 9;
+	ZtDrawGiftInfo drawGiftInfo = 10;
 }
 
 message CommonNotifySignalKickedOut {
@@ -207,6 +218,7 @@ enum ZtLiveDownstreamPayloadErrorCode {
 message CommonStateSignalChatCall{
 	string chatId = 1;
 	string liveId = 2;
+	int64 callTimestampMs = 3;
 }
 
 message CommonStateSignalChatAccept {
@@ -239,12 +251,12 @@ message CommonStateSignalChatEnd {
 
 message CommonActionSignalRichText {
 	repeated RichTextSegment segments = 1;
-	int64 b = 2;
+	int64 sendTimeMs = 2;
 
 	message ImageSegment {
-		repeated ImageCdnNode pictures = 1;
-		string color = 2;	// unconfirmed
-		string alterText = 3;	// unconfirmed
+		repeated ImageCdnNode pictures = 1; //cdnNode
+		string alternativeText = 2;
+		string alternativeCOlor = 3;
 	}
 	message PlainSegment {
 		string text = 1;
@@ -266,22 +278,75 @@ message CommonActionSignalRichText {
 message CommonStateSignalCurrentRedpackList {
 	repeated Redpack redpacks = 1;
 
+	enum RedpackDisplayStatus {
+		SHOW = 0;
+		GET_TOKEN = 1;
+		GRAB = 2;
+	}
+
 	message Redpack {
 		ZtLiveUserInfo sender = 1;
-		int32 displayStatus = 2;
-		int64 amount = 3;	// unconfirmed
-		int64 grabBeginTimeInMs = 4;	// unconfirmed
-		string redPackId = 5;	// unconfirmed
-		string bizUnit = 6;	// unconfirmed
-		int64 getTokenLatestTimeInMs = 7;	// unconfirmed
+		RedpackDisplayStatus displayStatus = 2;
+		int64 grabBeginTimeMs = 3;
+		int64 getTokenLatestTimeMs = 4;
+		string redPackId = 5;
+		string redpackBizUnit = 6;
+		int64 redpackAmount = 7;
+		int64 rsettleBeginTime = 8;
 	}
 }
 
 message CommonStateSignalFeatureStateSync {
-	repeated LiveFeatureState a = 1;
+	repeated LiveFeatureState featureState = 1;
 }
 
 message LiveFeatureState {
-	int32 a = 1;
-	int32 b = 2;
+	FeatureType type = 1;
+	FeatureState state = 2;
+
+	enum FeatureType {
+		FEATURE_UNKNOWN = 0;
+		LANDSCAPE_COMMENT = 1;
+	}
+
+	enum FeatureState {
+		FEATURE_STATE_UNKNOWN = 0;
+		FEATURE_STATE_OPEND = 1;
+		FEATURE_STATE_CLOSED = 2;
+	}
+}
+
+message ZtDrawGiftInfo {
+	int64 screenWidth = 1;
+	int64 screenHeight = 2;
+	repeated ZtDrawPoint drawPoint = 3;
+
+	message ZtDrawPoint {
+		int64 marginLeft = 1;
+		int64 marginTop = 2;
+		double scaleRatio = 3;
+		bool handup = 4;
+	}
+}
+
+message CommonNotifySignalCoverAuditResult {
+	AuditStatus auditStatus = 1;
+
+	enum AuditStatus {
+		SUCCESS = 0;
+		COVER_AUDIT_FAILED = 1;
+		CAPTION_AUDIT_FAILED = 2;
+		BOTH_FAILED = 3;
+	}
+}
+
+message CommonNotifySignalLiveManagerState {
+	ManagerState state = 1;
+
+	enum ManagerState {
+		MANAGER_STATE_UNKNOWN = 0;
+		MANAGER_ADDED = 1;
+		MANAGER_REMOVED = 2;
+		IS_MANAGER = 3;
+	}
 }
