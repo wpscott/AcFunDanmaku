@@ -6,13 +6,13 @@ import "ZtLiveUserInfo.proto";
 import "ImageCdnNode.proto";
 
 message CommonActionSignalRichText {
-	repeated RichTextSegment segments = 1;
-	int64 sendTimeMs = 2;
+	repeated RichTextSegment segments = 1; //segment
+	uint64 sendTimeMs = 2;
 
 	message ImageSegment {
 		repeated ImageCdnNode pictures = 1; //cdnNode
 		string alternativeText = 2;
-		string alternativeCOlor = 3;
+		string alternativeColor = 3;
 	}
 	message PlainSegment {
 		string text = 1;

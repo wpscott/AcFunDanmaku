@@ -5,5 +5,5 @@ package AcFunDanmu;
 message CommonStateSignalChatCall {
 	string chatId = 1;
 	string liveId = 2;
-	int64 callTimestampMs = 3;
+	uint64 callTimestampMs = 3;
 }

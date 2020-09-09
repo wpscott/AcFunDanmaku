@@ -3,14 +3,14 @@
 package AcFunDanmu;
 
 message AcFunUserInfo {
-	int64 userId = 1;
+	uint64 userId = 1;
 	string name = 2;
 }
 
 message AcfunActionSignalThrowBanana {
 	AcFunUserInfo visitor = 1;
 	int32 count = 2;
-	int64 sendTimeMs = 3;
+	uint64 sendTimeMs = 3;
 }
 
 message AcfunStateSignalDisplayInfo {

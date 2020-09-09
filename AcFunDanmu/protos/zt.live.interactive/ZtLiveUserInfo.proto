@@ -6,7 +6,7 @@ import "ImageCdnNode.proto";
 import "ZtLiveUserIdentity.proto";
 
 message ZtLiveUserInfo {
-	int64 userId = 1;
+	uint64 userId = 1;
 	string nickname = 2;
 	repeated ImageCdnNode avatar = 3;
 	string badge = 4;  // bizCustomInfo
