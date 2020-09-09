@@ -24,3 +24,94 @@ GET`https://api-new.app.acfun.cn/rest/app/feed/followFeedV2?pcursor=`
 Get Cookies
 * auth_key = UserId
 * acPasstoken
+
+
+# HOST `//api.kuaishouzt.com`
+**params**
+```
+{subBiz, kpn, kpf, userId, did, token}
+```
+
+## startPlay
+`/rest/zt/live/web/startPlay`
+```
+{authorId, pullStreamType}
+```
+
+## stopPlay
+`/rest/zt/live/web/stopPlay`
+```
+{visitorId, liveId}
+```
+
+## postComment
+`/rest/zt/live/web/audience/action/comment`
+```
+{visitorId, liveId, content}
+```
+
+## postLike
+`/rest/zt/live/web/audience/action/like`
+```
+{visitorId, liveId, count, durationMs}
+```
+
+## getPlayUrls
+`/rest/zt/live/web/getPlayUrls`
+```
+{visitorId, liveId, pullStreamType}
+```
+
+## getWatchingList
+`/rest/zt/live/web/watchingList`
+```
+{visitorId, liveId}
+```
+
+## getGiftList
+`/rest/zt/live/web/gift/list`
+```
+{visitorId, liveId, giftListHash}
+```
+
+## getWalletBalance
+`/rest/zt/live/web/pay/wallet/balance`
+```
+{visitorId}
+```
+
+## sendGift
+`/rest/zt/live/web/gift/send`
+```
+{visitorId, liveId, giftId, batchSize, comboKey}
+```
+
+## getEndSummary
+`/rest/zt/live/web/endSummary`
+```
+{visitorId, liveId}
+```
+
+## getSimpleUsrInfo
+`/rest/zt/live/web/user/info/simple`
+```
+{visitorId, queryUserId}
+```
+
+## getManager
+`/rest/zt/live/web/author/action/manager/list`
+```
+{visitorId, liveId}
+```
+
+## managerKickAudience
+`/rest/zt/live/web/manager/kick`
+```
+{visitorId, liveId, kickedUserId}
+```
+
+## authorKickAudience
+`/rest/zt/live/web/author/action/kick`
+```
+{visitorId, liveId, kickedUserId}
+```
