@@ -1,5 +1,6 @@
 ﻿using AcFunDanmu.Enums;
 using AcFunDanmu.Models.Client;
+using Google.Protobuf;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ using static AcFunDanmu.ClientUtils;
 
 namespace AcFunDanmu
 {
-    public delegate void SignalHandler(string messageType, byte[] payload);
-    public delegate void DedicatedSignalHandler(string userId, string messageType, byte[] payload);
+    public delegate void SignalHandler(string messageType, ByteString payload);
+    public delegate void DedicatedSignalHandler(string userId, string messageType, ByteString payload);
     public class Client
     {
         #region Constants
@@ -95,7 +96,7 @@ namespace AcFunDanmu
                 try
                 {
                     using var client = CreateHttpClient(ACFUN_LOGIN_URI);
-                    
+
                     using var login = await client.GetAsync(ACFUN_LOGIN_URI);
                     if (!login.IsSuccessStatusCode)
                     {
@@ -233,7 +234,7 @@ namespace AcFunDanmu
                 catch (HttpRequestException e)
                 {
 #if DEBUG
-                Console.WriteLine("Initialize exception: {0}", e.Message);
+                    Console.WriteLine("Initialize exception: {0}", e.Message);
 #endif
                     return await Initialize(uid);
                 }
@@ -496,14 +497,11 @@ namespace AcFunDanmu
                     switch (message.MessageType)
                     {
                         case PushMessage.ACTION_SIGNAL:
-                            // Handled by user
-                            Handler?.Invoke(message.MessageType, payload.ToByteArray());
-                            DedicatedHandler?.Invoke(AVUPId, message.MessageType, payload.ToByteArray());
-                            break;
                         case PushMessage.STATE_SIGNAL:
+                        case PushMessage.NOTIFY_SIGNAL:
                             // Handled by user
-                            Handler?.Invoke(message.MessageType, payload.ToByteArray());
-                            DedicatedHandler?.Invoke(AVUPId, message.MessageType, payload.ToByteArray());
+                            Handler?.Invoke(message.MessageType, payload);
+                            DedicatedHandler?.Invoke(AVUPId, message.MessageType, payload);
                             break;
                         case PushMessage.STATUS_CHANGED:
                             var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);

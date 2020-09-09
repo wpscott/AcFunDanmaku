@@ -1,5 +1,6 @@
 ﻿using AcFunDanmu;
 using AcFunDanmu.Enums;
+using Google.Protobuf;
 using System;
 using System.Collections;
 using System.IO;
@@ -59,7 +60,7 @@ namespace AcFunDanmuConsole
             //await LoginToGetGiftList();
         }
 
-        static void HandleSignal(string messagetType, byte[] payload)
+        static void HandleSignal(string messagetType, ByteString payload)
         {
             switch (messagetType)
             {
@@ -69,7 +70,7 @@ namespace AcFunDanmuConsole
 
                     foreach (var item in actionSignal.Item)
                     {
-                        switch (item.SingalType)
+                        switch (item.SignalType)
                         {
                             case PushMessage.ActionSignal.COMMENT:
                                 foreach (var pl in item.Payload)
@@ -99,8 +100,9 @@ namespace AcFunDanmuConsole
                                     Console.WriteLine("{0} - {1}({2} followed", follower.SendTimeMs, follower.UserInfo.Nickname, follower.UserInfo.UserId);
                                 }
                                 break;
-                            case PushMessage.ActionSignal.KICKED_OUT:
-                            case PushMessage.ActionSignal.VIOLATION_ALERT:
+                            case PushMessage.NotifySignal.KICKED_OUT:
+                            case PushMessage.NotifySignal.VIOLATION_ALERT:
+                            case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
                                 break;
                             case PushMessage.ActionSignal.THROW_BANANA:
                                 foreach (var pl in item.Payload)
@@ -167,9 +169,9 @@ namespace AcFunDanmuConsole
                             default:
                                 foreach (var p in item.Payload)
                                 {
-                                    var pi = Parse(item.SingalType, p);
+                                    var pi = Parse(item.SignalType, p);
 #if DEBUG
-                                    Console.WriteLine("Unhandled action type: {0}, content: {1}", item.SingalType, pi);
+                                    Console.WriteLine("Unhandled action type: {0}, content: {1}", item.SignalType, pi);
 #endif
                                 }
                                 break;
@@ -178,11 +180,11 @@ namespace AcFunDanmuConsole
                     break;
                 // Includes current banana counts, watching count, like count and top 3 users sent gifts
                 case PushMessage.STATE_SIGNAL:
-                    ZtLiveScStateSignal signal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
+                    ZtLiveScStateSignal stateSignal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
 
-                    foreach (var item in signal.Item)
+                    foreach (var item in stateSignal.Item)
                     {
-                        switch (item.SingalType)
+                        switch (item.SignalType)
                         {
                             case PushMessage.StateSignal.ACFUN_DISPLAY_INFO:
                                 var acInfo = AcfunStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
@@ -210,13 +212,35 @@ namespace AcFunDanmuConsole
                             case PushMessage.StateSignal.CURRENT_RED_PACK_LIST:
                                 break;
                             default:
-                                var pi = Parse(item.SingalType, item.Payload);
+                                var pi = Parse(item.SignalType, item.Payload);
 #if DEBUG
-                                Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SingalType, pi);
+                                Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
 #endif
                                 break;
                         }
                     }
+                    break;
+                case PushMessage.NOTIFY_SIGNAL:
+                    ZtLiveNotifySignalItem notifySignal = ZtLiveNotifySignalItem.Parser.ParseFrom(payload);
+                    switch (notifySignal.SignalType)
+                    {
+                        case PushMessage.NotifySignal.KICKED_OUT:
+                        case PushMessage.NotifySignal.VIOLATION_ALERT:
+                        case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
+                            break;
+                        default:
+                            var pi = Parse(notifySignal.SignalType, notifySignal.Payload);
+#if DEBUG
+                            Console.WriteLine("Unhandled state type: {0}, content: {1}", notifySignal.SignalType, pi);
+#endif
+                            break;
+                    }
+                    break;
+                default:
+                    var unknown = Parse(messagetType, payload);
+#if DEBUG
+                    Console.WriteLine("Unhandled state type: {0}, content: {1}", messagetType, unknown);
+#endif
                     break;
             }
         }
@@ -321,7 +345,7 @@ namespace AcFunDanmuConsole
                             writer.WriteLine("\tUpstream Push.Message: {0}", us.PayloadData.ToBase64());
                             break;
                         default:
-                            writer.WriteLine("Unknown upstream: {0}",us);
+                            writer.WriteLine("Unknown upstream: {0}", us);
                             break;
                     }
                     writer.WriteLine("--------------------------------");
@@ -396,11 +420,11 @@ namespace AcFunDanmuConsole
                             {
                                 case PushMessage.ACTION_SIGNAL:
                                     // Handled by user
-                                    HandleSignal(scmessage.MessageType, payload.ToByteArray());
+                                    HandleSignal(scmessage.MessageType, payload);
                                     break;
                                 case PushMessage.STATE_SIGNAL:
                                     // Handled by user
-                                    HandleSignal(scmessage.MessageType, payload.ToByteArray());
+                                    HandleSignal(scmessage.MessageType, payload);
                                     break;
                                 case PushMessage.STATUS_CHANGED:
                                     var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);

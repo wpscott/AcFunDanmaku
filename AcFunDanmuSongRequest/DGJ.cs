@@ -2,6 +2,7 @@
 using AcFunDanmu.Enums;
 using AcFunDanmuSongRequest.Platform;
 using AcFunDanmuSongRequest.Platform.Interfaces;
+using Google.Protobuf;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -85,13 +86,13 @@ namespace AcFunDanmuSongRequest
             return await platform.NextSong();
         }
 
-        public static async void HandleSignal(string messagetType, byte[] payload)
+        public static async void HandleSignal(string messagetType, ByteString payload)
         {
             if (messagetType == PushMessage.ACTION_SIGNAL)
             {
                 var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
                 foreach (var match in actionSignal.Item
-                    .Where(item => item.SingalType == PushMessage.ActionSignal.COMMENT)
+                    .Where(item => item.SignalType == PushMessage.ActionSignal.COMMENT)
                     .Select(item =>
                         item.Payload.Select(CommonActionSignalComment.Parser.ParseFrom)
                         .Select(comment => Pattern.Match(comment.Content))

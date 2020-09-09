@@ -2,6 +2,7 @@
 using AcFunDanmu.Enums;
 using AcFunDMJ_WASM.Server.Hubs;
 using AcFunDMJ_WASM.Shared;
+using Google.Protobuf;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -111,7 +112,7 @@ namespace AcFunDMJ_WASM.Server
             Monitoring.Remove(Id);
         }
 
-        private void HandleSignal(string avupId, string messagetType, byte[] payload)
+        private void HandleSignal(string avupId, string messagetType, ByteString payload)
         {
             switch (messagetType)
             {
@@ -121,7 +122,7 @@ namespace AcFunDMJ_WASM.Server
 
                     foreach (var item in actionSignal.Item)
                     {
-                        switch (item.SingalType)
+                        switch (item.SignalType)
                         {
                             case PushMessage.ActionSignal.COMMENT:
                                 foreach (var pl in item.Payload)
@@ -155,9 +156,6 @@ namespace AcFunDMJ_WASM.Server
                                     _logger.LogDebug(follower.ToString());
                                 }
                                 break;
-                            case PushMessage.ActionSignal.KICKED_OUT:
-                            case PushMessage.ActionSignal.VIOLATION_ALERT:
-                                break;
                             case PushMessage.ActionSignal.THROW_BANANA:
                                 //foreach (var pl in item.Payload)
                                 //{
@@ -185,7 +183,7 @@ namespace AcFunDMJ_WASM.Server
 
                     foreach (var item in signal.Item)
                     {
-                        switch (item.SingalType)
+                        switch (item.SignalType)
                         {
                             case PushMessage.StateSignal.ACFUN_DISPLAY_INFO:
                                 //var acInfo = AcfunStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
@@ -208,9 +206,9 @@ namespace AcFunDMJ_WASM.Server
                                 }
                                 break;
                             default:
-                                //                            var pi = Parse(item.SingalType, item.Payload);
+                                //                            var pi = Parse(item.SignalType, item.Payload);
                                 //#if DEBUG
-                                //                            Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SingalType, pi);
+                                //                            Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
                                 //#endif
                                 break;
                         }

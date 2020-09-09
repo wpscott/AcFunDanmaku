@@ -1,5 +1,6 @@
 ﻿using AcFunDanmu;
 using AcFunDanmu.Enums;
+using Google.Protobuf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -221,13 +222,13 @@ namespace AcFunBlackBoxGuess.Models
             }
         }
 
-        private void HandleSignal(string messagetType, byte[] payload)
+        private void HandleSignal(string messagetType, ByteString payload)
         {
             if (messagetType == PushMessage.ACTION_SIGNAL)
             {
                 var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
                 foreach (var danmu in actionSignal.Item
-                    .Where(item => item.SingalType == PushMessage.ActionSignal.COMMENT)
+                    .Where(item => item.SignalType == PushMessage.ActionSignal.COMMENT)
                     .Select(item =>
                         item.Payload.Select(CommonActionSignalComment.Parser.ParseFrom)
                     ).SelectMany(danmu => danmu)
@@ -240,7 +241,7 @@ namespace AcFunBlackBoxGuess.Models
             {
                 var stateSignal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
                 foreach (var displayInfo in stateSignal.Item
-                    .Where(item => item.SingalType == PushMessage.StateSignal.DISPLAY_INFO)
+                    .Where(item => item.SignalType == PushMessage.StateSignal.DISPLAY_INFO)
                     .Select(item => CommonStateSignalDisplayInfo.Parser.ParseFrom(item.Payload))
                     )
                 {

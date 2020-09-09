@@ -1,5 +1,6 @@
 ﻿using AcFunDanmu;
 using AcFunDanmu.Enums;
+using Google.Protobuf;
 using System;
 using System.IO;
 using System.Linq;
@@ -128,7 +129,7 @@ namespace AcFunDMJ.Vanilla
             }
         }
 
-        private static void HandleSignal(string messagetType, byte[] payload)
+        private static void HandleSignal(string messagetType, ByteString payload)
         {
             switch (messagetType)
             {
@@ -137,7 +138,7 @@ namespace AcFunDMJ.Vanilla
                     var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
                     foreach (var item in actionSignal.Item)
                     {
-                        switch (item.SingalType)
+                        switch (item.SignalType)
                         {
                             case PushMessage.ActionSignal.COMMENT:
                                 foreach (var pl in item.Payload)
@@ -176,9 +177,6 @@ namespace AcFunDMJ.Vanilla
                                     }
                                 }
                                 break;
-                            case PushMessage.ActionSignal.KICKED_OUT:
-                            case PushMessage.ActionSignal.VIOLATION_ALERT:
-                                break;
                             case PushMessage.ActionSignal.THROW_BANANA:
                                 //foreach (var pl in item.Payload)
                                 //{
@@ -208,7 +206,7 @@ namespace AcFunDMJ.Vanilla
 
                     foreach (var item in signal.Item)
                     {
-                        switch (item.SingalType)
+                        switch (item.SignalType)
                         {
                             case PushMessage.StateSignal.ACFUN_DISPLAY_INFO:
                                 //var acInfo = AcfunStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
@@ -230,9 +228,9 @@ namespace AcFunDMJ.Vanilla
                                 }
                                 break;
                             default:
-                                //                            var pi = Parse(item.SingalType, item.Payload);
+                                //                            var pi = Parse(item.SignalType, item.Payload);
                                 //#if DEBUG
-                                //                            Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SingalType, pi);
+                                //                            Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
                                 //#endif
                                 break;
                         }
