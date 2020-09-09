@@ -24,12 +24,12 @@ namespace AcFunDanmu {
     static CsAckErrorCodeReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChRDc0Fja0Vycm9yQ29kZS5wcm90bxIKQWNGdW5EYW5tdSrFAQoOQ3NBY2tF",
+            "ChRDc0Fja0Vycm9yQ29kZS5wcm90bxIKQWNGdW5EYW5tdSraAQoOQ3NBY2tF",
             "cnJvckNvZGUSEgoOU1VDQ0VTU19DU19BQ0sQABIPCgtMSVZFX0NMT1NFRBAB",
             "EhIKDlRJQ0tFVF9JTExFR0FMEAISEgoOQVRUQUNIX0lMTEVHQUwQAxIUChBV",
             "U0VSX05PVF9JTl9ST09NEAQSEAoMU0VSVkVSX0VSUk9SEAUSGQoVUkVRVUVT",
             "VF9QQVJBTV9JTlZBTElEEAYSIwofUk9PTV9OT1RfRVhJU1RfSU5fU1RBVEVf",
-            "TUFOQUdFUhAHYgZwcm90bzM="));
+            "TUFOQUdFUhAHEhMKD05FV19MSVZFX09QRU5FRBAIYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AcFunDanmu.CsAckErrorCode), }, null, null));
@@ -47,6 +47,7 @@ namespace AcFunDanmu {
     [pbr::OriginalName("SERVER_ERROR")] ServerError = 5,
     [pbr::OriginalName("REQUEST_PARAM_INVALID")] RequestParamInvalid = 6,
     [pbr::OriginalName("ROOM_NOT_EXIST_IN_STATE_MANAGER")] RoomNotExistInStateManager = 7,
+    [pbr::OriginalName("NEW_LIVE_OPENED")] NewLiveOpened = 8,
   }
 
   #endregion

@@ -29,8 +29,8 @@ namespace AcFunDanmu {
             "b3BVc2VycxI7CgR1c2VyGAEgAygLMi0uQWNGdW5EYW5tdS5Db21tb25TdGF0",
             "ZVNpZ25hbFRvcFVzZXJzLlRvcFVzZXIaiQEKB1RvcFVzZXISLAoIdXNlcklu",
             "Zm8YASABKAsyGi5BY0Z1bkRhbm11Llp0TGl2ZVVzZXJJbmZvEh4KFmN1c3Rv",
-            "bVdhdGNoaW5nTGlzdERhdGEYAiABKAkSGQoRZGlzcGxheVNlbmRBbW91bnQY",
-            "AyABKAkSFQoNYW5vbnltb3VzVXNlchgEIAEoCGIGcHJvdG8z"));
+            "bVdhdGNoaW5nTGlzdERhdGEYAyABKAkSGQoRZGlzcGxheVNlbmRBbW91bnQY",
+            "BCABKAkSFQoNYW5vbnltb3VzVXNlchgFIAEoCGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.ZtLiveUserInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -84,6 +84,9 @@ namespace AcFunDanmu {
     private static readonly pb::FieldCodec<global::AcFunDanmu.CommonStateSignalTopUsers.Types.TopUser> _repeated_user_codec
         = pb::FieldCodec.ForMessage(10, global::AcFunDanmu.CommonStateSignalTopUsers.Types.TopUser.Parser);
     private readonly pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalTopUsers.Types.TopUser> user_ = new pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalTopUsers.Types.TopUser>();
+    /// <summary>
+    ///topUser
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalTopUsers.Types.TopUser> User {
       get { return user_; }
@@ -257,7 +260,7 @@ namespace AcFunDanmu {
         }
 
         /// <summary>Field number for the "customWatchingListData" field.</summary>
-        public const int CustomWatchingListDataFieldNumber = 2;
+        public const int CustomWatchingListDataFieldNumber = 3;
         private string customWatchingListData_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string CustomWatchingListData {
@@ -268,7 +271,7 @@ namespace AcFunDanmu {
         }
 
         /// <summary>Field number for the "displaySendAmount" field.</summary>
-        public const int DisplaySendAmountFieldNumber = 3;
+        public const int DisplaySendAmountFieldNumber = 4;
         private string displaySendAmount_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string DisplaySendAmount {
@@ -279,7 +282,7 @@ namespace AcFunDanmu {
         }
 
         /// <summary>Field number for the "anonymousUser" field.</summary>
-        public const int AnonymousUserFieldNumber = 4;
+        public const int AnonymousUserFieldNumber = 5;
         private bool anonymousUser_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public bool AnonymousUser {
@@ -337,15 +340,15 @@ namespace AcFunDanmu {
             output.WriteMessage(UserInfo);
           }
           if (CustomWatchingListData.Length != 0) {
-            output.WriteRawTag(18);
+            output.WriteRawTag(26);
             output.WriteString(CustomWatchingListData);
           }
           if (DisplaySendAmount.Length != 0) {
-            output.WriteRawTag(26);
+            output.WriteRawTag(34);
             output.WriteString(DisplaySendAmount);
           }
           if (AnonymousUser != false) {
-            output.WriteRawTag(32);
+            output.WriteRawTag(40);
             output.WriteBool(AnonymousUser);
           }
           if (_unknownFields != null) {
@@ -362,15 +365,15 @@ namespace AcFunDanmu {
             output.WriteMessage(UserInfo);
           }
           if (CustomWatchingListData.Length != 0) {
-            output.WriteRawTag(18);
+            output.WriteRawTag(26);
             output.WriteString(CustomWatchingListData);
           }
           if (DisplaySendAmount.Length != 0) {
-            output.WriteRawTag(26);
+            output.WriteRawTag(34);
             output.WriteString(DisplaySendAmount);
           }
           if (AnonymousUser != false) {
-            output.WriteRawTag(32);
+            output.WriteRawTag(40);
             output.WriteBool(AnonymousUser);
           }
           if (_unknownFields != null) {
@@ -441,15 +444,15 @@ namespace AcFunDanmu {
                 input.ReadMessage(UserInfo);
                 break;
               }
-              case 18: {
+              case 26: {
                 CustomWatchingListData = input.ReadString();
                 break;
               }
-              case 26: {
+              case 34: {
                 DisplaySendAmount = input.ReadString();
                 break;
               }
-              case 32: {
+              case 40: {
                 AnonymousUser = input.ReadBool();
                 break;
               }
@@ -474,15 +477,15 @@ namespace AcFunDanmu {
                 input.ReadMessage(UserInfo);
                 break;
               }
-              case 18: {
+              case 26: {
                 CustomWatchingListData = input.ReadString();
                 break;
               }
-              case 26: {
+              case 34: {
                 DisplaySendAmount = input.ReadString();
                 break;
               }
-              case 32: {
+              case 40: {
                 AnonymousUser = input.ReadBool();
                 break;
               }

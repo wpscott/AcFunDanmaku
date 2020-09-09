@@ -19,7 +19,7 @@ namespace AcFunDanmu
     public class Client
     {
         #region Constants
-        public static readonly SortedList<int, GiftInfo> Gifts = new SortedList<int, GiftInfo>();
+        public static readonly SortedList<long, GiftInfo> Gifts = new SortedList<long, GiftInfo>();
         private static DateTimeOffset _LastGiftUpdate = DateTimeOffset.MinValue;
 
         private const string ACCEPTED_ENCODING = "gzip, deflate, br";

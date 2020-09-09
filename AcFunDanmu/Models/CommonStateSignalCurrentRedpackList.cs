@@ -90,6 +90,9 @@ namespace AcFunDanmu {
     private static readonly pb::FieldCodec<global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack> _repeated_redpacks_codec
         = pb::FieldCodec.ForMessage(10, global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack.Parser);
     private readonly pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack> redpacks_ = new pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack>();
+    /// <summary>
+    ///redpack
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack> Redpacks {
       get { return redpacks_; }

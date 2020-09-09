@@ -30,7 +30,7 @@ namespace AcFunDanmu {
             "KAsyNi5BY0Z1bkRhbm11LkNvbW1vbkFjdGlvblNpZ25hbFJpY2hUZXh0LlJp",
             "Y2hUZXh0U2VnbWVudBISCgpzZW5kVGltZU1zGAIgASgDGm0KDEltYWdlU2Vn",
             "bWVudBIqCghwaWN0dXJlcxgBIAMoCzIYLkFjRnVuRGFubXUuSW1hZ2VDZG5O",
-            "b2RlEhcKD2FsdGVybmF0aXZlVGV4dBgCIAEoCRIYChBhbHRlcm5hdGl2ZUNP",
+            "b2RlEhcKD2FsdGVybmF0aXZlVGV4dBgCIAEoCRIYChBhbHRlcm5hdGl2ZUNv",
             "bG9yGAMgASgJGisKDFBsYWluU2VnbWVudBIMCgR0ZXh0GAEgASgJEg0KBWNv",
             "bG9yGAIgASgJGvQBCg9SaWNoVGV4dFNlZ21lbnQSSgoIdXNlckluZm8YASAB",
             "KAsyNi5BY0Z1bkRhbm11LkNvbW1vbkFjdGlvblNpZ25hbFJpY2hUZXh0LlVz",
@@ -43,7 +43,7 @@ namespace AcFunDanmu {
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.ZtLiveUserInfoReflection.Descriptor, global::AcFunDanmu.ImageCdnNodeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText), global::AcFunDanmu.CommonActionSignalRichText.Parser, new[]{ "Segments", "SendTimeMs" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment.Parser, new[]{ "Pictures", "AlternativeText", "AlternativeCOlor" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText), global::AcFunDanmu.CommonActionSignalRichText.Parser, new[]{ "Segments", "SendTimeMs" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment.Parser, new[]{ "Pictures", "AlternativeText", "AlternativeColor" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment.Parser, new[]{ "Text", "Color" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment.Parser, new[]{ "UserInfo", "Plain", "Image" }, new[]{ "Segment" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment.Parser, new[]{ "User", "Color" }, null, null, null, null)})
@@ -97,6 +97,9 @@ namespace AcFunDanmu {
     private static readonly pb::FieldCodec<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> _repeated_segments_codec
         = pb::FieldCodec.ForMessage(10, global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment.Parser);
     private readonly pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> segments_ = new pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment>();
+    /// <summary>
+    ///segment
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> Segments {
       get { return segments_; }
@@ -283,7 +286,7 @@ namespace AcFunDanmu {
         public ImageSegment(ImageSegment other) : this() {
           pictures_ = other.pictures_.Clone();
           alternativeText_ = other.alternativeText_;
-          alternativeCOlor_ = other.alternativeCOlor_;
+          alternativeColor_ = other.alternativeColor_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
@@ -316,14 +319,14 @@ namespace AcFunDanmu {
           }
         }
 
-        /// <summary>Field number for the "alternativeCOlor" field.</summary>
-        public const int AlternativeCOlorFieldNumber = 3;
-        private string alternativeCOlor_ = "";
+        /// <summary>Field number for the "alternativeColor" field.</summary>
+        public const int AlternativeColorFieldNumber = 3;
+        private string alternativeColor_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string AlternativeCOlor {
-          get { return alternativeCOlor_; }
+        public string AlternativeColor {
+          get { return alternativeColor_; }
           set {
-            alternativeCOlor_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            alternativeColor_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
           }
         }
 
@@ -342,7 +345,7 @@ namespace AcFunDanmu {
           }
           if(!pictures_.Equals(other.pictures_)) return false;
           if (AlternativeText != other.AlternativeText) return false;
-          if (AlternativeCOlor != other.AlternativeCOlor) return false;
+          if (AlternativeColor != other.AlternativeColor) return false;
           return Equals(_unknownFields, other._unknownFields);
         }
 
@@ -351,7 +354,7 @@ namespace AcFunDanmu {
           int hash = 1;
           hash ^= pictures_.GetHashCode();
           if (AlternativeText.Length != 0) hash ^= AlternativeText.GetHashCode();
-          if (AlternativeCOlor.Length != 0) hash ^= AlternativeCOlor.GetHashCode();
+          if (AlternativeColor.Length != 0) hash ^= AlternativeColor.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -373,9 +376,9 @@ namespace AcFunDanmu {
             output.WriteRawTag(18);
             output.WriteString(AlternativeText);
           }
-          if (AlternativeCOlor.Length != 0) {
+          if (AlternativeColor.Length != 0) {
             output.WriteRawTag(26);
-            output.WriteString(AlternativeCOlor);
+            output.WriteString(AlternativeColor);
           }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
@@ -391,9 +394,9 @@ namespace AcFunDanmu {
             output.WriteRawTag(18);
             output.WriteString(AlternativeText);
           }
-          if (AlternativeCOlor.Length != 0) {
+          if (AlternativeColor.Length != 0) {
             output.WriteRawTag(26);
-            output.WriteString(AlternativeCOlor);
+            output.WriteString(AlternativeColor);
           }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(ref output);
@@ -408,8 +411,8 @@ namespace AcFunDanmu {
           if (AlternativeText.Length != 0) {
             size += 1 + pb::CodedOutputStream.ComputeStringSize(AlternativeText);
           }
-          if (AlternativeCOlor.Length != 0) {
-            size += 1 + pb::CodedOutputStream.ComputeStringSize(AlternativeCOlor);
+          if (AlternativeColor.Length != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeStringSize(AlternativeColor);
           }
           if (_unknownFields != null) {
             size += _unknownFields.CalculateSize();
@@ -426,8 +429,8 @@ namespace AcFunDanmu {
           if (other.AlternativeText.Length != 0) {
             AlternativeText = other.AlternativeText;
           }
-          if (other.AlternativeCOlor.Length != 0) {
-            AlternativeCOlor = other.AlternativeCOlor;
+          if (other.AlternativeColor.Length != 0) {
+            AlternativeColor = other.AlternativeColor;
           }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
@@ -452,7 +455,7 @@ namespace AcFunDanmu {
                 break;
               }
               case 26: {
-                AlternativeCOlor = input.ReadString();
+                AlternativeColor = input.ReadString();
                 break;
               }
             }
@@ -478,7 +481,7 @@ namespace AcFunDanmu {
                 break;
               }
               case 26: {
-                AlternativeCOlor = input.ReadString();
+                AlternativeColor = input.ReadString();
                 break;
               }
             }

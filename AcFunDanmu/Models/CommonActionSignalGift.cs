@@ -28,9 +28,9 @@ namespace AcFunDanmu {
             "dExpdmVVc2VySW5mby5wcm90bxoUWnREcmF3R2lmdEluZm8ucHJvdG8ijwIK",
             "FkNvbW1vbkFjdGlvblNpZ25hbEdpZnQSKAoEdXNlchgBIAEoCzIaLkFjRnVu",
             "RGFubXUuWnRMaXZlVXNlckluZm8SEgoKc2VuZFRpbWVNcxgCIAEoAxIOCgZn",
-            "aWZ0SWQYAyABKAUSDQoFY291bnQYBCABKAUSDQoFY29tYm8YBSABKAUSDQoF",
-            "dmFsdWUYBiABKAUSDwoHY29tYm9JZBgHIAEoCRIdChVzbG90RGlzcGxheUR1",
-            "cmF0aW9uTXMYCCABKAUSGAoQZXhwaXJlRHVyYXRpb25NcxgJIAEoBRIwCgxk",
+            "aWZ0SWQYAyABKAMSDQoFY291bnQYBCABKAUSDQoFY29tYm8YBSABKAUSDQoF",
+            "dmFsdWUYBiABKAMSDwoHY29tYm9JZBgHIAEoCRIdChVzbG90RGlzcGxheUR1",
+            "cmF0aW9uTXMYCCABKAMSGAoQZXhwaXJlRHVyYXRpb25NcxgJIAEoAxIwCgxk",
             "cmF3R2lmdEluZm8YCiABKAsyGi5BY0Z1bkRhbm11Llp0RHJhd0dpZnRJbmZv",
             "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
@@ -93,6 +93,9 @@ namespace AcFunDanmu {
     /// <summary>Field number for the "user" field.</summary>
     public const int UserFieldNumber = 1;
     private global::AcFunDanmu.ZtLiveUserInfo user_;
+    /// <summary>
+    ///userInfo
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::AcFunDanmu.ZtLiveUserInfo User {
       get { return user_; }
@@ -114,9 +117,9 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "giftId" field.</summary>
     public const int GiftIdFieldNumber = 3;
-    private int giftId_;
+    private long giftId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int GiftId {
+    public long GiftId {
       get { return giftId_; }
       set {
         giftId_ = value;
@@ -153,12 +156,12 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "value" field.</summary>
     public const int ValueFieldNumber = 6;
-    private int value_;
+    private long value_;
     /// <summary>
     ///rank
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Value {
+    public long Value {
       get { return value_; }
       set {
         value_ = value;
@@ -168,6 +171,9 @@ namespace AcFunDanmu {
     /// <summary>Field number for the "comboId" field.</summary>
     public const int ComboIdFieldNumber = 7;
     private string comboId_ = "";
+    /// <summary>
+    ///comboKey
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string ComboId {
       get { return comboId_; }
@@ -178,9 +184,9 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "slotDisplayDurationMs" field.</summary>
     public const int SlotDisplayDurationMsFieldNumber = 8;
-    private int slotDisplayDurationMs_;
+    private long slotDisplayDurationMs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int SlotDisplayDurationMs {
+    public long SlotDisplayDurationMs {
       get { return slotDisplayDurationMs_; }
       set {
         slotDisplayDurationMs_ = value;
@@ -189,9 +195,9 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "expireDurationMs" field.</summary>
     public const int ExpireDurationMsFieldNumber = 9;
-    private int expireDurationMs_;
+    private long expireDurationMs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ExpireDurationMs {
+    public long ExpireDurationMs {
       get { return expireDurationMs_; }
       set {
         expireDurationMs_ = value;
@@ -240,13 +246,13 @@ namespace AcFunDanmu {
       int hash = 1;
       if (user_ != null) hash ^= User.GetHashCode();
       if (SendTimeMs != 0L) hash ^= SendTimeMs.GetHashCode();
-      if (GiftId != 0) hash ^= GiftId.GetHashCode();
+      if (GiftId != 0L) hash ^= GiftId.GetHashCode();
       if (Count != 0) hash ^= Count.GetHashCode();
       if (Combo != 0) hash ^= Combo.GetHashCode();
-      if (Value != 0) hash ^= Value.GetHashCode();
+      if (Value != 0L) hash ^= Value.GetHashCode();
       if (ComboId.Length != 0) hash ^= ComboId.GetHashCode();
-      if (SlotDisplayDurationMs != 0) hash ^= SlotDisplayDurationMs.GetHashCode();
-      if (ExpireDurationMs != 0) hash ^= ExpireDurationMs.GetHashCode();
+      if (SlotDisplayDurationMs != 0L) hash ^= SlotDisplayDurationMs.GetHashCode();
+      if (ExpireDurationMs != 0L) hash ^= ExpireDurationMs.GetHashCode();
       if (drawGiftInfo_ != null) hash ^= DrawGiftInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -272,9 +278,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(16);
         output.WriteInt64(SendTimeMs);
       }
-      if (GiftId != 0) {
+      if (GiftId != 0L) {
         output.WriteRawTag(24);
-        output.WriteInt32(GiftId);
+        output.WriteInt64(GiftId);
       }
       if (Count != 0) {
         output.WriteRawTag(32);
@@ -284,21 +290,21 @@ namespace AcFunDanmu {
         output.WriteRawTag(40);
         output.WriteInt32(Combo);
       }
-      if (Value != 0) {
+      if (Value != 0L) {
         output.WriteRawTag(48);
-        output.WriteInt32(Value);
+        output.WriteInt64(Value);
       }
       if (ComboId.Length != 0) {
         output.WriteRawTag(58);
         output.WriteString(ComboId);
       }
-      if (SlotDisplayDurationMs != 0) {
+      if (SlotDisplayDurationMs != 0L) {
         output.WriteRawTag(64);
-        output.WriteInt32(SlotDisplayDurationMs);
+        output.WriteInt64(SlotDisplayDurationMs);
       }
-      if (ExpireDurationMs != 0) {
+      if (ExpireDurationMs != 0L) {
         output.WriteRawTag(72);
-        output.WriteInt32(ExpireDurationMs);
+        output.WriteInt64(ExpireDurationMs);
       }
       if (drawGiftInfo_ != null) {
         output.WriteRawTag(82);
@@ -321,9 +327,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(16);
         output.WriteInt64(SendTimeMs);
       }
-      if (GiftId != 0) {
+      if (GiftId != 0L) {
         output.WriteRawTag(24);
-        output.WriteInt32(GiftId);
+        output.WriteInt64(GiftId);
       }
       if (Count != 0) {
         output.WriteRawTag(32);
@@ -333,21 +339,21 @@ namespace AcFunDanmu {
         output.WriteRawTag(40);
         output.WriteInt32(Combo);
       }
-      if (Value != 0) {
+      if (Value != 0L) {
         output.WriteRawTag(48);
-        output.WriteInt32(Value);
+        output.WriteInt64(Value);
       }
       if (ComboId.Length != 0) {
         output.WriteRawTag(58);
         output.WriteString(ComboId);
       }
-      if (SlotDisplayDurationMs != 0) {
+      if (SlotDisplayDurationMs != 0L) {
         output.WriteRawTag(64);
-        output.WriteInt32(SlotDisplayDurationMs);
+        output.WriteInt64(SlotDisplayDurationMs);
       }
-      if (ExpireDurationMs != 0) {
+      if (ExpireDurationMs != 0L) {
         output.WriteRawTag(72);
-        output.WriteInt32(ExpireDurationMs);
+        output.WriteInt64(ExpireDurationMs);
       }
       if (drawGiftInfo_ != null) {
         output.WriteRawTag(82);
@@ -368,8 +374,8 @@ namespace AcFunDanmu {
       if (SendTimeMs != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(SendTimeMs);
       }
-      if (GiftId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(GiftId);
+      if (GiftId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(GiftId);
       }
       if (Count != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Count);
@@ -377,17 +383,17 @@ namespace AcFunDanmu {
       if (Combo != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Combo);
       }
-      if (Value != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Value);
+      if (Value != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Value);
       }
       if (ComboId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ComboId);
       }
-      if (SlotDisplayDurationMs != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SlotDisplayDurationMs);
+      if (SlotDisplayDurationMs != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(SlotDisplayDurationMs);
       }
-      if (ExpireDurationMs != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ExpireDurationMs);
+      if (ExpireDurationMs != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ExpireDurationMs);
       }
       if (drawGiftInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(DrawGiftInfo);
@@ -412,7 +418,7 @@ namespace AcFunDanmu {
       if (other.SendTimeMs != 0L) {
         SendTimeMs = other.SendTimeMs;
       }
-      if (other.GiftId != 0) {
+      if (other.GiftId != 0L) {
         GiftId = other.GiftId;
       }
       if (other.Count != 0) {
@@ -421,16 +427,16 @@ namespace AcFunDanmu {
       if (other.Combo != 0) {
         Combo = other.Combo;
       }
-      if (other.Value != 0) {
+      if (other.Value != 0L) {
         Value = other.Value;
       }
       if (other.ComboId.Length != 0) {
         ComboId = other.ComboId;
       }
-      if (other.SlotDisplayDurationMs != 0) {
+      if (other.SlotDisplayDurationMs != 0L) {
         SlotDisplayDurationMs = other.SlotDisplayDurationMs;
       }
-      if (other.ExpireDurationMs != 0) {
+      if (other.ExpireDurationMs != 0L) {
         ExpireDurationMs = other.ExpireDurationMs;
       }
       if (other.drawGiftInfo_ != null) {
@@ -465,7 +471,7 @@ namespace AcFunDanmu {
             break;
           }
           case 24: {
-            GiftId = input.ReadInt32();
+            GiftId = input.ReadInt64();
             break;
           }
           case 32: {
@@ -477,7 +483,7 @@ namespace AcFunDanmu {
             break;
           }
           case 48: {
-            Value = input.ReadInt32();
+            Value = input.ReadInt64();
             break;
           }
           case 58: {
@@ -485,11 +491,11 @@ namespace AcFunDanmu {
             break;
           }
           case 64: {
-            SlotDisplayDurationMs = input.ReadInt32();
+            SlotDisplayDurationMs = input.ReadInt64();
             break;
           }
           case 72: {
-            ExpireDurationMs = input.ReadInt32();
+            ExpireDurationMs = input.ReadInt64();
             break;
           }
           case 82: {
@@ -525,7 +531,7 @@ namespace AcFunDanmu {
             break;
           }
           case 24: {
-            GiftId = input.ReadInt32();
+            GiftId = input.ReadInt64();
             break;
           }
           case 32: {
@@ -537,7 +543,7 @@ namespace AcFunDanmu {
             break;
           }
           case 48: {
-            Value = input.ReadInt32();
+            Value = input.ReadInt64();
             break;
           }
           case 58: {
@@ -545,11 +551,11 @@ namespace AcFunDanmu {
             break;
           }
           case 64: {
-            SlotDisplayDurationMs = input.ReadInt32();
+            SlotDisplayDurationMs = input.ReadInt64();
             break;
           }
           case 72: {
-            ExpireDurationMs = input.ReadInt32();
+            ExpireDurationMs = input.ReadInt64();
             break;
           }
           case 82: {

@@ -258,7 +258,7 @@ namespace AcFunDMJ.Vanilla
             public string ComboId { get; set; }
             public int Count { get; set; }
             public int Combo { get; set; }
-            public int Value { get; set; }
+            public long Value { get; set; }
             public AcFunDanmu.Models.Client.GiftInfo Detail { get; set; }
         }
     }

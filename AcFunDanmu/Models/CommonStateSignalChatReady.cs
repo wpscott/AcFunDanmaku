@@ -25,12 +25,13 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiBDb21tb25TdGF0ZVNpZ25hbENoYXRSZWFkeS5wcm90bxIKQWNGdW5EYW5t",
-            "dRoUWnRMaXZlVXNlckluZm8ucHJvdG8icgoaQ29tbW9uU3RhdGVTaWduYWxD",
-            "aGF0UmVhZHkSDgoGY2hhdElkGAEgASgJEjEKDWd1ZXN0VXNlckluZm8YAiAB",
-            "KAsyGi5BY0Z1bkRhbm11Llp0TGl2ZVVzZXJJbmZvEhEKCW1lZGlhVHlwZRgD",
-            "IAEoBWIGcHJvdG8z"));
+            "dRoTQ2hhdE1lZGlhVHlwZS5wcm90bxoUWnRMaXZlVXNlckluZm8ucHJvdG8i",
+            "jQEKGkNvbW1vblN0YXRlU2lnbmFsQ2hhdFJlYWR5Eg4KBmNoYXRJZBgBIAEo",
+            "CRIxCg1ndWVzdFVzZXJJbmZvGAIgASgLMhouQWNGdW5EYW5tdS5adExpdmVV",
+            "c2VySW5mbxIsCgltZWRpYVR5cGUYAyABKA4yGS5BY0Z1bkRhbm11LkNoYXRN",
+            "ZWRpYVR5cGViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::AcFunDanmu.ZtLiveUserInfoReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::AcFunDanmu.ChatMediaTypeReflection.Descriptor, global::AcFunDanmu.ZtLiveUserInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatReady), global::AcFunDanmu.CommonStateSignalChatReady.Parser, new[]{ "ChatId", "GuestUserInfo", "MediaType" }, null, null, null, null)
           }));
@@ -103,9 +104,9 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "mediaType" field.</summary>
     public const int MediaTypeFieldNumber = 3;
-    private int mediaType_;
+    private global::AcFunDanmu.ChatMediaType mediaType_ = global::AcFunDanmu.ChatMediaType.Unknown;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int MediaType {
+    public global::AcFunDanmu.ChatMediaType MediaType {
       get { return mediaType_; }
       set {
         mediaType_ = value;
@@ -136,7 +137,7 @@ namespace AcFunDanmu {
       int hash = 1;
       if (ChatId.Length != 0) hash ^= ChatId.GetHashCode();
       if (guestUserInfo_ != null) hash ^= GuestUserInfo.GetHashCode();
-      if (MediaType != 0) hash ^= MediaType.GetHashCode();
+      if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) hash ^= MediaType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -161,9 +162,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(18);
         output.WriteMessage(GuestUserInfo);
       }
-      if (MediaType != 0) {
+      if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
         output.WriteRawTag(24);
-        output.WriteInt32(MediaType);
+        output.WriteEnum((int) MediaType);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -182,9 +183,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(18);
         output.WriteMessage(GuestUserInfo);
       }
-      if (MediaType != 0) {
+      if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
         output.WriteRawTag(24);
-        output.WriteInt32(MediaType);
+        output.WriteEnum((int) MediaType);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -201,8 +202,8 @@ namespace AcFunDanmu {
       if (guestUserInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuestUserInfo);
       }
-      if (MediaType != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MediaType);
+      if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) MediaType);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -224,7 +225,7 @@ namespace AcFunDanmu {
         }
         GuestUserInfo.MergeFrom(other.GuestUserInfo);
       }
-      if (other.MediaType != 0) {
+      if (other.MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
         MediaType = other.MediaType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -253,7 +254,7 @@ namespace AcFunDanmu {
             break;
           }
           case 24: {
-            MediaType = input.ReadInt32();
+            MediaType = (global::AcFunDanmu.ChatMediaType) input.ReadEnum();
             break;
           }
         }
@@ -282,7 +283,7 @@ namespace AcFunDanmu {
             break;
           }
           case 24: {
-            MediaType = input.ReadInt32();
+            MediaType = (global::AcFunDanmu.ChatMediaType) input.ReadEnum();
             break;
           }
         }

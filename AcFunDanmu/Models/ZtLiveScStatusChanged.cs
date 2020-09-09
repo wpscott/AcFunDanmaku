@@ -24,14 +24,14 @@ namespace AcFunDanmu {
     static ZtLiveScStatusChangedReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChtadExpdmVTY1N0YXR1c0NoYW5nZWQucHJvdG8SCkFjRnVuRGFubXUiqgIK",
+            "ChtadExpdmVTY1N0YXR1c0NoYW5nZWQucHJvdG8SCkFjRnVuRGFubXUirAIK",
             "FVp0TGl2ZVNjU3RhdHVzQ2hhbmdlZBI0CgR0eXBlGAEgASgOMiYuQWNGdW5E",
             "YW5tdS5adExpdmVTY1N0YXR1c0NoYW5nZWQuVHlwZRIYChBtYXhSYW5kb21E",
             "ZWxheU1zGAIgASgDEkAKCmJhbm5lZEluZm8YAyABKAsyLC5BY0Z1bkRhbm11",
             "Llp0TGl2ZVNjU3RhdHVzQ2hhbmdlZC5CYW5uZWRJbmZvGh8KCkJhbm5lZElu",
-            "Zm8SEQoJYmFuUmVhc29uGAEgASgJIl4KBFR5cGUSCwoHVU5LTk9XThAAEg8K",
-            "C0xJVkVfQ0xPU0VEEAESEQoNTElWRV9SRU9QRU5FRBACEhQKEExJVkVfVVJM",
-            "X0NIQU5HRUQQAxIPCgtMSVZFX0JBTk5FRBAEYgZwcm90bzM="));
+            "Zm8SEQoJYmFuUmVhc29uGAEgASgJImAKBFR5cGUSCwoHVU5LTk9XThAAEg8K",
+            "C0xJVkVfQ0xPU0VEEAESEwoPTkVXX0xJVkVfT1BFTkVEEAISFAoQTElWRV9V",
+            "UkxfQ0hBTkdFRBADEg8KC0xJVkVfQkFOTkVEEARiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -300,7 +300,7 @@ namespace AcFunDanmu {
       public enum Type {
         [pbr::OriginalName("UNKNOWN")] Unknown = 0,
         [pbr::OriginalName("LIVE_CLOSED")] LiveClosed = 1,
-        [pbr::OriginalName("LIVE_REOPENED")] LiveReopened = 2,
+        [pbr::OriginalName("NEW_LIVE_OPENED")] NewLiveOpened = 2,
         [pbr::OriginalName("LIVE_URL_CHANGED")] LiveUrlChanged = 3,
         [pbr::OriginalName("LIVE_BANNED")] LiveBanned = 4,
       }
