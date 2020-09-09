@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu;
+
+message CommonStateSignalAuthorChatEnd {
+	string a = 1;
+	Unknown b = 2;
+	string c = 3;
+
+	enum Unknown {
+		d = 0;
+		e = 1;
+		f = 2;
+		g = 3;
+		h = 4;
+		i = 5;
+		j = 6;
+		k = 7;
+		l = 8;
+	}
+}

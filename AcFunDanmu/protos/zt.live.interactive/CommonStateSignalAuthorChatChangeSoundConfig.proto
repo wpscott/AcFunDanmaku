@@ -1,0 +1,14 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu;
+
+message CommonStateSignalAuthorChatChangesSoundConfig {
+	string a = 1;
+	Unknown b = 2;
+
+	enum Unknown {
+		c = 0;
+		d = 1;
+		e = 2;
+	}
+}
