@@ -58,6 +58,11 @@
             public const string CHAT_READY = "CommonStateSignalChatReady";
             public const string CHAT_END = "CommonStateSignalChatEnd";
             public const string CURRENT_RED_PACK_LIST = "CommonStateSignalCurrentRedpackList";
+            public const string AUTHOR_CHAT_CALL = "CommonStateSignalAuthorChatCall";
+            public const string AUTHOR_CHAT_ACCEPT = "CommonStateSignalAuthorChatAccept";
+            public const string AUTHOR_CHAT_READY = "CommonStateSignalAuthorChatReady";
+            public const string AUTHOR_CHAT_END = "CommonStateSignalAuthorChatEnd";
+            public const string AUTHOR_CHAT_CHANGE_SOUND_CONFIG = "CommonStateSignalAuthorChatChangeSoundConfig";
         }
 
         public static class NotifySignal

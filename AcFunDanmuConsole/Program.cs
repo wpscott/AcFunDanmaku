@@ -221,19 +221,23 @@ namespace AcFunDanmuConsole
                     }
                     break;
                 case PushMessage.NOTIFY_SIGNAL:
-                    ZtLiveNotifySignalItem notifySignal = ZtLiveNotifySignalItem.Parser.ParseFrom(payload);
-                    switch (notifySignal.SignalType)
+                    ZtLiveScNotifySignal notifySignal = ZtLiveScNotifySignal.Parser.ParseFrom(payload);
+                    foreach (var item in notifySignal.Item)
                     {
-                        case PushMessage.NotifySignal.KICKED_OUT:
-                        case PushMessage.NotifySignal.VIOLATION_ALERT:
-                        case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
-                            break;
-                        default:
-                            var pi = Parse(notifySignal.SignalType, notifySignal.Payload);
+                        switch (item.SignalType)
+                        {
+                            case PushMessage.NotifySignal.KICKED_OUT:
+                            case PushMessage.NotifySignal.VIOLATION_ALERT:
+                            case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
+                                break;
+                            default:
+                                var pi = Parse(item.SignalType, item.Payload);
 #if DEBUG
-                            Console.WriteLine("Unhandled state type: {0}, content: {1}", notifySignal.SignalType, pi);
+                                Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
 #endif
-                            break;
+                                break;
+                        }
+
                     }
                     break;
                 default:

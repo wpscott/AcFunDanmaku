@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu;
+
+message CommonStateSignalAuthorChatAccept {
+	string a = 1;
+	string b = 2;
+}

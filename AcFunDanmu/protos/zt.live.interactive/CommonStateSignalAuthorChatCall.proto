@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu;
+
+import "AuthorChatPlayerInfo.proto";
+
+message CommonStateSignalAuthorChatCall {
+	string a = 1;
+	AuthorChatPlayerInfo b = 2;
+	int64 c = 3;
+}
