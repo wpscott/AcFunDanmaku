@@ -97,7 +97,7 @@ namespace AcFunDanmuConsole
                                 foreach (var pl in item.Payload)
                                 {
                                     var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
-                                    Console.WriteLine("{0} - {1}({2} followed", follower.SendTimeMs, follower.UserInfo.Nickname, follower.UserInfo.UserId);
+                                    Console.WriteLine("{0} - {1}({2}) followed", follower.SendTimeMs, follower.UserInfo.Nickname, follower.UserInfo.UserId);
                                 }
                                 break;
                             case PushMessage.NotifySignal.KICKED_OUT:
