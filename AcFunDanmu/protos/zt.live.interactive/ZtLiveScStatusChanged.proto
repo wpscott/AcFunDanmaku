@@ -10,7 +10,7 @@ message ZtLiveScStatusChanged {
 	enum Type {
 		UNKNOWN = 0;
 		LIVE_CLOSED = 1;
-		LIVE_REOPENED = 2;
+		NEW_LIVE_OPENED = 2;
 		LIVE_URL_CHANGED = 3;
 		LIVE_BANNED = 4;
 	}

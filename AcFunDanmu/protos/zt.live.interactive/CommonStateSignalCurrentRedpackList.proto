@@ -5,7 +5,7 @@ package AcFunDanmu;
 import "ZtLiveUserInfo.proto";
 
 message CommonStateSignalCurrentRedpackList {
-	repeated Redpack redpacks = 1;
+	repeated Redpack redpacks = 1; //redpack
 
 	enum RedpackDisplayStatus {
 		SHOW = 0;

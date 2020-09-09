@@ -2,10 +2,11 @@ syntax = "proto3";
 
 package AcFunDanmu;
 
+import "ChatMediaType.proto";
 import "ZtLiveUserInfo.proto";
 
 message CommonStateSignalChatReady {
 	string chatId = 1;
 	ZtLiveUserInfo guestUserInfo = 2;
-	int32 mediaType = 3;
+	ChatMediaType mediaType = 3;
 }
