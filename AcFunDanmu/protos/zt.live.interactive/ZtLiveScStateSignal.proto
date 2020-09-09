@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "ZtLiveStateSignalItem.proto";
+
+message ZtLiveScStateSignal {
+	repeated ZtLiveStateSignalItem item = 1;
+}

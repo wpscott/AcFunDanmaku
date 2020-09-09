@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "ZtLiveUserInfo.proto";
+
+message CommonStateSignalChatReady {
+	string chatId = 1;
+	ZtLiveUserInfo guestUserInfo = 2;
+	int32 mediaType = 3;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+enum ChatMediaType {
+	UNKNOWN = 0;
+	AUDIO = 1;
+	VIDEO = 2;
+}

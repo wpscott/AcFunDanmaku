@@ -8,7 +8,7 @@ AcFunDanmaku是用C# 和 .Net Core 3.1编写的AcFun直播弹幕工具。
 ## AcFunDanmu 
 AcFun直播弹幕解析工具。**开发中**
 
-在AcFunDanmu文件夹中运行`protoc -I .\protos --csharp_out=.\Models [文件名].proto`生成C# Protobuf文件。需安装[Google Protocol Buffers](https://github.com/protocolbuffers/protobuf/releases/tag/v3.12.2)。
+在AcFunDanmu文件夹中运行`generate.bat`或`generate.sh csharp`生成C# Protobuf文件。需安装[Google Protocol Buffers](https://github.com/protocolbuffers/protobuf/releases/tag/v3.13.0)。
 
 测试数据来源于`m.acfun.cn.har`，可以在Chrome或Firefox中导入并查看websockets。
 

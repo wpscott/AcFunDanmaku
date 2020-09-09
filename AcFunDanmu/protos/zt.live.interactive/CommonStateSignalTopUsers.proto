@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "ZtLiveUserInfo.proto";
+
+message CommonStateSignalTopUsers {
+	repeated TopUser user = 1;
+	
+	message TopUser {
+		ZtLiveUserInfo userInfo = 1;
+		string customWatchingListData = 2;
+		string displaySendAmount = 3;
+		bool anonymousUser = 4;
+	}
+}

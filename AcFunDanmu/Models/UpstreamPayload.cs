@@ -45,7 +45,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class UpstreamPayload : pb::IMessage<UpstreamPayload> {
+  public sealed partial class UpstreamPayload : pb::IMessage<UpstreamPayload>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<UpstreamPayload> _parser = new pb::MessageParser<UpstreamPayload>(() => new UpstreamPayload());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -278,6 +282,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (Command.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Command);
@@ -329,7 +336,65 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Command.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Command);
+      }
+      if (SeqId != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(SeqId);
+      }
+      if (RetryCount != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(RetryCount);
+      }
+      if (PayloadData.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteBytes(PayloadData);
+      }
+      if (userInstance_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(UserInstance);
+      }
+      if (ErrorCode != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(ErrorCode);
+      }
+      if (settingInfo_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(SettingInfo);
+      }
+      if (requestBasicInfo_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(RequestBasicInfo);
+      }
+      if (SubBiz.Length != 0) {
+        output.WriteRawTag(74);
+        output.WriteString(SubBiz);
+      }
+      if (frontendInfo_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(FrontendInfo);
+      }
+      if (Kpn.Length != 0) {
+        output.WriteRawTag(90);
+        output.WriteString(Kpn);
+      }
+      if (AnonymouseUser != false) {
+        output.WriteRawTag(96);
+        output.WriteBool(AnonymouseUser);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -434,6 +499,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -502,7 +570,82 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            Command = input.ReadString();
+            break;
+          }
+          case 16: {
+            SeqId = input.ReadInt64();
+            break;
+          }
+          case 24: {
+            RetryCount = input.ReadUInt32();
+            break;
+          }
+          case 34: {
+            PayloadData = input.ReadBytes();
+            break;
+          }
+          case 42: {
+            if (userInstance_ == null) {
+              UserInstance = new global::AcFunDanmu.UserInstance();
+            }
+            input.ReadMessage(UserInstance);
+            break;
+          }
+          case 48: {
+            ErrorCode = input.ReadInt32();
+            break;
+          }
+          case 58: {
+            if (settingInfo_ == null) {
+              SettingInfo = new global::AcFunDanmu.SettingInfo();
+            }
+            input.ReadMessage(SettingInfo);
+            break;
+          }
+          case 66: {
+            if (requestBasicInfo_ == null) {
+              RequestBasicInfo = new global::AcFunDanmu.RequestBasicInfo();
+            }
+            input.ReadMessage(RequestBasicInfo);
+            break;
+          }
+          case 74: {
+            SubBiz = input.ReadString();
+            break;
+          }
+          case 82: {
+            if (frontendInfo_ == null) {
+              FrontendInfo = new global::AcFunDanmu.FrontendInfo();
+            }
+            input.ReadMessage(FrontendInfo);
+            break;
+          }
+          case 90: {
+            Kpn = input.ReadString();
+            break;
+          }
+          case 96: {
+            AnonymouseUser = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 

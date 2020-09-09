@@ -48,7 +48,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class KeepAliveRequest : pb::IMessage<KeepAliveRequest> {
+  public sealed partial class KeepAliveRequest : pb::IMessage<KeepAliveRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<KeepAliveRequest> _parser = new pb::MessageParser<KeepAliveRequest>(() => new KeepAliveRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -182,6 +186,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (PresenceStatus != global::AcFunDanmu.RegisterRequest.Types.PresenceStatus.KPresenceOffline) {
         output.WriteRawTag(8);
         output.WriteEnum((int) PresenceStatus);
@@ -202,7 +209,34 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (PresenceStatus != global::AcFunDanmu.RegisterRequest.Types.PresenceStatus.KPresenceOffline) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) PresenceStatus);
+      }
+      if (AppActiveStatus != global::AcFunDanmu.RegisterRequest.Types.ActiveStatus.KInvalid) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) AppActiveStatus);
+      }
+      if (pushServiceToken_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(PushServiceToken);
+      }
+      pushServiceTokenList_.WriteTo(ref output, _repeated_pushServiceTokenList_codec);
+      if (KeepaliveIntervalSec != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(KeepaliveIntervalSec);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -252,6 +286,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -283,11 +320,53 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            PresenceStatus = (global::AcFunDanmu.RegisterRequest.Types.PresenceStatus) input.ReadEnum();
+            break;
+          }
+          case 16: {
+            AppActiveStatus = (global::AcFunDanmu.RegisterRequest.Types.ActiveStatus) input.ReadEnum();
+            break;
+          }
+          case 26: {
+            if (pushServiceToken_ == null) {
+              PushServiceToken = new global::AcFunDanmu.PushServiceToken();
+            }
+            input.ReadMessage(PushServiceToken);
+            break;
+          }
+          case 34: {
+            pushServiceTokenList_.AddEntriesFrom(ref input, _repeated_pushServiceTokenList_codec);
+            break;
+          }
+          case 40: {
+            KeepaliveIntervalSec = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 
-  public sealed partial class KeepAliveResponse : pb::IMessage<KeepAliveResponse> {
+  public sealed partial class KeepAliveResponse : pb::IMessage<KeepAliveResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<KeepAliveResponse> _parser = new pb::MessageParser<KeepAliveResponse>(() => new KeepAliveResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -394,6 +473,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (accessPointsConfig_ != null) {
         output.WriteRawTag(10);
         output.WriteMessage(AccessPointsConfig);
@@ -409,7 +491,29 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (accessPointsConfig_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(AccessPointsConfig);
+      }
+      if (ServerMsec != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(ServerMsec);
+      }
+      if (accessPointsConfigIpv6_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(AccessPointsConfigIpv6);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -454,6 +558,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -480,7 +587,40 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (accessPointsConfig_ == null) {
+              AccessPointsConfig = new global::AcFunDanmu.AccessPointsConfig();
+            }
+            input.ReadMessage(AccessPointsConfig);
+            break;
+          }
+          case 16: {
+            ServerMsec = input.ReadInt64();
+            break;
+          }
+          case 26: {
+            if (accessPointsConfigIpv6_ == null) {
+              AccessPointsConfigIpv6 = new global::AcFunDanmu.AccessPointsConfig();
+            }
+            input.ReadMessage(AccessPointsConfigIpv6);
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 
