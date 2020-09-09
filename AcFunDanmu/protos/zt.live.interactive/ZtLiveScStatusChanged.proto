@@ -4,7 +4,7 @@ package AcFunDanmu;
 
 message ZtLiveScStatusChanged {
 	Type type = 1;
-	uint64 maxRandomDelayMs = 2;
+	int64 maxRandomDelayMs = 2;
 	BannedInfo bannedInfo = 3;
 
 	enum Type {

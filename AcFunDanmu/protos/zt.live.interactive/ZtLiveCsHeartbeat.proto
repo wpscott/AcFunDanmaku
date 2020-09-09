@@ -3,12 +3,12 @@ syntax = "proto3";
 package AcFunDanmu;
 
 message ZtLiveCsHeartbeat {
-	uint64 clientTimestampMs = 1;
-	uint64 sequence = 2;
+	int64 clientTimestampMs = 1;
+	int64 sequence = 2;
 }
 
 message ZtLiveCsHeartbeatAck {
-	uint64 serverTimestampMs = 1;
-	uint64 clientTimestampMs = 2;
-	uint64 clientSequence = 3;
+	int64 serverTimestampMs = 1;
+	int64 clientTimestampMs = 2;
+	int64 clientSequence = 3;
 }
