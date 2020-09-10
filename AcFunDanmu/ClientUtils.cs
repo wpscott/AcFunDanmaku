@@ -87,7 +87,7 @@ namespace AcFunDanmu
             }
 
 
-            if (payload.Length != header.DecodedPayloadLen)
+            if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
             {
 #if DEBUG
                 Console.WriteLine("Payload length does not match");
