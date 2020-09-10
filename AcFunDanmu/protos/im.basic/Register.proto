@@ -31,7 +31,7 @@ message RegisterRequest {
 	enum ActiveStatus {
 		kInvalid = 0;
 		kAppInForeground = 1;
-		kAppinBackground = 2;
+		kAppInBackground = 2;
 	}
 }
 

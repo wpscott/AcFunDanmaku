@@ -13,7 +13,7 @@ message ZtCommonInfo {
 	string ver = 8;
 	string lat = 9;
 	string lon = 10;
-	string mond = 11;
+	string mod = 11;
 	string net = 12;
 	string sys = 13;
 	string c = 14;
