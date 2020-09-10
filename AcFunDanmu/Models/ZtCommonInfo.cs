@@ -24,17 +24,17 @@ namespace AcFunDanmu {
     static ZtCommonInfoReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChJadENvbW1vbkluZm8ucHJvdG8SCkFjRnVuRGFubXUi9QEKDFp0Q29tbW9u",
+            "ChJadENvbW1vbkluZm8ucHJvdG8SCkFjRnVuRGFubXUi9AEKDFp0Q29tbW9u",
             "SW5mbxILCgNrcG4YASABKAkSCwoDa3BmGAIgASgJEg4KBnN1YkJpehgDIAEo",
             "CRILCgN1aWQYBCABKAMSCwoDZGlkGAUgASgJEhAKCGNsaWVudElwGAYgASgD",
             "Eg4KBmFwcFZlchgHIAEoCRILCgN2ZXIYCCABKAkSCwoDbGF0GAkgASgJEgsK",
-            "A2xvbhgKIAEoCRIMCgRtb25kGAsgASgJEgsKA25ldBgMIAEoCRILCgNzeXMY",
-            "DSABKAkSCQoBYxgOIAEoCRIQCghsYW5ndWFnZRgPIAEoCRITCgtjb3VudHJ5",
-            "Q29kZRgQIAEoCWIGcHJvdG8z"));
+            "A2xvbhgKIAEoCRILCgNtb2QYCyABKAkSCwoDbmV0GAwgASgJEgsKA3N5cxgN",
+            "IAEoCRIJCgFjGA4gASgJEhAKCGxhbmd1YWdlGA8gASgJEhMKC2NvdW50cnlD",
+            "b2RlGBAgASgJYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtCommonInfo), global::AcFunDanmu.ZtCommonInfo.Parser, new[]{ "Kpn", "Kpf", "SubBiz", "Uid", "Did", "ClientIp", "AppVer", "Ver", "Lat", "Lon", "Mond", "Net", "Sys", "C", "Language", "CountryCode" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtCommonInfo), global::AcFunDanmu.ZtCommonInfo.Parser, new[]{ "Kpn", "Kpf", "SubBiz", "Uid", "Did", "ClientIp", "AppVer", "Ver", "Lat", "Lon", "Mod", "Net", "Sys", "C", "Language", "CountryCode" }, null, null, null, null)
           }));
     }
     #endregion
@@ -80,7 +80,7 @@ namespace AcFunDanmu {
       ver_ = other.ver_;
       lat_ = other.lat_;
       lon_ = other.lon_;
-      mond_ = other.mond_;
+      mod_ = other.mod_;
       net_ = other.net_;
       sys_ = other.sys_;
       c_ = other.c_;
@@ -204,14 +204,14 @@ namespace AcFunDanmu {
       }
     }
 
-    /// <summary>Field number for the "mond" field.</summary>
-    public const int MondFieldNumber = 11;
-    private string mond_ = "";
+    /// <summary>Field number for the "mod" field.</summary>
+    public const int ModFieldNumber = 11;
+    private string mod_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Mond {
-      get { return mond_; }
+    public string Mod {
+      get { return mod_; }
       set {
-        mond_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        mod_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -293,7 +293,7 @@ namespace AcFunDanmu {
       if (Ver != other.Ver) return false;
       if (Lat != other.Lat) return false;
       if (Lon != other.Lon) return false;
-      if (Mond != other.Mond) return false;
+      if (Mod != other.Mod) return false;
       if (Net != other.Net) return false;
       if (Sys != other.Sys) return false;
       if (C != other.C) return false;
@@ -315,7 +315,7 @@ namespace AcFunDanmu {
       if (Ver.Length != 0) hash ^= Ver.GetHashCode();
       if (Lat.Length != 0) hash ^= Lat.GetHashCode();
       if (Lon.Length != 0) hash ^= Lon.GetHashCode();
-      if (Mond.Length != 0) hash ^= Mond.GetHashCode();
+      if (Mod.Length != 0) hash ^= Mod.GetHashCode();
       if (Net.Length != 0) hash ^= Net.GetHashCode();
       if (Sys.Length != 0) hash ^= Sys.GetHashCode();
       if (C.Length != 0) hash ^= C.GetHashCode();
@@ -377,9 +377,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(82);
         output.WriteString(Lon);
       }
-      if (Mond.Length != 0) {
+      if (Mod.Length != 0) {
         output.WriteRawTag(90);
-        output.WriteString(Mond);
+        output.WriteString(Mod);
       }
       if (Net.Length != 0) {
         output.WriteRawTag(98);
@@ -450,9 +450,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(82);
         output.WriteString(Lon);
       }
-      if (Mond.Length != 0) {
+      if (Mod.Length != 0) {
         output.WriteRawTag(90);
-        output.WriteString(Mond);
+        output.WriteString(Mod);
       }
       if (Net.Length != 0) {
         output.WriteRawTag(98);
@@ -513,8 +513,8 @@ namespace AcFunDanmu {
       if (Lon.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Lon);
       }
-      if (Mond.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Mond);
+      if (Mod.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Mod);
       }
       if (Net.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Net);
@@ -572,8 +572,8 @@ namespace AcFunDanmu {
       if (other.Lon.Length != 0) {
         Lon = other.Lon;
       }
-      if (other.Mond.Length != 0) {
-        Mond = other.Mond;
+      if (other.Mod.Length != 0) {
+        Mod = other.Mod;
       }
       if (other.Net.Length != 0) {
         Net = other.Net;
@@ -645,7 +645,7 @@ namespace AcFunDanmu {
             break;
           }
           case 90: {
-            Mond = input.ReadString();
+            Mod = input.ReadString();
             break;
           }
           case 98: {
@@ -723,7 +723,7 @@ namespace AcFunDanmu {
             break;
           }
           case 90: {
-            Mond = input.ReadString();
+            Mod = input.ReadString();
             break;
           }
           case 98: {

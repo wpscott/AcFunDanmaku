@@ -258,7 +258,7 @@ namespace AcFunDanmu
                 AppId = AppId,
                 Uid = UserId,
                 InstanceId = InstanceId,
-                DecodedPayloadLen = body.Length,
+                DecodedPayloadLen = Convert.ToUInt32(body.Length),
                 EncryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey,
                 SeqId = SeqId,
                 Kpn = KPN

@@ -28,7 +28,7 @@ namespace AcFunDanmu {
             "cm90byLgBAoMUGFja2V0SGVhZGVyEg0KBWFwcElkGAEgASgFEgsKA3VpZBgC",
             "IAEoAxISCgppbnN0YW5jZUlkGAMgASgDEg0KBWZsYWdzGAUgASgNEjsKDGVu",
             "Y29kaW5nVHlwZRgGIAEoDjIlLkFjRnVuRGFubXUuUGFja2V0SGVhZGVyLkVu",
-            "Y29kaW5nVHlwZRIZChFkZWNvZGVkUGF5bG9hZExlbhgHIAEoBRI/Cg5lbmNy",
+            "Y29kaW5nVHlwZRIZChFkZWNvZGVkUGF5bG9hZExlbhgHIAEoDRI/Cg5lbmNy",
             "eXB0aW9uTW9kZRgIIAEoDjInLkFjRnVuRGFubXUuUGFja2V0SGVhZGVyLkVu",
             "Y3J5cHRpb25Nb2RlEigKCXRva2VuSW5mbxgJIAEoCzIVLkFjRnVuRGFubXUu",
             "VG9rZW5JbmZvEg0KBXNlcUlkGAogASgDEjIKCGZlYXR1cmVzGAsgAygOMiAu",
@@ -154,9 +154,9 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "decodedPayloadLen" field.</summary>
     public const int DecodedPayloadLenFieldNumber = 7;
-    private int decodedPayloadLen_;
+    private uint decodedPayloadLen_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int DecodedPayloadLen {
+    public uint DecodedPayloadLen {
       get { return decodedPayloadLen_; }
       set {
         decodedPayloadLen_ = value;
@@ -296,7 +296,7 @@ namespace AcFunDanmu {
       }
       if (DecodedPayloadLen != 0) {
         output.WriteRawTag(56);
-        output.WriteInt32(DecodedPayloadLen);
+        output.WriteUInt32(DecodedPayloadLen);
       }
       if (EncryptionMode != global::AcFunDanmu.PacketHeader.Types.EncryptionMode.KEncryptionNone) {
         output.WriteRawTag(64);
@@ -346,7 +346,7 @@ namespace AcFunDanmu {
       }
       if (DecodedPayloadLen != 0) {
         output.WriteRawTag(56);
-        output.WriteInt32(DecodedPayloadLen);
+        output.WriteUInt32(DecodedPayloadLen);
       }
       if (EncryptionMode != global::AcFunDanmu.PacketHeader.Types.EncryptionMode.KEncryptionNone) {
         output.WriteRawTag(64);
@@ -390,7 +390,7 @@ namespace AcFunDanmu {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) EncodingType);
       }
       if (DecodedPayloadLen != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DecodedPayloadLen);
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(DecodedPayloadLen);
       }
       if (EncryptionMode != global::AcFunDanmu.PacketHeader.Types.EncryptionMode.KEncryptionNone) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) EncryptionMode);
@@ -485,7 +485,7 @@ namespace AcFunDanmu {
             break;
           }
           case 56: {
-            DecodedPayloadLen = input.ReadInt32();
+            DecodedPayloadLen = input.ReadUInt32();
             break;
           }
           case 64: {
@@ -547,7 +547,7 @@ namespace AcFunDanmu {
             break;
           }
           case 56: {
-            DecodedPayloadLen = input.ReadInt32();
+            DecodedPayloadLen = input.ReadUInt32();
             break;
           }
           case 64: {

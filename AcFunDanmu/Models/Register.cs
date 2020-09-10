@@ -41,7 +41,7 @@ namespace AcFunDanmu {
             "LgoMenRDb21tb25JbmZvGAsgASgLMhguQWNGdW5EYW5tdS5adENvbW1vbklu",
             "Zm8iOwoOUHJlc2VuY2VTdGF0dXMSFAoQa1ByZXNlbmNlT2ZmbGluZRAAEhMK",
             "D2tQcmVzZW5jZU9ubGluZRABIkgKDEFjdGl2ZVN0YXR1cxIMCghrSW52YWxp",
-            "ZBAAEhQKEGtBcHBJbkZvcmVncm91bmQQARIUChBrQXBwaW5CYWNrZ3JvdW5k",
+            "ZBAAEhQKEGtBcHBJbkZvcmVncm91bmQQARIUChBrQXBwSW5CYWNrZ3JvdW5k",
             "EAIi3QEKEFJlZ2lzdGVyUmVzcG9uc2USOgoSYWNjZXNzUG9pbnRzQ29uZmln",
             "GAEgASgLMh4uQWNGdW5EYW5tdS5BY2Nlc3NQb2ludHNDb25maWcSDwoHc2Vz",
             "c0tleRgCIAEoDBISCgppbnN0YW5jZUlkGAMgASgDEigKCXNka09wdGlvbhgE",
@@ -635,7 +635,7 @@ namespace AcFunDanmu {
       public enum ActiveStatus {
         [pbr::OriginalName("kInvalid")] KInvalid = 0,
         [pbr::OriginalName("kAppInForeground")] KAppInForeground = 1,
-        [pbr::OriginalName("kAppinBackground")] KAppinBackground = 2,
+        [pbr::OriginalName("kAppInBackground")] KAppInBackground = 2,
       }
 
     }

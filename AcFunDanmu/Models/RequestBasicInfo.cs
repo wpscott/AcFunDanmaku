@@ -44,6 +44,9 @@ namespace AcFunDanmu {
 
   }
   #region Messages
+  /// <summary>
+  ///RequsetBasicInfo
+  /// </summary>
   public sealed partial class RequestBasicInfo : pb::IMessage<RequestBasicInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
