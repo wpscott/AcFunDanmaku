@@ -464,7 +464,7 @@ namespace AcFunDanmu
                         case GlobalCommand.USER_EXIT_ACK:
                             break;
                         default:
-                            Console.WriteLine("Unhandled Global.ZtLiveInteractive.CsCmd: {0}", cmd.CmdAckType);
+                            Console.WriteLine("Unhandled Global.ZtLiveInteractive.CsCmdAck: {0}", cmd.CmdAckType);
                             Console.WriteLine(cmd);
                             break;
                     }

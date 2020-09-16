@@ -233,7 +233,7 @@ namespace AcFunDanmuConsole
                             default:
                                 var pi = Parse(item.SignalType, item.Payload);
 #if DEBUG
-                                Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
+                                Console.WriteLine("Unhandled notify type: {0}, content: {1}", item.SignalType, pi);
 #endif
                                 break;
                         }
@@ -243,7 +243,7 @@ namespace AcFunDanmuConsole
                 default:
                     var unknown = Parse(messagetType, payload);
 #if DEBUG
-                    Console.WriteLine("Unhandled state type: {0}, content: {1}", messagetType, unknown);
+                    Console.WriteLine("Unhandled message type: {0}, content: {1}", messagetType, unknown);
 #endif
                     break;
             }

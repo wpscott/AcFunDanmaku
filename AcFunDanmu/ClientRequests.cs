@@ -191,7 +191,7 @@ namespace AcFunDanmu
 
         internal byte[] UnregisterRequest()
         {
-            var payload = GeneratePayload(Command.PING);
+            var payload = GeneratePayload(Command.UNREGISTER);
 
             var body = payload.ToByteString();
 
