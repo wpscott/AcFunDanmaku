@@ -237,7 +237,6 @@ namespace AcFunDanmuConsole
 #endif
                                 break;
                         }
-
                     }
                     break;
                 default:
