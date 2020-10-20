@@ -21,6 +21,6 @@ message CommonStateSignalCurrentRedpackList {
 		string redPackId = 5;
 		string redpackBizUnit = 6;
 		int64 redpackAmount = 7;
-		int64 rsettleBeginTime = 8;
+		int64 settleBeginTime = 8;
 	}
 }
