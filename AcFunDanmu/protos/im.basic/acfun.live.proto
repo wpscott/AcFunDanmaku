@@ -16,3 +16,9 @@ message AcfunActionSignalThrowBanana {
 message AcfunStateSignalDisplayInfo {
 	string bananaCount = 1;
 }
+
+message AcfunActionSignalJoinClub {
+	AcFunUserInfo fansInfo = 1;
+	AcFunUserInfo uperInfo = 2;
+	int64 joinTimeMs = 3;
+}
