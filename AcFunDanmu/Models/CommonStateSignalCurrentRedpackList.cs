@@ -25,33 +25,29 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CilDb21tb25TdGF0ZVNpZ25hbEN1cnJlbnRSZWRwYWNrTGlzdC5wcm90bxIK",
-            "QWNGdW5EYW5tdRoUWnRMaXZlVXNlckluZm8ucHJvdG8i0wMKI0NvbW1vblN0",
+            "QWNGdW5EYW5tdRoUWnRMaXZlVXNlckluZm8ucHJvdG8i0gMKI0NvbW1vblN0",
             "YXRlU2lnbmFsQ3VycmVudFJlZHBhY2tMaXN0EkkKCHJlZHBhY2tzGAEgAygL",
             "MjcuQWNGdW5EYW5tdS5Db21tb25TdGF0ZVNpZ25hbEN1cnJlbnRSZWRwYWNr",
-            "TGlzdC5SZWRwYWNrGqUCCgdSZWRwYWNrEioKBnNlbmRlchgBIAEoCzIaLkFj",
+            "TGlzdC5SZWRwYWNrGqQCCgdSZWRwYWNrEioKBnNlbmRlchgBIAEoCzIaLkFj",
             "RnVuRGFubXUuWnRMaXZlVXNlckluZm8SWwoNZGlzcGxheVN0YXR1cxgCIAEo",
             "DjJELkFjRnVuRGFubXUuQ29tbW9uU3RhdGVTaWduYWxDdXJyZW50UmVkcGFj",
             "a0xpc3QuUmVkcGFja0Rpc3BsYXlTdGF0dXMSFwoPZ3JhYkJlZ2luVGltZU1z",
             "GAMgASgDEhwKFGdldFRva2VuTGF0ZXN0VGltZU1zGAQgASgDEhEKCXJlZFBh",
             "Y2tJZBgFIAEoCRIWCg5yZWRwYWNrQml6VW5pdBgGIAEoCRIVCg1yZWRwYWNr",
-            "QW1vdW50GAcgASgDEhgKEHJzZXR0bGVCZWdpblRpbWUYCCABKAMiOQoUUmVk",
-            "cGFja0Rpc3BsYXlTdGF0dXMSCAoEU0hPVxAAEg0KCUdFVF9UT0tFThABEggK",
-            "BEdSQUIQAmIGcHJvdG8z"));
+            "QW1vdW50GAcgASgDEhcKD3NldHRsZUJlZ2luVGltZRgIIAEoAyI5ChRSZWRw",
+            "YWNrRGlzcGxheVN0YXR1cxIICgRTSE9XEAASDQoJR0VUX1RPS0VOEAESCAoE",
+            "R1JBQhACYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.ZtLiveUserInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Parser, new[]{ "Redpacks" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack.Parser, new[]{ "Sender", "DisplayStatus", "GrabBeginTimeMs", "GetTokenLatestTimeMs", "RedPackId", "RedpackBizUnit", "RedpackAmount", "RsettleBeginTime" }, null, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Parser, new[]{ "Redpacks" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack.Parser, new[]{ "Sender", "DisplayStatus", "GrabBeginTimeMs", "GetTokenLatestTimeMs", "RedPackId", "RedpackBizUnit", "RedpackAmount", "SettleBeginTime" }, null, null, null, null)})
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class CommonStateSignalCurrentRedpackList : pb::IMessage<CommonStateSignalCurrentRedpackList>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class CommonStateSignalCurrentRedpackList : pb::IMessage<CommonStateSignalCurrentRedpackList> {
     private static readonly pb::MessageParser<CommonStateSignalCurrentRedpackList> _parser = new pb::MessageParser<CommonStateSignalCurrentRedpackList>(() => new CommonStateSignalCurrentRedpackList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -132,25 +128,11 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       redpacks_.WriteTo(output, _repeated_redpacks_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      redpacks_.WriteTo(ref output, _repeated_redpacks_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -173,9 +155,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -188,26 +167,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            redpacks_.AddEntriesFrom(ref input, _repeated_redpacks_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the CommonStateSignalCurrentRedpackList message type.</summary>
@@ -219,11 +179,7 @@ namespace AcFunDanmu {
         [pbr::OriginalName("GRAB")] Grab = 2,
       }
 
-      public sealed partial class Redpack : pb::IMessage<Redpack>
-      #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-          , pb::IBufferMessage
-      #endif
-      {
+      public sealed partial class Redpack : pb::IMessage<Redpack> {
         private static readonly pb::MessageParser<Redpack> _parser = new pb::MessageParser<Redpack>(() => new Redpack());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -255,7 +211,7 @@ namespace AcFunDanmu {
           redPackId_ = other.redPackId_;
           redpackBizUnit_ = other.redpackBizUnit_;
           redpackAmount_ = other.redpackAmount_;
-          rsettleBeginTime_ = other.rsettleBeginTime_;
+          settleBeginTime_ = other.settleBeginTime_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
@@ -341,14 +297,14 @@ namespace AcFunDanmu {
           }
         }
 
-        /// <summary>Field number for the "rsettleBeginTime" field.</summary>
-        public const int RsettleBeginTimeFieldNumber = 8;
-        private long rsettleBeginTime_;
+        /// <summary>Field number for the "settleBeginTime" field.</summary>
+        public const int SettleBeginTimeFieldNumber = 8;
+        private long settleBeginTime_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public long RsettleBeginTime {
-          get { return rsettleBeginTime_; }
+        public long SettleBeginTime {
+          get { return settleBeginTime_; }
           set {
-            rsettleBeginTime_ = value;
+            settleBeginTime_ = value;
           }
         }
 
@@ -372,7 +328,7 @@ namespace AcFunDanmu {
           if (RedPackId != other.RedPackId) return false;
           if (RedpackBizUnit != other.RedpackBizUnit) return false;
           if (RedpackAmount != other.RedpackAmount) return false;
-          if (RsettleBeginTime != other.RsettleBeginTime) return false;
+          if (SettleBeginTime != other.SettleBeginTime) return false;
           return Equals(_unknownFields, other._unknownFields);
         }
 
@@ -386,7 +342,7 @@ namespace AcFunDanmu {
           if (RedPackId.Length != 0) hash ^= RedPackId.GetHashCode();
           if (RedpackBizUnit.Length != 0) hash ^= RedpackBizUnit.GetHashCode();
           if (RedpackAmount != 0L) hash ^= RedpackAmount.GetHashCode();
-          if (RsettleBeginTime != 0L) hash ^= RsettleBeginTime.GetHashCode();
+          if (SettleBeginTime != 0L) hash ^= SettleBeginTime.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -400,9 +356,6 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
-        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-          output.WriteRawMessage(this);
-        #else
           if (sender_ != null) {
             output.WriteRawTag(10);
             output.WriteMessage(Sender);
@@ -431,56 +384,14 @@ namespace AcFunDanmu {
             output.WriteRawTag(56);
             output.WriteInt64(RedpackAmount);
           }
-          if (RsettleBeginTime != 0L) {
+          if (SettleBeginTime != 0L) {
             output.WriteRawTag(64);
-            output.WriteInt64(RsettleBeginTime);
+            output.WriteInt64(SettleBeginTime);
           }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
           }
-        #endif
         }
-
-        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-          if (sender_ != null) {
-            output.WriteRawTag(10);
-            output.WriteMessage(Sender);
-          }
-          if (DisplayStatus != global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus.Show) {
-            output.WriteRawTag(16);
-            output.WriteEnum((int) DisplayStatus);
-          }
-          if (GrabBeginTimeMs != 0L) {
-            output.WriteRawTag(24);
-            output.WriteInt64(GrabBeginTimeMs);
-          }
-          if (GetTokenLatestTimeMs != 0L) {
-            output.WriteRawTag(32);
-            output.WriteInt64(GetTokenLatestTimeMs);
-          }
-          if (RedPackId.Length != 0) {
-            output.WriteRawTag(42);
-            output.WriteString(RedPackId);
-          }
-          if (RedpackBizUnit.Length != 0) {
-            output.WriteRawTag(50);
-            output.WriteString(RedpackBizUnit);
-          }
-          if (RedpackAmount != 0L) {
-            output.WriteRawTag(56);
-            output.WriteInt64(RedpackAmount);
-          }
-          if (RsettleBeginTime != 0L) {
-            output.WriteRawTag(64);
-            output.WriteInt64(RsettleBeginTime);
-          }
-          if (_unknownFields != null) {
-            _unknownFields.WriteTo(ref output);
-          }
-        }
-        #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize() {
@@ -506,8 +417,8 @@ namespace AcFunDanmu {
           if (RedpackAmount != 0L) {
             size += 1 + pb::CodedOutputStream.ComputeInt64Size(RedpackAmount);
           }
-          if (RsettleBeginTime != 0L) {
-            size += 1 + pb::CodedOutputStream.ComputeInt64Size(RsettleBeginTime);
+          if (SettleBeginTime != 0L) {
+            size += 1 + pb::CodedOutputStream.ComputeInt64Size(SettleBeginTime);
           }
           if (_unknownFields != null) {
             size += _unknownFields.CalculateSize();
@@ -544,17 +455,14 @@ namespace AcFunDanmu {
           if (other.RedpackAmount != 0L) {
             RedpackAmount = other.RedpackAmount;
           }
-          if (other.RsettleBeginTime != 0L) {
-            RsettleBeginTime = other.RsettleBeginTime;
+          if (other.SettleBeginTime != 0L) {
+            SettleBeginTime = other.SettleBeginTime;
           }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input) {
-        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-          input.ReadRawMessage(this);
-        #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
             switch(tag) {
@@ -593,62 +501,12 @@ namespace AcFunDanmu {
                 break;
               }
               case 64: {
-                RsettleBeginTime = input.ReadInt64();
-                break;
-              }
-            }
-          }
-        #endif
-        }
-
-        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-          uint tag;
-          while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
-              default:
-                _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-                break;
-              case 10: {
-                if (sender_ == null) {
-                  Sender = new global::AcFunDanmu.ZtLiveUserInfo();
-                }
-                input.ReadMessage(Sender);
-                break;
-              }
-              case 16: {
-                DisplayStatus = (global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus) input.ReadEnum();
-                break;
-              }
-              case 24: {
-                GrabBeginTimeMs = input.ReadInt64();
-                break;
-              }
-              case 32: {
-                GetTokenLatestTimeMs = input.ReadInt64();
-                break;
-              }
-              case 42: {
-                RedPackId = input.ReadString();
-                break;
-              }
-              case 50: {
-                RedpackBizUnit = input.ReadString();
-                break;
-              }
-              case 56: {
-                RedpackAmount = input.ReadInt64();
-                break;
-              }
-              case 64: {
-                RsettleBeginTime = input.ReadInt64();
+                SettleBeginTime = input.ReadInt64();
                 break;
               }
             }
           }
         }
-        #endif
 
       }
 

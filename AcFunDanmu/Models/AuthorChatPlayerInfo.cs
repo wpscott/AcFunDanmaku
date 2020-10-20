@@ -38,11 +38,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class AuthorChatPlayerInfo : pb::IMessage<AuthorChatPlayerInfo>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class AuthorChatPlayerInfo : pb::IMessage<AuthorChatPlayerInfo> {
     private static readonly pb::MessageParser<AuthorChatPlayerInfo> _parser = new pb::MessageParser<AuthorChatPlayerInfo>(() => new AuthorChatPlayerInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -149,9 +145,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (user_ != null) {
         output.WriteRawTag(10);
         output.WriteMessage(User);
@@ -167,29 +160,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (user_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(User);
-      }
-      if (B.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(B);
-      }
-      if (C != false) {
-        output.WriteRawTag(24);
-        output.WriteBool(C);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -231,9 +202,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -257,37 +225,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            if (user_ == null) {
-              User = new global::AcFunDanmu.ZtLiveUserInfo();
-            }
-            input.ReadMessage(User);
-            break;
-          }
-          case 18: {
-            B = input.ReadString();
-            break;
-          }
-          case 24: {
-            C = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 

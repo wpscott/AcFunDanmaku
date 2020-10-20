@@ -59,11 +59,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class RegisterRequest : pb::IMessage<RegisterRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class RegisterRequest : pb::IMessage<RegisterRequest> {
     private static readonly pb::MessageParser<RegisterRequest> _parser = new pb::MessageParser<RegisterRequest>(() => new RegisterRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -281,9 +277,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (appInfo_ != null) {
         output.WriteRawTag(10);
         output.WriteMessage(AppInfo);
@@ -328,58 +321,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (appInfo_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(AppInfo);
-      }
-      if (deviceInfo_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(DeviceInfo);
-      }
-      if (envInfo_ != null) {
-        output.WriteRawTag(26);
-        output.WriteMessage(EnvInfo);
-      }
-      if (PresenceStatus != global::AcFunDanmu.RegisterRequest.Types.PresenceStatus.KPresenceOffline) {
-        output.WriteRawTag(32);
-        output.WriteEnum((int) PresenceStatus);
-      }
-      if (AppActiveStatus != global::AcFunDanmu.RegisterRequest.Types.ActiveStatus.KInvalid) {
-        output.WriteRawTag(40);
-        output.WriteEnum((int) AppActiveStatus);
-      }
-      if (AppCustomStatus.Length != 0) {
-        output.WriteRawTag(50);
-        output.WriteBytes(AppCustomStatus);
-      }
-      if (pushServiceToken_ != null) {
-        output.WriteRawTag(58);
-        output.WriteMessage(PushServiceToken);
-      }
-      if (InstanceId != 0L) {
-        output.WriteRawTag(64);
-        output.WriteInt64(InstanceId);
-      }
-      pushServiceTokenList_.WriteTo(ref output, _repeated_pushServiceTokenList_codec);
-      if (KeepaliveIntervalSec != 0) {
-        output.WriteRawTag(80);
-        output.WriteInt32(KeepaliveIntervalSec);
-      }
-      if (ztCommonInfo_ != null) {
-        output.WriteRawTag(90);
-        output.WriteMessage(ZtCommonInfo);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -477,9 +419,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -547,81 +486,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            if (appInfo_ == null) {
-              AppInfo = new global::AcFunDanmu.AppInfo();
-            }
-            input.ReadMessage(AppInfo);
-            break;
-          }
-          case 18: {
-            if (deviceInfo_ == null) {
-              DeviceInfo = new global::AcFunDanmu.DeviceInfo();
-            }
-            input.ReadMessage(DeviceInfo);
-            break;
-          }
-          case 26: {
-            if (envInfo_ == null) {
-              EnvInfo = new global::AcFunDanmu.EnvInfo();
-            }
-            input.ReadMessage(EnvInfo);
-            break;
-          }
-          case 32: {
-            PresenceStatus = (global::AcFunDanmu.RegisterRequest.Types.PresenceStatus) input.ReadEnum();
-            break;
-          }
-          case 40: {
-            AppActiveStatus = (global::AcFunDanmu.RegisterRequest.Types.ActiveStatus) input.ReadEnum();
-            break;
-          }
-          case 50: {
-            AppCustomStatus = input.ReadBytes();
-            break;
-          }
-          case 58: {
-            if (pushServiceToken_ == null) {
-              PushServiceToken = new global::AcFunDanmu.PushServiceToken();
-            }
-            input.ReadMessage(PushServiceToken);
-            break;
-          }
-          case 64: {
-            InstanceId = input.ReadInt64();
-            break;
-          }
-          case 74: {
-            pushServiceTokenList_.AddEntriesFrom(ref input, _repeated_pushServiceTokenList_codec);
-            break;
-          }
-          case 80: {
-            KeepaliveIntervalSec = input.ReadInt32();
-            break;
-          }
-          case 90: {
-            if (ztCommonInfo_ == null) {
-              ZtCommonInfo = new global::AcFunDanmu.ZtCommonInfo();
-            }
-            input.ReadMessage(ZtCommonInfo);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the RegisterRequest message type.</summary>
@@ -643,11 +508,7 @@ namespace AcFunDanmu {
 
   }
 
-  public sealed partial class RegisterResponse : pb::IMessage<RegisterResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class RegisterResponse : pb::IMessage<RegisterResponse> {
     private static readonly pb::MessageParser<RegisterResponse> _parser = new pb::MessageParser<RegisterResponse>(() => new RegisterResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -782,9 +643,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (accessPointsConfig_ != null) {
         output.WriteRawTag(10);
         output.WriteMessage(AccessPointsConfig);
@@ -808,37 +666,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (accessPointsConfig_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(AccessPointsConfig);
-      }
-      if (SessKey.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteBytes(SessKey);
-      }
-      if (InstanceId != 0L) {
-        output.WriteRawTag(24);
-        output.WriteInt64(InstanceId);
-      }
-      if (sdkOption_ != null) {
-        output.WriteRawTag(34);
-        output.WriteMessage(SdkOption);
-      }
-      if (accessPointsCOnfigIpv6_ != null) {
-        output.WriteRawTag(42);
-        output.WriteMessage(AccessPointsCOnfigIpv6);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -898,9 +726,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -938,51 +763,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            if (accessPointsConfig_ == null) {
-              AccessPointsConfig = new global::AcFunDanmu.AccessPointsConfig();
-            }
-            input.ReadMessage(AccessPointsConfig);
-            break;
-          }
-          case 18: {
-            SessKey = input.ReadBytes();
-            break;
-          }
-          case 24: {
-            InstanceId = input.ReadInt64();
-            break;
-          }
-          case 34: {
-            if (sdkOption_ == null) {
-              SdkOption = new global::AcFunDanmu.SdkOption();
-            }
-            input.ReadMessage(SdkOption);
-            break;
-          }
-          case 42: {
-            if (accessPointsCOnfigIpv6_ == null) {
-              AccessPointsCOnfigIpv6 = new global::AcFunDanmu.AccessPointsConfig();
-            }
-            input.ReadMessage(AccessPointsCOnfigIpv6);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 

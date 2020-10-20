@@ -40,11 +40,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class AppInfo : pb::IMessage<AppInfo>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class AppInfo : pb::IMessage<AppInfo> {
     private static readonly pb::MessageParser<AppInfo> _parser = new pb::MessageParser<AppInfo>(() => new AppInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -178,9 +174,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (AppName.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(AppName);
@@ -201,34 +194,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (AppName.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(AppName);
-      }
-      if (AppVersion.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(AppVersion);
-      }
-      if (AppChannel.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(AppChannel);
-      }
-      if (SdkVersion.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(SdkVersion);
-      }
-      extensionInfo_.WriteTo(ref output, _map_extensionInfo_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -275,9 +241,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -306,42 +269,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            AppName = input.ReadString();
-            break;
-          }
-          case 18: {
-            AppVersion = input.ReadString();
-            break;
-          }
-          case 26: {
-            AppChannel = input.ReadString();
-            break;
-          }
-          case 34: {
-            SdkVersion = input.ReadString();
-            break;
-          }
-          case 90: {
-            extensionInfo_.AddEntriesFrom(ref input, _map_extensionInfo_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 

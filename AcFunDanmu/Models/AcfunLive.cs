@@ -29,24 +29,24 @@ namespace AcFunDanmu {
             "b25TaWduYWxUaHJvd0JhbmFuYRIqCgd2aXNpdG9yGAEgASgLMhkuQWNGdW5E",
             "YW5tdS5BY0Z1blVzZXJJbmZvEg0KBWNvdW50GAIgASgFEhIKCnNlbmRUaW1l",
             "TXMYAyABKAMiMgobQWNmdW5TdGF0ZVNpZ25hbERpc3BsYXlJbmZvEhMKC2Jh",
-            "bmFuYUNvdW50GAEgASgJYgZwcm90bzM="));
+            "bmFuYUNvdW50GAEgASgJIokBChlBY2Z1bkFjdGlvblNpZ25hbEpvaW5DbHVi",
+            "EisKCGZhbnNJbmZvGAEgASgLMhkuQWNGdW5EYW5tdS5BY0Z1blVzZXJJbmZv",
+            "EisKCHVwZXJJbmZvGAIgASgLMhkuQWNGdW5EYW5tdS5BY0Z1blVzZXJJbmZv",
+            "EhIKCmpvaW5UaW1lTXMYAyABKANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AcFunUserInfo), global::AcFunDanmu.AcFunUserInfo.Parser, new[]{ "UserId", "Name" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AcfunActionSignalThrowBanana), global::AcFunDanmu.AcfunActionSignalThrowBanana.Parser, new[]{ "Visitor", "Count", "SendTimeMs" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AcfunStateSignalDisplayInfo), global::AcFunDanmu.AcfunStateSignalDisplayInfo.Parser, new[]{ "BananaCount" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AcfunStateSignalDisplayInfo), global::AcFunDanmu.AcfunStateSignalDisplayInfo.Parser, new[]{ "BananaCount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AcfunActionSignalJoinClub), global::AcFunDanmu.AcfunActionSignalJoinClub.Parser, new[]{ "FansInfo", "UperInfo", "JoinTimeMs" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class AcFunUserInfo : pb::IMessage<AcFunUserInfo>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class AcFunUserInfo : pb::IMessage<AcFunUserInfo> {
     private static readonly pb::MessageParser<AcFunUserInfo> _parser = new pb::MessageParser<AcFunUserInfo>(() => new AcFunUserInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -139,9 +139,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (UserId != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(UserId);
@@ -153,25 +150,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (UserId != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(UserId);
-      }
-      if (Name.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Name);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -204,9 +183,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -223,38 +199,11 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            UserId = input.ReadInt64();
-            break;
-          }
-          case 18: {
-            Name = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class AcfunActionSignalThrowBanana : pb::IMessage<AcfunActionSignalThrowBanana>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class AcfunActionSignalThrowBanana : pb::IMessage<AcfunActionSignalThrowBanana> {
     private static readonly pb::MessageParser<AcfunActionSignalThrowBanana> _parser = new pb::MessageParser<AcfunActionSignalThrowBanana>(() => new AcfunActionSignalThrowBanana());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -361,9 +310,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (visitor_ != null) {
         output.WriteRawTag(10);
         output.WriteMessage(Visitor);
@@ -379,29 +325,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (visitor_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Visitor);
-      }
-      if (Count != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(Count);
-      }
-      if (SendTimeMs != 0L) {
-        output.WriteRawTag(24);
-        output.WriteInt64(SendTimeMs);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -443,9 +367,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -469,45 +390,11 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            if (visitor_ == null) {
-              Visitor = new global::AcFunDanmu.AcFunUserInfo();
-            }
-            input.ReadMessage(Visitor);
-            break;
-          }
-          case 16: {
-            Count = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            SendTimeMs = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class AcfunStateSignalDisplayInfo : pb::IMessage<AcfunStateSignalDisplayInfo>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class AcfunStateSignalDisplayInfo : pb::IMessage<AcfunStateSignalDisplayInfo> {
     private static readonly pb::MessageParser<AcfunStateSignalDisplayInfo> _parser = new pb::MessageParser<AcfunStateSignalDisplayInfo>(() => new AcfunStateSignalDisplayInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -586,9 +473,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (BananaCount.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(BananaCount);
@@ -596,21 +480,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (BananaCount.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(BananaCount);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -637,9 +507,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -652,26 +519,204 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
 
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  }
+
+  public sealed partial class AcfunActionSignalJoinClub : pb::IMessage<AcfunActionSignalJoinClub> {
+    private static readonly pb::MessageParser<AcfunActionSignalJoinClub> _parser = new pb::MessageParser<AcfunActionSignalJoinClub>(() => new AcfunActionSignalJoinClub());
+    private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+    public static pb::MessageParser<AcfunActionSignalJoinClub> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::AcFunDanmu.AcfunLiveReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AcfunActionSignalJoinClub() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AcfunActionSignalJoinClub(AcfunActionSignalJoinClub other) : this() {
+      fansInfo_ = other.fansInfo_ != null ? other.fansInfo_.Clone() : null;
+      uperInfo_ = other.uperInfo_ != null ? other.uperInfo_.Clone() : null;
+      joinTimeMs_ = other.joinTimeMs_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AcfunActionSignalJoinClub Clone() {
+      return new AcfunActionSignalJoinClub(this);
+    }
+
+    /// <summary>Field number for the "fansInfo" field.</summary>
+    public const int FansInfoFieldNumber = 1;
+    private global::AcFunDanmu.AcFunUserInfo fansInfo_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::AcFunDanmu.AcFunUserInfo FansInfo {
+      get { return fansInfo_; }
+      set {
+        fansInfo_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "uperInfo" field.</summary>
+    public const int UperInfoFieldNumber = 2;
+    private global::AcFunDanmu.AcFunUserInfo uperInfo_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::AcFunDanmu.AcFunUserInfo UperInfo {
+      get { return uperInfo_; }
+      set {
+        uperInfo_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "joinTimeMs" field.</summary>
+    public const int JoinTimeMsFieldNumber = 3;
+    private long joinTimeMs_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long JoinTimeMs {
+      get { return joinTimeMs_; }
+      set {
+        joinTimeMs_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AcfunActionSignalJoinClub);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AcfunActionSignalJoinClub other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(FansInfo, other.FansInfo)) return false;
+      if (!object.Equals(UperInfo, other.UperInfo)) return false;
+      if (JoinTimeMs != other.JoinTimeMs) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (fansInfo_ != null) hash ^= FansInfo.GetHashCode();
+      if (uperInfo_ != null) hash ^= UperInfo.GetHashCode();
+      if (JoinTimeMs != 0L) hash ^= JoinTimeMs.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (fansInfo_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(FansInfo);
+      }
+      if (uperInfo_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(UperInfo);
+      }
+      if (JoinTimeMs != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(JoinTimeMs);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (fansInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(FansInfo);
+      }
+      if (uperInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(UperInfo);
+      }
+      if (JoinTimeMs != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(JoinTimeMs);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AcfunActionSignalJoinClub other) {
+      if (other == null) {
+        return;
+      }
+      if (other.fansInfo_ != null) {
+        if (fansInfo_ == null) {
+          FansInfo = new global::AcFunDanmu.AcFunUserInfo();
+        }
+        FansInfo.MergeFrom(other.FansInfo);
+      }
+      if (other.uperInfo_ != null) {
+        if (uperInfo_ == null) {
+          UperInfo = new global::AcFunDanmu.AcFunUserInfo();
+        }
+        UperInfo.MergeFrom(other.UperInfo);
+      }
+      if (other.JoinTimeMs != 0L) {
+        JoinTimeMs = other.JoinTimeMs;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
           default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            BananaCount = input.ReadString();
+            if (fansInfo_ == null) {
+              FansInfo = new global::AcFunDanmu.AcFunUserInfo();
+            }
+            input.ReadMessage(FansInfo);
+            break;
+          }
+          case 18: {
+            if (uperInfo_ == null) {
+              UperInfo = new global::AcFunDanmu.AcFunUserInfo();
+            }
+            input.ReadMessage(UperInfo);
+            break;
+          }
+          case 24: {
+            JoinTimeMs = input.ReadInt64();
             break;
           }
         }
       }
     }
-    #endif
 
   }
 

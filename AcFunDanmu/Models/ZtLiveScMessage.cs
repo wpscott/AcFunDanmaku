@@ -41,11 +41,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class ZtLiveScMessage : pb::IMessage<ZtLiveScMessage>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class ZtLiveScMessage : pb::IMessage<ZtLiveScMessage> {
     private static readonly pb::MessageParser<ZtLiveScMessage> _parser = new pb::MessageParser<ZtLiveScMessage>(() => new ZtLiveScMessage());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -194,9 +190,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (MessageType.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(MessageType);
@@ -224,41 +217,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (MessageType.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(MessageType);
-      }
-      if (CompressionType != global::AcFunDanmu.ZtLiveScMessage.Types.CompressionType.Unknown) {
-        output.WriteRawTag(16);
-        output.WriteEnum((int) CompressionType);
-      }
-      if (Payload.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteBytes(Payload);
-      }
-      if (LiveId.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(LiveId);
-      }
-      if (Ticket.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(Ticket);
-      }
-      if (ServerTimestampMs != 0L) {
-        output.WriteRawTag(48);
-        output.WriteInt64(ServerTimestampMs);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -315,9 +274,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -350,46 +306,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            MessageType = input.ReadString();
-            break;
-          }
-          case 16: {
-            CompressionType = (global::AcFunDanmu.ZtLiveScMessage.Types.CompressionType) input.ReadEnum();
-            break;
-          }
-          case 26: {
-            Payload = input.ReadBytes();
-            break;
-          }
-          case 34: {
-            LiveId = input.ReadString();
-            break;
-          }
-          case 42: {
-            Ticket = input.ReadString();
-            break;
-          }
-          case 48: {
-            ServerTimestampMs = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the ZtLiveScMessage message type.</summary>

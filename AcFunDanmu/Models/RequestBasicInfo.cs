@@ -47,11 +47,7 @@ namespace AcFunDanmu {
   /// <summary>
   ///RequsetBasicInfo
   /// </summary>
-  public sealed partial class RequestBasicInfo : pb::IMessage<RequestBasicInfo>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class RequestBasicInfo : pb::IMessage<RequestBasicInfo> {
     private static readonly pb::MessageParser<RequestBasicInfo> _parser = new pb::MessageParser<RequestBasicInfo>(() => new RequestBasicInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -270,9 +266,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (ClientType != global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid) {
         output.WriteRawTag(8);
         output.WriteEnum((int) ClientType);
@@ -320,61 +313,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (ClientType != global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) ClientType);
-      }
-      if (DeviceId.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(DeviceId);
-      }
-      if (ClientIp.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(ClientIp);
-      }
-      if (AppVersion.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(AppVersion);
-      }
-      if (Channel.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(Channel);
-      }
-      if (appInfo_ != null) {
-        output.WriteRawTag(50);
-        output.WriteMessage(AppInfo);
-      }
-      if (deviceInfo_ != null) {
-        output.WriteRawTag(58);
-        output.WriteMessage(DeviceInfo);
-      }
-      if (envInfo_ != null) {
-        output.WriteRawTag(66);
-        output.WriteMessage(EnvInfo);
-      }
-      if (ClientPort != 0) {
-        output.WriteRawTag(72);
-        output.WriteInt32(ClientPort);
-      }
-      if (Location.Length != 0) {
-        output.WriteRawTag(82);
-        output.WriteString(Location);
-      }
-      if (Kpf.Length != 0) {
-        output.WriteRawTag(90);
-        output.WriteString(Kpf);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -470,9 +409,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -534,75 +470,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            ClientType = (global::AcFunDanmu.DeviceInfo.Types.PlatformType) input.ReadEnum();
-            break;
-          }
-          case 18: {
-            DeviceId = input.ReadString();
-            break;
-          }
-          case 26: {
-            ClientIp = input.ReadString();
-            break;
-          }
-          case 34: {
-            AppVersion = input.ReadString();
-            break;
-          }
-          case 42: {
-            Channel = input.ReadString();
-            break;
-          }
-          case 50: {
-            if (appInfo_ == null) {
-              AppInfo = new global::AcFunDanmu.AppInfo();
-            }
-            input.ReadMessage(AppInfo);
-            break;
-          }
-          case 58: {
-            if (deviceInfo_ == null) {
-              DeviceInfo = new global::AcFunDanmu.DeviceInfo();
-            }
-            input.ReadMessage(DeviceInfo);
-            break;
-          }
-          case 66: {
-            if (envInfo_ == null) {
-              EnvInfo = new global::AcFunDanmu.EnvInfo();
-            }
-            input.ReadMessage(EnvInfo);
-            break;
-          }
-          case 72: {
-            ClientPort = input.ReadInt32();
-            break;
-          }
-          case 82: {
-            Location = input.ReadString();
-            break;
-          }
-          case 90: {
-            Kpf = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 

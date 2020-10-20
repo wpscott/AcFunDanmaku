@@ -40,11 +40,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class ZtLiveCsCmd : pb::IMessage<ZtLiveCsCmd>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class ZtLiveCsCmd : pb::IMessage<ZtLiveCsCmd> {
     private static readonly pb::MessageParser<ZtLiveCsCmd> _parser = new pb::MessageParser<ZtLiveCsCmd>(() => new ZtLiveCsCmd());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -165,9 +161,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (CmdType.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(CmdType);
@@ -187,33 +180,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (CmdType.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(CmdType);
-      }
-      if (Payload.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteBytes(Payload);
-      }
-      if (Ticket.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Ticket);
-      }
-      if (LiveId.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(LiveId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -258,9 +225,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -285,46 +249,11 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            CmdType = input.ReadString();
-            break;
-          }
-          case 18: {
-            Payload = input.ReadBytes();
-            break;
-          }
-          case 26: {
-            Ticket = input.ReadString();
-            break;
-          }
-          case 34: {
-            LiveId = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class ZtLiveCsCmdAck : pb::IMessage<ZtLiveCsCmdAck>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class ZtLiveCsCmdAck : pb::IMessage<ZtLiveCsCmdAck> {
     private static readonly pb::MessageParser<ZtLiveCsCmdAck> _parser = new pb::MessageParser<ZtLiveCsCmdAck>(() => new ZtLiveCsCmdAck());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -445,9 +374,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (CmdAckType.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(CmdAckType);
@@ -467,33 +393,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (CmdAckType.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(CmdAckType);
-      }
-      if (ErrorCode != 0L) {
-        output.WriteRawTag(16);
-        output.WriteInt64(ErrorCode);
-      }
-      if (ErrorMsg.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(ErrorMsg);
-      }
-      if (Payload.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteBytes(Payload);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -538,9 +438,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -565,38 +462,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            CmdAckType = input.ReadString();
-            break;
-          }
-          case 16: {
-            ErrorCode = input.ReadInt64();
-            break;
-          }
-          case 26: {
-            ErrorMsg = input.ReadString();
-            break;
-          }
-          case 34: {
-            Payload = input.ReadBytes();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 

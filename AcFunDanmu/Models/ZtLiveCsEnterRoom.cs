@@ -41,11 +41,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class ZtLiveCsEnterRoom : pb::IMessage<ZtLiveCsEnterRoom>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class ZtLiveCsEnterRoom : pb::IMessage<ZtLiveCsEnterRoom> {
     private static readonly pb::MessageParser<ZtLiveCsEnterRoom> _parser = new pb::MessageParser<ZtLiveCsEnterRoom>(() => new ZtLiveCsEnterRoom());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -180,9 +176,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (IsAuthor != false) {
         output.WriteRawTag(8);
         output.WriteBool(IsAuthor);
@@ -206,37 +199,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (IsAuthor != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(IsAuthor);
-      }
-      if (ReconnectCount != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(ReconnectCount);
-      }
-      if (LastErrorCode != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(LastErrorCode);
-      }
-      if (EnterRoomAttach.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(EnterRoomAttach);
-      }
-      if (ClientLiveSdkVersion.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(ClientLiveSdkVersion);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -287,9 +250,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -318,50 +278,11 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            IsAuthor = input.ReadBool();
-            break;
-          }
-          case 16: {
-            ReconnectCount = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            LastErrorCode = input.ReadInt32();
-            break;
-          }
-          case 34: {
-            EnterRoomAttach = input.ReadString();
-            break;
-          }
-          case 42: {
-            ClientLiveSdkVersion = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 
-  public sealed partial class ZtLiveCsEnterRoomAck : pb::IMessage<ZtLiveCsEnterRoomAck>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class ZtLiveCsEnterRoomAck : pb::IMessage<ZtLiveCsEnterRoomAck> {
     private static readonly pb::MessageParser<ZtLiveCsEnterRoomAck> _parser = new pb::MessageParser<ZtLiveCsEnterRoomAck>(() => new ZtLiveCsEnterRoomAck());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -440,9 +361,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (HeartbeatIntervalMs != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(HeartbeatIntervalMs);
@@ -450,21 +368,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (HeartbeatIntervalMs != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(HeartbeatIntervalMs);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -491,9 +395,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -506,26 +407,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            HeartbeatIntervalMs = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
   }
 

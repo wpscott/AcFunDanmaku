@@ -40,11 +40,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class CommonStateSignalAuthorChatEnd : pb::IMessage<CommonStateSignalAuthorChatEnd>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
+  public sealed partial class CommonStateSignalAuthorChatEnd : pb::IMessage<CommonStateSignalAuthorChatEnd> {
     private static readonly pb::MessageParser<CommonStateSignalAuthorChatEnd> _parser = new pb::MessageParser<CommonStateSignalAuthorChatEnd>(() => new CommonStateSignalAuthorChatEnd());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -151,9 +147,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
       if (A.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(A);
@@ -169,29 +162,7 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (A.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(A);
-      }
-      if (B != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown.D) {
-        output.WriteRawTag(16);
-        output.WriteEnum((int) B);
-      }
-      if (C.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(C);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -230,9 +201,6 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -253,34 +221,7 @@ namespace AcFunDanmu {
           }
         }
       }
-    #endif
     }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            A = input.ReadString();
-            break;
-          }
-          case 16: {
-            B = (global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown) input.ReadEnum();
-            break;
-          }
-          case 26: {
-            C = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the CommonStateSignalAuthorChatEnd message type.</summary>
