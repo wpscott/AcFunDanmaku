@@ -355,6 +355,7 @@ MigrationBackup/
 AcFunDanmu/*/6.*.js
 AcFunDanmu/*/7.*.js
 AcFunDanmu/*/8.*.js
+AcFunDanmu/*/9.*.js
 AcFunDanmu/*/ImSdk.*.js
 
 AcFunOBS/config.json

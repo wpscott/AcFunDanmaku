@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf;
+using Serilog;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -38,7 +39,7 @@ namespace AcFunDanmu
 
             var len = HeaderOffset + bHeader.Length + encrypt.Length;
 
-            Span<byte> data = len < 1024 ? stackalloc byte[len] : new byte[len];
+            Span<byte> data = stackalloc byte[len];
             data[0] = 0xAB;
             data[1] = 0xCD;
             data[2] = 0x00;
@@ -89,10 +90,8 @@ namespace AcFunDanmu
 
             if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
             {
-#if DEBUG
-                Console.WriteLine("Payload length does not match");
-                Console.WriteLine(Convert.ToBase64String(payload));
-#endif
+                Log.Error("Payload length does not match");
+                Log.Debug("Payload Data: {Data}", Convert.ToBase64String(payload));
                 return null;
             }
 
@@ -181,8 +180,8 @@ namespace AcFunDanmu
             }
             else
             {
-                Console.WriteLine("Unhandled type: {0}", typeName);
-                Console.WriteLine(payload.ToBase64());
+                Log.Warning("Unhandled type: {Type}", typeName);
+                Log.Debug("Payload Data: {Data}", payload.ToBase64());
                 return null;
             }
         }

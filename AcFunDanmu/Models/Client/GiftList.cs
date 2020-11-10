@@ -14,7 +14,7 @@ namespace AcFunDanmu.Models.Client
 
             public struct Gift
             {
-                public int giftId { get; set; }
+                public long giftId { get; set; }
                 public string giftName { get; set; }
                 public int giftPrice { get; set; }
                 public Pic[] pngPicList { get; set; }
@@ -31,6 +31,7 @@ namespace AcFunDanmu.Models.Client
     public struct GiftInfo
     {
         public string Name { get; set; }
+        public int Value { get; set; }
         public Uri Pic { get; set; }
     }
 }

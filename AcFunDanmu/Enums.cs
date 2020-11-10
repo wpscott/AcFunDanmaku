@@ -45,6 +45,7 @@
             public const string THROW_BANANA = "AcfunActionSignalThrowBanana";
             public const string GIFT = "CommonActionSignalGift";
             public const string RICH_TEXT = "CommonActionSignalRichText";
+            public const string JOIN_CLUB = "AcfunActionSignalJoinClub";
         }
 
         public static class StateSignal

@@ -1,9 +1,12 @@
 ﻿using AcFunDanmu.Enums;
 using AcFunDanmu.Models.Client;
 using Google.Protobuf;
+using Serilog;
 using System;
 using System.Buffers;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,9 +22,6 @@ namespace AcFunDanmu
     public class Client
     {
         #region Constants
-        public static readonly SortedList<long, GiftInfo> Gifts = new SortedList<long, GiftInfo>();
-        private static DateTimeOffset _LastGiftUpdate = DateTimeOffset.MinValue;
-
         private const string ACCEPTED_ENCODING = "gzip, deflate, br";
         private const string VISITOR_ST = "acfun.api.visitor_st";
         private const string MIDGROUND_ST = "acfun.midground.api_st";
@@ -56,6 +56,9 @@ namespace AcFunDanmu
         public DedicatedSignalHandler DedicatedHandler { get; set; }
 
         #region Properties and Fields
+        public static readonly ConcurrentDictionary<long, GiftInfo> Gifts = new ConcurrentDictionary<long, GiftInfo>();
+        private static DateTimeOffset LastGiftUpdate = DateTimeOffset.MinValue;
+
         private static readonly CookieContainer CookieContainer = new CookieContainer();
         private static string DeviceId;
         private static bool IsSignIn = false;
@@ -73,7 +76,9 @@ namespace AcFunDanmu
         #endregion
 
         #region Constructor
-        public Client() { }
+        public Client() { Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger(); }
+
+        ~Client() { Log.CloseAndFlush(); }
 
         public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach, string liveId) : this()
         {
@@ -90,9 +95,7 @@ namespace AcFunDanmu
         {
             if (!IsSignIn)
             {
-#if DEBUG
-                Console.WriteLine("Client signing in");
-#endif
+                Log.Information("Client signing in");
                 try
                 {
                     using var client = CreateHttpClient(ACFUN_LOGIN_URI);
@@ -100,7 +103,7 @@ namespace AcFunDanmu
                     using var login = await client.GetAsync(ACFUN_LOGIN_URI);
                     if (!login.IsSuccessStatusCode)
                     {
-                        Console.WriteLine(await login.Content.ReadAsStringAsync());
+                        Log.Error(await login.Content.ReadAsStringAsync());
                         return false;
                     }
 
@@ -114,7 +117,7 @@ namespace AcFunDanmu
                     using var signin = await client.PostAsync(ACFUN_SIGN_IN_URI, signinContent);
                     if (!signin.IsSuccessStatusCode)
                     {
-                        Console.WriteLine(await signin.Content.ReadAsStringAsync());
+                        Log.Error(await signin.Content.ReadAsStringAsync());
                         return false;
                     }
                     var user = await JsonSerializer.DeserializeAsync<SignIn>(await signin.Content.ReadAsStreamAsync());
@@ -123,7 +126,7 @@ namespace AcFunDanmu
                     using var sid = await client.PostAsync(ACFUN_SAFETY_ID_URI, sidContent);
                     if (!sid.IsSuccessStatusCode)
                     {
-                        Console.WriteLine(await sid.Content.ReadAsStringAsync());
+                        Log.Error(await sid.Content.ReadAsStringAsync());
                         return false;
                     }
                     var safetyid = await JsonSerializer.DeserializeAsync<SafetyId>(await sid.Content.ReadAsStreamAsync());
@@ -137,11 +140,9 @@ namespace AcFunDanmu
 
                     IsSignIn = true;
                 }
-                catch (HttpRequestException e)
+                catch (HttpRequestException ex)
                 {
-#if DEBUG
-                    Console.WriteLine("Login Exception: {0}", e.Message);
-#endif
+                    Log.Error(ex, "Login Exception");
                     return await Login(username, password);
                 }
             }
@@ -154,12 +155,12 @@ namespace AcFunDanmu
             return await Initialize(uid);
         }
 
-        public async Task<Play.PlayData> Initialize(string uid)
+        public async Task<Play.PlayData> Initialize(string uid, bool refreshGiftList = false)
         {
             if (long.TryParse(uid, out _))
             {
                 AVUPId = uid;
-                Console.WriteLine("Client initializing");
+                Log.Information("Client initializing");
                 try
                 {
                     using var client = CreateHttpClient($"{LIVE_URL}/{uid}");
@@ -167,7 +168,7 @@ namespace AcFunDanmu
                     using var index = await client.GetAsync($"{LIVE_URL}/{uid}");
                     if (!index.IsSuccessStatusCode)
                     {
-                        Console.WriteLine(await index.Content.ReadAsStringAsync());
+                        Log.Error(await index.Content.ReadAsStringAsync());
                         return default;
                     }
                     if (string.IsNullOrEmpty(DeviceId))
@@ -181,7 +182,7 @@ namespace AcFunDanmu
                         using var get = await client.PostAsync(GET_TOKEN_URI, getcontent);
                         if (!get.IsSuccessStatusCode)
                         {
-                            Console.WriteLine(await get.Content.ReadAsStringAsync());
+                            Log.Error(await get.Content.ReadAsStringAsync());
                             return default;
                         }
                         var token = await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
@@ -195,7 +196,7 @@ namespace AcFunDanmu
                         using var login = await client.PostAsync(LOGIN_URI, loginContent);
                         if (!login.IsSuccessStatusCode)
                         {
-                            Console.WriteLine(await login.Content.ReadAsStringAsync());
+                            Log.Error(await login.Content.ReadAsStringAsync());
                             return default;
                         }
                         var token = await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
@@ -210,14 +211,14 @@ namespace AcFunDanmu
 
                     if (!play.IsSuccessStatusCode)
                     {
-                        Console.WriteLine(await play.Content.ReadAsStringAsync());
+                        Log.Error(await play.Content.ReadAsStringAsync());
                         return default;
                     }
 
                     var playData = await JsonSerializer.DeserializeAsync<Play>(await play.Content.ReadAsStreamAsync());
                     if (playData.result != 1)
                     {
-                        Console.WriteLine(playData.error_msg);
+                        Log.Error(playData.error_msg);
                         return default;
                     }
                     Tickets = playData.data.availableTickets;
@@ -225,33 +226,31 @@ namespace AcFunDanmu
                     LiveId = playData.data.liveId;
 
 
-                    UpdateGiftList();
+                    UpdateGiftList(refreshGiftList);
 
-                    Console.WriteLine("Client initialized");
+                    Log.Information("Client initialized");
 
                     return playData.data;
                 }
-                catch (HttpRequestException e)
+                catch (HttpRequestException ex)
                 {
-#if DEBUG
-                    Console.WriteLine("Initialize exception: {0}", e.Message);
-#endif
+                    Log.Error(ex, "Initialize exception");
                     return await Initialize(uid);
                 }
             }
             else
             {
-                Console.WriteLine($"Invliad user id: {uid}");
+                Log.Error($"Invliad user id: {uid}");
                 return default;
             }
         }
 
-        private async void UpdateGiftList()
+        private async void UpdateGiftList(bool refresh)
         {
             var now = DateTimeOffset.Now;
-            if ((now - _LastGiftUpdate).TotalHours > 1)
+            if (refresh || (now - LastGiftUpdate).TotalHours > 1)
             {
-                _LastGiftUpdate = now;
+                if (!refresh) { LastGiftUpdate = now; }
                 try
                 {
                     using var client = CreateHttpClient(LIVE_URL);
@@ -265,16 +264,21 @@ namespace AcFunDanmu
                     var giftList = await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
                     foreach (var item in giftList.data.giftList)
                     {
-                        Gifts.Add(item.giftId, new GiftInfo { Name = item.giftName, Pic = new Uri(item.webpPicList[0].url) });
+                        var giftInfo = new GiftInfo
+                        {
+                            Name = item.giftName,
+                            Value = item.giftPrice,
+                            Pic = new Uri(item.webpPicList[0].url)
+                        };
+                        Gifts.AddOrUpdate(item.giftId, giftInfo, (k, v) => giftInfo);
                     }
 
-                    Console.WriteLine("Gift list updated");
+                    if (!refresh) { Log.Information("Gift list updated"); }
                 }
-                catch (HttpRequestException e)
+                catch (HttpRequestException ex)
                 {
-#if DEBUG
-                    Console.WriteLine("Update Gift List Exception: {0}", e.Message);
-#endif
+                    Log.Error(ex, "Update gift list exception");
+                    UpdateGiftList(refresh);
                 }
             }
         }
@@ -290,10 +294,10 @@ namespace AcFunDanmu
                 using var client = CreateHttpClient(LIVE_URL);
 
                 using var watchingContent = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                {"visitorId", $"{UserId}" },
-                {"liveId", LiveId }
-            });
+                {
+                    {"visitorId", $"{UserId}" },
+                    {"liveId", LiveId }
+                });
                 using var watching = await client.PostAsync(string.Format(WATCHING_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), watchingContent);
                 if (!watching.IsSuccessStatusCode)
                 {
@@ -303,11 +307,9 @@ namespace AcFunDanmu
 
                 return watchingList.data.list;
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException ex)
             {
-#if DEBUG
-                Console.WriteLine("Wathcing List Exception: {0}", e.Message);
-#endif
+                Log.Error(ex, "Watching list exception");
                 return await WatchingList();
             }
         }
@@ -317,7 +319,7 @@ namespace AcFunDanmu
 
             if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) || string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null)
             {
-                Console.WriteLine("Not initialized or live is ended");
+                Log.Information("Not initialized or live is ended");
                 return false;
             }
 
@@ -367,9 +369,12 @@ namespace AcFunDanmu
                         }
                         catch (WebSocketException ex)
                         {
-#if DEBUG
-                            Console.WriteLine("Heartbeat - WebSocketException: {0}", ex);
-#endif
+                            Log.Error(ex, "Heartbeat");
+                            heartbeatTimer.Stop();
+                        }
+                        catch (IOException ex)
+                        {
+                            Log.Error(ex, "Heartbeat");
                             heartbeatTimer.Stop();
                         }
                     }
@@ -394,12 +399,16 @@ namespace AcFunDanmu
                         HandleCommand(header, stream, heartbeatTimer);
 
                     }
-                    catch (WebSocketException e)
+                    catch (WebSocketException ex)
                     {
+                        Log.Error(ex, "Main");
                         heartbeatTimer.Stop();
-#if DEBUG
-                        Console.WriteLine("Main - WebSocket Exception: {0}", e.Message);
-#endif
+                        break;
+                    }
+                    catch (IOException ex)
+                    {
+                        Log.Error(ex, "Main");
+                        heartbeatTimer.Stop();
                         break;
                     }
                 }
@@ -408,19 +417,17 @@ namespace AcFunDanmu
             }
             catch (HttpRequestException ex)
             {
-#if DEBUG
-                Console.WriteLine("Start - HttpRequestException: {0}", ex.Message);
-#endif
+                Log.Error(ex, "Start");
             }
             catch (WebSocketException ex)
             {
-#if DEBUG
-                Console.WriteLine("Start - WebSocketException: {0}", ex.Message);
-#endif 
+                Log.Error(ex, "Start");
             }
-#if DEBUG
-            Console.WriteLine($"Client status: {ws.State}");
-#endif
+            catch (IOException ex)
+            {
+                Log.Error(ex, "Start");
+            }
+            Log.Debug("Client status: {State}", ws.State);
             return ws.State != WebSocketState.Aborted;
         }
 
@@ -437,9 +444,11 @@ namespace AcFunDanmu
             }
             catch (WebSocketException ex)
             {
-#if DEBUG
-                Console.WriteLine("Stop - WebSocketException: {0}", ex.Message);
-#endif
+                Log.Error(ex, "Stop");
+            }
+            catch (IOException ex)
+            {
+                Log.Error(ex, "Stop");
             }
         }
 
@@ -464,8 +473,8 @@ namespace AcFunDanmu
                         case GlobalCommand.USER_EXIT_ACK:
                             break;
                         default:
-                            Console.WriteLine("Unhandled Global.ZtLiveInteractive.CsCmdAck: {0}", cmd.CmdAckType);
-                            Console.WriteLine(cmd);
+                            Log.Information("Unhandled Global.ZtLiveInteractive.CsCmdAck: {Type}", cmd.CmdAckType);
+                            Log.Debug("CsCmdAck Data: {Data}", cmd.ToByteString().ToBase64());
                             break;
                     }
                     break;
@@ -477,18 +486,31 @@ namespace AcFunDanmu
                     break;
                 case Command.UNREGISTER:
                     var unregister = UnregisterResponse.Parser.ParseFrom(stream.PayloadData);
-                    await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unregister", default);
+                    try
+                    {
+                        await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unregister", default);
+                    }
+                    catch (WebSocketException ex)
+                    {
+                        Log.Error(ex, "Unregister response");
+                    }
+                    catch (IOException ex)
+                    {
+                        Log.Error(ex, "Unregister response");
+                    }
                     break;
                 case Command.PUSH_MESSAGE:
                     try
                     {
                         await _client.SendAsync(_requests.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, default);
                     }
-                    catch (WebSocketException e)
+                    catch (WebSocketException ex)
                     {
-#if  DEBUG
-                        Console.WriteLine("Push Messsge Response Exception: {0}", e.Message);
-#endif
+                        Log.Error(ex, "Push message response");
+                    }
+                    catch (IOException ex)
+                    {
+                        Log.Error(ex, "Push message response");
                     }
                     ZtLiveScMessage message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
 
@@ -519,11 +541,14 @@ namespace AcFunDanmu
                             {
                                 await _client.SendAsync(_requests.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
                             }
-                            catch (WebSocketException e)
+                            catch (WebSocketException ex)
                             {
-#if DEBUG
-                                Console.WriteLine("Ticket Invalid Request Exception: {0}", e.Message);
-#endif
+                                Log.Error(ex, "Ticket invalid request");
+                            }
+                            catch (IOException ex)
+                            {
+                                Log.Error(ex, "Ticket invalid request");
+
                             }
                             break;
                     }
@@ -539,35 +564,31 @@ namespace AcFunDanmu
                                 var txt = Im.Cloud.Types.Message.Types.Text.Parser.ParseFrom(msg.Content);
                                 break;
                             default:
-                                Console.WriteLine("Unhandled IM SDK Push Message Content Type: {0}", type);
+                                Log.Information("Unhandled IM SDK Push Message Content Type: {0}", type);
+                                Log.Debug("Push Message Data: {Data}", msg.Content.ToBase64());
                                 break;
                         }
                     }
                     else
                     {
-#if DEBUG
-                        Console.WriteLine("Invalid IM SDK Push Message Content Type: {0}", msg.ContentType);
-#endif
+                        Log.Information("Invalid IM SDK Push Message Content Type: {0}", msg.ContentType);
+                        Log.Debug("Push Message Data: {Data}", msg.Content.ToBase64());
                     }
                     break;
                 default:
                     if (stream.ErrorCode > 0)
                     {
-                        Console.WriteLine("Error： {0} - {1}", stream.ErrorCode, stream.ErrorMsg);
+                        Log.Warning("Error： {ErrorCode} - {ErrorMsg}", stream.ErrorCode, stream.ErrorMsg);
                         if (stream.ErrorCode == 10018)
                         {
                             await Stop("Log out");
                         }
-#if DEBUG
-                        Console.WriteLine(stream.ErrorData.ToBase64());
-#endif
+                        Log.Debug("Error Data: {Data}", stream.ErrorData.ToBase64());
                     }
                     else
                     {
-                        Console.WriteLine("Unhandled DownstreamPayload command: {0}", stream.Command);
-#if DEBUG
-                        Console.WriteLine(stream);
-#endif
+                        Log.Information("Unhandled DownstreamPayload Command: {Command}", stream.Command);
+                        Log.Debug("Command Data: {Data}", stream.ToByteString().ToBase64());
                     }
                     break;
             }
