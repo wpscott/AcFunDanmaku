@@ -2,12 +2,12 @@
 
 namespace AcFunDanmu.Models.Client
 {
-    public struct VisitorToken
+    public sealed record VisitorToken
     {
-        public int result { get; set; }
+        public int result { get; init; }
         [JsonPropertyName("acfun.api.visitor_st")]
-        public string service_token { get; set; }
-        public string acSecurity { get; set; }
-        public long userId { get; set; }
+        public string service_token { get; init; }
+        public string acSecurity { get; init; }
+        public long userId { get; init; }
     }
 }

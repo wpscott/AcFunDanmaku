@@ -1,19 +1,19 @@
 ﻿namespace AcFunDanmu.Models.Client
 {
-    public struct Play
+    public sealed record Play
     {
-        public int result { get; set; }
-        public int error_code { get; set; }
-        public string error_msg { get; set; }
-        public PlayData data { get; set; }
+        public int result { get; init; }
+        public int error_code { get; init; }
+        public string error_msg { get; init; }
+        public PlayData data { get; init; }
 
-        public struct PlayData
+        public sealed record PlayData
         {
-            public string[] availableTickets { get; set; }
-            public string caption { get; set; }
-            public string enterRoomAttach { get; set; }
-            public string liveId { get; set; }
-            public string videoPlayRes { get; set; }
+            public string[] availableTickets { get; init; }
+            public string caption { get; init; }
+            public string enterRoomAttach { get; init; }
+            public string liveId { get; init; }
+            public string videoPlayRes { get; init; }
         }
     }
 }

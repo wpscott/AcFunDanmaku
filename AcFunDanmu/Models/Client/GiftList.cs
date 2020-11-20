@@ -1,37 +1,41 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace AcFunDanmu.Models.Client
 {
-    public struct GiftList
+    public sealed record GiftList
     {
-        public int result { get; set; }
-        public GiftData data { get; set; }
+        public int result { get; init; }
+        public GiftData data { get; init; }
 
-        public struct GiftData
+        public sealed record GiftData
         {
-            public Gift[] giftList { get; set; }
-            public string giftListHash { get; set; }
+            public Gift[] giftList { get; init; }
+            public string giftListHash { get; init; }
 
-            public struct Gift
+            public sealed record Gift
             {
-                public long giftId { get; set; }
-                public string giftName { get; set; }
-                public int giftPrice { get; set; }
-                public Pic[] pngPicList { get; set; }
-                public Pic[] webpPicList { get; set; }
-                public struct Pic
+                public long giftId { get; init; }
+                public string giftName { get; init; }
+                public int giftPrice { get; init; }
+                public Pic[] pngPicList { get; init; }
+                public Pic[] webpPicList { get; init; }
+                public record Pic
                 {
-                    public string cdn { get; set; }
-                    public string url { get; set; }
+                    public string cdn { get; init; }
+                    public string url { get; init; }
                 }
             }
         }
     }
 
-    public struct GiftInfo
+    public sealed record GiftInfo
     {
-        public string Name { get; set; }
-        public int Value { get; set; }
-        public Uri Pic { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; init; }
+        [JsonPropertyName("value")]
+        public int Value { get; init; }
+        [JsonPropertyName("pic")]
+        public Uri Pic { get; init; }
     }
 }

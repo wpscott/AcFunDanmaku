@@ -1,9 +1,9 @@
 ﻿namespace AcFunDanmu.Models.Client
 {
-    public struct SafetyId
+    public sealed record SafetyId
     {
-        public int code { get; set; }
-        public string msg { get; set; }
-        public string safety_id { get; set; }
+        public int code { get; init; }
+        public string msg { get; init; }
+        public string safety_id { get; init; }
     }
 }

@@ -2,12 +2,12 @@
 
 namespace AcFunDanmu.Models.Client
 {
-    public struct MidgroundToken
+    public sealed record MidgroundToken
     {
-        public int result { get; set; }
+        public int result { get; init; }
         [JsonPropertyName("acfun.midground.api_st")]
-        public string service_token { get; set; }
-        public string ssecurity { get; set; }
-        public long userId { get; set; }
+        public string service_token { get; init; }
+        public string ssecurity { get; init; }
+        public long userId { get; init; }
     }
 }

@@ -3,9 +3,7 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 
-		<TargetFramework>netcoreapp3.1</TargetFramework>
-
-		<Platforms>x64</Platforms>
+		<TargetFramework>net5.0</TargetFramework>
 
 		<Authors>wpscott</Authors>
 

@@ -1,10 +1,10 @@
 ﻿namespace AcFunDanmu.Models.Client
 {
-    public struct SignIn
+    public sealed record SignIn
     {
-        public int result { get; set; }
-        public string img { get; set; }
-        public long userId { get; set; }
-        public string username { get; set; }
+        public int result { get; init; }
+        public string img { get; init; }
+        public long userId { get; init; }
+        public string username { get; init; }
     }
 }
