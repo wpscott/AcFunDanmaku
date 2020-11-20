@@ -261,19 +261,22 @@ namespace AcFunDanmu
                         {"liveId", LiveId }
                     });
                     using var gift = await client.PostAsync(string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), giftContent);
-                    var giftList = await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
-                    foreach (var item in giftList.data.giftList)
+                    if (gift.IsSuccessStatusCode)
                     {
-                        var giftInfo = new GiftInfo
+                        var giftList = await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
+                        foreach (var item in giftList?.data?.giftList ?? Array.Empty<GiftList.GiftData.Gift>())
                         {
-                            Name = item.giftName,
-                            Value = item.giftPrice,
-                            Pic = new Uri(item.webpPicList[0].url)
-                        };
-                        Gifts.AddOrUpdate(item.giftId, giftInfo, (k, v) => giftInfo);
-                    }
+                            var giftInfo = new GiftInfo
+                            {
+                                Name = item.giftName,
+                                Value = item.giftPrice,
+                                Pic = new Uri(item.webpPicList[0].url)
+                            };
+                            Gifts.AddOrUpdate(item.giftId, giftInfo, (k, v) => giftInfo);
+                        }
 
-                    if (!refresh) { Log.Information("Gift list updated"); }
+                        if (!refresh) { Log.Information("Gift list updated"); }
+                    }
                 }
                 catch (HttpRequestException ex)
                 {
@@ -372,6 +375,11 @@ namespace AcFunDanmu
                             Log.Error(ex, "Heartbeat");
                             heartbeatTimer.Stop();
                         }
+                        catch (OperationCanceledException ex)
+                        {
+                            Log.Error(ex, "Heartbeat");
+                            heartbeatTimer.Stop();
+                        }
                         catch (IOException ex)
                         {
                             Log.Error(ex, "Heartbeat");
@@ -405,6 +413,12 @@ namespace AcFunDanmu
                         heartbeatTimer.Stop();
                         break;
                     }
+                    catch (OperationCanceledException ex)
+                    {
+                        Log.Error(ex, "Main");
+                        heartbeatTimer.Stop();
+                        break;
+                    }
                     catch (IOException ex)
                     {
                         Log.Error(ex, "Main");
@@ -420,6 +434,10 @@ namespace AcFunDanmu
                 Log.Error(ex, "Start");
             }
             catch (WebSocketException ex)
+            {
+                Log.Error(ex, "Start");
+            }
+            catch (OperationCanceledException ex)
             {
                 Log.Error(ex, "Start");
             }
@@ -443,6 +461,10 @@ namespace AcFunDanmu
                 }
             }
             catch (WebSocketException ex)
+            {
+                Log.Error(ex, "Stop");
+            }
+            catch (OperationCanceledException ex)
             {
                 Log.Error(ex, "Stop");
             }
@@ -494,6 +516,10 @@ namespace AcFunDanmu
                     {
                         Log.Error(ex, "Unregister response");
                     }
+                    catch (OperationCanceledException ex)
+                    {
+                        Log.Error(ex, "Unregister response");
+                    }
                     catch (IOException ex)
                     {
                         Log.Error(ex, "Unregister response");
@@ -505,6 +531,10 @@ namespace AcFunDanmu
                         await _client.SendAsync(_requests.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, default);
                     }
                     catch (WebSocketException ex)
+                    {
+                        Log.Error(ex, "Push message response");
+                    }
+                    catch (OperationCanceledException ex)
                     {
                         Log.Error(ex, "Push message response");
                     }
@@ -545,10 +575,13 @@ namespace AcFunDanmu
                             {
                                 Log.Error(ex, "Ticket invalid request");
                             }
+                            catch (OperationCanceledException ex)
+                            {
+                                Log.Error(ex, "Ticket invalid request");
+                            }
                             catch (IOException ex)
                             {
                                 Log.Error(ex, "Ticket invalid request");
-
                             }
                             break;
                     }

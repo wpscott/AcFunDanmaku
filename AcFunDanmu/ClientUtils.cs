@@ -1,14 +1,26 @@
 ﻿using Google.Protobuf;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace AcFunDanmu
 {
     public static class ClientUtils
     {
+        private static readonly SortedList<string, string> QueryDict = new SortedList<string, string> {
+            { "appver", "1.4.0.145" },
+            { "sys", "PC_10" },
+            { "kpn", "ACFUN_APP.LIVE_MATE" },
+            { "kpf", "WINDOWS_PC" },
+            { "subBiz", "mainApp" },
+        };
+        private static string Query => string.Join('&', QueryDict.Select(query => $"{query.Key}={query.Value}"));
+
         private const int HeaderOffset = 12;
         private const int IVLength = 16;
 
@@ -113,7 +125,7 @@ namespace AcFunDanmu
 
             var len = aes.IV.Length + encrypted.Length;
 
-            Span<byte> payload = len < 1024 ? stackalloc byte[len] : new byte[len];
+            Span<byte> payload = stackalloc byte[len];
             Copy(aes.IV, 0, payload, 0, aes.IV.Length);
             Copy(encrypted, 0, payload, aes.IV.Length, encrypted.Length);
 
@@ -126,7 +138,7 @@ namespace AcFunDanmu
             using var decryptor = aes.CreateDecryptor(Convert.FromBase64String(key), bytes.Slice(0, IVLength).ToArray());
             using var ms = new MemoryStream();
             using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Write);
-            cs.Write(bytes.Slice(IVLength));
+            cs.Write(bytes[IVLength..]);
             cs.FlushFinalBlock();
 
             return ms.ToArray();
@@ -184,6 +196,63 @@ namespace AcFunDanmu
                 Log.Debug("Payload Data: {Data}", payload.ToBase64());
                 return null;
             }
+        }
+
+        internal static string Sign(string uri, string key, long rnd, Span<byte> bytes, SortedList<string, string> extra = null)
+        {
+            using var hmac = new HMACSHA256(Convert.FromBase64String(key));
+            string query = extra == null ? Query : string.Join('&', QueryDict.Concat(extra).OrderBy(query => query.Key).Select(query => $"{query.Key}={query.Value}"));
+
+            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{uri}&{query}&{rnd}"));
+            Span<byte> sign = stackalloc byte[bytes.Length + hash.Length];
+            if (BitConverter.IsLittleEndian) { bytes.Reverse(); }
+
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                sign[i] = bytes[i];
+            }
+            for (var i = 0; i < hash.Length; i++)
+            {
+                sign[bytes.Length + i] = hash[i];
+            }
+
+            return ToBase64Url(sign);
+        }
+
+        internal static string Sign(string url, string key, long rnd, SortedList<string, string> extra = null) => Sign(url, key, rnd, BitConverter.GetBytes(rnd), extra);
+
+
+        internal static string Sign(string url, string key, SortedList<string, string> extra = null) => Sign(url, key, Random(), extra);
+
+        internal static long Random()
+        {
+            var random = new Random();
+            var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            Span<byte> rand = stackalloc byte[4];
+            random.NextBytes(rand);
+            long result = BitConverter.ToInt32(rand);
+            result <<= 0x20;
+            result |= now;
+            return result;
+        }
+
+        internal static byte[] FromBase64Url(string text)
+        {
+            var temp = text.Replace('-', '+').Replace('_', '/');
+            var rem = 8 - (temp.Length & 7);
+            if (rem == 8)
+            {
+                return Convert.FromBase64String(temp);
+            }
+            else
+            {
+                return Convert.FromBase64String(temp.PadRight(temp.Length + rem, '='));
+            }
+        }
+
+        internal static string ToBase64Url(ReadOnlySpan<byte> data)
+        {
+            return Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
         }
     }
 }
