@@ -78,8 +78,6 @@ namespace AcFunDanmu
         #region Constructor
         public Client() { Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger(); }
 
-        ~Client() { Log.CloseAndFlush(); }
-
         public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach, string liveId) : this()
         {
             UserId = userId;
@@ -91,7 +89,7 @@ namespace AcFunDanmu
         }
         #endregion
 
-        public async ValueTask<bool> Login(string username, string password)
+        public async Task<bool> Login(string username, string password)
         {
             if (!IsSignIn)
             {
@@ -103,34 +101,43 @@ namespace AcFunDanmu
                     using var login = await client.GetAsync(ACFUN_LOGIN_URI);
                     if (!login.IsSuccessStatusCode)
                     {
-                        Log.Error(await login.Content.ReadAsStringAsync());
+                        Log.Error("Get login error: {Content}", await login.Content.ReadAsStringAsync());
                         return false;
                     }
 
                     using var signinContent = new FormUrlEncodedContent(new Dictionary<string, string>
-                        {
-                            {"username", username },
-                            {"password", password },
-                            {"key", null },
-                            {"captcha", null}
-                        });
+                                                                        {
+                                                                            {"username", username },
+                                                                            {"password", password },
+                                                                            {"key", null },
+                                                                            {"captcha", null}
+                                                                        });
                     using var signin = await client.PostAsync(ACFUN_SIGN_IN_URI, signinContent);
                     if (!signin.IsSuccessStatusCode)
                     {
-                        Log.Error(await signin.Content.ReadAsStringAsync());
+                        Log.Error("Post sign in error: {Content}", await signin.Content.ReadAsStringAsync());
                         return false;
                     }
                     var user = await JsonSerializer.DeserializeAsync<SignIn>(await signin.Content.ReadAsStreamAsync());
+                    if (user == null)
+                    {
+                        Log.Error("Unable to deserialize SignIn");
+                        return false;
+                    }
 
                     using var sidContent = new StringContent(string.Format(SAFETY_ID_CONTENT, user.userId));
                     using var sid = await client.PostAsync(ACFUN_SAFETY_ID_URI, sidContent);
                     if (!sid.IsSuccessStatusCode)
                     {
-                        Log.Error(await sid.Content.ReadAsStringAsync());
+                        Log.Error("Post safety id error: {Content}", await sid.Content.ReadAsStringAsync());
                         return false;
                     }
                     var safetyid = await JsonSerializer.DeserializeAsync<SafetyId>(await sid.Content.ReadAsStreamAsync());
-
+                    if (safetyid == null)
+                    {
+                        Log.Error("Unable to deserialize SignIn");
+                        return false;
+                    }
                     CookieContainer.Add(new Cookie
                     {
                         Domain = ".acfun.cn",
@@ -145,11 +152,16 @@ namespace AcFunDanmu
                     Log.Error(ex, "Login Exception");
                     return await Login(username, password);
                 }
+                catch (TaskCanceledException ex)
+                {
+                    Log.Error(ex, "Login Exception");
+                    return await Login(username, password);
+                }
             }
             return IsSignIn;
         }
 
-        public async ValueTask<Play.PlayData> InitializeWithLogin(string username, string password, string uid)
+        public async Task<Play.PlayData> InitializeWithLogin(string username, string password, string uid)
         {
             await Login(username, password);
             return await Initialize(uid);
@@ -168,8 +180,8 @@ namespace AcFunDanmu
                     using var index = await client.GetAsync($"{LIVE_URL}/{uid}");
                     if (!index.IsSuccessStatusCode)
                     {
-                        Log.Error(await index.Content.ReadAsStringAsync());
-                        return default;
+                        Log.Error("Get live info error: {Content}", await index.Content.ReadAsStringAsync());
+                        return null;
                     }
                     if (string.IsNullOrEmpty(DeviceId))
                     {
@@ -182,10 +194,16 @@ namespace AcFunDanmu
                         using var get = await client.PostAsync(GET_TOKEN_URI, getcontent);
                         if (!get.IsSuccessStatusCode)
                         {
-                            Log.Error(await get.Content.ReadAsStringAsync());
-                            return default;
+                            Log.Error("Get token error: {Content}", await get.Content.ReadAsStringAsync());
+                            return null;
                         }
                         var token = await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
+                        if (token == null)
+                        {
+
+                            Log.Error("Unable to deserialize MidgroundToken");
+                            return null;
+                        }
                         UserId = token.userId;
                         ServiceToken = token.service_token;
                         SecurityKey = token.ssecurity;
@@ -196,11 +214,16 @@ namespace AcFunDanmu
                         using var login = await client.PostAsync(LOGIN_URI, loginContent);
                         if (!login.IsSuccessStatusCode)
                         {
-                            Log.Error(await login.Content.ReadAsStringAsync());
-                            return default;
+                            Log.Error("Get token error: {Content}", await login.Content.ReadAsStringAsync());
+                            return null;
                         }
                         var token = await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
+                        if (token == null)
+                        {
 
+                            Log.Error("Unable to deserialize VisitorToken");
+                            return null;
+                        }
                         UserId = token.userId;
                         ServiceToken = token.service_token;
                         SecurityKey = token.acSecurity;
@@ -211,19 +234,24 @@ namespace AcFunDanmu
 
                     if (!play.IsSuccessStatusCode)
                     {
-                        Log.Error(await play.Content.ReadAsStringAsync());
-                        return default;
+                        Log.Error("Get play info error: {Content}", await play.Content.ReadAsStringAsync());
+                        return null;
                     }
 
                     var playData = await JsonSerializer.DeserializeAsync<Play>(await play.Content.ReadAsStreamAsync());
+                    if (playData == null)
+                    {
+                        Log.Error("Unable to deserialize Play");
+                        return null;
+                    }
                     if (playData.result != 1)
                     {
                         Log.Error(playData.error_msg);
-                        return default;
+                        return null;
                     }
-                    Tickets = playData.data.availableTickets;
-                    EnterRoomAttach = playData.data.enterRoomAttach;
-                    LiveId = playData.data.liveId;
+                    Tickets = playData.data?.availableTickets ?? Array.Empty<string>();
+                    EnterRoomAttach = playData.data?.enterRoomAttach;
+                    LiveId = playData.data?.liveId;
 
 
                     UpdateGiftList(refreshGiftList);
@@ -237,11 +265,16 @@ namespace AcFunDanmu
                     Log.Error(ex, "Initialize exception");
                     return await Initialize(uid);
                 }
+                catch (TaskCanceledException ex)
+                {
+                    Log.Error(ex, "Initialize exception");
+                    return await Initialize(uid);
+                }
             }
             else
             {
                 Log.Error($"Invliad user id: {uid}");
-                return default;
+                return null;
             }
         }
 
@@ -272,13 +305,18 @@ namespace AcFunDanmu
                                 Value = item.giftPrice,
                                 Pic = new Uri(item.webpPicList[0].url)
                             };
-                            Gifts.AddOrUpdate(item.giftId, giftInfo, (k, v) => giftInfo);
+                            Gifts[item.giftId] = giftInfo;
                         }
 
                         if (!refresh) { Log.Information("Gift list updated"); }
                     }
                 }
                 catch (HttpRequestException ex)
+                {
+                    Log.Error(ex, "Update gift list exception");
+                    UpdateGiftList(refresh);
+                }
+                catch (TaskCanceledException ex)
                 {
                     Log.Error(ex, "Update gift list exception");
                     UpdateGiftList(refresh);
@@ -308,9 +346,14 @@ namespace AcFunDanmu
                 }
                 var watchingList = await JsonSerializer.DeserializeAsync<WatchingList>(await watching.Content.ReadAsStreamAsync());
 
-                return watchingList.data.list;
+                return watchingList?.data?.list ?? Array.Empty<WatchingList.WatchingData.User>();
             }
             catch (HttpRequestException ex)
+            {
+                Log.Error(ex, "Watching list exception");
+                return await WatchingList();
+            }
+            catch (TaskCanceledException ex)
             {
                 Log.Error(ex, "Watching list exception");
                 return await WatchingList();
@@ -320,7 +363,7 @@ namespace AcFunDanmu
         public async Task<bool> Start()
         {
 
-            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) || string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null)
+            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) || string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null || Tickets.Length == 0)
             {
                 Log.Information("Not initialized or live is ended");
                 return false;
