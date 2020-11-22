@@ -12,6 +12,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using static AcFunDanmu.ClientUtils;
 
@@ -62,6 +63,7 @@ namespace AcFunDanmu
         private static readonly CookieContainer CookieContainer = new CookieContainer();
         private static string DeviceId;
         private static bool IsSignIn = false;
+        private static bool IsPrepared = false;
 
         private long UserId = -1;
         private string AVUPId;
@@ -161,10 +163,35 @@ namespace AcFunDanmu
             return IsSignIn;
         }
 
-        public async Task<Play.PlayData> InitializeWithLogin(string username, string password, string uid)
+        public async Task<Play.PlayData> InitializeWithLogin(string username, string password, string uid, bool refreshGiftList = false)
         {
             await Login(username, password);
-            return await Initialize(uid);
+            return await Initialize(uid, refreshGiftList);
+        }
+
+        public static async Task<bool> Prepare()
+        {
+            try
+            {
+                if (!IsPrepared)
+                {
+                    using var client = CreateHttpClient($"{LIVE_URL}");
+
+                    using var index = await client.GetAsync($"{LIVE_URL}");
+                    if (!index.IsSuccessStatusCode)
+                    {
+                        Log.Error("Get live info error: {Content}", await index.Content.ReadAsStringAsync());
+                    }
+                    if (string.IsNullOrEmpty(DeviceId))
+                    {
+                        DeviceId = CookieContainer.GetCookies(ACFUN_HOST).Where(cookie => cookie.Name == "_did").First().Value;
+                    }
+                    IsPrepared = true;
+                }
+                return IsPrepared;
+            }
+            catch (HttpRequestException) { return await Prepare(); }
+            catch (TaskCanceledException) { return await Prepare(); }
         }
 
         public async Task<Play.PlayData> Initialize(string uid, bool refreshGiftList = false)
@@ -172,21 +199,11 @@ namespace AcFunDanmu
             if (long.TryParse(uid, out _))
             {
                 AVUPId = uid;
+                if (!IsPrepared) { Log.Error("Client not prepared, please call Client.Prepare() first"); return null; }
                 Log.Information("Client initializing");
                 try
                 {
                     using var client = CreateHttpClient($"{LIVE_URL}/{uid}");
-
-                    using var index = await client.GetAsync($"{LIVE_URL}/{uid}");
-                    if (!index.IsSuccessStatusCode)
-                    {
-                        Log.Error("Get live info error: {Content}", await index.Content.ReadAsStringAsync());
-                        return null;
-                    }
-                    if (string.IsNullOrEmpty(DeviceId))
-                    {
-                        DeviceId = CookieContainer.GetCookies(ACFUN_HOST).Where(cookie => cookie.Name == "_did").First().Value;
-                    }
 
                     if (IsSignIn)
                     {
