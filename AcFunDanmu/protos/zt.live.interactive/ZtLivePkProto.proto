@@ -3,8 +3,8 @@ syntax = "proto3";
 package AcFunDanmu;
 
 enum ZtLivePkProto {
-    a = 0;
-    b = 1;
-    c = 2;
-    d = 3;
+    d = 0;
+    e = 1;
+    f = 2;
+    g = 3;
 }
