@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+message CommonStateSignalWishSheetCurrentState {
+    string a = 1;
+    repeated WishCurrentState b = 2;
+
+    message WishCurrentState {
+        string a = 1;
+        int64 b = 2;
+        int64 c = 3;
+        int64 d = 4;
+        string e = 5;
+        string f = 6;
+    }
+}

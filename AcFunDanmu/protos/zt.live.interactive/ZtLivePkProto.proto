@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+enum ZtLivePkProto {
+    a = 0;
+    b = 1;
+    c = 2;
+    d = 3;
+}
