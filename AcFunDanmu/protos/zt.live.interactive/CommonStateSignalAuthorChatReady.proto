@@ -5,7 +5,7 @@ package AcFunDanmu;
 import "AuthorChatPlayerInfo.proto";
 
 message CommonStateSignalAuthorChatReady {
-	string a = 1;
-	AuthorChatPlayerInfo b = 2;
-	AuthorChatPlayerInfo c = 3;
+	string authorChatId = 1;
+	AuthorChatPlayerInfo inviterUserInfo = 2;
+	AuthorChatPlayerInfo inviteeUserInfo = 3;
 }
