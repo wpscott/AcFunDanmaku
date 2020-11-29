@@ -2,13 +2,13 @@
 
 package AcFunDanmu;
 
-message CommonStateSignalAuthorChatChangesSoundConfig {
-	string a = 1;
-	Unknown b = 2;
+message CommonStateSignalAuthorChatChangeSoundConfig {
+	string authorChatId = 1;
+	SoundConfigChangeType soundConfigChangeType = 2;
 
-	enum Unknown {
-		c = 0;
-		d = 1;
-		e = 2;
+	enum SoundConfigChangeType {
+		UNKNOWN = 0;
+		OPEN_SOUND = 1;
+		CLOSE_SOUND = 2;
 	}
 }

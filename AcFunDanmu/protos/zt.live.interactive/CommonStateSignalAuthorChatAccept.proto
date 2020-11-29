@@ -3,6 +3,6 @@
 package AcFunDanmu;
 
 message CommonStateSignalAuthorChatAccept {
-	string a = 1;
-	string b = 2;
+	string authorChatId = 1;
+	string aryaSignalInfo = 2;
 }

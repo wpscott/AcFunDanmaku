@@ -3,19 +3,19 @@
 package AcFunDanmu;
 
 message CommonStateSignalAuthorChatEnd {
-	string a = 1;
-	Unknown b = 2;
-	string c = 3;
+	string authorChatId = 1;
+	EndType endType = 2;
+	string endLiveId = 3;
 
-	enum Unknown {
-		d = 0;
-		e = 1;
-		f = 2;
-		g = 3;
-		h = 4;
-		i = 5;
-		j = 6;
-		k = 7;
-		l = 8;
+	enum EndType {
+		UNKNOWN = 0;
+		CANCEL_BY_INVITER = 1;
+		END_BY_INVITER = 2;
+		END_BY_INVITEE = 3;
+		INVITEE_REJECT = 4;
+		INVITEE_TIMEOUT = 5;
+		INVITEE_HEARTBEAT_TIMEOUT = 6;
+		INVITER_HEARTBEAT_TIMEOUT = 7;
+		PEER_LIVE_STOPPED = 8;
 	}
 }

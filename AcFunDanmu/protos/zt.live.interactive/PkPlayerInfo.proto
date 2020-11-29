@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "ZtLiveUserInfo.proto";
+
+message PkPlayerInfo {
+    ZtLiveUserInfo a = 1;
+    string b = 2;
+    bool c = 3;
+}
