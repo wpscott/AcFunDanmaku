@@ -41,7 +41,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class CommonNotifySignalCoverAuditResult : pb::IMessage<CommonNotifySignalCoverAuditResult> {
+  public sealed partial class CommonNotifySignalCoverAuditResult : pb::IMessage<CommonNotifySignalCoverAuditResult>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<CommonNotifySignalCoverAuditResult> _parser = new pb::MessageParser<CommonNotifySignalCoverAuditResult>(() => new CommonNotifySignalCoverAuditResult());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -120,6 +124,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (AuditStatus != global::AcFunDanmu.CommonNotifySignalCoverAuditResult.Types.AuditStatus.Success) {
         output.WriteRawTag(8);
         output.WriteEnum((int) AuditStatus);
@@ -127,7 +134,21 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (AuditStatus != global::AcFunDanmu.CommonNotifySignalCoverAuditResult.Types.AuditStatus.Success) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) AuditStatus);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -154,6 +175,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -166,7 +190,26 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            AuditStatus = (global::AcFunDanmu.CommonNotifySignalCoverAuditResult.Types.AuditStatus) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the CommonNotifySignalCoverAuditResult message type.</summary>

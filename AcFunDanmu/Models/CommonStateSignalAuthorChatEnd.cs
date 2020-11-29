@@ -25,22 +25,30 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiRDb21tb25TdGF0ZVNpZ25hbEF1dGhvckNoYXRFbmQucHJvdG8SCkFjRnVu",
-            "RGFubXUivwEKHkNvbW1vblN0YXRlU2lnbmFsQXV0aG9yQ2hhdEVuZBIJCgFh",
-            "GAEgASgJEj0KAWIYAiABKA4yMi5BY0Z1bkRhbm11LkNvbW1vblN0YXRlU2ln",
-            "bmFsQXV0aG9yQ2hhdEVuZC5Vbmtub3duEgkKAWMYAyABKAkiSAoHVW5rbm93",
-            "bhIFCgFkEAASBQoBZRABEgUKAWYQAhIFCgFnEAMSBQoBaBAEEgUKAWkQBRIF",
-            "CgFqEAYSBQoBaxAHEgUKAWwQCGIGcHJvdG8z"));
+            "RGFubXUi5AIKHkNvbW1vblN0YXRlU2lnbmFsQXV0aG9yQ2hhdEVuZBIUCgxh",
+            "dXRob3JDaGF0SWQYASABKAkSQwoHZW5kVHlwZRgCIAEoDjIyLkFjRnVuRGFu",
+            "bXUuQ29tbW9uU3RhdGVTaWduYWxBdXRob3JDaGF0RW5kLkVuZFR5cGUSEQoJ",
+            "ZW5kTGl2ZUlkGAMgASgJItMBCgdFbmRUeXBlEgsKB1VOS05PV04QABIVChFD",
+            "QU5DRUxfQllfSU5WSVRFUhABEhIKDkVORF9CWV9JTlZJVEVSEAISEgoORU5E",
+            "X0JZX0lOVklURUUQAxISCg5JTlZJVEVFX1JFSkVDVBAEEhMKD0lOVklURUVf",
+            "VElNRU9VVBAFEh0KGUlOVklURUVfSEVBUlRCRUFUX1RJTUVPVVQQBhIdChlJ",
+            "TlZJVEVSX0hFQVJUQkVBVF9USU1FT1VUEAcSFQoRUEVFUl9MSVZFX1NUT1BQ",
+            "RUQQCGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatEnd), global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Parser, new[]{ "A", "B", "C" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown) }, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatEnd), global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Parser, new[]{ "AuthorChatId", "EndType", "EndLiveId" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType) }, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class CommonStateSignalAuthorChatEnd : pb::IMessage<CommonStateSignalAuthorChatEnd> {
+  public sealed partial class CommonStateSignalAuthorChatEnd : pb::IMessage<CommonStateSignalAuthorChatEnd>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<CommonStateSignalAuthorChatEnd> _parser = new pb::MessageParser<CommonStateSignalAuthorChatEnd>(() => new CommonStateSignalAuthorChatEnd());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -65,9 +73,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public CommonStateSignalAuthorChatEnd(CommonStateSignalAuthorChatEnd other) : this() {
-      a_ = other.a_;
-      b_ = other.b_;
-      c_ = other.c_;
+      authorChatId_ = other.authorChatId_;
+      endType_ = other.endType_;
+      endLiveId_ = other.endLiveId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -76,36 +84,36 @@ namespace AcFunDanmu {
       return new CommonStateSignalAuthorChatEnd(this);
     }
 
-    /// <summary>Field number for the "a" field.</summary>
-    public const int AFieldNumber = 1;
-    private string a_ = "";
+    /// <summary>Field number for the "authorChatId" field.</summary>
+    public const int AuthorChatIdFieldNumber = 1;
+    private string authorChatId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string A {
-      get { return a_; }
+    public string AuthorChatId {
+      get { return authorChatId_; }
       set {
-        a_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        authorChatId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "b" field.</summary>
-    public const int BFieldNumber = 2;
-    private global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown b_ = global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown.D;
+    /// <summary>Field number for the "endType" field.</summary>
+    public const int EndTypeFieldNumber = 2;
+    private global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType endType_ = global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType.Unknown;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown B {
-      get { return b_; }
+    public global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType EndType {
+      get { return endType_; }
       set {
-        b_ = value;
+        endType_ = value;
       }
     }
 
-    /// <summary>Field number for the "c" field.</summary>
-    public const int CFieldNumber = 3;
-    private string c_ = "";
+    /// <summary>Field number for the "endLiveId" field.</summary>
+    public const int EndLiveIdFieldNumber = 3;
+    private string endLiveId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string C {
-      get { return c_; }
+    public string EndLiveId {
+      get { return endLiveId_; }
       set {
-        c_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        endLiveId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -122,18 +130,18 @@ namespace AcFunDanmu {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (A != other.A) return false;
-      if (B != other.B) return false;
-      if (C != other.C) return false;
+      if (AuthorChatId != other.AuthorChatId) return false;
+      if (EndType != other.EndType) return false;
+      if (EndLiveId != other.EndLiveId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (A.Length != 0) hash ^= A.GetHashCode();
-      if (B != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown.D) hash ^= B.GetHashCode();
-      if (C.Length != 0) hash ^= C.GetHashCode();
+      if (AuthorChatId.Length != 0) hash ^= AuthorChatId.GetHashCode();
+      if (EndType != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType.Unknown) hash ^= EndType.GetHashCode();
+      if (EndLiveId.Length != 0) hash ^= EndLiveId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -147,34 +155,59 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (A.Length != 0) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (AuthorChatId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(A);
+        output.WriteString(AuthorChatId);
       }
-      if (B != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown.D) {
+      if (EndType != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType.Unknown) {
         output.WriteRawTag(16);
-        output.WriteEnum((int) B);
+        output.WriteEnum((int) EndType);
       }
-      if (C.Length != 0) {
+      if (EndLiveId.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(C);
+        output.WriteString(EndLiveId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (AuthorChatId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(AuthorChatId);
+      }
+      if (EndType != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType.Unknown) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) EndType);
+      }
+      if (EndLiveId.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(EndLiveId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (A.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(A);
+      if (AuthorChatId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthorChatId);
       }
-      if (B != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown.D) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) B);
+      if (EndType != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType.Unknown) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) EndType);
       }
-      if (C.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(C);
+      if (EndLiveId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(EndLiveId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -187,20 +220,23 @@ namespace AcFunDanmu {
       if (other == null) {
         return;
       }
-      if (other.A.Length != 0) {
-        A = other.A;
+      if (other.AuthorChatId.Length != 0) {
+        AuthorChatId = other.AuthorChatId;
       }
-      if (other.B != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown.D) {
-        B = other.B;
+      if (other.EndType != global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType.Unknown) {
+        EndType = other.EndType;
       }
-      if (other.C.Length != 0) {
-        C = other.C;
+      if (other.EndLiveId.Length != 0) {
+        EndLiveId = other.EndLiveId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -208,35 +244,62 @@ namespace AcFunDanmu {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            A = input.ReadString();
+            AuthorChatId = input.ReadString();
             break;
           }
           case 16: {
-            B = (global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.Unknown) input.ReadEnum();
+            EndType = (global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType) input.ReadEnum();
             break;
           }
           case 26: {
-            C = input.ReadString();
+            EndLiveId = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            AuthorChatId = input.ReadString();
+            break;
+          }
+          case 16: {
+            EndType = (global::AcFunDanmu.CommonStateSignalAuthorChatEnd.Types.EndType) input.ReadEnum();
+            break;
+          }
+          case 26: {
+            EndLiveId = input.ReadString();
             break;
           }
         }
       }
     }
+    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the CommonStateSignalAuthorChatEnd message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
-      public enum Unknown {
-        [pbr::OriginalName("d")] D = 0,
-        [pbr::OriginalName("e")] E = 1,
-        [pbr::OriginalName("f")] F = 2,
-        [pbr::OriginalName("g")] G = 3,
-        [pbr::OriginalName("h")] H = 4,
-        [pbr::OriginalName("i")] I = 5,
-        [pbr::OriginalName("j")] J = 6,
-        [pbr::OriginalName("k")] K = 7,
-        [pbr::OriginalName("l")] L = 8,
+      public enum EndType {
+        [pbr::OriginalName("UNKNOWN")] Unknown = 0,
+        [pbr::OriginalName("CANCEL_BY_INVITER")] CancelByInviter = 1,
+        [pbr::OriginalName("END_BY_INVITER")] EndByInviter = 2,
+        [pbr::OriginalName("END_BY_INVITEE")] EndByInvitee = 3,
+        [pbr::OriginalName("INVITEE_REJECT")] InviteeReject = 4,
+        [pbr::OriginalName("INVITEE_TIMEOUT")] InviteeTimeout = 5,
+        [pbr::OriginalName("INVITEE_HEARTBEAT_TIMEOUT")] InviteeHeartbeatTimeout = 6,
+        [pbr::OriginalName("INVITER_HEARTBEAT_TIMEOUT")] InviterHeartbeatTimeout = 7,
+        [pbr::OriginalName("PEER_LIVE_STOPPED")] PeerLiveStopped = 8,
       }
 
     }

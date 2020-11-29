@@ -40,7 +40,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class ZtLiveCsHeartbeat : pb::IMessage<ZtLiveCsHeartbeat> {
+  public sealed partial class ZtLiveCsHeartbeat : pb::IMessage<ZtLiveCsHeartbeat>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<ZtLiveCsHeartbeat> _parser = new pb::MessageParser<ZtLiveCsHeartbeat>(() => new ZtLiveCsHeartbeat());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -133,6 +137,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (ClientTimestampMs != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(ClientTimestampMs);
@@ -144,7 +151,25 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ClientTimestampMs != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(ClientTimestampMs);
+      }
+      if (Sequence != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(Sequence);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -177,6 +202,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -193,11 +221,38 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ClientTimestampMs = input.ReadInt64();
+            break;
+          }
+          case 16: {
+            Sequence = input.ReadInt64();
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 
-  public sealed partial class ZtLiveCsHeartbeatAck : pb::IMessage<ZtLiveCsHeartbeatAck> {
+  public sealed partial class ZtLiveCsHeartbeatAck : pb::IMessage<ZtLiveCsHeartbeatAck>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<ZtLiveCsHeartbeatAck> _parser = new pb::MessageParser<ZtLiveCsHeartbeatAck>(() => new ZtLiveCsHeartbeatAck());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -304,6 +359,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (ServerTimestampMs != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(ServerTimestampMs);
@@ -319,7 +377,29 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ServerTimestampMs != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(ServerTimestampMs);
+      }
+      if (ClientTimestampMs != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(ClientTimestampMs);
+      }
+      if (ClientSequence != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(ClientSequence);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -358,6 +438,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -378,7 +461,34 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ServerTimestampMs = input.ReadInt64();
+            break;
+          }
+          case 16: {
+            ClientTimestampMs = input.ReadInt64();
+            break;
+          }
+          case 24: {
+            ClientSequence = input.ReadInt64();
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 

@@ -25,22 +25,26 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiZDb21tb25TdGF0ZVNpZ25hbEF1dGhvckNoYXRSZWFkeS5wcm90bxIKQWNG",
-            "dW5EYW5tdRoaQXV0aG9yQ2hhdFBsYXllckluZm8ucHJvdG8ihwEKIENvbW1v",
-            "blN0YXRlU2lnbmFsQXV0aG9yQ2hhdFJlYWR5EgkKAWEYASABKAkSKwoBYhgC",
-            "IAEoCzIgLkFjRnVuRGFubXUuQXV0aG9yQ2hhdFBsYXllckluZm8SKwoBYxgD",
-            "IAEoCzIgLkFjRnVuRGFubXUuQXV0aG9yQ2hhdFBsYXllckluZm9iBnByb3Rv",
-            "Mw=="));
+            "dW5EYW5tdRoaQXV0aG9yQ2hhdFBsYXllckluZm8ucHJvdG8irgEKIENvbW1v",
+            "blN0YXRlU2lnbmFsQXV0aG9yQ2hhdFJlYWR5EhQKDGF1dGhvckNoYXRJZBgB",
+            "IAEoCRI5Cg9pbnZpdGVyVXNlckluZm8YAiABKAsyIC5BY0Z1bkRhbm11LkF1",
+            "dGhvckNoYXRQbGF5ZXJJbmZvEjkKD2ludml0ZWVVc2VySW5mbxgDIAEoCzIg",
+            "LkFjRnVuRGFubXUuQXV0aG9yQ2hhdFBsYXllckluZm9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.AuthorChatPlayerInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatReady), global::AcFunDanmu.CommonStateSignalAuthorChatReady.Parser, new[]{ "A", "B", "C" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatReady), global::AcFunDanmu.CommonStateSignalAuthorChatReady.Parser, new[]{ "AuthorChatId", "InviterUserInfo", "InviteeUserInfo" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class CommonStateSignalAuthorChatReady : pb::IMessage<CommonStateSignalAuthorChatReady> {
+  public sealed partial class CommonStateSignalAuthorChatReady : pb::IMessage<CommonStateSignalAuthorChatReady>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<CommonStateSignalAuthorChatReady> _parser = new pb::MessageParser<CommonStateSignalAuthorChatReady>(() => new CommonStateSignalAuthorChatReady());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -65,9 +69,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public CommonStateSignalAuthorChatReady(CommonStateSignalAuthorChatReady other) : this() {
-      a_ = other.a_;
-      b_ = other.b_ != null ? other.b_.Clone() : null;
-      c_ = other.c_ != null ? other.c_.Clone() : null;
+      authorChatId_ = other.authorChatId_;
+      inviterUserInfo_ = other.inviterUserInfo_ != null ? other.inviterUserInfo_.Clone() : null;
+      inviteeUserInfo_ = other.inviteeUserInfo_ != null ? other.inviteeUserInfo_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -76,36 +80,36 @@ namespace AcFunDanmu {
       return new CommonStateSignalAuthorChatReady(this);
     }
 
-    /// <summary>Field number for the "a" field.</summary>
-    public const int AFieldNumber = 1;
-    private string a_ = "";
+    /// <summary>Field number for the "authorChatId" field.</summary>
+    public const int AuthorChatIdFieldNumber = 1;
+    private string authorChatId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string A {
-      get { return a_; }
+    public string AuthorChatId {
+      get { return authorChatId_; }
       set {
-        a_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        authorChatId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "b" field.</summary>
-    public const int BFieldNumber = 2;
-    private global::AcFunDanmu.AuthorChatPlayerInfo b_;
+    /// <summary>Field number for the "inviterUserInfo" field.</summary>
+    public const int InviterUserInfoFieldNumber = 2;
+    private global::AcFunDanmu.AuthorChatPlayerInfo inviterUserInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AcFunDanmu.AuthorChatPlayerInfo B {
-      get { return b_; }
+    public global::AcFunDanmu.AuthorChatPlayerInfo InviterUserInfo {
+      get { return inviterUserInfo_; }
       set {
-        b_ = value;
+        inviterUserInfo_ = value;
       }
     }
 
-    /// <summary>Field number for the "c" field.</summary>
-    public const int CFieldNumber = 3;
-    private global::AcFunDanmu.AuthorChatPlayerInfo c_;
+    /// <summary>Field number for the "inviteeUserInfo" field.</summary>
+    public const int InviteeUserInfoFieldNumber = 3;
+    private global::AcFunDanmu.AuthorChatPlayerInfo inviteeUserInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AcFunDanmu.AuthorChatPlayerInfo C {
-      get { return c_; }
+    public global::AcFunDanmu.AuthorChatPlayerInfo InviteeUserInfo {
+      get { return inviteeUserInfo_; }
       set {
-        c_ = value;
+        inviteeUserInfo_ = value;
       }
     }
 
@@ -122,18 +126,18 @@ namespace AcFunDanmu {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (A != other.A) return false;
-      if (!object.Equals(B, other.B)) return false;
-      if (!object.Equals(C, other.C)) return false;
+      if (AuthorChatId != other.AuthorChatId) return false;
+      if (!object.Equals(InviterUserInfo, other.InviterUserInfo)) return false;
+      if (!object.Equals(InviteeUserInfo, other.InviteeUserInfo)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (A.Length != 0) hash ^= A.GetHashCode();
-      if (b_ != null) hash ^= B.GetHashCode();
-      if (c_ != null) hash ^= C.GetHashCode();
+      if (AuthorChatId.Length != 0) hash ^= AuthorChatId.GetHashCode();
+      if (inviterUserInfo_ != null) hash ^= InviterUserInfo.GetHashCode();
+      if (inviteeUserInfo_ != null) hash ^= InviteeUserInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -147,34 +151,59 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (A.Length != 0) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (AuthorChatId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(A);
+        output.WriteString(AuthorChatId);
       }
-      if (b_ != null) {
+      if (inviterUserInfo_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(B);
+        output.WriteMessage(InviterUserInfo);
       }
-      if (c_ != null) {
+      if (inviteeUserInfo_ != null) {
         output.WriteRawTag(26);
-        output.WriteMessage(C);
+        output.WriteMessage(InviteeUserInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (AuthorChatId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(AuthorChatId);
+      }
+      if (inviterUserInfo_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(InviterUserInfo);
+      }
+      if (inviteeUserInfo_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(InviteeUserInfo);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (A.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(A);
+      if (AuthorChatId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthorChatId);
       }
-      if (b_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(B);
+      if (inviterUserInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InviterUserInfo);
       }
-      if (c_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(C);
+      if (inviteeUserInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InviteeUserInfo);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -187,26 +216,29 @@ namespace AcFunDanmu {
       if (other == null) {
         return;
       }
-      if (other.A.Length != 0) {
-        A = other.A;
+      if (other.AuthorChatId.Length != 0) {
+        AuthorChatId = other.AuthorChatId;
       }
-      if (other.b_ != null) {
-        if (b_ == null) {
-          B = new global::AcFunDanmu.AuthorChatPlayerInfo();
+      if (other.inviterUserInfo_ != null) {
+        if (inviterUserInfo_ == null) {
+          InviterUserInfo = new global::AcFunDanmu.AuthorChatPlayerInfo();
         }
-        B.MergeFrom(other.B);
+        InviterUserInfo.MergeFrom(other.InviterUserInfo);
       }
-      if (other.c_ != null) {
-        if (c_ == null) {
-          C = new global::AcFunDanmu.AuthorChatPlayerInfo();
+      if (other.inviteeUserInfo_ != null) {
+        if (inviteeUserInfo_ == null) {
+          InviteeUserInfo = new global::AcFunDanmu.AuthorChatPlayerInfo();
         }
-        C.MergeFrom(other.C);
+        InviteeUserInfo.MergeFrom(other.InviteeUserInfo);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -214,26 +246,59 @@ namespace AcFunDanmu {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            A = input.ReadString();
+            AuthorChatId = input.ReadString();
             break;
           }
           case 18: {
-            if (b_ == null) {
-              B = new global::AcFunDanmu.AuthorChatPlayerInfo();
+            if (inviterUserInfo_ == null) {
+              InviterUserInfo = new global::AcFunDanmu.AuthorChatPlayerInfo();
             }
-            input.ReadMessage(B);
+            input.ReadMessage(InviterUserInfo);
             break;
           }
           case 26: {
-            if (c_ == null) {
-              C = new global::AcFunDanmu.AuthorChatPlayerInfo();
+            if (inviteeUserInfo_ == null) {
+              InviteeUserInfo = new global::AcFunDanmu.AuthorChatPlayerInfo();
             }
-            input.ReadMessage(C);
+            input.ReadMessage(InviteeUserInfo);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            AuthorChatId = input.ReadString();
+            break;
+          }
+          case 18: {
+            if (inviterUserInfo_ == null) {
+              InviterUserInfo = new global::AcFunDanmu.AuthorChatPlayerInfo();
+            }
+            input.ReadMessage(InviterUserInfo);
+            break;
+          }
+          case 26: {
+            if (inviteeUserInfo_ == null) {
+              InviteeUserInfo = new global::AcFunDanmu.AuthorChatPlayerInfo();
+            }
+            input.ReadMessage(InviteeUserInfo);
             break;
           }
         }
       }
     }
+    #endif
 
   }
 

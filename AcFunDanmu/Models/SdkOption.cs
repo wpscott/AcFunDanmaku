@@ -38,7 +38,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class SdkOption : pb::IMessage<SdkOption> {
+  public sealed partial class SdkOption : pb::IMessage<SdkOption>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<SdkOption> _parser = new pb::MessageParser<SdkOption>(() => new SdkOption());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -158,6 +162,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (ReportIntervalSeconds != 0) {
         output.WriteRawTag(8);
         output.WriteInt32(ReportIntervalSeconds);
@@ -174,7 +181,30 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ReportIntervalSeconds != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ReportIntervalSeconds);
+      }
+      if (ReportSecurity.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(ReportSecurity);
+      }
+      if (Lz4CompressionThresholdBytes != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Lz4CompressionThresholdBytes);
+      }
+      netCheckServers_.WriteTo(ref output, _repeated_netCheckServers_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -215,6 +245,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -239,7 +272,38 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ReportIntervalSeconds = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            ReportSecurity = input.ReadString();
+            break;
+          }
+          case 24: {
+            Lz4CompressionThresholdBytes = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            netCheckServers_.AddEntriesFrom(ref input, _repeated_netCheckServers_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 

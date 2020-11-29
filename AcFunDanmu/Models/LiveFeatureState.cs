@@ -42,7 +42,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class LiveFeatureState : pb::IMessage<LiveFeatureState> {
+  public sealed partial class LiveFeatureState : pb::IMessage<LiveFeatureState>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<LiveFeatureState> _parser = new pb::MessageParser<LiveFeatureState>(() => new LiveFeatureState());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -135,6 +139,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (Type != global::AcFunDanmu.LiveFeatureState.Types.FeatureType.FeatureUnknown) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
@@ -146,7 +153,25 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Type != global::AcFunDanmu.LiveFeatureState.Types.FeatureType.FeatureUnknown) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Type);
+      }
+      if (State != global::AcFunDanmu.LiveFeatureState.Types.FeatureState.Unknown) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) State);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -179,6 +204,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -195,7 +223,30 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Type = (global::AcFunDanmu.LiveFeatureState.Types.FeatureType) input.ReadEnum();
+            break;
+          }
+          case 16: {
+            State = (global::AcFunDanmu.LiveFeatureState.Types.FeatureState) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the LiveFeatureState message type.</summary>

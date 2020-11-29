@@ -41,7 +41,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class ZtCommonInfo : pb::IMessage<ZtCommonInfo> {
+  public sealed partial class ZtCommonInfo : pb::IMessage<ZtCommonInfo>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<ZtCommonInfo> _parser = new pb::MessageParser<ZtCommonInfo>(() => new ZtCommonInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -330,6 +334,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (Kpn.Length != 0) {
         output.WriteRawTag(10);
         output.WriteString(Kpn);
@@ -397,7 +404,81 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Kpn.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Kpn);
+      }
+      if (Kpf.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Kpf);
+      }
+      if (SubBiz.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(SubBiz);
+      }
+      if (Uid != 0L) {
+        output.WriteRawTag(32);
+        output.WriteInt64(Uid);
+      }
+      if (Did.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Did);
+      }
+      if (ClientIp != 0L) {
+        output.WriteRawTag(48);
+        output.WriteInt64(ClientIp);
+      }
+      if (AppVer.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(AppVer);
+      }
+      if (Ver.Length != 0) {
+        output.WriteRawTag(66);
+        output.WriteString(Ver);
+      }
+      if (Lat.Length != 0) {
+        output.WriteRawTag(74);
+        output.WriteString(Lat);
+      }
+      if (Lon.Length != 0) {
+        output.WriteRawTag(82);
+        output.WriteString(Lon);
+      }
+      if (Mod.Length != 0) {
+        output.WriteRawTag(90);
+        output.WriteString(Mod);
+      }
+      if (Net.Length != 0) {
+        output.WriteRawTag(98);
+        output.WriteString(Net);
+      }
+      if (Sys.Length != 0) {
+        output.WriteRawTag(106);
+        output.WriteString(Sys);
+      }
+      if (C.Length != 0) {
+        output.WriteRawTag(114);
+        output.WriteString(C);
+      }
+      if (Language.Length != 0) {
+        output.WriteRawTag(122);
+        output.WriteString(Language);
+      }
+      if (CountryCode.Length != 0) {
+        output.WriteRawTag(130, 1);
+        output.WriteString(CountryCode);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -514,6 +595,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -586,7 +670,86 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            Kpn = input.ReadString();
+            break;
+          }
+          case 18: {
+            Kpf = input.ReadString();
+            break;
+          }
+          case 26: {
+            SubBiz = input.ReadString();
+            break;
+          }
+          case 32: {
+            Uid = input.ReadInt64();
+            break;
+          }
+          case 42: {
+            Did = input.ReadString();
+            break;
+          }
+          case 48: {
+            ClientIp = input.ReadInt64();
+            break;
+          }
+          case 58: {
+            AppVer = input.ReadString();
+            break;
+          }
+          case 66: {
+            Ver = input.ReadString();
+            break;
+          }
+          case 74: {
+            Lat = input.ReadString();
+            break;
+          }
+          case 82: {
+            Lon = input.ReadString();
+            break;
+          }
+          case 90: {
+            Mod = input.ReadString();
+            break;
+          }
+          case 98: {
+            Net = input.ReadString();
+            break;
+          }
+          case 106: {
+            Sys = input.ReadString();
+            break;
+          }
+          case 114: {
+            C = input.ReadString();
+            break;
+          }
+          case 122: {
+            Language = input.ReadString();
+            break;
+          }
+          case 130: {
+            CountryCode = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 

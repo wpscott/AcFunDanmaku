@@ -40,7 +40,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class AccessPointsConfig : pb::IMessage<AccessPointsConfig> {
+  public sealed partial class AccessPointsConfig : pb::IMessage<AccessPointsConfig>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<AccessPointsConfig> _parser = new pb::MessageParser<AccessPointsConfig>(() => new AccessPointsConfig());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -158,6 +162,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       optimalAps_.WriteTo(output, _repeated_optimalAps_codec);
       backupAps_.WriteTo(output, _repeated_backupAps_codec);
       availablePorts_.WriteTo(output, _repeated_availablePorts_codec);
@@ -168,7 +175,24 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      optimalAps_.WriteTo(ref output, _repeated_optimalAps_codec);
+      backupAps_.WriteTo(ref output, _repeated_backupAps_codec);
+      availablePorts_.WriteTo(ref output, _repeated_availablePorts_codec);
+      if (foreceLastConnectedAp_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(ForeceLastConnectedAp);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -204,6 +228,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -232,7 +259,42 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            optimalAps_.AddEntriesFrom(ref input, _repeated_optimalAps_codec);
+            break;
+          }
+          case 18: {
+            backupAps_.AddEntriesFrom(ref input, _repeated_backupAps_codec);
+            break;
+          }
+          case 26:
+          case 24: {
+            availablePorts_.AddEntriesFrom(ref input, _repeated_availablePorts_codec);
+            break;
+          }
+          case 34: {
+            if (foreceLastConnectedAp_ == null) {
+              ForeceLastConnectedAp = new global::AcFunDanmu.AccessPoint();
+            }
+            input.ReadMessage(ForeceLastConnectedAp);
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 

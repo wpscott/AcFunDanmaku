@@ -64,6 +64,13 @@
             public const string AUTHOR_CHAT_READY = "CommonStateSignalAuthorChatReady";
             public const string AUTHOR_CHAT_END = "CommonStateSignalAuthorChatEnd";
             public const string AUTHOR_CHAT_CHANGE_SOUND_CONFIG = "CommonStateSignalAuthorChatChangeSoundConfig";
+            public const string PK_ACCEPT = "CommonStateSignalPKAccept";
+            public const string PK_INVITATION = "CommonStateSignalPKInvitation";
+            public const string PK_READY = "CommonStateSignalPKReady";
+            public const string PK_SOUND_CONFIG_CHANGED = "CommonStateSignalPKSoundConfigChanged";
+            public const string PK_END = "CommonStateSignalPkEnd";
+            public const string PK_STATISTICS = "CommonStateSignalPkStatistic";
+            public const string WISH_SHEET_CURRENT_STATE = "CommonStateSignalWishSheetCurrentState";
         }
 
         public static class NotifySignal

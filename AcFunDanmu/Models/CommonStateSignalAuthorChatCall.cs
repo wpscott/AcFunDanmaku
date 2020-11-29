@@ -25,21 +25,26 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiVDb21tb25TdGF0ZVNpZ25hbEF1dGhvckNoYXRDYWxsLnByb3RvEgpBY0Z1",
-            "bkRhbm11GhpBdXRob3JDaGF0UGxheWVySW5mby5wcm90byJkCh9Db21tb25T",
-            "dGF0ZVNpZ25hbEF1dGhvckNoYXRDYWxsEgkKAWEYASABKAkSKwoBYhgCIAEo",
-            "CzIgLkFjRnVuRGFubXUuQXV0aG9yQ2hhdFBsYXllckluZm8SCQoBYxgDIAEo",
-            "A2IGcHJvdG8z"));
+            "bkRhbm11GhpBdXRob3JDaGF0UGxheWVySW5mby5wcm90byKLAQofQ29tbW9u",
+            "U3RhdGVTaWduYWxBdXRob3JDaGF0Q2FsbBIUCgxhdXRob3JDaGF0SWQYASAB",
+            "KAkSOQoPaW52aXRlclVzZXJJbmZvGAIgASgLMiAuQWNGdW5EYW5tdS5BdXRo",
+            "b3JDaGF0UGxheWVySW5mbxIXCg9jYWxsVGltZXN0YW1wTXMYAyABKANiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.AuthorChatPlayerInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatCall), global::AcFunDanmu.CommonStateSignalAuthorChatCall.Parser, new[]{ "A", "B", "C" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatCall), global::AcFunDanmu.CommonStateSignalAuthorChatCall.Parser, new[]{ "AuthorChatId", "InviterUserInfo", "CallTimestampMs" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class CommonStateSignalAuthorChatCall : pb::IMessage<CommonStateSignalAuthorChatCall> {
+  public sealed partial class CommonStateSignalAuthorChatCall : pb::IMessage<CommonStateSignalAuthorChatCall>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<CommonStateSignalAuthorChatCall> _parser = new pb::MessageParser<CommonStateSignalAuthorChatCall>(() => new CommonStateSignalAuthorChatCall());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -64,9 +69,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public CommonStateSignalAuthorChatCall(CommonStateSignalAuthorChatCall other) : this() {
-      a_ = other.a_;
-      b_ = other.b_ != null ? other.b_.Clone() : null;
-      c_ = other.c_;
+      authorChatId_ = other.authorChatId_;
+      inviterUserInfo_ = other.inviterUserInfo_ != null ? other.inviterUserInfo_.Clone() : null;
+      callTimestampMs_ = other.callTimestampMs_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -75,36 +80,36 @@ namespace AcFunDanmu {
       return new CommonStateSignalAuthorChatCall(this);
     }
 
-    /// <summary>Field number for the "a" field.</summary>
-    public const int AFieldNumber = 1;
-    private string a_ = "";
+    /// <summary>Field number for the "authorChatId" field.</summary>
+    public const int AuthorChatIdFieldNumber = 1;
+    private string authorChatId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string A {
-      get { return a_; }
+    public string AuthorChatId {
+      get { return authorChatId_; }
       set {
-        a_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        authorChatId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "b" field.</summary>
-    public const int BFieldNumber = 2;
-    private global::AcFunDanmu.AuthorChatPlayerInfo b_;
+    /// <summary>Field number for the "inviterUserInfo" field.</summary>
+    public const int InviterUserInfoFieldNumber = 2;
+    private global::AcFunDanmu.AuthorChatPlayerInfo inviterUserInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AcFunDanmu.AuthorChatPlayerInfo B {
-      get { return b_; }
+    public global::AcFunDanmu.AuthorChatPlayerInfo InviterUserInfo {
+      get { return inviterUserInfo_; }
       set {
-        b_ = value;
+        inviterUserInfo_ = value;
       }
     }
 
-    /// <summary>Field number for the "c" field.</summary>
-    public const int CFieldNumber = 3;
-    private long c_;
+    /// <summary>Field number for the "callTimestampMs" field.</summary>
+    public const int CallTimestampMsFieldNumber = 3;
+    private long callTimestampMs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long C {
-      get { return c_; }
+    public long CallTimestampMs {
+      get { return callTimestampMs_; }
       set {
-        c_ = value;
+        callTimestampMs_ = value;
       }
     }
 
@@ -121,18 +126,18 @@ namespace AcFunDanmu {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (A != other.A) return false;
-      if (!object.Equals(B, other.B)) return false;
-      if (C != other.C) return false;
+      if (AuthorChatId != other.AuthorChatId) return false;
+      if (!object.Equals(InviterUserInfo, other.InviterUserInfo)) return false;
+      if (CallTimestampMs != other.CallTimestampMs) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (A.Length != 0) hash ^= A.GetHashCode();
-      if (b_ != null) hash ^= B.GetHashCode();
-      if (C != 0L) hash ^= C.GetHashCode();
+      if (AuthorChatId.Length != 0) hash ^= AuthorChatId.GetHashCode();
+      if (inviterUserInfo_ != null) hash ^= InviterUserInfo.GetHashCode();
+      if (CallTimestampMs != 0L) hash ^= CallTimestampMs.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -146,34 +151,59 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (A.Length != 0) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (AuthorChatId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(A);
+        output.WriteString(AuthorChatId);
       }
-      if (b_ != null) {
+      if (inviterUserInfo_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(B);
+        output.WriteMessage(InviterUserInfo);
       }
-      if (C != 0L) {
+      if (CallTimestampMs != 0L) {
         output.WriteRawTag(24);
-        output.WriteInt64(C);
+        output.WriteInt64(CallTimestampMs);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (AuthorChatId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(AuthorChatId);
+      }
+      if (inviterUserInfo_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(InviterUserInfo);
+      }
+      if (CallTimestampMs != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(CallTimestampMs);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (A.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(A);
+      if (AuthorChatId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthorChatId);
       }
-      if (b_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(B);
+      if (inviterUserInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InviterUserInfo);
       }
-      if (C != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(C);
+      if (CallTimestampMs != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(CallTimestampMs);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -186,23 +216,26 @@ namespace AcFunDanmu {
       if (other == null) {
         return;
       }
-      if (other.A.Length != 0) {
-        A = other.A;
+      if (other.AuthorChatId.Length != 0) {
+        AuthorChatId = other.AuthorChatId;
       }
-      if (other.b_ != null) {
-        if (b_ == null) {
-          B = new global::AcFunDanmu.AuthorChatPlayerInfo();
+      if (other.inviterUserInfo_ != null) {
+        if (inviterUserInfo_ == null) {
+          InviterUserInfo = new global::AcFunDanmu.AuthorChatPlayerInfo();
         }
-        B.MergeFrom(other.B);
+        InviterUserInfo.MergeFrom(other.InviterUserInfo);
       }
-      if (other.C != 0L) {
-        C = other.C;
+      if (other.CallTimestampMs != 0L) {
+        CallTimestampMs = other.CallTimestampMs;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -210,23 +243,53 @@ namespace AcFunDanmu {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            A = input.ReadString();
+            AuthorChatId = input.ReadString();
             break;
           }
           case 18: {
-            if (b_ == null) {
-              B = new global::AcFunDanmu.AuthorChatPlayerInfo();
+            if (inviterUserInfo_ == null) {
+              InviterUserInfo = new global::AcFunDanmu.AuthorChatPlayerInfo();
             }
-            input.ReadMessage(B);
+            input.ReadMessage(InviterUserInfo);
             break;
           }
           case 24: {
-            C = input.ReadInt64();
+            CallTimestampMs = input.ReadInt64();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            AuthorChatId = input.ReadString();
+            break;
+          }
+          case 18: {
+            if (inviterUserInfo_ == null) {
+              InviterUserInfo = new global::AcFunDanmu.AuthorChatPlayerInfo();
+            }
+            input.ReadMessage(InviterUserInfo);
+            break;
+          }
+          case 24: {
+            CallTimestampMs = input.ReadInt64();
             break;
           }
         }
       }
     }
+    #endif
 
   }
 

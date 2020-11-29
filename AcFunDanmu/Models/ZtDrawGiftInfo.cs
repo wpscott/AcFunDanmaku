@@ -40,7 +40,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class ZtDrawGiftInfo : pb::IMessage<ZtDrawGiftInfo> {
+  public sealed partial class ZtDrawGiftInfo : pb::IMessage<ZtDrawGiftInfo>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<ZtDrawGiftInfo> _parser = new pb::MessageParser<ZtDrawGiftInfo>(() => new ZtDrawGiftInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -146,6 +150,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (ScreenWidth != 0L) {
         output.WriteRawTag(8);
         output.WriteInt64(ScreenWidth);
@@ -158,7 +165,26 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ScreenWidth != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(ScreenWidth);
+      }
+      if (ScreenHeight != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(ScreenHeight);
+      }
+      drawPoint_.WriteTo(ref output, _repeated_drawPoint_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -193,6 +219,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -213,13 +242,44 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ScreenWidth = input.ReadInt64();
+            break;
+          }
+          case 16: {
+            ScreenHeight = input.ReadInt64();
+            break;
+          }
+          case 26: {
+            drawPoint_.AddEntriesFrom(ref input, _repeated_drawPoint_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the ZtDrawGiftInfo message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
-      public sealed partial class ZtDrawPoint : pb::IMessage<ZtDrawPoint> {
+      public sealed partial class ZtDrawPoint : pb::IMessage<ZtDrawPoint>
+      #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          , pb::IBufferMessage
+      #endif
+      {
         private static readonly pb::MessageParser<ZtDrawPoint> _parser = new pb::MessageParser<ZtDrawPoint>(() => new ZtDrawPoint());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -340,6 +400,9 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          output.WriteRawMessage(this);
+        #else
           if (MarginLeft != 0L) {
             output.WriteRawTag(8);
             output.WriteInt64(MarginLeft);
@@ -359,7 +422,33 @@ namespace AcFunDanmu {
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
           }
+        #endif
         }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+          if (MarginLeft != 0L) {
+            output.WriteRawTag(8);
+            output.WriteInt64(MarginLeft);
+          }
+          if (MarginTop != 0L) {
+            output.WriteRawTag(16);
+            output.WriteInt64(MarginTop);
+          }
+          if (ScaleRatio != 0D) {
+            output.WriteRawTag(25);
+            output.WriteDouble(ScaleRatio);
+          }
+          if (Handup != false) {
+            output.WriteRawTag(32);
+            output.WriteBool(Handup);
+          }
+          if (_unknownFields != null) {
+            _unknownFields.WriteTo(ref output);
+          }
+        }
+        #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize() {
@@ -404,6 +493,9 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          input.ReadRawMessage(this);
+        #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
             switch(tag) {
@@ -428,7 +520,38 @@ namespace AcFunDanmu {
               }
             }
           }
+        #endif
         }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+          uint tag;
+          while ((tag = input.ReadTag()) != 0) {
+            switch(tag) {
+              default:
+                _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                break;
+              case 8: {
+                MarginLeft = input.ReadInt64();
+                break;
+              }
+              case 16: {
+                MarginTop = input.ReadInt64();
+                break;
+              }
+              case 25: {
+                ScaleRatio = input.ReadDouble();
+                break;
+              }
+              case 32: {
+                Handup = input.ReadBool();
+                break;
+              }
+            }
+          }
+        }
+        #endif
 
       }
 

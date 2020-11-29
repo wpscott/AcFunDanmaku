@@ -41,7 +41,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class CommonStateSignalTopUsers : pb::IMessage<CommonStateSignalTopUsers> {
+  public sealed partial class CommonStateSignalTopUsers : pb::IMessage<CommonStateSignalTopUsers>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<CommonStateSignalTopUsers> _parser = new pb::MessageParser<CommonStateSignalTopUsers>(() => new CommonStateSignalTopUsers());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -122,11 +126,25 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       user_.WriteTo(output, _repeated_user_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      user_.WriteTo(ref output, _repeated_user_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -149,6 +167,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -161,13 +182,36 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            user_.AddEntriesFrom(ref input, _repeated_user_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the CommonStateSignalTopUsers message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
-      public sealed partial class TopUser : pb::IMessage<TopUser> {
+      public sealed partial class TopUser : pb::IMessage<TopUser>
+      #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          , pb::IBufferMessage
+      #endif
+      {
         private static readonly pb::MessageParser<TopUser> _parser = new pb::MessageParser<TopUser>(() => new TopUser());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -288,6 +332,9 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          output.WriteRawMessage(this);
+        #else
           if (userInfo_ != null) {
             output.WriteRawTag(10);
             output.WriteMessage(UserInfo);
@@ -307,7 +354,33 @@ namespace AcFunDanmu {
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
           }
+        #endif
         }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+          if (userInfo_ != null) {
+            output.WriteRawTag(10);
+            output.WriteMessage(UserInfo);
+          }
+          if (CustomWatchingListData.Length != 0) {
+            output.WriteRawTag(26);
+            output.WriteString(CustomWatchingListData);
+          }
+          if (DisplaySendAmount.Length != 0) {
+            output.WriteRawTag(34);
+            output.WriteString(DisplaySendAmount);
+          }
+          if (AnonymousUser != false) {
+            output.WriteRawTag(40);
+            output.WriteBool(AnonymousUser);
+          }
+          if (_unknownFields != null) {
+            _unknownFields.WriteTo(ref output);
+          }
+        }
+        #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize() {
@@ -355,6 +428,9 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          input.ReadRawMessage(this);
+        #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
             switch(tag) {
@@ -382,7 +458,41 @@ namespace AcFunDanmu {
               }
             }
           }
+        #endif
         }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+          uint tag;
+          while ((tag = input.ReadTag()) != 0) {
+            switch(tag) {
+              default:
+                _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                break;
+              case 10: {
+                if (userInfo_ == null) {
+                  UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
+                }
+                input.ReadMessage(UserInfo);
+                break;
+              }
+              case 26: {
+                CustomWatchingListData = input.ReadString();
+                break;
+              }
+              case 34: {
+                DisplaySendAmount = input.ReadString();
+                break;
+              }
+              case 40: {
+                AnonymousUser = input.ReadBool();
+                break;
+              }
+            }
+          }
+        }
+        #endif
 
       }
 

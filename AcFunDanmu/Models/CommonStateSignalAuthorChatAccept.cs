@@ -25,19 +25,24 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CidDb21tb25TdGF0ZVNpZ25hbEF1dGhvckNoYXRBY2NlcHQucHJvdG8SCkFj",
-            "RnVuRGFubXUiOQohQ29tbW9uU3RhdGVTaWduYWxBdXRob3JDaGF0QWNjZXB0",
-            "EgkKAWEYASABKAkSCQoBYhgCIAEoCWIGcHJvdG8z"));
+            "RnVuRGFubXUiUQohQ29tbW9uU3RhdGVTaWduYWxBdXRob3JDaGF0QWNjZXB0",
+            "EhQKDGF1dGhvckNoYXRJZBgBIAEoCRIWCg5hcnlhU2lnbmFsSW5mbxgCIAEo",
+            "CWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatAccept), global::AcFunDanmu.CommonStateSignalAuthorChatAccept.Parser, new[]{ "A", "B" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatAccept), global::AcFunDanmu.CommonStateSignalAuthorChatAccept.Parser, new[]{ "AuthorChatId", "AryaSignalInfo" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class CommonStateSignalAuthorChatAccept : pb::IMessage<CommonStateSignalAuthorChatAccept> {
+  public sealed partial class CommonStateSignalAuthorChatAccept : pb::IMessage<CommonStateSignalAuthorChatAccept>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<CommonStateSignalAuthorChatAccept> _parser = new pb::MessageParser<CommonStateSignalAuthorChatAccept>(() => new CommonStateSignalAuthorChatAccept());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -62,8 +67,8 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public CommonStateSignalAuthorChatAccept(CommonStateSignalAuthorChatAccept other) : this() {
-      a_ = other.a_;
-      b_ = other.b_;
+      authorChatId_ = other.authorChatId_;
+      aryaSignalInfo_ = other.aryaSignalInfo_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -72,25 +77,25 @@ namespace AcFunDanmu {
       return new CommonStateSignalAuthorChatAccept(this);
     }
 
-    /// <summary>Field number for the "a" field.</summary>
-    public const int AFieldNumber = 1;
-    private string a_ = "";
+    /// <summary>Field number for the "authorChatId" field.</summary>
+    public const int AuthorChatIdFieldNumber = 1;
+    private string authorChatId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string A {
-      get { return a_; }
+    public string AuthorChatId {
+      get { return authorChatId_; }
       set {
-        a_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        authorChatId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "b" field.</summary>
-    public const int BFieldNumber = 2;
-    private string b_ = "";
+    /// <summary>Field number for the "aryaSignalInfo" field.</summary>
+    public const int AryaSignalInfoFieldNumber = 2;
+    private string aryaSignalInfo_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string B {
-      get { return b_; }
+    public string AryaSignalInfo {
+      get { return aryaSignalInfo_; }
       set {
-        b_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        aryaSignalInfo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -107,16 +112,16 @@ namespace AcFunDanmu {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (A != other.A) return false;
-      if (B != other.B) return false;
+      if (AuthorChatId != other.AuthorChatId) return false;
+      if (AryaSignalInfo != other.AryaSignalInfo) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (A.Length != 0) hash ^= A.GetHashCode();
-      if (B.Length != 0) hash ^= B.GetHashCode();
+      if (AuthorChatId.Length != 0) hash ^= AuthorChatId.GetHashCode();
+      if (AryaSignalInfo.Length != 0) hash ^= AryaSignalInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -130,27 +135,48 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (A.Length != 0) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (AuthorChatId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(A);
+        output.WriteString(AuthorChatId);
       }
-      if (B.Length != 0) {
+      if (AryaSignalInfo.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(B);
+        output.WriteString(AryaSignalInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (AuthorChatId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(AuthorChatId);
+      }
+      if (AryaSignalInfo.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(AryaSignalInfo);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (A.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(A);
+      if (AuthorChatId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthorChatId);
       }
-      if (B.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(B);
+      if (AryaSignalInfo.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AryaSignalInfo);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -163,17 +189,20 @@ namespace AcFunDanmu {
       if (other == null) {
         return;
       }
-      if (other.A.Length != 0) {
-        A = other.A;
+      if (other.AuthorChatId.Length != 0) {
+        AuthorChatId = other.AuthorChatId;
       }
-      if (other.B.Length != 0) {
-        B = other.B;
+      if (other.AryaSignalInfo.Length != 0) {
+        AryaSignalInfo = other.AryaSignalInfo;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -181,16 +210,39 @@ namespace AcFunDanmu {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            A = input.ReadString();
+            AuthorChatId = input.ReadString();
             break;
           }
           case 18: {
-            B = input.ReadString();
+            AryaSignalInfo = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            AuthorChatId = input.ReadString();
+            break;
+          }
+          case 18: {
+            AryaSignalInfo = input.ReadString();
             break;
           }
         }
       }
     }
+    #endif
 
   }
 

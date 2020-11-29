@@ -47,7 +47,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class CommonStateSignalCurrentRedpackList : pb::IMessage<CommonStateSignalCurrentRedpackList> {
+  public sealed partial class CommonStateSignalCurrentRedpackList : pb::IMessage<CommonStateSignalCurrentRedpackList>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<CommonStateSignalCurrentRedpackList> _parser = new pb::MessageParser<CommonStateSignalCurrentRedpackList>(() => new CommonStateSignalCurrentRedpackList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -128,11 +132,25 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       redpacks_.WriteTo(output, _repeated_redpacks_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      redpacks_.WriteTo(ref output, _repeated_redpacks_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -155,6 +173,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -167,7 +188,26 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            redpacks_.AddEntriesFrom(ref input, _repeated_redpacks_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the CommonStateSignalCurrentRedpackList message type.</summary>
@@ -179,7 +219,11 @@ namespace AcFunDanmu {
         [pbr::OriginalName("GRAB")] Grab = 2,
       }
 
-      public sealed partial class Redpack : pb::IMessage<Redpack> {
+      public sealed partial class Redpack : pb::IMessage<Redpack>
+      #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          , pb::IBufferMessage
+      #endif
+      {
         private static readonly pb::MessageParser<Redpack> _parser = new pb::MessageParser<Redpack>(() => new Redpack());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -356,6 +400,9 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          output.WriteRawMessage(this);
+        #else
           if (sender_ != null) {
             output.WriteRawTag(10);
             output.WriteMessage(Sender);
@@ -391,7 +438,49 @@ namespace AcFunDanmu {
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
           }
+        #endif
         }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+          if (sender_ != null) {
+            output.WriteRawTag(10);
+            output.WriteMessage(Sender);
+          }
+          if (DisplayStatus != global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus.Show) {
+            output.WriteRawTag(16);
+            output.WriteEnum((int) DisplayStatus);
+          }
+          if (GrabBeginTimeMs != 0L) {
+            output.WriteRawTag(24);
+            output.WriteInt64(GrabBeginTimeMs);
+          }
+          if (GetTokenLatestTimeMs != 0L) {
+            output.WriteRawTag(32);
+            output.WriteInt64(GetTokenLatestTimeMs);
+          }
+          if (RedPackId.Length != 0) {
+            output.WriteRawTag(42);
+            output.WriteString(RedPackId);
+          }
+          if (RedpackBizUnit.Length != 0) {
+            output.WriteRawTag(50);
+            output.WriteString(RedpackBizUnit);
+          }
+          if (RedpackAmount != 0L) {
+            output.WriteRawTag(56);
+            output.WriteInt64(RedpackAmount);
+          }
+          if (SettleBeginTime != 0L) {
+            output.WriteRawTag(64);
+            output.WriteInt64(SettleBeginTime);
+          }
+          if (_unknownFields != null) {
+            _unknownFields.WriteTo(ref output);
+          }
+        }
+        #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize() {
@@ -463,6 +552,9 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          input.ReadRawMessage(this);
+        #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
             switch(tag) {
@@ -506,7 +598,57 @@ namespace AcFunDanmu {
               }
             }
           }
+        #endif
         }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+          uint tag;
+          while ((tag = input.ReadTag()) != 0) {
+            switch(tag) {
+              default:
+                _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                break;
+              case 10: {
+                if (sender_ == null) {
+                  Sender = new global::AcFunDanmu.ZtLiveUserInfo();
+                }
+                input.ReadMessage(Sender);
+                break;
+              }
+              case 16: {
+                DisplayStatus = (global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus) input.ReadEnum();
+                break;
+              }
+              case 24: {
+                GrabBeginTimeMs = input.ReadInt64();
+                break;
+              }
+              case 32: {
+                GetTokenLatestTimeMs = input.ReadInt64();
+                break;
+              }
+              case 42: {
+                RedPackId = input.ReadString();
+                break;
+              }
+              case 50: {
+                RedpackBizUnit = input.ReadString();
+                break;
+              }
+              case 56: {
+                RedpackAmount = input.ReadInt64();
+                break;
+              }
+              case 64: {
+                SettleBeginTime = input.ReadInt64();
+                break;
+              }
+            }
+          }
+        }
+        #endif
 
       }
 

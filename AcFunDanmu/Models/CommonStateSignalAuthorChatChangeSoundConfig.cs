@@ -25,26 +25,32 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CjJDb21tb25TdGF0ZVNpZ25hbEF1dGhvckNoYXRDaGFuZ2VTb3VuZENvbmZp",
-            "Zy5wcm90bxIKQWNGdW5EYW5tdSKoAQotQ29tbW9uU3RhdGVTaWduYWxBdXRo",
-            "b3JDaGF0Q2hhbmdlc1NvdW5kQ29uZmlnEgkKAWEYASABKAkSTAoBYhgCIAEo",
-            "DjJBLkFjRnVuRGFubXUuQ29tbW9uU3RhdGVTaWduYWxBdXRob3JDaGF0Q2hh",
-            "bmdlc1NvdW5kQ29uZmlnLlVua25vd24iHgoHVW5rbm93bhIFCgFjEAASBQoB",
-            "ZBABEgUKAWUQAmIGcHJvdG8z"));
+            "Zy5wcm90bxIKQWNGdW5EYW5tdSL6AQosQ29tbW9uU3RhdGVTaWduYWxBdXRo",
+            "b3JDaGF0Q2hhbmdlU291bmRDb25maWcSFAoMYXV0aG9yQ2hhdElkGAEgASgJ",
+            "Em0KFXNvdW5kQ29uZmlnQ2hhbmdlVHlwZRgCIAEoDjJOLkFjRnVuRGFubXUu",
+            "Q29tbW9uU3RhdGVTaWduYWxBdXRob3JDaGF0Q2hhbmdlU291bmRDb25maWcu",
+            "U291bmRDb25maWdDaGFuZ2VUeXBlIkUKFVNvdW5kQ29uZmlnQ2hhbmdlVHlw",
+            "ZRILCgdVTktOT1dOEAASDgoKT1BFTl9TT1VORBABEg8KC0NMT1NFX1NPVU5E",
+            "EAJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig), global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Parser, new[]{ "A", "B" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Types.Unknown) }, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig), global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Parser, new[]{ "AuthorChatId", "SoundConfigChangeType" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType) }, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class CommonStateSignalAuthorChatChangesSoundConfig : pb::IMessage<CommonStateSignalAuthorChatChangesSoundConfig> {
-    private static readonly pb::MessageParser<CommonStateSignalAuthorChatChangesSoundConfig> _parser = new pb::MessageParser<CommonStateSignalAuthorChatChangesSoundConfig>(() => new CommonStateSignalAuthorChatChangesSoundConfig());
+  public sealed partial class CommonStateSignalAuthorChatChangeSoundConfig : pb::IMessage<CommonStateSignalAuthorChatChangeSoundConfig>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<CommonStateSignalAuthorChatChangeSoundConfig> _parser = new pb::MessageParser<CommonStateSignalAuthorChatChangeSoundConfig>(() => new CommonStateSignalAuthorChatChangeSoundConfig());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<CommonStateSignalAuthorChatChangesSoundConfig> Parser { get { return _parser; } }
+    public static pb::MessageParser<CommonStateSignalAuthorChatChangeSoundConfig> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -57,69 +63,69 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public CommonStateSignalAuthorChatChangesSoundConfig() {
+    public CommonStateSignalAuthorChatChangeSoundConfig() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public CommonStateSignalAuthorChatChangesSoundConfig(CommonStateSignalAuthorChatChangesSoundConfig other) : this() {
-      a_ = other.a_;
-      b_ = other.b_;
+    public CommonStateSignalAuthorChatChangeSoundConfig(CommonStateSignalAuthorChatChangeSoundConfig other) : this() {
+      authorChatId_ = other.authorChatId_;
+      soundConfigChangeType_ = other.soundConfigChangeType_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public CommonStateSignalAuthorChatChangesSoundConfig Clone() {
-      return new CommonStateSignalAuthorChatChangesSoundConfig(this);
+    public CommonStateSignalAuthorChatChangeSoundConfig Clone() {
+      return new CommonStateSignalAuthorChatChangeSoundConfig(this);
     }
 
-    /// <summary>Field number for the "a" field.</summary>
-    public const int AFieldNumber = 1;
-    private string a_ = "";
+    /// <summary>Field number for the "authorChatId" field.</summary>
+    public const int AuthorChatIdFieldNumber = 1;
+    private string authorChatId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string A {
-      get { return a_; }
+    public string AuthorChatId {
+      get { return authorChatId_; }
       set {
-        a_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        authorChatId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "b" field.</summary>
-    public const int BFieldNumber = 2;
-    private global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Types.Unknown b_ = global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Types.Unknown.C;
+    /// <summary>Field number for the "soundConfigChangeType" field.</summary>
+    public const int SoundConfigChangeTypeFieldNumber = 2;
+    private global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType soundConfigChangeType_ = global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType.Unknown;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Types.Unknown B {
-      get { return b_; }
+    public global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType SoundConfigChangeType {
+      get { return soundConfigChangeType_; }
       set {
-        b_ = value;
+        soundConfigChangeType_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as CommonStateSignalAuthorChatChangesSoundConfig);
+      return Equals(other as CommonStateSignalAuthorChatChangeSoundConfig);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(CommonStateSignalAuthorChatChangesSoundConfig other) {
+    public bool Equals(CommonStateSignalAuthorChatChangeSoundConfig other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (A != other.A) return false;
-      if (B != other.B) return false;
+      if (AuthorChatId != other.AuthorChatId) return false;
+      if (SoundConfigChangeType != other.SoundConfigChangeType) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (A.Length != 0) hash ^= A.GetHashCode();
-      if (B != global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Types.Unknown.C) hash ^= B.GetHashCode();
+      if (AuthorChatId.Length != 0) hash ^= AuthorChatId.GetHashCode();
+      if (SoundConfigChangeType != global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType.Unknown) hash ^= SoundConfigChangeType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -133,27 +139,48 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (A.Length != 0) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (AuthorChatId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(A);
+        output.WriteString(AuthorChatId);
       }
-      if (B != global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Types.Unknown.C) {
+      if (SoundConfigChangeType != global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType.Unknown) {
         output.WriteRawTag(16);
-        output.WriteEnum((int) B);
+        output.WriteEnum((int) SoundConfigChangeType);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (AuthorChatId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(AuthorChatId);
+      }
+      if (SoundConfigChangeType != global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType.Unknown) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) SoundConfigChangeType);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (A.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(A);
+      if (AuthorChatId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthorChatId);
       }
-      if (B != global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Types.Unknown.C) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) B);
+      if (SoundConfigChangeType != global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType.Unknown) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) SoundConfigChangeType);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -162,21 +189,24 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(CommonStateSignalAuthorChatChangesSoundConfig other) {
+    public void MergeFrom(CommonStateSignalAuthorChatChangeSoundConfig other) {
       if (other == null) {
         return;
       }
-      if (other.A.Length != 0) {
-        A = other.A;
+      if (other.AuthorChatId.Length != 0) {
+        AuthorChatId = other.AuthorChatId;
       }
-      if (other.B != global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Types.Unknown.C) {
-        B = other.B;
+      if (other.SoundConfigChangeType != global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType.Unknown) {
+        SoundConfigChangeType = other.SoundConfigChangeType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -184,25 +214,48 @@ namespace AcFunDanmu {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            A = input.ReadString();
+            AuthorChatId = input.ReadString();
             break;
           }
           case 16: {
-            B = (global::AcFunDanmu.CommonStateSignalAuthorChatChangesSoundConfig.Types.Unknown) input.ReadEnum();
+            SoundConfigChangeType = (global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            AuthorChatId = input.ReadString();
+            break;
+          }
+          case 16: {
+            SoundConfigChangeType = (global::AcFunDanmu.CommonStateSignalAuthorChatChangeSoundConfig.Types.SoundConfigChangeType) input.ReadEnum();
             break;
           }
         }
       }
     }
+    #endif
 
     #region Nested types
-    /// <summary>Container for nested types declared in the CommonStateSignalAuthorChatChangesSoundConfig message type.</summary>
+    /// <summary>Container for nested types declared in the CommonStateSignalAuthorChatChangeSoundConfig message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
-      public enum Unknown {
-        [pbr::OriginalName("c")] C = 0,
-        [pbr::OriginalName("d")] D = 1,
-        [pbr::OriginalName("e")] E = 2,
+      public enum SoundConfigChangeType {
+        [pbr::OriginalName("UNKNOWN")] Unknown = 0,
+        [pbr::OriginalName("OPEN_SOUND")] OpenSound = 1,
+        [pbr::OriginalName("CLOSE_SOUND")] CloseSound = 2,
       }
 
     }

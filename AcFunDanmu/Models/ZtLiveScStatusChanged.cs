@@ -42,7 +42,11 @@ namespace AcFunDanmu {
 
   }
   #region Messages
-  public sealed partial class ZtLiveScStatusChanged : pb::IMessage<ZtLiveScStatusChanged> {
+  public sealed partial class ZtLiveScStatusChanged : pb::IMessage<ZtLiveScStatusChanged>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<ZtLiveScStatusChanged> _parser = new pb::MessageParser<ZtLiveScStatusChanged>(() => new ZtLiveScStatusChanged());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -149,6 +153,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (Type != global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type.Unknown) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
@@ -164,7 +171,29 @@ namespace AcFunDanmu {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Type != global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type.Unknown) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Type);
+      }
+      if (MaxRandomDelayMs != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(MaxRandomDelayMs);
+      }
+      if (bannedInfo_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(BannedInfo);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
@@ -206,6 +235,9 @@ namespace AcFunDanmu {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -229,7 +261,37 @@ namespace AcFunDanmu {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Type = (global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type) input.ReadEnum();
+            break;
+          }
+          case 16: {
+            MaxRandomDelayMs = input.ReadInt64();
+            break;
+          }
+          case 26: {
+            if (bannedInfo_ == null) {
+              BannedInfo = new global::AcFunDanmu.ZtLiveScStatusChanged.Types.BannedInfo();
+            }
+            input.ReadMessage(BannedInfo);
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
     #region Nested types
     /// <summary>Container for nested types declared in the ZtLiveScStatusChanged message type.</summary>
@@ -243,7 +305,11 @@ namespace AcFunDanmu {
         [pbr::OriginalName("LIVE_BANNED")] LiveBanned = 4,
       }
 
-      public sealed partial class BannedInfo : pb::IMessage<BannedInfo> {
+      public sealed partial class BannedInfo : pb::IMessage<BannedInfo>
+      #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          , pb::IBufferMessage
+      #endif
+      {
         private static readonly pb::MessageParser<BannedInfo> _parser = new pb::MessageParser<BannedInfo>(() => new BannedInfo());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -322,6 +388,9 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          output.WriteRawMessage(this);
+        #else
           if (BanReason.Length != 0) {
             output.WriteRawTag(10);
             output.WriteString(BanReason);
@@ -329,7 +398,21 @@ namespace AcFunDanmu {
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
           }
+        #endif
         }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+          if (BanReason.Length != 0) {
+            output.WriteRawTag(10);
+            output.WriteString(BanReason);
+          }
+          if (_unknownFields != null) {
+            _unknownFields.WriteTo(ref output);
+          }
+        }
+        #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize() {
@@ -356,6 +439,9 @@ namespace AcFunDanmu {
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          input.ReadRawMessage(this);
+        #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
             switch(tag) {
@@ -368,7 +454,26 @@ namespace AcFunDanmu {
               }
             }
           }
+        #endif
         }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+          uint tag;
+          while ((tag = input.ReadTag()) != 0) {
+            switch(tag) {
+              default:
+                _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                break;
+              case 10: {
+                BanReason = input.ReadString();
+                break;
+              }
+            }
+          }
+        }
+        #endif
 
       }
 
