@@ -4,7 +4,6 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>AcFunDMJ-WASM.Server</RootNamespace>
     <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
-    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

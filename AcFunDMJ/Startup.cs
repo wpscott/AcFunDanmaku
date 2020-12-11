@@ -28,11 +28,9 @@ namespace AcFunDMJ
         {
             if (env.IsDevelopment())
             {
-                app.UseWebAssemblyDebugging();
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
             app.UseRouting();

@@ -3,7 +3,6 @@
 # AcFunDanmaku
 AcFunDanmaku是用C# 和 .Net Core 3.1编写的AcFun直播弹幕工具。
 该项目分为13个子项目。
-**不提供32位程序。**
 
 ## AcFunDanmu 
 AcFun直播弹幕解析工具。**开发中**
