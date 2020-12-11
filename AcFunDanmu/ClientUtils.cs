@@ -85,6 +85,32 @@ namespace AcFunDanmu
             return (headerLength, payloadLength);
         }
 
+        public static T Decode<T>(ReadOnlySpan<byte> bytes, string SecurityKey, string SessionKey, out PacketHeader header) where T: class, IMessage<T>
+        {
+            var (headerLength, payloadLength) = DecodeLengths(bytes);
+
+            header = PacketHeader.Parser.ParseFrom(bytes.Slice(HeaderOffset, headerLength).ToArray());
+
+            ReadOnlySpan<byte> payload = bytes.Slice(HeaderOffset + headerLength, payloadLength);
+            if (header.EncryptionMode != PacketHeader.Types.EncryptionMode.KEncryptionNone)
+            {
+                var key = header.EncryptionMode == PacketHeader.Types.EncryptionMode.KEncryptionServiceToken ? SecurityKey : SessionKey;
+
+                payload = Decrypt(payload, key);
+            }
+
+
+            if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
+            {
+                Log.Error("Payload length does not match");
+                Log.Debug("Payload Data: {Data}", Convert.ToBase64String(payload));
+                return null;
+            }
+
+            var obj = Parse<T>(payload);
+            return obj;
+        }
+
         public static object Decode(Type type, ReadOnlySpan<byte> bytes, string SecurityKey, string SessionKey, out PacketHeader header)
         {
             var (headerLength, payloadLength) = DecodeLengths(bytes);
@@ -176,6 +202,11 @@ namespace AcFunDanmu
 
             var obj = method.Invoke(parser, payload);
             return obj;
+        }
+
+        public static T Parse<T>(ReadOnlySpan<byte> payload) where T : class, IMessage<T>
+        {
+            return Parse(typeof(T), new object[] { ByteString.CopyFrom(payload) }) as T;
         }
 
         public static object Parse(Type type, ReadOnlySpan<byte> payload)

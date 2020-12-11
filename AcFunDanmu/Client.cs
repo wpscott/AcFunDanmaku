@@ -399,7 +399,8 @@ namespace AcFunDanmu
                 await ws.SendAsync(_requests.RegisterRequest(), WebSocketMessageType.Binary, true, default);
                 var resp = owner.Memory;
                 await ws.ReceiveAsync(resp, default);
-                var registerDown = Decode(typeof(DownstreamPayload), resp.Span, SecurityKey, _requests.SessionKey, out _) as DownstreamPayload;
+                var registerDown = Decode<DownstreamPayload>(resp.Span, SecurityKey, _requests.SessionKey, out _);
+                if (registerDown == null) { Log.Error("Register response is null: {Content}", Convert.ToBase64String(resp.Span)); return false; }
                 var regResp = RegisterResponse.Parser.ParseFrom(registerDown.PayloadData);
                 _requests.Register(regResp.InstanceId, regResp.SessKey.ToBase64(), regResp.SdkOption.Lz4CompressionThresholdBytes);
 
@@ -432,17 +433,17 @@ namespace AcFunDanmu
                         }
                         catch (WebSocketException ex)
                         {
-                            Log.Error(ex, "Heartbeat");
+                            Log.Debug(ex, "Heartbeat");
                             heartbeatTimer.Stop();
                         }
                         catch (OperationCanceledException ex)
                         {
-                            Log.Error(ex, "Heartbeat");
+                            Log.Debug(ex, "Heartbeat");
                             heartbeatTimer.Stop();
                         }
                         catch (IOException ex)
                         {
-                            Log.Error(ex, "Heartbeat");
+                            Log.Debug(ex, "Heartbeat");
                             heartbeatTimer.Stop();
                         }
                     }
@@ -462,26 +463,25 @@ namespace AcFunDanmu
                     {
                         await ws.ReceiveAsync(buffer, default);
 
-                        var stream = Decode(typeof(DownstreamPayload), buffer.Span, SecurityKey, _requests.SessionKey, out var header) as DownstreamPayload;
-
+                        var stream = Decode<DownstreamPayload>(buffer.Span, SecurityKey, _requests.SessionKey, out var header);
+                        if (stream == null) { Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span)); continue; }
                         HandleCommand(header, stream, heartbeatTimer);
-
                     }
                     catch (WebSocketException ex)
                     {
-                        Log.Error(ex, "Main");
+                        Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
                         break;
                     }
                     catch (OperationCanceledException ex)
                     {
-                        Log.Error(ex, "Main");
+                        Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
                         break;
                     }
                     catch (IOException ex)
                     {
-                        Log.Error(ex, "Main");
+                        Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
                         break;
                     }
@@ -491,19 +491,19 @@ namespace AcFunDanmu
             }
             catch (HttpRequestException ex)
             {
-                Log.Error(ex, "Start");
+                Log.Debug(ex, "Start");
             }
             catch (WebSocketException ex)
             {
-                Log.Error(ex, "Start");
+                Log.Debug(ex, "Start");
             }
             catch (OperationCanceledException ex)
             {
-                Log.Error(ex, "Start");
+                Log.Debug(ex, "Start");
             }
             catch (IOException ex)
             {
-                Log.Error(ex, "Start");
+                Log.Debug(ex, "Start");
             }
             Log.Debug("Client status: {State}", ws.State);
             return ws.State != WebSocketState.Aborted;
@@ -522,21 +522,20 @@ namespace AcFunDanmu
             }
             catch (WebSocketException ex)
             {
-                Log.Error(ex, "Stop");
+                Log.Debug(ex, "Stop");
             }
             catch (OperationCanceledException ex)
             {
-                Log.Error(ex, "Stop");
+                Log.Debug(ex, "Stop");
             }
             catch (IOException ex)
             {
-                Log.Error(ex, "Stop");
+                Log.Debug(ex, "Stop");
             }
         }
 
         private async void HandleCommand(PacketHeader header, DownstreamPayload stream, System.Timers.Timer heartbeatTimer)
         {
-            if (stream == null) { return; }
             switch (stream.Command)
             {
                 case Command.GLOBAL_COMMAND:
@@ -555,8 +554,8 @@ namespace AcFunDanmu
                         case GlobalCommand.USER_EXIT_ACK:
                             break;
                         default:
-                            Log.Information("Unhandled Global.ZtLiveInteractive.CsCmdAck: {Type}", cmd.CmdAckType);
-                            Log.Debug("CsCmdAck Data: {Data}", cmd.ToByteString().ToBase64());
+                            Log.Information("Unhandled Global.ZtLiveInteractive.CsCmdAck: {Type}", cmd.CmdAckType ?? string.Empty);
+                            Log.Debug("CsCmdAck Data: {Data}", stream.PayloadData.ToBase64());
                             break;
                     }
                     break;
@@ -574,15 +573,15 @@ namespace AcFunDanmu
                     }
                     catch (WebSocketException ex)
                     {
-                        Log.Error(ex, "Unregister response");
+                        Log.Debug(ex, "Unregister response");
                     }
                     catch (OperationCanceledException ex)
                     {
-                        Log.Error(ex, "Unregister response");
+                        Log.Debug(ex, "Unregister response");
                     }
                     catch (IOException ex)
                     {
-                        Log.Error(ex, "Unregister response");
+                        Log.Debug(ex, "Unregister response");
                     }
                     break;
                 case Command.PUSH_MESSAGE:
@@ -592,15 +591,15 @@ namespace AcFunDanmu
                     }
                     catch (WebSocketException ex)
                     {
-                        Log.Error(ex, "Push message response");
+                        Log.Debug(ex, "Push message response");
                     }
                     catch (OperationCanceledException ex)
                     {
-                        Log.Error(ex, "Push message response");
+                        Log.Debug(ex, "Push message response");
                     }
                     catch (IOException ex)
                     {
-                        Log.Error(ex, "Push message response");
+                        Log.Debug(ex, "Push message response");
                     }
                     ZtLiveScMessage message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
 
@@ -633,16 +632,20 @@ namespace AcFunDanmu
                             }
                             catch (WebSocketException ex)
                             {
-                                Log.Error(ex, "Ticket invalid request");
+                                Log.Debug(ex, "Ticket invalid request");
                             }
                             catch (OperationCanceledException ex)
                             {
-                                Log.Error(ex, "Ticket invalid request");
+                                Log.Debug(ex, "Ticket invalid request");
                             }
                             catch (IOException ex)
                             {
-                                Log.Error(ex, "Ticket invalid request");
+                                Log.Debug(ex, "Ticket invalid request");
                             }
+                            break;
+                        default:
+                            Log.Information("Unhandled Push.ZtLiveInteractive.Message: {Type}", message.MessageType ?? string.Empty);
+                            Log.Debug("CsCmdAck Data: {Data}", stream.PayloadData.ToBase64());
                             break;
                     }
                     break;
@@ -657,14 +660,14 @@ namespace AcFunDanmu
                                 var txt = Im.Cloud.Types.Message.Types.Text.Parser.ParseFrom(msg.Content);
                                 break;
                             default:
-                                Log.Information("Unhandled IM SDK Push Message Content Type: {0}", type);
+                                Log.Information("Unhandled IM SDK Push Message Content Type: {Type}", type);
                                 Log.Debug("Push Message Data: {Data}", msg.Content.ToBase64());
                                 break;
                         }
                     }
                     else
                     {
-                        Log.Information("Invalid IM SDK Push Message Content Type: {0}", msg.ContentType);
+                        Log.Information("Invalid IM SDK Push Message Content Type: {Type}", msg.ContentType);
                         Log.Debug("Push Message Data: {Data}", msg.Content.ToBase64());
                     }
                     break;
