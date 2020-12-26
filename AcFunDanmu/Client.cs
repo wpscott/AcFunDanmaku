@@ -12,7 +12,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using static AcFunDanmu.ClientUtils;
 
@@ -43,7 +42,7 @@ namespace AcFunDanmu
         private const string GIFT_URL = "https://api.kuaishouzt.com/rest/zt/live/web/gift/list?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
         private const string WATCHING_URL = "https://api.kuaishouzt.com/rest/zt/live/web/watchingList?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
 
-        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36";
+        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36";
 
         private const string SAFETY_ID_CONTENT = "{{\"platform\":5,\"app_version\":\"2.0.32\",\"device_id\":\"null\",\"user_id\":\"{0}\"}}";
         private static readonly Dictionary<string, string> LOGIN_FORM = new Dictionary<string, string> { { "sid", "acfun.api.visitor" } };
@@ -78,7 +77,10 @@ namespace AcFunDanmu
         #endregion
 
         #region Constructor
-        public Client() { Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger(); }
+        public Client()
+        {
+            Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+        }
 
         public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach, string liveId) : this()
         {
@@ -392,34 +394,13 @@ namespace AcFunDanmu
             _client = ws;
             try
             {
-                await ws.ConnectAsync(Host, default);
-
-                #region Register & Enter Room
-                //Register
-                await ws.SendAsync(_requests.RegisterRequest(), WebSocketMessageType.Binary, true, default);
-                var resp = owner.Memory;
-                await ws.ReceiveAsync(resp, default);
-                var registerDown = Decode<DownstreamPayload>(resp.Span, SecurityKey, _requests.SessionKey, out _);
-                if (registerDown == null) { Log.Error("Register response is null: {Content}", Convert.ToBase64String(resp.Span)); return false; }
-                var regResp = RegisterResponse.Parser.ParseFrom(registerDown.PayloadData);
-                _requests.Register(regResp.InstanceId, regResp.SessKey.ToBase64(), regResp.SdkOption.Lz4CompressionThresholdBytes);
-
-                //Ping
-                //await client.SendAsync(Ping(), WebSocketMessageType.Binary, true, default);
-
-                //Keep Alive
-                await ws.SendAsync(_requests.KeepAliveRequest(true), WebSocketMessageType.Binary, true, default);
-
-                //Enter room
-                await ws.SendAsync(_requests.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
-                #endregion
-
                 #region Timers
                 using var heartbeatTimer = new System.Timers.Timer();
                 heartbeatTimer.Elapsed += async (s, e) =>
                 {
                     if (ws.State == WebSocketState.Open)
                     {
+                        Log.Debug("HEARTBEAT");
                         try
                         {
                             await ws.SendAsync(
@@ -453,6 +434,12 @@ namespace AcFunDanmu
                     }
                 };
                 heartbeatTimer.AutoReset = true;
+                #endregion
+
+                await ws.ConnectAsync(Host, default);
+
+                #region Register
+                await ws.SendAsync(_requests.RegisterRequest(), WebSocketMessageType.Binary, true, default);
                 #endregion
 
                 #region Main loop
@@ -536,140 +523,31 @@ namespace AcFunDanmu
 
         private async void HandleCommand(PacketHeader header, DownstreamPayload stream, System.Timers.Timer heartbeatTimer)
         {
+            Log.Debug("--------");
+            Log.Debug("Down\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, stream.SeqId, stream.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload: {Payload}", stream);
             switch (stream.Command)
             {
                 case Command.GLOBAL_COMMAND:
-                    ZtLiveCsCmdAck cmd = ZtLiveCsCmdAck.Parser.ParseFrom(stream.PayloadData);
-
-                    switch (cmd.CmdAckType)
-                    {
-                        case GlobalCommand.ENTER_ROOM_ACK:
-                            var enterRoom = ZtLiveCsEnterRoomAck.Parser.ParseFrom(cmd.Payload);
-                            heartbeatTimer.Interval = enterRoom.HeartbeatIntervalMs > 0 ? enterRoom.HeartbeatIntervalMs : 10000;
-                            heartbeatTimer.Start();
-                            break;
-                        case GlobalCommand.HEARTBEAT_ACK:
-                            var heartbeat = ZtLiveCsHeartbeatAck.Parser.ParseFrom(cmd.Payload);
-                            break;
-                        case GlobalCommand.USER_EXIT_ACK:
-                            break;
-                        default:
-                            Log.Information("Unhandled Global.ZtLiveInteractive.CsCmdAck: {Type}", cmd.CmdAckType ?? string.Empty);
-                            Log.Debug("CsCmdAck Data: {Data}", stream.PayloadData.ToBase64());
-                            break;
-                    }
+                    HandleGlobalCommand(stream, heartbeatTimer);
                     break;
                 case Command.KEEP_ALIVE:
-                    var keepalive = KeepAliveResponse.Parser.ParseFrom(stream.PayloadData);
+                    HandleKeepAlive(stream);
                     break;
                 case Command.PING:
-                    var ping = PingResponse.Parser.ParseFrom(stream.PayloadData);
+                    HandlePing(stream);
+                    break;
+                case Command.REGISTER:
+                    await HandleRegister(stream);
                     break;
                 case Command.UNREGISTER:
-                    var unregister = UnregisterResponse.Parser.ParseFrom(stream.PayloadData);
-                    try
-                    {
-                        await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unregister", default);
-                    }
-                    catch (WebSocketException ex)
-                    {
-                        Log.Debug(ex, "Unregister response");
-                    }
-                    catch (OperationCanceledException ex)
-                    {
-                        Log.Debug(ex, "Unregister response");
-                    }
-                    catch (IOException ex)
-                    {
-                        Log.Debug(ex, "Unregister response");
-                    }
+                    await HandleUnregister(stream);
                     break;
                 case Command.PUSH_MESSAGE:
-                    try
-                    {
-                        await _client.SendAsync(_requests.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, default);
-                    }
-                    catch (WebSocketException ex)
-                    {
-                        Log.Debug(ex, "Push message response");
-                    }
-                    catch (OperationCanceledException ex)
-                    {
-                        Log.Debug(ex, "Push message response");
-                    }
-                    catch (IOException ex)
-                    {
-                        Log.Debug(ex, "Push message response");
-                    }
-                    ZtLiveScMessage message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
-
-                    var payload = message.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip ? Decompress(message.Payload) : message.Payload;
-
-                    switch (message.MessageType)
-                    {
-                        case PushMessage.ACTION_SIGNAL:
-                        case PushMessage.STATE_SIGNAL:
-                        case PushMessage.NOTIFY_SIGNAL:
-                            // Handled by user
-                            Handler?.Invoke(message.MessageType, payload);
-                            DedicatedHandler?.Invoke(AVUPId, message.MessageType, payload);
-                            break;
-                        case PushMessage.STATUS_CHANGED:
-                            var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);
-                            if (statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveClosed || statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveBanned)
-                            {
-                                heartbeatTimer.Stop();
-                                await Stop("Live closed");
-                            }
-                            break;
-                        case PushMessage.TICKET_INVALID:
-                            var ticketInvalid = ZtLiveScTicketInvalid.Parser.ParseFrom(payload);
-                            //TicketIndex = (TicketIndex + 1) % Tickets.Length;
-                            _requests.NextTicket();
-                            try
-                            {
-                                await _client.SendAsync(_requests.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
-                            }
-                            catch (WebSocketException ex)
-                            {
-                                Log.Debug(ex, "Ticket invalid request");
-                            }
-                            catch (OperationCanceledException ex)
-                            {
-                                Log.Debug(ex, "Ticket invalid request");
-                            }
-                            catch (IOException ex)
-                            {
-                                Log.Debug(ex, "Ticket invalid request");
-                            }
-                            break;
-                        default:
-                            Log.Information("Unhandled Push.ZtLiveInteractive.Message: {Type}", message.MessageType ?? string.Empty);
-                            Log.Debug("CsCmdAck Data: {Data}", stream.PayloadData.ToBase64());
-                            break;
-                    }
+                    await HandlePushMessage(header, stream, heartbeatTimer);
                     break;
                 case ImEnums.PUSH_MESSAGE:
-                    var msg = Im.Message.Types.Message.Parser.ParseFrom(stream.PayloadData);
-                    if (Enum.IsDefined(typeof(Im.Cloud.Types.Message.Types.ImcMessageType), msg.ContentType))
-                    {
-                        var type = (Im.Cloud.Types.Message.Types.ImcMessageType)msg.ContentType;
-                        switch (type)
-                        {
-                            case Im.Cloud.Types.Message.Types.ImcMessageType.Text:
-                                var txt = Im.Cloud.Types.Message.Types.Text.Parser.ParseFrom(msg.Content);
-                                break;
-                            default:
-                                Log.Information("Unhandled IM SDK Push Message Content Type: {Type}", type);
-                                Log.Debug("Push Message Data: {Data}", msg.Content.ToBase64());
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        Log.Information("Invalid IM SDK Push Message Content Type: {Type}", msg.ContentType);
-                        Log.Debug("Push Message Data: {Data}", msg.Content.ToBase64());
-                    }
                     break;
                 default:
                     if (stream.ErrorCode > 0)
@@ -687,6 +565,156 @@ namespace AcFunDanmu
                         Log.Debug("Command Data: {Data}", stream.ToByteString().ToBase64());
                     }
                     break;
+            }
+            Log.Debug("--------");
+        }
+
+        private static void HandleGlobalCommand(DownstreamPayload payload, System.Timers.Timer heartbeatTimer)
+        {
+            ZtLiveCsCmdAck cmd = ZtLiveCsCmdAck.Parser.ParseFrom(payload.PayloadData);
+            Log.Debug("\t{Command}", cmd);
+            switch (cmd.CmdAckType)
+            {
+                case GlobalCommand.ENTER_ROOM_ACK:
+                    var enterRoom = ZtLiveCsEnterRoomAck.Parser.ParseFrom(cmd.Payload);
+                    heartbeatTimer.Interval = enterRoom.HeartbeatIntervalMs > 0 ? enterRoom.HeartbeatIntervalMs : 10000;
+                    heartbeatTimer.Start();
+                    Log.Debug("\t\t{EnterRoom}", enterRoom);
+                    break;
+                case GlobalCommand.HEARTBEAT_ACK:
+                    var heartbeat = ZtLiveCsHeartbeatAck.Parser.ParseFrom(cmd.Payload);
+                    Log.Debug("\t\t{Heartbeat}", heartbeat);
+                    break;
+                case GlobalCommand.USER_EXIT_ACK:
+                    var userexit = ZtLiveCsUserExitAck.Parser.ParseFrom(cmd.Payload);
+                    Log.Debug("\t\t{UserExit}", userexit);
+                    break;
+                default:
+                    Log.Information("Unhandled Global.ZtLiveInteractive.CsCmdAck: {Type}", cmd.CmdAckType ?? string.Empty);
+                    Log.Debug("CsCmdAck Data: {Data}", payload.PayloadData.ToBase64());
+                    break;
+            }
+        }
+
+        private static void HandleKeepAlive(DownstreamPayload payload)
+        {
+            var keepalive = KeepAliveResponse.Parser.ParseFrom(payload.PayloadData);
+            Log.Debug("\t{KeepAlive}", keepalive);
+        }
+
+        private static void HandlePing(DownstreamPayload payload)
+        {
+            var ping = PingResponse.Parser.ParseFrom(payload.PayloadData);
+            Log.Debug("\t{Ping}", ping);
+        }
+
+        private async Task HandleRegister(DownstreamPayload payload)
+        {
+            var register = RegisterResponse.Parser.ParseFrom(payload.PayloadData);
+            _requests.Register(register.InstanceId, register.SessKey.ToBase64(), register.SdkOption.Lz4CompressionThresholdBytes);
+            Log.Debug("\t{Register}", register);
+            await _client.SendAsync(_requests.KeepAliveRequest(true), WebSocketMessageType.Binary, true, default);
+            await _client.SendAsync(_requests.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
+        }
+
+        private async Task HandleUnregister(DownstreamPayload payload)
+        {
+            var unregister = UnregisterResponse.Parser.ParseFrom(payload.PayloadData);
+            Log.Debug("\t{Unregister}", unregister);
+            try
+            {
+                await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unregister", default);
+            }
+            catch (WebSocketException ex)
+            {
+                Log.Debug(ex, "Unregister response");
+            }
+            catch (OperationCanceledException ex)
+            {
+                Log.Debug(ex, "Unregister response");
+            }
+            catch (IOException ex)
+            {
+                Log.Debug(ex, "Unregister response");
+            }
+        }
+
+        private async Task HandlePushMessage(PacketHeader header, DownstreamPayload stream, System.Timers.Timer heartbeatTimer)
+        {
+            ZtLiveScMessage message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
+            Log.Debug("\t{message}", message);
+            var payload = message.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip ? Decompress(message.Payload) : message.Payload;
+
+            switch (message.MessageType)
+            {
+                case PushMessage.ACTION_SIGNAL:
+                case PushMessage.STATE_SIGNAL:
+                case PushMessage.NOTIFY_SIGNAL:
+                    // Handled by user
+                    Handler?.Invoke(message.MessageType, payload);
+                    DedicatedHandler?.Invoke(AVUPId, message.MessageType, payload);
+                    break;
+                case PushMessage.STATUS_CHANGED:
+                    await HandleStatusChanged(payload, heartbeatTimer);
+                    break;
+                case PushMessage.TICKET_INVALID:
+                    await HandleTicketInvalid(payload);
+                    break;
+                default:
+                    Log.Information("Unhandled Push.ZtLiveInteractive.Message: {Type}", message.MessageType ?? string.Empty);
+                    Log.Debug("CsCmdAck Data: {Data}", stream.PayloadData.ToBase64());
+                    break;
+            }
+            try
+            {
+                await _client.SendAsync(_requests.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, default);
+            }
+            catch (WebSocketException ex)
+            {
+                Log.Debug(ex, "Push message response");
+            }
+            catch (OperationCanceledException ex)
+            {
+                Log.Debug(ex, "Push message response");
+            }
+            catch (IOException ex)
+            {
+                Log.Debug(ex, "Push message response");
+            }
+        }
+
+
+        private async Task HandleStatusChanged(ByteString payload, System.Timers.Timer heartbeatTimer)
+        {
+            var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);
+            Log.Debug("\t\t{StatusChanged}", statusChanged);
+            if (statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveClosed || statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveBanned)
+            {
+                heartbeatTimer.Stop();
+                await Stop("Live closed");
+            }
+        }
+
+        private async Task HandleTicketInvalid(ByteString payload)
+        {
+            var ticketInvalid = ZtLiveScTicketInvalid.Parser.ParseFrom(payload);
+            Log.Debug("\t\t{TicketInvalid}", ticketInvalid);
+            _requests.NextTicket();
+            try
+            {
+                await _client.SendAsync(_requests.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
+            }
+            catch (WebSocketException ex)
+            {
+                Log.Debug(ex, "Ticket invalid request");
+            }
+            catch (OperationCanceledException ex)
+            {
+                Log.Debug(ex, "Ticket invalid request");
+            }
+            catch (IOException ex)
+            {
+                Log.Debug(ex, "Ticket invalid request");
             }
         }
 

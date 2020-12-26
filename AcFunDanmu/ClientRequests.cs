@@ -1,7 +1,9 @@
 ﻿using AcFunDanmu.Enums;
 using Google.Protobuf;
 using System;
+using Serilog;
 using static AcFunDanmu.ClientUtils;
+using System.Threading;
 
 namespace AcFunDanmu
 {
@@ -26,8 +28,9 @@ namespace AcFunDanmu
         public string SessionKey { get; private set; }
         private long Lz4CompressionThreshold;
 
-        private long SeqId = 1;
-        private long HeartbeatSeqId = 1;
+        private long _SeqId = 1;
+        public long SeqId => _SeqId;
+        private long HeartbeatSeqId = 0;
         private const uint RetryCount = 1;
         private int TicketIndex = 0;
 
@@ -36,17 +39,17 @@ namespace AcFunDanmu
         public ClientRequests(long userid, string servicetoken, string securitykey, string liveid, string enterroomattach, string[] tickets)
         {
             UserId = userid;
-            ServiceToken = servicetoken;
+            ServiceToken = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(servicetoken));
             SecurityKey = securitykey;
             LiveId = liveid;
             EnterRoomAttach = enterroomattach;
             Tickets = tickets;
         }
 
-        public void Register(long instanceid, string sessionkey, long lz4compressionthreshold)
+        public void Register(long instanceId, string sessionKey, long lz4compressionthreshold)
         {
-            InstanceId = instanceid;
-            SessionKey = sessionkey;
+            InstanceId = instanceId;
+            SessionKey = sessionKey;
             Lz4CompressionThreshold = lz4compressionthreshold;
         }
 
@@ -55,7 +58,7 @@ namespace AcFunDanmu
             TicketIndex = TicketIndex++ % Tickets.Length;
         }
 
-        internal byte[] RegisterRequest()
+        public byte[] RegisterRequest()
         {
             var register = new RegisterRequest
             {
@@ -89,15 +92,22 @@ namespace AcFunDanmu
             header.TokenInfo = new TokenInfo
             {
                 TokenType = TokenInfo.Types.TokenType.KServiceToken,
-                Token = ByteString.CopyFromUtf8(ServiceToken),
+                Token = ByteString.FromBase64(ServiceToken),
             };
 
-            SeqId++;
+            Interlocked.Increment(ref _SeqId);
+
+            Log.Debug("--------");
+            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload: {Payload}", payload);
+            Log.Debug("\t{Register}", register);
+            Log.Debug("--------");
 
             return Encode(header, body, SecurityKey);
         }
 
-        internal byte[] KeepAliveRequest(bool ShouldIncrease = false)
+        public byte[] KeepAliveRequest(bool ShouldIncrease = false)
         {
             var keepalive = new KeepAliveRequest
             {
@@ -113,21 +123,28 @@ namespace AcFunDanmu
 
             if (ShouldIncrease)
             {
-                SeqId++;
+                Interlocked.Increment(ref _SeqId);
             }
+
+            Log.Debug("--------");
+            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload: {Payload}", payload);
+            Log.Debug("\t{KeepAlive}", keepalive);
+            Log.Debug("--------");
 
             return Encode(header, body, SessionKey);
         }
 
-        internal byte[] EnterRoomRequest()
+        public byte[] EnterRoomRequest()
         {
-            var enteroroom = new ZtLiveCsEnterRoom
+            var enterroom = new ZtLiveCsEnterRoom
             {
                 EnterRoomAttach = EnterRoomAttach,
                 ClientLiveSdkVersion = ClientLiveSdkVersion
             };
 
-            var cmd = GenerateCommand(GlobalCommand.ENTER_ROOM, enteroroom);
+            var cmd = GenerateCommand(GlobalCommand.ENTER_ROOM, enterroom);
 
             var payload = GeneratePayload(Command.GLOBAL_COMMAND, cmd);
 
@@ -135,12 +152,20 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
-            SeqId++;
+            Interlocked.Increment(ref _SeqId);
+
+            Log.Debug("--------");
+            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload: {Payload}", payload);
+            Log.Debug("\t{Command}", cmd);
+            Log.Debug("\t\t{EnterRoom}", enterroom);
+            Log.Debug("--------");
 
             return Encode(header, body, SessionKey);
         }
 
-        internal byte[] PushMessageResponse(long HeaderSeqId)
+        public byte[] PushMessageResponse(long HeaderSeqId)
         {
             var payload = GeneratePayload(Command.PUSH_MESSAGE);
 
@@ -149,18 +174,23 @@ namespace AcFunDanmu
             var header = GenerateHeader(body);
             header.SeqId = HeaderSeqId;
 
+            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload: {Payload}", payload);
+            Log.Debug("\t{PushMessage}");
+
             return Encode(header, body, SessionKey);
         }
 
-        internal byte[] HeartbeatReqeust()
+        public byte[] HeartbeatReqeust()
         {
-            var hearbeat = new ZtLiveCsHeartbeat
+            var heartbeat = new ZtLiveCsHeartbeat
             {
                 ClientTimestampMs = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
                 Sequence = HeartbeatSeqId,
             };
 
-            var cmd = GenerateCommand(GlobalCommand.HEARTBEAT, hearbeat);
+            var cmd = GenerateCommand(GlobalCommand.HEARTBEAT, heartbeat);
 
             var payload = GeneratePayload(Command.GLOBAL_COMMAND, cmd);
 
@@ -169,27 +199,42 @@ namespace AcFunDanmu
             var header = GenerateHeader(body);
 
             HeartbeatSeqId++;
-            SeqId++;
+            Interlocked.Increment(ref _SeqId);
+
+            Log.Debug("--------");
+            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload: {Payload}", payload);
+            Log.Debug("\t{Command}", cmd);
+            Log.Debug("\t\t{Heartbeat}", heartbeat);
+            Log.Debug("--------");
 
             return Encode(header, body, SessionKey);
         }
 
-        internal byte[] UserExitRequest()
+        public byte[] UserExitRequest()
         {
-            var cmd = GenerateCommand(GlobalCommand.USER_EXIT);
+            var userexit = GenerateCommand(GlobalCommand.USER_EXIT);
 
-            var payload = GeneratePayload(Command.GLOBAL_COMMAND, cmd);
+            var payload = GeneratePayload(Command.GLOBAL_COMMAND, userexit);
 
             var body = payload.ToByteString();
 
             var header = GenerateHeader(body);
 
-            SeqId++;
+            Interlocked.Increment(ref _SeqId);
+
+            Log.Debug("--------");
+            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload: {Payload}", payload);
+            Log.Debug("\t{UserExit}", userexit);
+            Log.Debug("--------");
 
             return Encode(header, body, SessionKey);
         }
 
-        internal byte[] UnregisterRequest()
+        public byte[] UnregisterRequest()
         {
             var payload = GeneratePayload(Command.UNREGISTER);
 
@@ -197,10 +242,17 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
+            Log.Debug("--------");
+            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload: {Payload}", payload);
+            Log.Debug("\t{Unregister}");
+            Log.Debug("--------");
+
             return Encode(header, body, SessionKey);
         }
 
-        internal byte[] PingRequest()
+        public byte[] PingRequest()
         {
             var ping = new PingRequest
             {
@@ -213,10 +265,17 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
+            Log.Debug("--------");
+            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload: {Payload}", payload);
+            Log.Debug("\t{Ping}", ping);
+            Log.Debug("--------");
+
             return Encode(header, body, SessionKey);
         }
 
-        internal ZtLiveCsCmd GenerateCommand(string command)
+        private ZtLiveCsCmd GenerateCommand(string command)
         {
             return new ZtLiveCsCmd
             {
@@ -226,14 +285,14 @@ namespace AcFunDanmu
             };
         }
 
-        internal ZtLiveCsCmd GenerateCommand(string command, IMessage msg)
+        private ZtLiveCsCmd GenerateCommand(string command, IMessage msg)
         {
             var cmd = GenerateCommand(command);
             cmd.Payload = msg.ToByteString();
             return cmd;
         }
 
-        internal UpstreamPayload GeneratePayload(string command)
+        private UpstreamPayload GeneratePayload(string command)
         {
             return new UpstreamPayload
             {
@@ -244,14 +303,14 @@ namespace AcFunDanmu
             };
         }
 
-        internal UpstreamPayload GeneratePayload(string command, IMessage msg)
+        private UpstreamPayload GeneratePayload(string command, IMessage msg)
         {
             var payload = GeneratePayload(command);
             payload.PayloadData = msg.ToByteString();
             return payload;
         }
 
-        internal PacketHeader GenerateHeader(ByteString body)
+        private PacketHeader GenerateHeader(ByteString body)
         {
             return new PacketHeader
             {
