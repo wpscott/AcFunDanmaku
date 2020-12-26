@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using static AcFunDanmu.ClientUtils;
+using Serilog;
 
 namespace AcFunDanmuConsole
 {
@@ -17,11 +18,17 @@ namespace AcFunDanmuConsole
     {
         static async Task Main(string[] args)
         {
-            Console.OutputEncoding = Encoding.UTF8; // Support Emoji
-
             var retry = 0;
 
+            await Client.Prepare();
+
             Client client = new Client();
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
 
             if (args.Length == 1)
             {
@@ -36,7 +43,7 @@ namespace AcFunDanmuConsole
                 return;
             }
 
-            client.Handler += HandleSignal; // Use your own signal handler
+            //client.Handler += HandleSignal; // Use your own signal handler
 
             var resetTimer = new System.Timers.Timer(10000);
             resetTimer.Elapsed += (s, e) =>
@@ -50,13 +57,13 @@ namespace AcFunDanmuConsole
                 {
                     resetTimer.Stop();
                 }
-                Console.WriteLine("Client closed, retrying");
+                Log.Information("Client closed, retrying");
                 retry++;
                 resetTimer.Start();
             }
-            Console.WriteLine("Client closed, maybe live is end");
+            Log.Information("Client closed, maybe live is end");
 
-            //DecodeHar(@".\your own.har");
+            //DecodeHar(@".\40740702.har");
             //await LoginToGetGiftList();
         }
 
@@ -76,28 +83,28 @@ namespace AcFunDanmuConsole
                                 foreach (var pl in item.Payload)
                                 {
                                     var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
-                                    Console.WriteLine("{0} - {1}({2}): {3}", comment.SendTimeMs, comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
+                                    Log.Information("{0} - {1}({2}): {3}", comment.SendTimeMs, comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
                                 }
                                 break;
                             case PushMessage.ActionSignal.LIKE:
                                 foreach (var pl in item.Payload)
                                 {
                                     var like = CommonActionSignalLike.Parser.ParseFrom(pl);
-                                    Console.WriteLine("{0} - {1}({2}) liked", like.SendTimeMs, like.UserInfo.Nickname, like.UserInfo.UserId);
+                                    Log.Information("{0} - {1}({2}) liked", like.SendTimeMs, like.UserInfo.Nickname, like.UserInfo.UserId);
                                 }
                                 break;
                             case PushMessage.ActionSignal.ENTER_ROOM:
                                 foreach (var pl in item.Payload)
                                 {
                                     var enter = CommonActionSignalUserEnterRoom.Parser.ParseFrom(pl);
-                                    Console.WriteLine("{0} - {1}({2}) entered", enter.SendTimeMs, enter.UserInfo.Nickname, enter.UserInfo.UserId);
+                                    Log.Information("{0} - {1}({2}) entered", enter.SendTimeMs, enter.UserInfo.Nickname, enter.UserInfo.UserId);
                                 }
                                 break;
                             case PushMessage.ActionSignal.FOLLOW:
                                 foreach (var pl in item.Payload)
                                 {
                                     var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
-                                    Console.WriteLine("{0} - {1}({2}) followed", follower.SendTimeMs, follower.UserInfo.Nickname, follower.UserInfo.UserId);
+                                    Log.Information("{0} - {1}({2}) followed", follower.SendTimeMs, follower.UserInfo.Nickname, follower.UserInfo.UserId);
                                 }
                                 break;
                             case PushMessage.NotifySignal.KICKED_OUT:
@@ -108,7 +115,7 @@ namespace AcFunDanmuConsole
                                 foreach (var pl in item.Payload)
                                 {
                                     var enter = AcfunActionSignalThrowBanana.Parser.ParseFrom(pl);
-                                    Console.WriteLine("{0} - {1}({2}) throwed {3} banana(s)", enter.SendTimeMs, enter.Visitor.Name, enter.Visitor.UserId, enter.Count);
+                                    Log.Information("{0} - {1}({2}) throwed {3} banana(s)", enter.SendTimeMs, enter.Visitor.Name, enter.Visitor.UserId, enter.Count);
                                 }
                                 break;
                             case PushMessage.ActionSignal.GIFT:
@@ -156,12 +163,12 @@ namespace AcFunDanmuConsole
                                     if (Client.Gifts.ContainsKey(gift.GiftId))
                                     {
                                         var giftInfo = Client.Gifts[gift.GiftId];
-                                        Console.WriteLine("{0} - {1}({2}) sent gift {3} × {4}, Combo: {5}, value: {6}", gift.SendTimeMs, gift.User.Nickname, gift.User.UserId, giftInfo.Name, gift.Count, gift.Combo, gift.Value);
+                                        Log.Information("{0} - {1}({2}) sent gift {3} × {4}, Combo: {5}, value: {6}", gift.SendTimeMs, gift.User.Nickname, gift.User.UserId, giftInfo.Name, gift.Count, gift.Combo, gift.Value);
                                     }
 #if DEBUG
                                     else
                                     {
-                                        Console.WriteLine("ItemId: {0}, Value: {1}", gift.GiftId, gift.Value);
+                                        Log.Information("ItemId: {0}, Value: {1}", gift.GiftId, gift.Value);
                                     }
 #endif
                                 }
@@ -171,7 +178,7 @@ namespace AcFunDanmuConsole
                                 {
                                     var pi = Parse(item.SignalType, p);
 #if DEBUG
-                                    Console.WriteLine("Unhandled action type: {0}, content: {1}", item.SignalType, pi);
+                                    Log.Information("Unhandled action type: {0}, content: {1}", item.SignalType, pi);
 #endif
                                 }
                                 break;
@@ -188,21 +195,21 @@ namespace AcFunDanmuConsole
                         {
                             case PushMessage.StateSignal.ACFUN_DISPLAY_INFO:
                                 var acInfo = AcfunStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
-                                //Console.WriteLine("Current banada count: {0}", acInfo.BananaCount);
+                                //Log.Information("Current banada count: {0}", acInfo.BananaCount);
                                 break;
                             case PushMessage.StateSignal.DISPLAY_INFO:
                                 var stateInfo = CommonStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
-                                //Console.WriteLine("{0} watching, {1} likes", stateInfo.WatchingCount, stateInfo.LikeCount);
+                                //Log.Information("{0} watching, {1} likes", stateInfo.WatchingCount, stateInfo.LikeCount);
                                 break;
                             case PushMessage.StateSignal.TOP_USRES:
                                 var users = CommonStateSignalTopUsers.Parser.ParseFrom(item.Payload);
-                                //Console.WriteLine("Top 3 users: {0}", string.Join(", ", users.User.Select(user => user.Detail.Name)));
+                                //Log.Information("Top 3 users: {0}", string.Join(", ", users.User.Select(user => user.Detail.Name)));
                                 break;
                             case PushMessage.StateSignal.RECENT_COMMENT:
                                 var comments = CommonStateSignalRecentComment.Parser.ParseFrom(item.Payload);
                                 foreach (var comment in comments.Comment)
                                 {
-                                    Console.WriteLine("{0} - {1}({2}): {3}", comment.SendTimeMs, comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
+                                    Log.Information("{0} - {1}({2}): {3}", comment.SendTimeMs, comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
                                 }
                                 break;
                             case PushMessage.StateSignal.CHAT_CALL:
@@ -214,7 +221,7 @@ namespace AcFunDanmuConsole
                             default:
                                 var pi = Parse(item.SignalType, item.Payload);
 #if DEBUG
-                                Console.WriteLine("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
+                                Log.Information("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
 #endif
                                 break;
                         }
@@ -233,7 +240,7 @@ namespace AcFunDanmuConsole
                             default:
                                 var pi = Parse(item.SignalType, item.Payload);
 #if DEBUG
-                                Console.WriteLine("Unhandled notify type: {0}, content: {1}", item.SignalType, pi);
+                                Log.Information("Unhandled notify type: {0}, content: {1}", item.SignalType, pi);
 #endif
                                 break;
                         }
@@ -242,7 +249,7 @@ namespace AcFunDanmuConsole
                 default:
                     var unknown = Parse(messagetType, payload);
 #if DEBUG
-                    Console.WriteLine("Unhandled message type: {0}, content: {1}", messagetType, unknown);
+                    Log.Information("Unhandled message type: {0}, content: {1}", messagetType, unknown);
 #endif
                     break;
             }
@@ -258,7 +265,7 @@ namespace AcFunDanmuConsole
                 var collection = cookiesContainer.GetCookies(uri);
                 foreach (Cookie ck in collection)
                 {
-                    Console.WriteLine($"{ck.Name} - {ck.Value}");
+                    Log.Information($"{ck.Name} - {ck.Value}");
                 }
             }
         }
@@ -269,8 +276,8 @@ namespace AcFunDanmuConsole
         }
         static void DecodeHar(string filePath)
         {
-            string securityKey = "sVBa8Yy0xjAwXo+WQnmwcg==";
-            string sessionKey = "OQqKxKrYZ5cg1au2IN0WvA==";
+            string securityKey = "gZK6DB3Q5/FdBVHTDMtc5w==";
+            string sessionKey = string.Empty;
 
             using var file = new StreamReader(filePath);
 
@@ -287,7 +294,7 @@ namespace AcFunDanmuConsole
                 if (message.type == "send")
                 {
 #if DEBUG
-                    var us = Decode(typeof(UpstreamPayload), Convert.FromBase64String(message.data), securityKey, sessionKey, out var header) as UpstreamPayload;
+                    var us = Decode<UpstreamPayload>(Convert.FromBase64String(message.data), securityKey, sessionKey, out var header);
                     writer.WriteLine("Up\t\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, us.SeqId, us.Command);
                     writer.WriteLine("Header: {0}", header);
                     writer.WriteLine("Payload: {0}", us);
@@ -339,8 +346,8 @@ namespace AcFunDanmuConsole
                                     writer.WriteLine("\t\t{0}", userExit);
                                     break;
                                 default:
-                                    Console.WriteLine("Unhandled Global.ZtLiveInteractive.CsCmd: {0}", cmd.CmdType);
-                                    Console.WriteLine(cmd);
+                                    Log.Information("Unhandled Global.ZtLiveInteractive.CsCmd: {0}", cmd.CmdType);
+                                    Log.Information(cmd.ToByteString().ToBase64());
                                     break;
                             }
                             break;
@@ -356,7 +363,7 @@ namespace AcFunDanmuConsole
                 }
                 else if (message.type == "receive")
                 {
-                    var ds = Decode(typeof(DownstreamPayload), Convert.FromBase64String(message.data), securityKey, sessionKey, out var header) as DownstreamPayload;
+                    var ds = Decode<DownstreamPayload>(Convert.FromBase64String(message.data), securityKey, sessionKey, out var header);
                     writer.WriteLine("Down\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, ds.SeqId, ds.Command);
                     writer.WriteLine("Header: {0}", header);
                     writer.WriteLine("Payload: {0}", ds);
@@ -409,8 +416,8 @@ namespace AcFunDanmuConsole
                                     writer.WriteLine("\t\t{0}", userexit);
                                     break;
                                 default:
-                                    Console.WriteLine("Unhandled Global.ZtLiveInteractive.CsCmd: {0}", cmd.CmdAckType);
-                                    Console.WriteLine(cmd);
+                                    Log.Information("Unhandled Global.ZtLiveInteractive.CsCmd: {0}", cmd.CmdAckType);
+                                    Log.Information(ds.PayloadData.ToBase64());
                                     break;
                             }
                             break;
@@ -422,10 +429,8 @@ namespace AcFunDanmuConsole
                             switch (scmessage.MessageType)
                             {
                                 case PushMessage.ACTION_SIGNAL:
-                                    // Handled by user
-                                    HandleSignal(scmessage.MessageType, payload);
-                                    break;
                                 case PushMessage.STATE_SIGNAL:
+                                case PushMessage.NOTIFY_SIGNAL:
                                     // Handled by user
                                     HandleSignal(scmessage.MessageType, payload);
                                     break;
@@ -438,7 +443,7 @@ namespace AcFunDanmuConsole
                                     writer.WriteLine("\t\t{0}", ticketInvalid);
                                     break;
                                 default:
-                                    Console.WriteLine("Unhandled Push.ZtLiveInteractive.Message: {0}", scmessage.MessageType);
+                                    Log.Information("Unhandled Push.ZtLiveInteractive.Message: {0}", scmessage.MessageType);
                                     break;
                             }
                             break;
