@@ -410,7 +410,10 @@ namespace AcFunDanmu
                                 default
                             );
 
-                            await ws.SendAsync(_requests.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
+                            if (_requests.SeqId % 6 == 3)
+                            {
+                                await ws.SendAsync(_requests.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
+                            }
                         }
                         catch (WebSocketException ex)
                         {
