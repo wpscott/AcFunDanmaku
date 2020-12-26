@@ -270,8 +270,8 @@ namespace AcFunDanmu
         internal static byte[] FromBase64Url(string text)
         {
             var temp = text.Replace('-', '+').Replace('_', '/');
-            var rem = 8 - (temp.Length & 7);
-            if (rem == 8)
+            var rem = 4 - (temp.Length & 3);
+            if (rem == 4)
             {
                 return Convert.FromBase64String(temp);
             }
