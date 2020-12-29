@@ -4,608 +4,608 @@ package AcFunDanmu.Im;
 
 message Basic {
 	message PacketHeader {
-        int32 appId = 1;
-        int64 uid = 2;
-        int64 instanceId = 3;
-        uint32 flags = 5;
-        EncodingType encodingType = 6;
-        int32 decodedPayloadLen = 7;
-        EncryptionMode encryptionMode = 8;
-        TokenInfo tokenInfo = 9;
-        int64 seqId = 10;
-        repeated Feature features = 11;
+		int32 appId = 1;
+		int64 uid = 2;
+		int64 instanceId = 3;
+		uint32 flags = 5;
+		EncodingType encodingType = 6;
+		int32 decodedPayloadLen = 7;
+		EncryptionMode encryptionMode = 8;
+		TokenInfo tokenInfo = 9;
+		int64 seqId = 10;
+		repeated Feature features = 11;
 
-        enum Flags {
-            option allow_alias = true;
-            kDirUpstream = 0;
-            kDirDownstream = 1;
-            kDirMask = 1;
-        }
-        enum EncodingType {
-            kEncodingNone = 0;
-            kEncodingLz4 = 1;
-        }
-        enum EncryptionMode {
-            kEncryptionNone = 0;
-            kEncryptionServiceToken = 1;
-            kEncryptionSessionKey = 2;
-        }
-        enum Feature {
-            kReserve = 0;
-            kCompressLz4 = 1;
-        }
-    }
+		enum Flags {
+			option allow_alias = true;
+			kDirUpstream = 0;
+			kDirDownstream = 1;
+			kDirMask = 1;
+		}
+		enum EncodingType {
+			kEncodingNone = 0;
+			kEncodingLz4 = 1;
+		}
+		enum EncryptionMode {
+			kEncryptionNone = 0;
+			kEncryptionServiceToken = 1;
+			kEncryptionSessionKey = 2;
+		}
+		enum Feature {
+			kReserve = 0;
+			kCompressLz4 = 1;
+		}
+	}
 
-    message User {
-        int32 appId = 1;
-        int64 uid = 2;
-    }
+	message User {
+		int32 appId = 1;
+		int64 uid = 2;
+	}
 
-    message UserInstance {
-        User user = 1;
-        int64 instanceId = 2;
-    }
+	message UserInstance {
+		User user = 1;
+		int64 instanceId = 2;
+	}
 
-    message UpstreamPayload {
-        string command = 1;
-        int64 seqId = 2;
-        uint32 retryCount = 3;
-        bytes payloadData = 4;
-        UserInstance userInstance = 5;
-        int32 errorCode = 6;
-        SettingInfo settingInfo = 7;
-        RequestBasicInfo requestBasicInfo = 8;
-    }
+	message UpstreamPayload {
+		string command = 1;
+		int64 seqId = 2;
+		uint32 retryCount = 3;
+		bytes payloadData = 4;
+		UserInstance userInstance = 5;
+		int32 errorCode = 6;
+		SettingInfo settingInfo = 7;
+		RequestBasicInfo requestBasicInfo = 8;
+	}
 
-    message DownstreamPayload {
-        string command = 1;
-        int64 seqId = 2;
-        int32 errorCode = 3;
-        bytes payloadData = 4;
-        string errorMsg = 5;
-        bytes errorData = 6;
-    }
+	message DownstreamPayload {
+		string command = 1;
+		int64 seqId = 2;
+		int32 errorCode = 3;
+		bytes payloadData = 4;
+		string errorMsg = 5;
+		bytes errorData = 6;
+	}
 
-    message PingRequest {
-        enum PingType {
-            kInvalid = 0;
-            kPriorRegister = 1;
-            kPostRegister = 2;
-        }
-        PingType pingType = 1;
-        uint32 pingRound = 2;
-    }
+	message PingRequest {
+		enum PingType {
+			kInvalid = 0;
+			kPriorRegister = 1;
+			kPostRegister = 2;
+		}
+		PingType pingType = 1;
+		uint32 pingRound = 2;
+	}
 
-    message PingResponse {
-        sfixed32 serverTimestamp = 1;
-        fixed32 clientIp = 2;
-        fixed32 redirectIp = 3;
-        uint32 redirectPort = 4;
-    }
+	message PingResponse {
+		sfixed32 serverTimestamp = 1;
+		fixed32 clientIp = 2;
+		fixed32 redirectIp = 3;
+		uint32 redirectPort = 4;
+	}
 
-    message RegisterRequest {
-	    AppInfo appInfo = 1;
-	    DeviceInfo deviceInfo = 2;
-	    EnvInfo envInfo = 3;
-	    PresenceStatus presenceStatus = 4;
-	    ActiveStatus appActiveStatus = 5;
-	    bytes appCustomStatus = 6;
-	    PushServiceToken pushServiceToken = 7;
-	    int64 instanceId = 8;
-	    repeated PushServiceToken pushServiceTokenList = 9;
-	    int32 keepaliveIntervalSec = 10;
+	message RegisterRequest {
+		AppInfo appInfo = 1;
+		DeviceInfo deviceInfo = 2;
+		EnvInfo envInfo = 3;
+		PresenceStatus presenceStatus = 4;
+		ActiveStatus appActiveStatus = 5;
+		bytes appCustomStatus = 6;
+		PushServiceToken pushServiceToken = 7;
+		int64 instanceId = 8;
+		repeated PushServiceToken pushServiceTokenList = 9;
+		int32 keepaliveIntervalSec = 10;
 
-	    enum PresenceStatus {
-		    kPresenceOffline = 0;
-		    kPresenceOnline = 1;
-	    }
+		enum PresenceStatus {
+			kPresenceOffline = 0;
+			kPresenceOnline = 1;
+		}
 
-	    enum ActiveStatus {
-		    kInvalid = 0;
-		    kAppInForeground = 1;
-		    kAppinBackground = 2;
-	    }
-    }
+		enum ActiveStatus {
+			kInvalid = 0;
+			kAppInForeground = 1;
+			kAppinBackground = 2;
+		}
+	}
 
-    message RegisterResponse {
-	    AccessPointsConfig accessPointsConfig = 1;
-	    bytes sessKey = 2;
-	    int64 instanceId = 3;
-	    SdkOption sdkOption = 4;
-    }
+	message RegisterResponse {
+		AccessPointsConfig accessPointsConfig = 1;
+		bytes sessKey = 2;
+		int64 instanceId = 3;
+		SdkOption sdkOption = 4;
+	}
 
-    message AccessPointsConfig {
-	    repeated AccessPoint optimalAps = 1;
-	    repeated AccessPoint backupAps = 2;
-	    repeated uint32 availablePorts = 3;
-	    AccessPoint foreceLastConnectedAp = 4;
-    }
+	message AccessPointsConfig {
+		repeated AccessPoint optimalAps = 1;
+		repeated AccessPoint backupAps = 2;
+		repeated uint32 availablePorts = 3;
+		AccessPoint foreceLastConnectedAp = 4;
+	}
 
-    message UnregisterRequest {}
+	message UnregisterRequest {}
 
-    message UnregisterResponse {}
+	message UnregisterResponse {}
 
-    message KeepAliveRequest {
-	    RegisterRequest.PresenceStatus presenceStatus = 1;
-	    RegisterRequest.ActiveStatus appActiveStatus = 2;
-	    PushServiceToken pushServiceToken = 3;
-	    repeated PushServiceToken pushServiceTokenList = 4;
-	    int32 keepaliveIntervalSec = 5;
-    }
+	message KeepAliveRequest {
+		RegisterRequest.PresenceStatus presenceStatus = 1;
+		RegisterRequest.ActiveStatus appActiveStatus = 2;
+		PushServiceToken pushServiceToken = 3;
+		repeated PushServiceToken pushServiceTokenList = 4;
+		int32 keepaliveIntervalSec = 5;
+	}
 
-    message KeepAliveResponse {
-	    AccessPointsConfig accessPointsConfig = 1;
-	    int64 serverMsec = 2;
-    }
+	message KeepAliveResponse {
+		AccessPointsConfig accessPointsConfig = 1;
+		int64 serverMsec = 2;
+	}
 
-    message AccessPoint {
-	    AddressType addressType = 1;
-	    uint32 port = 2;
-	    fixed32 ipV4 = 3;
-	    bytes ipV6= 4;
-	    string domain = 5;
+	message AccessPoint {
+		AddressType addressType = 1;
+		uint32 port = 2;
+		fixed32 ipV4 = 3;
+		bytes ipV6= 4;
+		string domain = 5;
 
-	    enum AddressType{
-		    kIPV4 = 0;
-		    kIPV6= 1;
-		    kDomain = 2;
-	    }
-    }
+		enum AddressType{
+			kIPV4 = 0;
+			kIPV6= 1;
+			kDomain = 2;
+		}
+	}
 
-    message TokenInfo {
-	    TokenType tokenType = 1;
-	    bytes token = 2;
+	message TokenInfo {
+		TokenType tokenType = 1;
+		bytes token = 2;
 
-	    enum TokenType {
-		    kInvalid = 0;
-		    kServiceToken = 1;
-	    }
-    }
+		enum TokenType {
+			kInvalid = 0;
+			kServiceToken = 1;
+		}
+	}
 
-    message PushServiceToken {
-	    PushType pushType = 1;
-	    bytes token = 2;
-	    bool isPassThrough = 3;
-	    enum PushType {
-		    kPushTypeInvalid = 0;
-		    kPushTypeAPNS = 1;
-		    kPushTypeXmPush = 2;
-		    kPushTypeJgPush = 3;
-		    kPushTypeGtPUsh = 4;
-		    kPushTypeOpPush = 5;
-		    kPushTYpeVvPush = 6;
-		    kPushTypeHwPush = 7;
-		    kPushTYpeFcm = 8;
-	    }
-    }
+	message PushServiceToken {
+		PushType pushType = 1;
+		bytes token = 2;
+		bool isPassThrough = 3;
+		enum PushType {
+			kPushTypeInvalid = 0;
+			kPushTypeAPNS = 1;
+			kPushTypeXmPush = 2;
+			kPushTypeJgPush = 3;
+			kPushTypeGtPUsh = 4;
+			kPushTypeOpPush = 5;
+			kPushTYpeVvPush = 6;
+			kPushTypeHwPush = 7;
+			kPushTYpeFcm = 8;
+		}
+	}
 
-    message SettingInfo {
-	    string locale = 1;
-	    sint32 timezone = 2;
-    }
+	message SettingInfo {
+		string locale = 1;
+		sint32 timezone = 2;
+	}
 
-    message AppInfo {
-        string appName = 1;
-        string appVersion = 2;
-        string appChannel = 3;
-        string sdkVersion = 4;
-        string extensionInfo = 11;
-    }
+	message AppInfo {
+		string appName = 1;
+		string appVersion = 2;
+		string appChannel = 3;
+		string sdkVersion = 4;
+		string extensionInfo = 11;
+	}
 
-    message DeviceInfo {
-        enum PlatformType {
-            kInvalid = 0;
-            kAndroid = 1;
-            kiOS = 2;
-            kWindows = 3;
-            WECHAT_ANDROID = 4;
-            WECHAT_IOS = 5;
-            H5 = 6;
-            kPlatformNum = 7;
-        }
-        PlatformType platformType = 1;
-        string osVersion = 2;
-        string deviceModel = 3;
-        bytes imeiMd5 = 4;
-        string deviceId = 5;
-        string softDid = 6;
-        string kwaiDid = 7;
-        string manufacturer = 8;
-    }
+	message DeviceInfo {
+		enum PlatformType {
+			kInvalid = 0;
+			kAndroid = 1;
+			kiOS = 2;
+			kWindows = 3;
+			WECHAT_ANDROID = 4;
+			WECHAT_IOS = 5;
+			H5 = 6;
+			kPlatformNum = 7;
+		}
+		PlatformType platformType = 1;
+		string osVersion = 2;
+		string deviceModel = 3;
+		bytes imeiMd5 = 4;
+		string deviceId = 5;
+		string softDid = 6;
+		string kwaiDid = 7;
+		string manufacturer = 8;
+	}
 
-    message EnvInfo {
-        enum NetworkType {
-            kInvalid = 0;
-            kWIFI = 1;
-            kCellular = 2;
-        }
-        NetworkType networkType = 1;
-        bytes appName = 2;
-    }
+	message EnvInfo {
+		enum NetworkType {
+			kInvalid = 0;
+			kWIFI = 1;
+			kCellular = 2;
+		}
+		NetworkType networkType = 1;
+		bytes appName = 2;
+	}
 
-    enum SharePlatform {
-        kSharePlatformInvalid= 0;
-        kSharePlatformWechat= 1;
-        kSharePlatformWechatMoments= 2;
-        kSharePlatformQQ= 3;
-        kSharePlatformQzone= 4;
-        kSharePlatformWeibo=5;
-        kSharePlatformKuaishou= 6;
-        kSharePlatformFacebook= 7;
-        kSharePlatformTwitter= 8;
-        kSharePlatformGoogle= 9;
-        kSharePlatformKakao= 10;
-        kSharePlatformZalo= 11;
-    }
+	enum SharePlatform {
+		kSharePlatformInvalid= 0;
+		kSharePlatformWechat= 1;
+		kSharePlatformWechatMoments= 2;
+		kSharePlatformQQ= 3;
+		kSharePlatformQzone= 4;
+		kSharePlatformWeibo=5;
+		kSharePlatformKuaishou= 6;
+		kSharePlatformFacebook= 7;
+		kSharePlatformTwitter= 8;
+		kSharePlatformGoogle= 9;
+		kSharePlatformKakao= 10;
+		kSharePlatformZalo= 11;
+	}
 
-    message RequestBasicInfo {
-        DeviceInfo.PlatformType clientType = 1;
-        string deviceId = 2;
-        string clientIp = 3;
-        string appVersion = 4;
-        string channel = 5;
-        AppInfo appInfo = 6;
-        DeviceInfo deviceInfo = 7;
-        EnvInfo envInfo = 8;
-        int32 clientPort = 9;
-        string location = 10;
-    }
+	message RequestBasicInfo {
+		DeviceInfo.PlatformType clientType = 1;
+		string deviceId = 2;
+		string clientIp = 3;
+		string appVersion = 4;
+		string channel = 5;
+		AppInfo appInfo = 6;
+		DeviceInfo deviceInfo = 7;
+		EnvInfo envInfo = 8;
+		int32 clientPort = 9;
+		string location = 10;
+	}
 
-    message SyncCookie {
-        int64 syncOffset = 1;
-    }
+	message SyncCookie {
+		int64 syncOffset = 1;
+	}
 
-    message I18nCopyWriting {
-        string formatKey = 1;
-        repeated string formatParam = 2;
-    }
+	message I18nCopyWriting {
+		string formatKey = 1;
+		repeated string formatParam = 2;
+	}
 
-    message SdkOption {
-	    int32 reportIntervalSeconds = 1;
-	    string reportSecurity = 2;
-	    int32 lz4CompressionThresholdBytes = 3;
-    }
+	message SdkOption {
+		int32 reportIntervalSeconds = 1;
+		string reportSecurity = 2;
+		int32 lz4CompressionThresholdBytes = 3;
+	}
 
 	enum ErrorCode {
 		SUCC = 0;
-        BASIC_MIN = 10000;
-        INTERNEL_ERROR = 10001;
-        SERVICE_UNAVAILABLE = 10002;
-        SERVICE_TIMEOUT = 10003;
-        INVALID_TOKEN = 10004;
-        REG_ENCYRPT_WITHOUT_TOKEN = 10005;
-        PARSE_PB_HDR_FAIL = 10006;
-        PARSE_PB_PLD_FAIL = 10007;
-        PARSE_PB_FAIL = 10008;
-        DECODED_LEN_FAIL = 10009;
-        INVALID_KEY = 10010;
-        ENCRYPT_FAIL = 10011;
-        DECRYPT_FAIL = 10012;
-        INVALID_TAG = 10013;
-        INVALID_VER = 10014;
-        INVALID_COMPRESS_TYPE = 10016;
-        INVALID_ENCRYPT_TYPE = 10017;
-        NOT_REGISTER = 10018;
-        USER_NOT_ONLINE = 10019;
-        INVALID_COMMAND = 10020;
-        PUSH_UNREGISTER_ERROR = 10021;
-        INVALID_SID = 10022;
-        INVALID_INSTANCE_ID = 10023;
-        CLIENT_LOCALE_NOT_MATCH = 10024;
-        INVALID_TOKEN_PASSWORD_CHANGED = 10025;
-        INVALID_TOKEN_TOKEN_EXPIRED = 10026;
-        INVALID_TOKEN_TOKEN_VALUE_ERROR = 10027;
-        INVALID_TOKEN_LOGIN_ON_OTHER_DEVICE = 10028;
-        FORCE_RECONNECT = 10029;
-        CLIENT_TIMEOUT = 10030;
-        INVALID_ARGUMENT = 10031;
-        INVALID_FORMAT_TOKEN = 10032;
-        EMPTY_PAYLOAD = 10033;
-        COMPRESS_FAIL = 10034;
-        DECOMPRESS_FAIL = 10035;
-        OUT_OF_ORDER = 10036;
-        MESSAGE_MIN = 20000;
-        ILLEGAL_PARAMETER = 20001;
-        SYSTEM_BUSY = 20002;
-        ILLEGAL_USER = 20003;
-        PARAMETER_LEN_TOO_LONG = 20004;
-        DATABASE_ERROR_MYSQL = 20005;
-        DATABASE_ERROR_HBASE = 20006;
-        DATABASE_ERROR_REDIS = 20007;
-        USER_REGISTER_LIMIT_IN_ALPHA = 20008;
-        FLOW_CONTROL = 20009;
-        LOCKED_USER_ACCOUNT_NEED_UPDATE_VERSION = 20010;
-        USER_NOT_REGISTER = 21003;
-        USER_NOT_FOUND = 21004;
-        FRIEND_ADD_NEED_VERIFY = 21005;
-        NO_FRIEND_REQUEST = 21006;
-        TOO_MANY_FRIENDS = 21007;
-        FRIEND_REQUEST_TOO_FREQUENTLY = 21008;
-        CHAT_NEED_TO_BE_FRIEND = 21009;
-        ADD_FRIEND_BLOCKED = 21010;
-        CANNOT_ADD_FRIEND_TO_SELF = 21011;
-        CANNOT_FOLLOW_SELF = 21012;
-        ADD_FOLLOW_BLOCKED = 21013;
-        TARGET_FRIEND_TOO_MANY = 21014;
-        TOO_MANY_IDOLS = 21015;
-        FRIEND_FOLLOW_OVER_LIMIT = 21016;
-        FRIEND_FOLLOW_SPAM = 21017;
-        CLIENT_CONFIG_READ_ERROR = 22000;
-        CLIENT_CONFIG_NOT_EXISTS_ERROR = 22001;
-        CONTENT_HIT_SENSITIVE_WORDS = 23000;
-        MORE_THAN_MAX_LENGTH = 24000;
-        MSG_TEXT_MAX_LENGTH = 24001;
-        MSG_CANCEL_OVERDUE = 24002;
-        CANNOT_RECALL_NON_SELF_MSG = 24003;
-        RECALL_NOT_EXIST_MSG = 24004;
-        REF_MSG_NESTING_DEPTH_REACH_LIMIT = 24005;
-        SEND_KS_MESSAGE_NOT_MATCH_RULE = 24100;
-        FIND_USER_FREQUENCY = 24101;
-        KUAISHOU_FANS_TOKEN_INVALID = 24102;
-        KUAISHOU_AUTHORIZE_FAILED = 24103;
-        ADD_FRIEND_TOO_FREQUENTLY = 24104;
-        BLACK_LIST_REACHED_LIMIT = 24105;
-        GAME_ROOM_IS_RELEASED = 50001;
-        CREATE_GAME_ROOM_FAIL = 50002;
-        GAME_SERVER_ERROR = 50003;
-        GAME_ROOM_IS_EXPIRED = 50004;
-        ALREADY_IN_GAME = 50006;
-        TARGET_ALREADY_IN_GAME = 50007;
-        GAME_NOT_EXIST = 50008;
-        GAME_ACCEPT_BUT_ALREAD_IN_GAME = 50009;
-        GAME_ACCEPT_BUT_TARGET_ALREADY_IN_GAME = 50010;
-        GAME_ACCEPT_BUT_APP_VERSION_TOO_LOW = 50011;
-        GAME_USER_MATCH_FAIL = 50012;
-        USER_FREQUENT_LEAVE_GAME_BE_PUNISHED = 50013;
-        RELATIONSHIP_INVALID_CANNOT_SEND_GAME_INVITE = 50014;
-        GAME_USER_MATCH_SYNC_NO_MATCH = 50015;
-        FORBID_MATCH = 50016;
-        GAME_RESOURCE_NO_EXIST = 50017;
-        GAME_MATCH_SYNC_NO_MATCH = 50018;
-        GAME_MATCH_SYNC_ALREADY_FINISH = 50019;
-        INVITATION_SEND_REACH_LIMITATION = 50020;
-        GAME_MATCH_TEAM_NOT_EXIST = 50021;
-        GAME_MATCH_TEAM_NO_TARGET = 50022;
-        GAME_MATCH_TEAM_OTHER_ALREADY_JOIN_SUCC = 50023;
-        FORZEN_USER = 50024;
-        FORZEN_USER_PROFILE = 50025;
-        FORZEN_USER_ACCOUNT = 50026;
-        TEMP_FORZEN_USER_ACCOUNT = 50027;
-        LOCKED_USER_ACCOUNT = 50028;
-        UNFREEZE_USER_ACCOUNT_APPLY_IN_PROCESS = 50029;
-        GAME_MATH_TEAM_DISBANDED = 50030;
-        USER_ACCOUNT_IS_NOT_FORZEN = 50031;
-        CAPTCHA_VERIFY_FAILED = 50032;
-        PROFILE_UPDATE_NOT_PERMIT = 50033;
-        GAME_REQUEST_TOO_FREQUENTLY = 50034;
-        WECHAT_GAME_INVITE_CANCEL = 50050;
-        WECHAT_GAME_INVITE_ACCEPTED = 50051;
-        THIRD_PARTY_NOT_BIND = 50040;
-        THIRD_PARTY_TOKEN_EXPIRE = 50041;
-        THIRD_PARTY_NO_FRIEND_PERMISSION = 50042;
-        GAME_INVITE_INFO_NOT_EXIST = 50060;
-        GAME_ACCEPT_IS_INVALID = 50061;
-        GAME_ARENA_NOT_EXIST = 50062;
-        GAME_SHOP_PROPS_BUY_FAIL = 50063;
-        GAME_SHOP_PROPS_USE_FAIL = 50064;
-        GAME_SHOP_PROPS_NOT_EXIST = 50065;
-        GAME_SHOP_PROPS_COUNT_UNMATCH = 50066;
-        GAME_SKIN_NOT_EXIST = 50067;
-        GAME_COIN_SHARE_TAKE_OVER_LIMIT = 50068;
-        GAME_COIN_TIMELY_TAKE_IN_CD = 50069;
-        GAME_SKIN_IN_LOCKED = 50070;
-        GAME_SHOP_BALANCE_NOT_ENOUGH = 50071;
-        GAME_SKIN_ALREADY_UNLOCKED = 50072;
-        GAME_SKIN_UPDATE_FAIL = 50073;
-        GAME_SKIN_IS_IN_USED = 50074;
-        GAME_USER_MATCH_TIMES_LIMIT = 50075;
-        GAME_SKIN_BUY_FAIL = 50076;
-        GAME_RESULT_VERIFY_NOT_PASS = 50077;
-        USE_RANK_TITLE_FAILED = 50078;
-        USER_LOCATION_FAILD = 50079;
-        GAME_ACHIEVEMENT_NOT_EXIST = 50080;
-        BALANCE_NOT_ENOUGH = 50081;
-        COIN_USE_FAIL = 50082;
-        COIN_ADD_FAIL = 50083;
-        GAME_LINK_MIC_ROOM_NOT_EXIST = 50100;
-        GAME_LINK_MIC_USER_NOT_IN_ROOM = 50101;
-        GAME_LINK_MIC_ROOM_UNEXPECTED_MESSAGE = 50102;
-        GAME_LINK_MIC_USER_ALREADY_IN_ROOM = 50103;
-        CHAT_ROOM_NOT_EXIST = 50200;
-        CHAT_ROOM_NOT_MEMBER = 50201;
-        CHAT_ROOM_TARGET_LEAVE = 50202;
-        CHAT_ROOM_TARGET_LEAVE_2P = 50203;
-        CHAT_ROOM_FORBID_IMAGE_BETWEEN_STRANGER = 50204;
-        CHAT_ROOM_LEAVE_TOO_FREQUENTLY = 50205;
-        SESSION_FORBID_IMAGE_BETWEEN_STRANGER = 50210;
-        SEND_MESSAGE_IS_BANNED = 50211;
-        QUIZZES_NOT_EXIST = 50300;
-        QUIZZES_ANSWER_TIMEOUT = 50301;
-        ALREADY_USED_INVITATION_CODE = 50302;
-        CANNOT_USE_ONESELF_INVITATION_CODE = 50303;
-        INVITATION_CODE_IS_INVALID = 50304;
-        MULTIPLAYER_GAME_ROOM_NOT_EXIST = 50400;
-        MULTIPLAYER_GAME_ROOM_NOT_MEMBER = 50401;
-        MULTIPLAYER_GAME_ROOM_MEMBER_KICKED = 50402;
-        MULTIPLAYER_GAME_ROOM_LEAVE_FREQUENCY = 50403;
-        DRAW_GUESS_ROOM_NOT_EXIST = 50500;
-        GUESS_WORD_NOT_EXIST = 50501;
-        DRAW_GUESS_ROOM_NOT_MEMBER = 50502;
-        NOT_DRAW_USER = 50503;
-        CANNOT_GUESS_NOW = 50504;
-        DRAW_USER_CANNOT_GUESS = 50505;
-        CANNOT_DRAW_NOW = 50506;
-        GUESS_WORD_EXCEED_MAX_LENGTH = 50507;
-        GUESS_WORD_HIT_SENSITIVE_WORDS = 50508;
-        USER_IN_TRAVEL_FOR_INVITOR = 50600;
-        PEER_IN_TRAVEL = 50601;
-        TRAVEL_FINISHED = 50602;
-        TRAVEL_INVITE_INVALID = 50603;
-        TRAVEL_NOT_FRIEND = 50604;
-        TRAVEL_NOT_EXIST = 50605;
-        TRAVEL_SELF_FORBID = 50606;
-        TRAVEL_SCENARIO_END = 50607;
-        USER_IN_TRAVEL_FOR_ACCEPTOR = 50608;
-        TRAVEL_ENTRANCE_CLOSED = 50609;
-        USER_HAS_OPERATED_MESSAGE = 50610;
-        TRAVEL_NOT_FRIEND_FOR_ACCEPTOR = 50611;
-        WHO_SPY_ROOM_NOT_EXIST = 50700;
-        WHO_SPY_ROOM_NOT_MEMBER = 50701;
-        CANNOT_DESCRIBE_NOW = 50703;
-        CANNOT_VOTE_NOW = 50704;
-        SPY_CANNOT_GUESS = 50705;
-        NOT_DESCRIBE_USER = 50706;
-        NOT_VOTE_USER = 50707;
-        INVALID_VOTE_TARGET = 50708;
-        DESCRIPTION_EXCEED_MAX_LENGTH = 50709;
-        DESCRIPTION_HIT_SENSITIVE_WORDS = 50710;
-        SPY_GUESS_WORD_EXCEED_MAX_LENGTH = 50711;
-        SPY_GUESS_WORD_HIT_SENSITIVE_WORDS = 50712;
-        ALREADY_IN_MULTI_PLAYER_CHAT_ROOM = 50800;
-        CHAT_ROOM_TOPIC_HIT_SENSITIVE_WORDS = 50801;
-        MULTI_PLAYER_CHAT_ROOM_CREATE_FAIL = 50802;
-        MULTI_PLAYER_CHAT_ROOM_CREATE_FREQUENT = 50803;
-        MULTI_PLAYER_CHAT_ROOM_NOT_EXIST = 50804;
-        OPERATION_ALLOWED_FOR_OWNER_ONLY = 50805;
-        MULTI_PLAYER_CHAT_ROOM_GAME_CREATE_FAIL = 50806;
-        MULTI_PLAYER_CHAT_ROOM_GAME_NOT_MATCH = 50807;
-        NOT_MEMBER_FOR_MULTI_PLAYER_CHAT_ROOM = 50808;
-        MULTI_PLAYER_CHAT_ROOM_RELEASED = 50809;
-        MULTI_PLAYER_CHAT_ROOM_FULL = 50810;
-        ALREADY_IN_OTHER_MULTI_PLAYER_CHAT_ROOM = 50811;
-        FORBID_JOIN_PRIVATE_MULTI_PLAYER_CHAT_ROOM = 50812;
-        MULTI_PLAYER_CHAT_ROOM_JOIN_FAIL = 50813;
-        QUICK_MATCH_SYNC_NO_MATCH = 50814;
-        PLAYER_LEAVE_MULTI_PLAYER_CHAT_ROOM = 50815;
-        LINKMIC_COUNT_REACH_LIMIT = 50816;
-        PLAYER_ALREADY_LINKMIC_ONLINE = 50817;
-        PLAYER_ALREADY_LINKMIC_OFFLINE = 50818;
-        PLAYER_ALREADY_LEAVE_CHAT_ROOM = 50819;
-        FORBID_LINK_MIC_OFFLINE_FOR_OWNER = 50820;
-        FORBID_LINK_MIC_OFFLINE_PLAYING_GAME = 50821;
-        FORBID_LINK_MIC_ONLINE_PLAYING_GAME = 50822;
-        MULTI_PLAYER_CHAT_ROOM_MEMBER_KICKEDOUT = 50823;
-        FORBID_KICKOUT_PLAYER_PLAYING_GAME = 50824;
-        MULTI_PLAYER_CHAT_ROOM_GAME_NOT_EXIST = 50825;
-        MULTI_PLAYER_CHAT_ROOM_MEMBER_TIMEOUT = 50826;
-        FORBID_GAME_UNREADY_FOR_OWNER = 50827;
-        FORBID_CREATE_CHAT_ROOM = 50828;
-        CHAT_ROOM_TOPIC_NOT_ALLOWED_EMPTY = 50829;
-        MULTI_PLAYER_CHAT_ROOM_GAME_ROOM_FULL = 50830;
-        PLAYER_NOT_LINKMIC_ONLINE = 50831;
-        LINKMIC_STATUS_ALREADY_UPDATE = 50832;
-        CANNOT_APPLY_LINKMIC = 50833;
-        CANNOT_CREATE_CHAT_ROOM_FOR_BLACKLIST = 50834;
-        CANNOT_CREATE_CHAT_ROOM_FOR_NOT_BIND = 50835;
-        CANNOT_JOIN_CHAT_ROOM_FOR_BLACKLIST = 50836;
-        NO_AVAILABLE_CHAT_ROOM = 50837;
-        MAX_PLAYER_COUNT_REACH_LIMIT = 50838;
-        MULTI_PLAYER_CHAT_ROOM_NEED_UPDATE_VERSION = 50839;
-        MULTI_PLAYER_CHAT_ROOM_START_GAME_UPDATE_VERSION = 50840;
-        MULTI_PLAYER_CHAT_ROOM_ALREADY_IN_GAME = 50841;
-        MULTI_PLAYER_CHAT_ROOM_FORBID_CANCEL_CREATE = 50842;
-        CHAT_ROOM_SEATNAME_HIT_SENSITIVE_WORDS = 50843;
-        CHAT_ROOM_THEME_NOT_EXIST = 50844;
-        ONLY_VIP_CAN_UPLOAD_BACKGROUND = 50845;
-        MORE_THAN_BACKGROUND_MAX_COUNT = 50846;
-        MODIFY_BACKGROUND_FOR_NORMAL_ROOM = 50847;
-        CHAT_ROOM_ANNOUNCEMENT_EXCEED_MAX_LENGTH = 50848;
-        CHAT_ROOM_ANNOUNCEMENT_HIT_SENSITIVE_WORDS = 50849;
-        NOT_THEME_ROOM = 50850;
-        FEED_NOT_EXIST = 50900;
-        FEED_NOT_OWNER = 50901;
-        FEED_PUBLISHED = 50902;
-        FEED_TEXT_EXCEED_MAX_LENGTH = 50903;
-        FEED_TEXT_HIT_SENSITIVE_WORDS = 50904;
-        FEED_ATTACHMENT_MISSING_INFO = 50905;
-        FEED_USER_LIKED = 50906;
-        FEED_CITY_NOT_LOCATED = 50907;
-        FEED_PROFILE_AUTHOR_BLOCK_USER = 50908;
-        FEED_PROFILE_USER_BLOCK_AUTHOR = 50909;
-        FEED_USER_NOT_LIKED = 50910;
-        FEED_PUBLISH_BANNED = 50911;
-        FEED_FROZEN_USER = 50912;
-        FEED_PUBLISH_OVER_LIMIT = 50913;
-        FEED_PUBLISH_REQUEST_OVER_LIMIT = 50914;
-        FEED_LIKE_SPAM = 50915;
-        TRADE_PRODUCT_NOT_FOUND = 50921;
-        TRADE_PRODUCT_CHANGED = 50922;
-        TRADE_ORDER_DUPLICATE = 50923;
-        TRADE_ORDER_FAILED = 50924;
-        TRADE_ORDER_NOT_FOUND = 50925;
-        TRADE_RECEIPT_BINDED = 50926;
-        TRADE_RECEIPT_VERIFY_FAILED = 50927;
-        TRADE_RECEIPT_VERIFY_SYSTEM_ERROR = 50928;
-        TRADE_RECEIPT_VERIFY_CHECK_FAILED = 50929;
-        TRADE_RECEIPT_UNSUPPORTED_VERSION = 50930;
-        TRADE_RECEIPT_BUY_FAILED = 50931;
-        TRADE_SERVICE_UNAVAILABLE = 50932;
-        TRADE_AGREEMENT_NOT_FOUND = 50933;
-        TRADE_AGREEMENT_UNSIGN_FAILED = 50934;
-        C2C_STRANGER_SESSION_OVER_LIMIT = 51100;
-        GAME_INVALID_COMMAND = 60001;
-        GAME_USER_NOT_FOUND = 60002;
-        GAME_INVALID_MESSAGE = 60003;
-        GAME_FINISHED = 60004;
-        REPORT_TOO_FREQUENTLY = 70001;
-        GROUP_CREATE_FAIL = 80100;
-        NOT_GROUP_MEMBER = 80101;
-        NOT_GROUP_ADMIN = 80102;
-        GROUP_DELETE_FAIL = 80103;
-        ADMIN_TRANSFER_FAIL = 80104;
-        GROUP_SETTING_FAIL = 80105;
-        GROUP_EXCEED_MAX_NUMBERS = 80106;
-        GROUP_ADMIN_CANNOT_QUIT = 80107;
-        CANNOT_KICK_ADMIN = 80108;
-        GROUP_NOT_EXISTS = 80109;
-        GROUP_NOT_ENOUGH_MEMBERS = 80110;
-        USER_CREATE_GROUP_EXCEED_MAX_COUNT = 80111;
-        GROUP_NAME_UNAVAILABLE = 80112;
-        USER_NICK_NAME_UNAVAILABLE = 80113;
-        GROUP_OFF_LINE = 80114;
-        FORBID_USER_CREATE_GROUP = 80115;
-        GROUP_SHARE_GROUP_NOT_EXIST = 80116;
-        GROUP_SHARE_INVITEOR_NOT_GROUP_MEMBER = 80117;
-        GROUP_SHARE_QR_CODE_EXPIRE = 80118;
-        GROUP_SHARE_GROUP_EXCEED_MAX_NUMBERS = 80119;
-        GROUP_SHARE_QR_CODE_INVALID = 80120;
-        GROUP_SHARE_LINK_INVALID = 80121;
-        GROUP_SHARE_WITHIN_NEED_PERMISSION = 80124;
-        GROUP_BULLETIN_SIZE_OVER_LIMIT = 80122;
-        GROUP_BULLETIN_NOT_ADMIN = 80123;
-        GROUP_JOIN_REQUEST_NOT_FOUND = 80125;
-        GROUP_JOIN_REQUEST_HAS_BEEN_PROCESSED = 80126;
-        GROUP_NAME_LENGTH_OVER_LIMIT = 80127;
-        GROUP_PK_NOT_QUIT = 80128;
-        GROUP_PK_NOT_RENAME = 80129;
-        GROUP_PK_NOT_INVITE = 80130;
-        GROUP_PK_NOT_INVITE_QR_CODE = 80131;
-        GROUP_MEMBER_NICK_NAME_LENGTH_OVER_LIMIT = 80132;
-        CHANNEL_INVALID_CHANNEL_ID = 81000;
-        CHANNEL_USER_HAS_BEEN_KICKED = 81001;
-        MESSAGE_TOO_LARGE_TO_SEND = 82000;
-        MESSAGE_BATCH_SEND_COUNT_EXCEED_LIMIT = 82001;
-        DIAN_DIAN_COVER_IMAGE_NOT_REAL = 50860;
-        DIAN_DIAN_COVER_IMAGE_NOT_SET = 50861;
-        DIAN_DIAN_SETTING_UPDATE_FAIL = 50862;
-        DIAN_DIAN_ALBUM_UPDATE_FAIL = 50863;
-        DIAN_DIAN_USER_FROZEN = 50864;
-        DIAN_DIAN_LIKE_FREQUENCY_LIMIT = 50865;
-        DIAN_DIAN_YOUNG_AGE_LIMIT = 50866;
-        GIFT_BALANCE_NOT_ENOUGH = 51000;
-        GIFT_GIVED = 51001;
-        GIFT_RECEIVER_NOT_EXIST = 51002;
-        GIFT_RECEIVER_NOT_IN_ROOM = 51003;
-        GIFT_INFO_NOT_EXIST = 51004;
-        FREE_VIP_CARD_NO_EXIST = 51050;
-        FREE_VIP_CARD_EXPIRE = 51051;
-        FREE_VIP_CARD_USE_FAILED = 51052;
-        SECRET_SIGNAL_GENERATE_FAIL = 50950;
-        SECRET_SIGNAL_SHARE_FAIL = 50951;
-        SECRET_SIGNAL_INVALID_PREFIX = 50952;
-        SECRET_SIGNAL_MATCH_FAIL = 50953;
-        SECRET_SIGNAL_DUPLICATE_MATCH = 50954;
-        SECRET_SIGNAL_FORBID_MATCH_SELF = 50955;
+		BASIC_MIN = 10000;
+		INTERNEL_ERROR = 10001;
+		SERVICE_UNAVAILABLE = 10002;
+		SERVICE_TIMEOUT = 10003;
+		INVALID_TOKEN = 10004;
+		REG_ENCYRPT_WITHOUT_TOKEN = 10005;
+		PARSE_PB_HDR_FAIL = 10006;
+		PARSE_PB_PLD_FAIL = 10007;
+		PARSE_PB_FAIL = 10008;
+		DECODED_LEN_FAIL = 10009;
+		INVALID_KEY = 10010;
+		ENCRYPT_FAIL = 10011;
+		DECRYPT_FAIL = 10012;
+		INVALID_TAG = 10013;
+		INVALID_VER = 10014;
+		INVALID_COMPRESS_TYPE = 10016;
+		INVALID_ENCRYPT_TYPE = 10017;
+		NOT_REGISTER = 10018;
+		USER_NOT_ONLINE = 10019;
+		INVALID_COMMAND = 10020;
+		PUSH_UNREGISTER_ERROR = 10021;
+		INVALID_SID = 10022;
+		INVALID_INSTANCE_ID = 10023;
+		CLIENT_LOCALE_NOT_MATCH = 10024;
+		INVALID_TOKEN_PASSWORD_CHANGED = 10025;
+		INVALID_TOKEN_TOKEN_EXPIRED = 10026;
+		INVALID_TOKEN_TOKEN_VALUE_ERROR = 10027;
+		INVALID_TOKEN_LOGIN_ON_OTHER_DEVICE = 10028;
+		FORCE_RECONNECT = 10029;
+		CLIENT_TIMEOUT = 10030;
+		INVALID_ARGUMENT = 10031;
+		INVALID_FORMAT_TOKEN = 10032;
+		EMPTY_PAYLOAD = 10033;
+		COMPRESS_FAIL = 10034;
+		DECOMPRESS_FAIL = 10035;
+		OUT_OF_ORDER = 10036;
+		MESSAGE_MIN = 20000;
+		ILLEGAL_PARAMETER = 20001;
+		SYSTEM_BUSY = 20002;
+		ILLEGAL_USER = 20003;
+		PARAMETER_LEN_TOO_LONG = 20004;
+		DATABASE_ERROR_MYSQL = 20005;
+		DATABASE_ERROR_HBASE = 20006;
+		DATABASE_ERROR_REDIS = 20007;
+		USER_REGISTER_LIMIT_IN_ALPHA = 20008;
+		FLOW_CONTROL = 20009;
+		LOCKED_USER_ACCOUNT_NEED_UPDATE_VERSION = 20010;
+		USER_NOT_REGISTER = 21003;
+		USER_NOT_FOUND = 21004;
+		FRIEND_ADD_NEED_VERIFY = 21005;
+		NO_FRIEND_REQUEST = 21006;
+		TOO_MANY_FRIENDS = 21007;
+		FRIEND_REQUEST_TOO_FREQUENTLY = 21008;
+		CHAT_NEED_TO_BE_FRIEND = 21009;
+		ADD_FRIEND_BLOCKED = 21010;
+		CANNOT_ADD_FRIEND_TO_SELF = 21011;
+		CANNOT_FOLLOW_SELF = 21012;
+		ADD_FOLLOW_BLOCKED = 21013;
+		TARGET_FRIEND_TOO_MANY = 21014;
+		TOO_MANY_IDOLS = 21015;
+		FRIEND_FOLLOW_OVER_LIMIT = 21016;
+		FRIEND_FOLLOW_SPAM = 21017;
+		CLIENT_CONFIG_READ_ERROR = 22000;
+		CLIENT_CONFIG_NOT_EXISTS_ERROR = 22001;
+		CONTENT_HIT_SENSITIVE_WORDS = 23000;
+		MORE_THAN_MAX_LENGTH = 24000;
+		MSG_TEXT_MAX_LENGTH = 24001;
+		MSG_CANCEL_OVERDUE = 24002;
+		CANNOT_RECALL_NON_SELF_MSG = 24003;
+		RECALL_NOT_EXIST_MSG = 24004;
+		REF_MSG_NESTING_DEPTH_REACH_LIMIT = 24005;
+		SEND_KS_MESSAGE_NOT_MATCH_RULE = 24100;
+		FIND_USER_FREQUENCY = 24101;
+		KUAISHOU_FANS_TOKEN_INVALID = 24102;
+		KUAISHOU_AUTHORIZE_FAILED = 24103;
+		ADD_FRIEND_TOO_FREQUENTLY = 24104;
+		BLACK_LIST_REACHED_LIMIT = 24105;
+		GAME_ROOM_IS_RELEASED = 50001;
+		CREATE_GAME_ROOM_FAIL = 50002;
+		GAME_SERVER_ERROR = 50003;
+		GAME_ROOM_IS_EXPIRED = 50004;
+		ALREADY_IN_GAME = 50006;
+		TARGET_ALREADY_IN_GAME = 50007;
+		GAME_NOT_EXIST = 50008;
+		GAME_ACCEPT_BUT_ALREAD_IN_GAME = 50009;
+		GAME_ACCEPT_BUT_TARGET_ALREADY_IN_GAME = 50010;
+		GAME_ACCEPT_BUT_APP_VERSION_TOO_LOW = 50011;
+		GAME_USER_MATCH_FAIL = 50012;
+		USER_FREQUENT_LEAVE_GAME_BE_PUNISHED = 50013;
+		RELATIONSHIP_INVALID_CANNOT_SEND_GAME_INVITE = 50014;
+		GAME_USER_MATCH_SYNC_NO_MATCH = 50015;
+		FORBID_MATCH = 50016;
+		GAME_RESOURCE_NO_EXIST = 50017;
+		GAME_MATCH_SYNC_NO_MATCH = 50018;
+		GAME_MATCH_SYNC_ALREADY_FINISH = 50019;
+		INVITATION_SEND_REACH_LIMITATION = 50020;
+		GAME_MATCH_TEAM_NOT_EXIST = 50021;
+		GAME_MATCH_TEAM_NO_TARGET = 50022;
+		GAME_MATCH_TEAM_OTHER_ALREADY_JOIN_SUCC = 50023;
+		FORZEN_USER = 50024;
+		FORZEN_USER_PROFILE = 50025;
+		FORZEN_USER_ACCOUNT = 50026;
+		TEMP_FORZEN_USER_ACCOUNT = 50027;
+		LOCKED_USER_ACCOUNT = 50028;
+		UNFREEZE_USER_ACCOUNT_APPLY_IN_PROCESS = 50029;
+		GAME_MATH_TEAM_DISBANDED = 50030;
+		USER_ACCOUNT_IS_NOT_FORZEN = 50031;
+		CAPTCHA_VERIFY_FAILED = 50032;
+		PROFILE_UPDATE_NOT_PERMIT = 50033;
+		GAME_REQUEST_TOO_FREQUENTLY = 50034;
+		WECHAT_GAME_INVITE_CANCEL = 50050;
+		WECHAT_GAME_INVITE_ACCEPTED = 50051;
+		THIRD_PARTY_NOT_BIND = 50040;
+		THIRD_PARTY_TOKEN_EXPIRE = 50041;
+		THIRD_PARTY_NO_FRIEND_PERMISSION = 50042;
+		GAME_INVITE_INFO_NOT_EXIST = 50060;
+		GAME_ACCEPT_IS_INVALID = 50061;
+		GAME_ARENA_NOT_EXIST = 50062;
+		GAME_SHOP_PROPS_BUY_FAIL = 50063;
+		GAME_SHOP_PROPS_USE_FAIL = 50064;
+		GAME_SHOP_PROPS_NOT_EXIST = 50065;
+		GAME_SHOP_PROPS_COUNT_UNMATCH = 50066;
+		GAME_SKIN_NOT_EXIST = 50067;
+		GAME_COIN_SHARE_TAKE_OVER_LIMIT = 50068;
+		GAME_COIN_TIMELY_TAKE_IN_CD = 50069;
+		GAME_SKIN_IN_LOCKED = 50070;
+		GAME_SHOP_BALANCE_NOT_ENOUGH = 50071;
+		GAME_SKIN_ALREADY_UNLOCKED = 50072;
+		GAME_SKIN_UPDATE_FAIL = 50073;
+		GAME_SKIN_IS_IN_USED = 50074;
+		GAME_USER_MATCH_TIMES_LIMIT = 50075;
+		GAME_SKIN_BUY_FAIL = 50076;
+		GAME_RESULT_VERIFY_NOT_PASS = 50077;
+		USE_RANK_TITLE_FAILED = 50078;
+		USER_LOCATION_FAILD = 50079;
+		GAME_ACHIEVEMENT_NOT_EXIST = 50080;
+		BALANCE_NOT_ENOUGH = 50081;
+		COIN_USE_FAIL = 50082;
+		COIN_ADD_FAIL = 50083;
+		GAME_LINK_MIC_ROOM_NOT_EXIST = 50100;
+		GAME_LINK_MIC_USER_NOT_IN_ROOM = 50101;
+		GAME_LINK_MIC_ROOM_UNEXPECTED_MESSAGE = 50102;
+		GAME_LINK_MIC_USER_ALREADY_IN_ROOM = 50103;
+		CHAT_ROOM_NOT_EXIST = 50200;
+		CHAT_ROOM_NOT_MEMBER = 50201;
+		CHAT_ROOM_TARGET_LEAVE = 50202;
+		CHAT_ROOM_TARGET_LEAVE_2P = 50203;
+		CHAT_ROOM_FORBID_IMAGE_BETWEEN_STRANGER = 50204;
+		CHAT_ROOM_LEAVE_TOO_FREQUENTLY = 50205;
+		SESSION_FORBID_IMAGE_BETWEEN_STRANGER = 50210;
+		SEND_MESSAGE_IS_BANNED = 50211;
+		QUIZZES_NOT_EXIST = 50300;
+		QUIZZES_ANSWER_TIMEOUT = 50301;
+		ALREADY_USED_INVITATION_CODE = 50302;
+		CANNOT_USE_ONESELF_INVITATION_CODE = 50303;
+		INVITATION_CODE_IS_INVALID = 50304;
+		MULTIPLAYER_GAME_ROOM_NOT_EXIST = 50400;
+		MULTIPLAYER_GAME_ROOM_NOT_MEMBER = 50401;
+		MULTIPLAYER_GAME_ROOM_MEMBER_KICKED = 50402;
+		MULTIPLAYER_GAME_ROOM_LEAVE_FREQUENCY = 50403;
+		DRAW_GUESS_ROOM_NOT_EXIST = 50500;
+		GUESS_WORD_NOT_EXIST = 50501;
+		DRAW_GUESS_ROOM_NOT_MEMBER = 50502;
+		NOT_DRAW_USER = 50503;
+		CANNOT_GUESS_NOW = 50504;
+		DRAW_USER_CANNOT_GUESS = 50505;
+		CANNOT_DRAW_NOW = 50506;
+		GUESS_WORD_EXCEED_MAX_LENGTH = 50507;
+		GUESS_WORD_HIT_SENSITIVE_WORDS = 50508;
+		USER_IN_TRAVEL_FOR_INVITOR = 50600;
+		PEER_IN_TRAVEL = 50601;
+		TRAVEL_FINISHED = 50602;
+		TRAVEL_INVITE_INVALID = 50603;
+		TRAVEL_NOT_FRIEND = 50604;
+		TRAVEL_NOT_EXIST = 50605;
+		TRAVEL_SELF_FORBID = 50606;
+		TRAVEL_SCENARIO_END = 50607;
+		USER_IN_TRAVEL_FOR_ACCEPTOR = 50608;
+		TRAVEL_ENTRANCE_CLOSED = 50609;
+		USER_HAS_OPERATED_MESSAGE = 50610;
+		TRAVEL_NOT_FRIEND_FOR_ACCEPTOR = 50611;
+		WHO_SPY_ROOM_NOT_EXIST = 50700;
+		WHO_SPY_ROOM_NOT_MEMBER = 50701;
+		CANNOT_DESCRIBE_NOW = 50703;
+		CANNOT_VOTE_NOW = 50704;
+		SPY_CANNOT_GUESS = 50705;
+		NOT_DESCRIBE_USER = 50706;
+		NOT_VOTE_USER = 50707;
+		INVALID_VOTE_TARGET = 50708;
+		DESCRIPTION_EXCEED_MAX_LENGTH = 50709;
+		DESCRIPTION_HIT_SENSITIVE_WORDS = 50710;
+		SPY_GUESS_WORD_EXCEED_MAX_LENGTH = 50711;
+		SPY_GUESS_WORD_HIT_SENSITIVE_WORDS = 50712;
+		ALREADY_IN_MULTI_PLAYER_CHAT_ROOM = 50800;
+		CHAT_ROOM_TOPIC_HIT_SENSITIVE_WORDS = 50801;
+		MULTI_PLAYER_CHAT_ROOM_CREATE_FAIL = 50802;
+		MULTI_PLAYER_CHAT_ROOM_CREATE_FREQUENT = 50803;
+		MULTI_PLAYER_CHAT_ROOM_NOT_EXIST = 50804;
+		OPERATION_ALLOWED_FOR_OWNER_ONLY = 50805;
+		MULTI_PLAYER_CHAT_ROOM_GAME_CREATE_FAIL = 50806;
+		MULTI_PLAYER_CHAT_ROOM_GAME_NOT_MATCH = 50807;
+		NOT_MEMBER_FOR_MULTI_PLAYER_CHAT_ROOM = 50808;
+		MULTI_PLAYER_CHAT_ROOM_RELEASED = 50809;
+		MULTI_PLAYER_CHAT_ROOM_FULL = 50810;
+		ALREADY_IN_OTHER_MULTI_PLAYER_CHAT_ROOM = 50811;
+		FORBID_JOIN_PRIVATE_MULTI_PLAYER_CHAT_ROOM = 50812;
+		MULTI_PLAYER_CHAT_ROOM_JOIN_FAIL = 50813;
+		QUICK_MATCH_SYNC_NO_MATCH = 50814;
+		PLAYER_LEAVE_MULTI_PLAYER_CHAT_ROOM = 50815;
+		LINKMIC_COUNT_REACH_LIMIT = 50816;
+		PLAYER_ALREADY_LINKMIC_ONLINE = 50817;
+		PLAYER_ALREADY_LINKMIC_OFFLINE = 50818;
+		PLAYER_ALREADY_LEAVE_CHAT_ROOM = 50819;
+		FORBID_LINK_MIC_OFFLINE_FOR_OWNER = 50820;
+		FORBID_LINK_MIC_OFFLINE_PLAYING_GAME = 50821;
+		FORBID_LINK_MIC_ONLINE_PLAYING_GAME = 50822;
+		MULTI_PLAYER_CHAT_ROOM_MEMBER_KICKEDOUT = 50823;
+		FORBID_KICKOUT_PLAYER_PLAYING_GAME = 50824;
+		MULTI_PLAYER_CHAT_ROOM_GAME_NOT_EXIST = 50825;
+		MULTI_PLAYER_CHAT_ROOM_MEMBER_TIMEOUT = 50826;
+		FORBID_GAME_UNREADY_FOR_OWNER = 50827;
+		FORBID_CREATE_CHAT_ROOM = 50828;
+		CHAT_ROOM_TOPIC_NOT_ALLOWED_EMPTY = 50829;
+		MULTI_PLAYER_CHAT_ROOM_GAME_ROOM_FULL = 50830;
+		PLAYER_NOT_LINKMIC_ONLINE = 50831;
+		LINKMIC_STATUS_ALREADY_UPDATE = 50832;
+		CANNOT_APPLY_LINKMIC = 50833;
+		CANNOT_CREATE_CHAT_ROOM_FOR_BLACKLIST = 50834;
+		CANNOT_CREATE_CHAT_ROOM_FOR_NOT_BIND = 50835;
+		CANNOT_JOIN_CHAT_ROOM_FOR_BLACKLIST = 50836;
+		NO_AVAILABLE_CHAT_ROOM = 50837;
+		MAX_PLAYER_COUNT_REACH_LIMIT = 50838;
+		MULTI_PLAYER_CHAT_ROOM_NEED_UPDATE_VERSION = 50839;
+		MULTI_PLAYER_CHAT_ROOM_START_GAME_UPDATE_VERSION = 50840;
+		MULTI_PLAYER_CHAT_ROOM_ALREADY_IN_GAME = 50841;
+		MULTI_PLAYER_CHAT_ROOM_FORBID_CANCEL_CREATE = 50842;
+		CHAT_ROOM_SEATNAME_HIT_SENSITIVE_WORDS = 50843;
+		CHAT_ROOM_THEME_NOT_EXIST = 50844;
+		ONLY_VIP_CAN_UPLOAD_BACKGROUND = 50845;
+		MORE_THAN_BACKGROUND_MAX_COUNT = 50846;
+		MODIFY_BACKGROUND_FOR_NORMAL_ROOM = 50847;
+		CHAT_ROOM_ANNOUNCEMENT_EXCEED_MAX_LENGTH = 50848;
+		CHAT_ROOM_ANNOUNCEMENT_HIT_SENSITIVE_WORDS = 50849;
+		NOT_THEME_ROOM = 50850;
+		FEED_NOT_EXIST = 50900;
+		FEED_NOT_OWNER = 50901;
+		FEED_PUBLISHED = 50902;
+		FEED_TEXT_EXCEED_MAX_LENGTH = 50903;
+		FEED_TEXT_HIT_SENSITIVE_WORDS = 50904;
+		FEED_ATTACHMENT_MISSING_INFO = 50905;
+		FEED_USER_LIKED = 50906;
+		FEED_CITY_NOT_LOCATED = 50907;
+		FEED_PROFILE_AUTHOR_BLOCK_USER = 50908;
+		FEED_PROFILE_USER_BLOCK_AUTHOR = 50909;
+		FEED_USER_NOT_LIKED = 50910;
+		FEED_PUBLISH_BANNED = 50911;
+		FEED_FROZEN_USER = 50912;
+		FEED_PUBLISH_OVER_LIMIT = 50913;
+		FEED_PUBLISH_REQUEST_OVER_LIMIT = 50914;
+		FEED_LIKE_SPAM = 50915;
+		TRADE_PRODUCT_NOT_FOUND = 50921;
+		TRADE_PRODUCT_CHANGED = 50922;
+		TRADE_ORDER_DUPLICATE = 50923;
+		TRADE_ORDER_FAILED = 50924;
+		TRADE_ORDER_NOT_FOUND = 50925;
+		TRADE_RECEIPT_BINDED = 50926;
+		TRADE_RECEIPT_VERIFY_FAILED = 50927;
+		TRADE_RECEIPT_VERIFY_SYSTEM_ERROR = 50928;
+		TRADE_RECEIPT_VERIFY_CHECK_FAILED = 50929;
+		TRADE_RECEIPT_UNSUPPORTED_VERSION = 50930;
+		TRADE_RECEIPT_BUY_FAILED = 50931;
+		TRADE_SERVICE_UNAVAILABLE = 50932;
+		TRADE_AGREEMENT_NOT_FOUND = 50933;
+		TRADE_AGREEMENT_UNSIGN_FAILED = 50934;
+		C2C_STRANGER_SESSION_OVER_LIMIT = 51100;
+		GAME_INVALID_COMMAND = 60001;
+		GAME_USER_NOT_FOUND = 60002;
+		GAME_INVALID_MESSAGE = 60003;
+		GAME_FINISHED = 60004;
+		REPORT_TOO_FREQUENTLY = 70001;
+		GROUP_CREATE_FAIL = 80100;
+		NOT_GROUP_MEMBER = 80101;
+		NOT_GROUP_ADMIN = 80102;
+		GROUP_DELETE_FAIL = 80103;
+		ADMIN_TRANSFER_FAIL = 80104;
+		GROUP_SETTING_FAIL = 80105;
+		GROUP_EXCEED_MAX_NUMBERS = 80106;
+		GROUP_ADMIN_CANNOT_QUIT = 80107;
+		CANNOT_KICK_ADMIN = 80108;
+		GROUP_NOT_EXISTS = 80109;
+		GROUP_NOT_ENOUGH_MEMBERS = 80110;
+		USER_CREATE_GROUP_EXCEED_MAX_COUNT = 80111;
+		GROUP_NAME_UNAVAILABLE = 80112;
+		USER_NICK_NAME_UNAVAILABLE = 80113;
+		GROUP_OFF_LINE = 80114;
+		FORBID_USER_CREATE_GROUP = 80115;
+		GROUP_SHARE_GROUP_NOT_EXIST = 80116;
+		GROUP_SHARE_INVITEOR_NOT_GROUP_MEMBER = 80117;
+		GROUP_SHARE_QR_CODE_EXPIRE = 80118;
+		GROUP_SHARE_GROUP_EXCEED_MAX_NUMBERS = 80119;
+		GROUP_SHARE_QR_CODE_INVALID = 80120;
+		GROUP_SHARE_LINK_INVALID = 80121;
+		GROUP_SHARE_WITHIN_NEED_PERMISSION = 80124;
+		GROUP_BULLETIN_SIZE_OVER_LIMIT = 80122;
+		GROUP_BULLETIN_NOT_ADMIN = 80123;
+		GROUP_JOIN_REQUEST_NOT_FOUND = 80125;
+		GROUP_JOIN_REQUEST_HAS_BEEN_PROCESSED = 80126;
+		GROUP_NAME_LENGTH_OVER_LIMIT = 80127;
+		GROUP_PK_NOT_QUIT = 80128;
+		GROUP_PK_NOT_RENAME = 80129;
+		GROUP_PK_NOT_INVITE = 80130;
+		GROUP_PK_NOT_INVITE_QR_CODE = 80131;
+		GROUP_MEMBER_NICK_NAME_LENGTH_OVER_LIMIT = 80132;
+		CHANNEL_INVALID_CHANNEL_ID = 81000;
+		CHANNEL_USER_HAS_BEEN_KICKED = 81001;
+		MESSAGE_TOO_LARGE_TO_SEND = 82000;
+		MESSAGE_BATCH_SEND_COUNT_EXCEED_LIMIT = 82001;
+		DIAN_DIAN_COVER_IMAGE_NOT_REAL = 50860;
+		DIAN_DIAN_COVER_IMAGE_NOT_SET = 50861;
+		DIAN_DIAN_SETTING_UPDATE_FAIL = 50862;
+		DIAN_DIAN_ALBUM_UPDATE_FAIL = 50863;
+		DIAN_DIAN_USER_FROZEN = 50864;
+		DIAN_DIAN_LIKE_FREQUENCY_LIMIT = 50865;
+		DIAN_DIAN_YOUNG_AGE_LIMIT = 50866;
+		GIFT_BALANCE_NOT_ENOUGH = 51000;
+		GIFT_GIVED = 51001;
+		GIFT_RECEIVER_NOT_EXIST = 51002;
+		GIFT_RECEIVER_NOT_IN_ROOM = 51003;
+		GIFT_INFO_NOT_EXIST = 51004;
+		FREE_VIP_CARD_NO_EXIST = 51050;
+		FREE_VIP_CARD_EXPIRE = 51051;
+		FREE_VIP_CARD_USE_FAILED = 51052;
+		SECRET_SIGNAL_GENERATE_FAIL = 50950;
+		SECRET_SIGNAL_SHARE_FAIL = 50951;
+		SECRET_SIGNAL_INVALID_PREFIX = 50952;
+		SECRET_SIGNAL_MATCH_FAIL = 50953;
+		SECRET_SIGNAL_DUPLICATE_MATCH = 50954;
+		SECRET_SIGNAL_FORBID_MATCH_SELF = 50955;
 	}
 	
 	message LocaleMessage {
@@ -618,38 +618,38 @@ message Basic {
 	}
 }
 
-message Message {
+message ImMessage {
 	enum MessageType {
 		Text = 0;
 		Image = 2;
-        Audio = 3;
-        Movie = 4;
-        File = 5;
-        Gif = 7;
-        ImageText = 8;
-        PlaceHolder = 100;
-        Notice = 101;
-        MultiFormNotice = 103;
-        MessageCancel = 104;
-        MessageCancelOrigin = 105;
-        GameInvite = 200;
-        FavouriteGame = 201;
-        TeamInvite = 202;
-        MultiPlayerGame = 210;
-        MultiPlayerGameInvite = 211;
-        GameFriendTravel = 300;
-        GameTravelInvite = 301;
-        MultiPlayerChatRoom = 400;
-        MultiPlayerChatRoomInvite = 401;
-        MultiPlayerChatRoomGameInvite = 402;
-        FeedShare = 500;
-        DianDianMatchSuccess = 600;
-        DianDianNotification = 601;
-        Gift = 700;
-        SOGAME_MESSAGE_TYPE_MAX = 999;
+		Audio = 3;
+		Movie = 4;
+		File = 5;
+		Gif = 7;
+		ImageText = 8;
+		PlaceHolder = 100;
+		Notice = 101;
+		MultiFormNotice = 103;
+		MessageCancel = 104;
+		MessageCancelOrigin = 105;
+		GameInvite = 200;
+		FavouriteGame = 201;
+		TeamInvite = 202;
+		MultiPlayerGame = 210;
+		MultiPlayerGameInvite = 211;
+		GameFriendTravel = 300;
+		GameTravelInvite = 301;
+		MultiPlayerChatRoom = 400;
+		MultiPlayerChatRoomInvite = 401;
+		MultiPlayerChatRoomGameInvite = 402;
+		FeedShare = 500;
+		DianDianMatchSuccess = 600;
+		DianDianNotification = 601;
+		Gift = 700;
+		SOGAME_MESSAGE_TYPE_MAX = 999;
 	}
 
-    message Message {
+	message Message {
 		int64 seqId = 1;
 		int64 clientSeqId = 2;
 		int64 timestampMs = 3;
@@ -1164,12 +1164,12 @@ message Cloud {
 			message MessageRead {
 				string strTargetId = 1;
 				int64 readSeq = 2;
-				Im.Message.ChatTargetType chatTargetType = 3;
+				ImMessage.ChatTargetType chatTargetType = 3;
 			}
 
 			message MessageReceipt {
-				Im.Message.ChatTarget chatTarget = 1;
-				Im.Message.MessageReceiptStatus receiptStatus = 2;
+				ImMessage.ChatTarget chatTarget = 1;
+				ImMessage.MessageReceiptStatus receiptStatus = 2;
 			}
 		}
 	}
@@ -1194,12 +1194,12 @@ message Cloud {
 		}
 
 		message ImcRecalledMessage {
-			Im.Message.Message originMsg = 1;
+			ImMessage.Message originMsg = 1;
 			ImcNoticeMessage noticeMsg = 2;
 		}
 
 		message ImcReplaceMessage {
-			Im.Message.Message replaceMsg = 1;
+			ImMessage.Message replaceMsg = 1;
 		}
 
 		message Text {
@@ -1271,7 +1271,7 @@ message Cloud {
 		}
 
 		message Reference {
-			Im.Message.Message originMsg = 1;
+			ImMessage.Message originMsg = 1;
 			ReferenceMessage referenceMsg = 2;
 
 			message ReferenceMessage {
@@ -1281,7 +1281,7 @@ message Cloud {
 		}
 
 		message ForwardMessageContent {
-			repeated Im.Message.Message message = 1;
+			repeated ImMessage.Message message = 1;
 		}
 
 		message NoticePlaceholderMeta {
@@ -1606,7 +1606,7 @@ message Cloud {
 		}
 
 		message ImcPassThroughRequest {
-			Im.Message.ChatTarget chatTarget = 1;
+			ImMessage.ChatTarget chatTarget = 1;
 			bytes content =2;
 			int32 contentType = 3;
 		}
@@ -1614,7 +1614,7 @@ message Cloud {
 		message ImcPassThroughResponse {}
 
 		message ImcPassThroughPush {
-			Im.Message.ChatTarget chatTarget = 1;
+			ImMessage.ChatTarget chatTarget = 1;
 			Basic.User fromUser = 2;
 			bytes content = 3;
 			int32 contentType = 4;
