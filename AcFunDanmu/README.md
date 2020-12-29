@@ -12,7 +12,7 @@ Source: [9.js](https://ali-imgs.acfun.cn/kos/nlav10360/static/js/9.bba02d82.js)
 |---|---|---|
 |  0, 12 |  ABCD 0001 FFFF FFFF FFFF FFFF |  ABCD 0001为Magic Number， 第一组FFFF FFFF为头数据长度，第二组FFFF FFFF为AES IV长度（通常为16） + AES加密后的数据长度 |
 |  12, 头数据长度 | [PacketHeader](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/PacketHeader.proto) |  具体数据结构请查看[PacketHeader](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/PacketHeader.proto) |
-|  12 + 头数据长度, 16 |  FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF |  4组int32作为AES IV，加解密用 |
+|  12 + 头数据长度, 16 |  FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF |  AES IV，加解密用 |
 |  28 + 头数据长度, 具体数据长度 - 16 | AES加密的[UpstreamPayload](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/UpstreamPayload.proto)或[DownstreamPayload](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/DownstreamPayload.proto) | 密钥为SecurityKey或SessionKey（由[PacketHeader](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/PacketHeader.proto)中的`encryptionMode`指定） |
 
 ## AcFun直播websocket流程
