@@ -62,12 +62,12 @@ Source: [9.js](https://ali-imgs.acfun.cn/kos/nlav10360/static/js/9.bba02d82.js)
 	- [Global.ZtLiveInteractive.CsCmd](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/zt.live.interactive/ZtLiveCsCmd.proto#L12)  
       根据[CmdAckType](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/zt.live.interactive/ZtLiveCsCmd.proto#L13)进行对应的处理
       - [ZtLiveCsEnterRoomAck](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/zt.live.interactive/ZtLiveCsEnterRoom.proto#L13)
-          1. 保存[HeartbeatIntervalMs](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/zt.live.interactive/ZtLiveCsEnterRoom.proto#L14)
+          1. 保存[HeartbeatIntervalMs](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/zt.live.interactive/ZtLiveCsEnterRoom.proto#L14)（目前默认10秒）
           2. 启动Heartbeat定时器
              1. 发送[HeartbeatRequest](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/zt.live.interactive/ZtLiveCsHeartbeat.proto#L5)
              2. SeqId + 1
              3. HeartbeatSeqId + 1
-             4. 如果`SeqId % 6 == 3`，发送[KeepAliveRequest](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/KeepAlive.proto#L9)
+             4. 如果`SeqId % 6 == 3`，即启动Heartbeat定时器后每30秒，发送[KeepAliveRequest](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/KeepAlive.proto#L9)
       - [ZtLiveCsHeartbeatAck](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/zt.live.interactive/ZtLiveCsHeartbeat.proto#L10)  
          目前无需处理，忽略即可
       - [ZtLiveCsUserExitAck](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/zt.live.interactive/ZtLiveCsUserExit.proto#L7)  
