@@ -28,9 +28,9 @@ namespace AcFunDanmu
         public string SessionKey { get; private set; }
         private long Lz4CompressionThreshold;
 
-        private long _SeqId = 1;
-        public long SeqId => _SeqId;
-        private long HeartbeatSeqId = 0;
+        private long SeqId = 1;
+        private long _HeartbeatSeqId = 0;
+        public long HeartbeatSeqId => _HeartbeatSeqId;
         private const uint RetryCount = 1;
         private int TicketIndex = 0;
 
@@ -95,7 +95,7 @@ namespace AcFunDanmu
                 Token = ByteString.FromBase64(ServiceToken),
             };
 
-            Interlocked.Increment(ref _SeqId);
+            Interlocked.Increment(ref SeqId);
 
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
@@ -107,7 +107,7 @@ namespace AcFunDanmu
             return Encode(header, body, SecurityKey);
         }
 
-        public byte[] KeepAliveRequest(bool ShouldIncrease = false)
+        public byte[] KeepAliveRequest()
         {
             var keepalive = new KeepAliveRequest
             {
@@ -121,10 +121,7 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
-            if (ShouldIncrease)
-            {
-                Interlocked.Increment(ref _SeqId);
-            }
+            Interlocked.Increment(ref SeqId);
 
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
@@ -152,7 +149,7 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
-            Interlocked.Increment(ref _SeqId);
+            Interlocked.Increment(ref SeqId);
 
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
@@ -187,7 +184,7 @@ namespace AcFunDanmu
             var heartbeat = new ZtLiveCsHeartbeat
             {
                 ClientTimestampMs = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
-                Sequence = HeartbeatSeqId,
+                Sequence = _HeartbeatSeqId,
             };
 
             var cmd = GenerateCommand(GlobalCommand.HEARTBEAT, heartbeat);
@@ -198,8 +195,8 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
-            HeartbeatSeqId++;
-            Interlocked.Increment(ref _SeqId);
+            _HeartbeatSeqId++;
+            Interlocked.Increment(ref SeqId);
 
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
@@ -222,7 +219,7 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
-            Interlocked.Increment(ref _SeqId);
+            Interlocked.Increment(ref SeqId);
 
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);

@@ -410,7 +410,7 @@ namespace AcFunDanmu
                                 default
                             );
 
-                            if (_requests.SeqId % 6 == 3)
+                            if (_requests.HeartbeatSeqId % 5 == 4)
                             {
                                 await ws.SendAsync(_requests.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
                             }
@@ -616,7 +616,7 @@ namespace AcFunDanmu
             var register = RegisterResponse.Parser.ParseFrom(payload.PayloadData);
             _requests.Register(register.InstanceId, register.SessKey.ToBase64(), register.SdkOption.Lz4CompressionThresholdBytes);
             Log.Debug("\t{Register}", register);
-            await _client.SendAsync(_requests.KeepAliveRequest(true), WebSocketMessageType.Binary, true, default);
+            await _client.SendAsync(_requests.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
             await _client.SendAsync(_requests.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
         }
 
