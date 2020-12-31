@@ -25,13 +25,14 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ch5Db21tb25TdGF0ZVNpZ25hbENoYXRFbmQucHJvdG8SCkFjRnVuRGFubXUi",
-            "nQIKGENvbW1vblN0YXRlU2lnbmFsQ2hhdEVuZBIOCgZjaGF0SWQYASABKAkS",
+            "tAIKGENvbW1vblN0YXRlU2lnbmFsQ2hhdEVuZBIOCgZjaGF0SWQYASABKAkS",
             "PQoHZW5kVHlwZRgCIAEoDjIsLkFjRnVuRGFubXUuQ29tbW9uU3RhdGVTaWdu",
-            "YWxDaGF0RW5kLkVuZFR5cGUisQEKB0VuZFR5cGUSCwoHVU5LTk9XThAAEhQK",
+            "YWxDaGF0RW5kLkVuZFR5cGUiyAEKB0VuZFR5cGUSCwoHVU5LTk9XThAAEhQK",
             "EENBTkNFTF9CWV9BVVRIT1IQARIRCg1FTkRfQllfQVVUSE9SEAISEAoMRU5E",
             "X0JZX0dVRVNUEAMSEAoMR1VFU1RfUkVKRUNUEAQSEQoNR1VFU1RfVElNRU9V",
             "VBAFEhsKF0dVRVNUX0hFQVJUQkVBVF9USU1FT1VUEAYSHAoYQVVUSE9SX0hF",
-            "QVJUQkVBVF9USU1FT1VUEAdiBnByb3RvMw=="));
+            "QVJUQkVBVF9USU1FT1VUEAcSFQoRUEVFUl9MSVZFX1NUT1BQRUQQCGIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -261,6 +262,7 @@ namespace AcFunDanmu {
         [pbr::OriginalName("GUEST_TIMEOUT")] GuestTimeout = 5,
         [pbr::OriginalName("GUEST_HEARTBEAT_TIMEOUT")] GuestHeartbeatTimeout = 6,
         [pbr::OriginalName("AUTHOR_HEARTBEAT_TIMEOUT")] AuthorHeartbeatTimeout = 7,
+        [pbr::OriginalName("PEER_LIVE_STOPPED")] PeerLiveStopped = 8,
       }
 
     }
