@@ -15,5 +15,6 @@ message CommonStateSignalChatEnd {
 		GUEST_TIMEOUT = 5;
 		GUEST_HEARTBEAT_TIMEOUT = 6;
 		AUTHOR_HEARTBEAT_TIMEOUT = 7;
+		PEER_LIVE_STOPPED = 8;
 	}
 }
