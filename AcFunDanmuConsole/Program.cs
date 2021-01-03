@@ -313,11 +313,11 @@ namespace AcFunDanmuConsole
                             writer.WriteLine(ping);
                             break;
                         case Command.MESSAGE_SESSION:
-                            var session = AcFunDanmu.Im.Message.Types.SessionListRequest.Parser.ParseFrom(us.PayloadData);
+                            var session = AcFunDanmu.Im.ImMessage.Types.SessionListRequest.Parser.ParseFrom(us.PayloadData);
                             writer.WriteLine(session);
                             break;
                         case Command.MESSAGE_PULL_OLD:
-                            var pullold = AcFunDanmu.Im.Message.Types.PullOldRequest.Parser.ParseFrom(us.PayloadData);
+                            var pullold = AcFunDanmu.Im.ImMessage.Types.PullOldRequest.Parser.ParseFrom(us.PayloadData);
                             writer.WriteLine(pullold);
                             break;
                         case Command.CLIENT_CONFIG_GET:
@@ -383,11 +383,11 @@ namespace AcFunDanmuConsole
                             writer.WriteLine(ping);
                             break;
                         case Command.MESSAGE_SESSION:
-                            var session = AcFunDanmu.Im.Message.Types.SessionListResponse.Parser.ParseFrom(ds.PayloadData);
+                            var session = AcFunDanmu.Im.ImMessage.Types.SessionListResponse.Parser.ParseFrom(ds.PayloadData);
                             writer.WriteLine(session);
                             break;
                         case Command.MESSAGE_PULL_OLD:
-                            var pullold = AcFunDanmu.Im.Message.Types.PullOldResponse.Parser.ParseFrom(ds.PayloadData);
+                            var pullold = AcFunDanmu.Im.ImMessage.Types.PullOldResponse.Parser.ParseFrom(ds.PayloadData);
                             writer.WriteLine(pullold);
                             break;
                         case Command.CLIENT_CONFIG_GET:
