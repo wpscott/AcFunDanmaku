@@ -2,7 +2,7 @@
 
 # AcfunDanmu AcFun直播弹幕工具
 
-Source: [9.js](https://ali-imgs.acfun.cn/kos/nlav10360/static/js/9.bba02d82.js)
+[Source](https://ali-imgs.acfun.cn/kos/nlav10360/static/js/0.e611a833.js)
 
 *[Im.proto](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Im.proto)为主站websocket，主要负责私信、推送之类的。*
 
@@ -43,7 +43,7 @@ Source: [9.js](https://ali-imgs.acfun.cn/kos/nlav10360/static/js/9.bba02d82.js)
 </details>
 
 ### 正式流程
-1. 建立websocket链接`wss://link.xiatou.com/`
+1. 建立websocket链接`[wss://klink-newproduct-ws1.kwaizt.com, wss://klink-newproduct-ws2.kwaizt.com, wss://klink-newproduct-ws3.kwaizt.com]`
 2. 发送[RegisterRequest](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Register.proto#L13)（SeqId加1），`encryptionMode`为`KEncryptionServiceToken`，加密密钥为`acSecurity`
 3. 接收[DownStreamPayload](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/DownstreamPayload.proto#L5)，根据[Command](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/DownstreamPayload.proto#L6)进行对应的处理
 	- [Basic.Register](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Register.proto#L38)
