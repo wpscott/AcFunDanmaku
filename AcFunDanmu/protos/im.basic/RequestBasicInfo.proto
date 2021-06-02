@@ -21,3 +21,4 @@ message RequestBasicInfo { //RequsetBasicInfo
     string clientIpV6 = 12;
     string countryCode = 13;
 }
+

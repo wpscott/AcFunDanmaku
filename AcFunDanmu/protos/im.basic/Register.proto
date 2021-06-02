@@ -48,3 +48,4 @@ message RegisterResponse {
 	float commandSampleRate = 10;
 	AccessPointsConfig accessPointsConfigWs = 11;
 }
+

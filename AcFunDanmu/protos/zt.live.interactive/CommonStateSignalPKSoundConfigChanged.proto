@@ -12,3 +12,4 @@ message CommonStateSignalPKSoundConfigChanged {
         e = 2;
     }
 }
+

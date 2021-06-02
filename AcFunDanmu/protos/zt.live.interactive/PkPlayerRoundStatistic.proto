@@ -6,3 +6,4 @@ message PkPlayerRoundStatistic {
     int64 a = 1;
     int32 b = 2;
 }
+

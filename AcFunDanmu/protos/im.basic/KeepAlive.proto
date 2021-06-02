@@ -24,5 +24,4 @@ message KeepAliveResponse {
 	float flowCostSampleRate = 8;
 	float commandSampleRate = 9;
 	AccessPointsConfig accessPointsConfigWs = 10;
-
 }

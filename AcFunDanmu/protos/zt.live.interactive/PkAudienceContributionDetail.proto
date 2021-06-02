@@ -8,3 +8,4 @@ message PkAudienceContributionDetail {
     ZtLiveUserInfo a = 1;
     int64 b = 2;
 }
+

@@ -8,3 +8,4 @@ message CommonActionSignalUserFollowAuthor {
 	ZtLiveUserInfo userInfo = 1;
 	int64 sendTimeMs = 2;
 }
+

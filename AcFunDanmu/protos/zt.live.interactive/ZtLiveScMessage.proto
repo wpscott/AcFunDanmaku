@@ -16,3 +16,4 @@ message ZtLiveScMessage {
 		GZIP = 2;
 	}
 }
+

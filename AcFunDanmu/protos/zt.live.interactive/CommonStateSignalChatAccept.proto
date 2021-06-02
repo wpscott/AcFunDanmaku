@@ -9,3 +9,4 @@ message CommonStateSignalChatAccept {
 	ChatMediaType mediaType = 2;
 	string aryaSignalInfo = 3;
 }
+

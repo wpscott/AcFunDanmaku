@@ -9,3 +9,4 @@ message PkPlayerInfo {
     string b = 2;
     bool c = 3;
 }
+

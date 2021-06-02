@@ -19,3 +19,4 @@ message ZtLiveScStatusChanged {
 		string banReason = 1;
 	}
 }
+

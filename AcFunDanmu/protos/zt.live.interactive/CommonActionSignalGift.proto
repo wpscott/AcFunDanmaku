@@ -17,3 +17,4 @@ message CommonActionSignalGift {
 	int64 expireDurationMs = 9;
 	ZtDrawGiftInfo drawGiftInfo = 10;
 }
+

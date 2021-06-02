@@ -12,3 +12,4 @@ message PkPlayerStatistic {
     repeated PkPlayerRoundStatistic d = 4;
     int32 e = 5;
 }
+

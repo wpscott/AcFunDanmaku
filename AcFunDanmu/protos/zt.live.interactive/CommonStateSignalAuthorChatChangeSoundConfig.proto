@@ -12,3 +12,4 @@ message CommonStateSignalAuthorChatChangeSoundConfig {
 		CLOSE_SOUND = 2;
 	}
 }
+

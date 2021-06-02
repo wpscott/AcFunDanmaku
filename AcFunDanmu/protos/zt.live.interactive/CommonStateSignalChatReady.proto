@@ -10,3 +10,4 @@ message CommonStateSignalChatReady {
 	ZtLiveUserInfo guestUserInfo = 2;
 	ChatMediaType mediaType = 3;
 }
+

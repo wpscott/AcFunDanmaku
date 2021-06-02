@@ -22,3 +22,4 @@ message AcfunActionSignalJoinClub {
 	AcFunUserInfo uperInfo = 2;
 	int64 joinTimeMs = 3;
 }
+

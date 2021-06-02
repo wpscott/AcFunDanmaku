@@ -8,3 +8,4 @@ message PkAudienceContributionInfo {
     int64 a = 1;
     repeated PkAudienceContributionDetail b = 2;
 }
+

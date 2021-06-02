@@ -7,3 +7,4 @@ message CommonStateSignalChatCall {
 	string liveId = 2;
 	int64 callTimestampMs = 3;
 }
+

@@ -22,3 +22,4 @@ message CommonStateSignalPkEnd {
         o = 11;
     }
 }
+

@@ -12,3 +12,4 @@ message ZtLiveUserInfo {
 	string badge = 4;  // bizCustomInfo
     ZtLiveUserIdentity userIdentity = 5;
 }
+

@@ -9,3 +9,4 @@ message CommonStateSignalAuthorChatReady {
 	AuthorChatPlayerInfo inviterUserInfo = 2;
 	AuthorChatPlayerInfo inviteeUserInfo = 3;
 }
+

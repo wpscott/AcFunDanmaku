@@ -9,3 +9,4 @@ message CommonStateSignalPKInvitation {
     PkPlayerInfo b = 2;
     int64 c = 3;
 }
+

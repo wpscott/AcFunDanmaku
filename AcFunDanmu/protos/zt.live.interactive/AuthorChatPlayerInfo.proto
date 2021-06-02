@@ -9,3 +9,4 @@ message AuthorChatPlayerInfo {
 	string liveId = 2;
 	bool enableJumpPeerLiveRoom = 3;
 }
+

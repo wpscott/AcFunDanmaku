@@ -15,3 +15,4 @@ message ZtLiveCsCmdAck {
 	string errorMsg = 3;
 	bytes payload =4;
 }
+

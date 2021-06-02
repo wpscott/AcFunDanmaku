@@ -9,3 +9,4 @@ message CommonActionSignalComment {
 	int64 sendTimeMs = 2;
 	ZtLiveUserInfo userInfo = 3;
 }
+

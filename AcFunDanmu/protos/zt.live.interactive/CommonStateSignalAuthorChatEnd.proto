@@ -19,3 +19,4 @@ message CommonStateSignalAuthorChatEnd {
 		PEER_LIVE_STOPPED = 8;
 	}
 }
+

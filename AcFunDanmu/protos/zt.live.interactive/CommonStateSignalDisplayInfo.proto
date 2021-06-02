@@ -7,3 +7,4 @@ message CommonStateSignalDisplayInfo {
 	string likeCount = 2;
 	int32 likeDelta = 3;
 }
+

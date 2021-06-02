@@ -14,3 +14,4 @@ message ZtDrawGiftInfo {
 		bool handup = 4;
 	}
 }
+

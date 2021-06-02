@@ -8,3 +8,4 @@ message CommonStateSignalPKReady {
     string a = 1;
     repeated PkPlayerInfo b = 2;
 }
+

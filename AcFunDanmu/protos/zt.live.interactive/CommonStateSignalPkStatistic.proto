@@ -20,3 +20,4 @@ message CommonStateSignalPkStatistic {
     PkRoundInfo k = 11;
     int64 l = 12;
 }
+
