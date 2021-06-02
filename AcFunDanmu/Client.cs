@@ -26,40 +26,40 @@ namespace AcFunDanmu
         private const string VISITOR_ST = "acfun.api.visitor_st";
         private const string MIDGROUND_ST = "acfun.midground.api_st";
         private const string _ACFUN_HOST = "https://live.acfun.cn";
-        private static readonly Uri ACFUN_HOST = new Uri(_ACFUN_HOST);
+        private static readonly Uri ACFUN_HOST = new(_ACFUN_HOST);
         private const string ACFUN_LOGIN_URL = "https://www.acfun.cn/login";
-        private static readonly Uri ACFUN_LOGIN_URI = new Uri(ACFUN_LOGIN_URL);
+        private static readonly Uri ACFUN_LOGIN_URI = new(ACFUN_LOGIN_URL);
         private const string ACFUN_SIGN_IN_URL = "https://id.app.acfun.cn/rest/web/login/signin";
-        private static readonly Uri ACFUN_SIGN_IN_URI = new Uri(ACFUN_SIGN_IN_URL);
+        private static readonly Uri ACFUN_SIGN_IN_URI = new(ACFUN_SIGN_IN_URL);
         private const string ACFUN_SAFETY_ID_URL = "https://sec-cdn.gifshow.com/safetyid";
-        private static readonly Uri ACFUN_SAFETY_ID_URI = new Uri(ACFUN_SAFETY_ID_URL);
+        private static readonly Uri ACFUN_SAFETY_ID_URI = new(ACFUN_SAFETY_ID_URL);
         private const string LIVE_URL = "https://live.acfun.cn/live";
         private const string LOGIN_URL = "https://id.app.acfun.cn/rest/app/visitor/login";
-        private static readonly Uri LOGIN_URI = new Uri(LOGIN_URL);
+        private static readonly Uri LOGIN_URI = new(LOGIN_URL);
         private const string GET_TOKEN_URL = "https://id.app.acfun.cn/rest/web/token/get";
-        private static readonly Uri GET_TOKEN_URI = new Uri(GET_TOKEN_URL);
+        private static readonly Uri GET_TOKEN_URI = new(GET_TOKEN_URL);
         private const string PLAY_URL = "https://api.kuaishouzt.com/rest/zt/live/web/startPlay?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
         private const string GIFT_URL = "https://api.kuaishouzt.com/rest/zt/live/web/gift/list?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
         private const string WATCHING_URL = "https://api.kuaishouzt.com/rest/zt/live/web/watchingList?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
 
-        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36";
+        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36";
 
         private const string SAFETY_ID_CONTENT = "{{\"platform\":5,\"app_version\":\"2.0.32\",\"device_id\":\"null\",\"user_id\":\"{0}\"}}";
-        private static readonly Dictionary<string, string> LOGIN_FORM = new Dictionary<string, string> { { "sid", "acfun.api.visitor" } };
-        private static readonly Dictionary<string, string> GET_TOKEN_FORM = new Dictionary<string, string> { { "sid", "acfun.midground.api" } };
+        private static readonly Dictionary<string, string> LOGIN_FORM = new() { { "sid", "acfun.api.visitor" } };
+        private static readonly Dictionary<string, string> GET_TOKEN_FORM = new() { { "sid", "acfun.midground.api" } };
 
-        private const string _Host = "wss://link.xiatou.com/";
-        private static readonly Uri Host = new Uri(_Host);
+        private const string _Host = "wss://klink-newproduct-ws3.kwaizt.com/";
+        private static readonly Uri Host = new(_Host);
         #endregion
 
         public SignalHandler Handler { get; set; }
         public DedicatedSignalHandler DedicatedHandler { get; set; }
 
         #region Properties and Fields
-        public static readonly ConcurrentDictionary<long, GiftInfo> Gifts = new ConcurrentDictionary<long, GiftInfo>();
+        public static readonly ConcurrentDictionary<long, GiftInfo> Gifts = new();
         private static DateTimeOffset LastGiftUpdate = DateTimeOffset.MinValue;
 
-        private static readonly CookieContainer CookieContainer = new CookieContainer();
+        private static readonly CookieContainer CookieContainer = new();
         private static string DeviceId;
         private static bool IsSignIn = false;
         private static bool IsPrepared = false;
@@ -186,7 +186,7 @@ namespace AcFunDanmu
                     }
                     if (string.IsNullOrEmpty(DeviceId))
                     {
-                        DeviceId = CookieContainer.GetCookies(ACFUN_HOST).Where(cookie => cookie.Name == "_did").First().Value;
+                        DeviceId = CookieContainer.GetCookies(ACFUN_HOST).First(cookie => cookie.Name == "_did").Value;
                     }
                     IsPrepared = true;
                 }
@@ -271,7 +271,6 @@ namespace AcFunDanmu
                     Tickets = playData.data?.availableTickets ?? Array.Empty<string>();
                     EnterRoomAttach = playData.data?.enterRoomAttach;
                     LiveId = playData.data?.liveId;
-
 
                     UpdateGiftList(refreshGiftList);
 
@@ -389,7 +388,7 @@ namespace AcFunDanmu
             }
 
             using var owner = MemoryPool<byte>.Shared.Rent();
-            _requests = new ClientRequests(UserId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach, Tickets);
+            _requests = new ClientRequests(UserId, DeviceId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach, Tickets);
             using var ws = new ClientWebSocket();
             _client = ws;
             try
@@ -542,7 +541,7 @@ namespace AcFunDanmu
                     HandlePing(stream);
                     break;
                 case Command.REGISTER:
-                    await HandleRegister(stream);
+                    await HandleRegister(header.AppId, stream);
                     break;
                 case Command.UNREGISTER:
                     await HandleUnregister(stream);
@@ -611,10 +610,10 @@ namespace AcFunDanmu
             Log.Debug("\t{Ping}", ping);
         }
 
-        private async Task HandleRegister(DownstreamPayload payload)
+        private async Task HandleRegister(int appId, DownstreamPayload payload)
         {
             var register = RegisterResponse.Parser.ParseFrom(payload.PayloadData);
-            _requests.Register(register.InstanceId, register.SessKey.ToBase64(), register.SdkOption.Lz4CompressionThresholdBytes);
+            _requests.Register(appId, register.InstanceId, register.SessKey.ToBase64(), register.SdkOption.Lz4CompressionThresholdBytes);
             Log.Debug("\t{Register}", register);
             await _client.SendAsync(_requests.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
             await _client.SendAsync(_requests.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);

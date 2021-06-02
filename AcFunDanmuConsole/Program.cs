@@ -22,7 +22,7 @@ namespace AcFunDanmuConsole
 
             await Client.Prepare();
 
-            Client client = new Client();
+            Client client = new();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -63,7 +63,7 @@ namespace AcFunDanmuConsole
             }
             Log.Information("Client closed, maybe live is end");
 
-            //DecodeHar(@".\40740702.har");
+            //DecodeHar(@".\12152626.har");
             //await LoginToGetGiftList();
         }
 
@@ -258,10 +258,10 @@ namespace AcFunDanmuConsole
         #region Others
         static void DumpCookie(CookieContainer cookiesContainer)
         {
-            Hashtable hs = (Hashtable)cookiesContainer.GetType().InvokeMember("m_domainTable", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Instance, null, cookiesContainer, new object[] { });
+            Hashtable hs = (Hashtable)cookiesContainer.GetType().InvokeMember("m_domainTable", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Instance, null, cookiesContainer, Array.Empty<object>());
             foreach (string key in hs.Keys)
             {
-                var uri = new Uri($"http://{key.Substring(1)}/");
+                var uri = new Uri($"http://{key[1..]}/");
                 var collection = cookiesContainer.GetCookies(uri);
                 foreach (Cookie ck in collection)
                 {
@@ -276,14 +276,14 @@ namespace AcFunDanmuConsole
         }
         static void DecodeHar(string filePath)
         {
-            string securityKey = "gZK6DB3Q5/FdBVHTDMtc5w==";
+            string securityKey = "tYyoLPQwUP7C8L84727s2g==";
             string sessionKey = string.Empty;
 
             using var file = new StreamReader(filePath);
 
             using var json = JsonDocument.Parse(file.ReadToEnd());
 
-            var ws = json.RootElement.GetProperty("log").GetProperty("entries").EnumerateArray().First(item => item.GetProperty("request").GetProperty("url").ToString() == "wss://link.xiatou.com/");
+            var ws = json.RootElement.GetProperty("log").GetProperty("entries").EnumerateArray().First(item => item.GetProperty("request").GetProperty("url").ToString() == "wss://klink-newproduct-ws3.kwaizt.com/");
 
             Message[] messages = JsonSerializer.Deserialize<Message[]>(ws.GetProperty("_webSocketMessages").ToString());
 
