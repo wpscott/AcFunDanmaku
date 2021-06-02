@@ -352,10 +352,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-AcFunDanmu/*/6.*.js
-AcFunDanmu/*/7.*.js
-AcFunDanmu/*/8.*.js
-AcFunDanmu/*/9.*.js
-AcFunDanmu/*/ImSdk.*.js
-
 AcFunOBS/config.json
