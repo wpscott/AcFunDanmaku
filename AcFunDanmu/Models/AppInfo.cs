@@ -24,16 +24,16 @@ namespace AcFunDanmu {
     static AppInfoReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1BcHBJbmZvLnByb3RvEgpBY0Z1bkRhbm11IssBCgdBcHBJbmZvEg8KB2Fw",
+            "Cg1BcHBJbmZvLnByb3RvEgpBY0Z1bkRhbm11IuABCgdBcHBJbmZvEg8KB2Fw",
             "cE5hbWUYASABKAkSEgoKYXBwVmVyc2lvbhgCIAEoCRISCgphcHBDaGFubmVs",
-            "GAMgASgJEhIKCnNka1ZlcnNpb24YBCABKAkSPQoNZXh0ZW5zaW9uSW5mbxgL",
-            "IAMoCzImLkFjRnVuRGFubXUuQXBwSW5mby5FeHRlbnNpb25JbmZvRW50cnka",
-            "NAoSRXh0ZW5zaW9uSW5mb0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgC",
-            "IAEoCToCOAFiBnByb3RvMw=="));
+            "GAMgASgJEhIKCnNka1ZlcnNpb24YBCABKAkSEwoLbGlua1ZlcnNpb24YBSAB",
+            "KAkSPQoNZXh0ZW5zaW9uSW5mbxgLIAMoCzImLkFjRnVuRGFubXUuQXBwSW5m",
+            "by5FeHRlbnNpb25JbmZvRW50cnkaNAoSRXh0ZW5zaW9uSW5mb0VudHJ5EgsK",
+            "A2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAFiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AppInfo), global::AcFunDanmu.AppInfo.Parser, new[]{ "AppName", "AppVersion", "AppChannel", "SdkVersion", "ExtensionInfo" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AppInfo), global::AcFunDanmu.AppInfo.Parser, new[]{ "AppName", "AppVersion", "AppChannel", "SdkVersion", "LinkVersion", "ExtensionInfo" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
           }));
     }
     #endregion
@@ -73,6 +73,7 @@ namespace AcFunDanmu {
       appVersion_ = other.appVersion_;
       appChannel_ = other.appChannel_;
       sdkVersion_ = other.sdkVersion_;
+      linkVersion_ = other.linkVersion_;
       extensionInfo_ = other.extensionInfo_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -126,6 +127,17 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "linkVersion" field.</summary>
+    public const int LinkVersionFieldNumber = 5;
+    private string linkVersion_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string LinkVersion {
+      get { return linkVersion_; }
+      set {
+        linkVersion_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "extensionInfo" field.</summary>
     public const int ExtensionInfoFieldNumber = 11;
     private static readonly pbc::MapField<string, string>.Codec _map_extensionInfo_codec
@@ -153,6 +165,7 @@ namespace AcFunDanmu {
       if (AppVersion != other.AppVersion) return false;
       if (AppChannel != other.AppChannel) return false;
       if (SdkVersion != other.SdkVersion) return false;
+      if (LinkVersion != other.LinkVersion) return false;
       if (!ExtensionInfo.Equals(other.ExtensionInfo)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -164,6 +177,7 @@ namespace AcFunDanmu {
       if (AppVersion.Length != 0) hash ^= AppVersion.GetHashCode();
       if (AppChannel.Length != 0) hash ^= AppChannel.GetHashCode();
       if (SdkVersion.Length != 0) hash ^= SdkVersion.GetHashCode();
+      if (LinkVersion.Length != 0) hash ^= LinkVersion.GetHashCode();
       hash ^= ExtensionInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -197,6 +211,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(34);
         output.WriteString(SdkVersion);
       }
+      if (LinkVersion.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(LinkVersion);
+      }
       extensionInfo_.WriteTo(output, _map_extensionInfo_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -223,6 +241,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(34);
         output.WriteString(SdkVersion);
       }
+      if (LinkVersion.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(LinkVersion);
+      }
       extensionInfo_.WriteTo(ref output, _map_extensionInfo_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -244,6 +266,9 @@ namespace AcFunDanmu {
       }
       if (SdkVersion.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(SdkVersion);
+      }
+      if (LinkVersion.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(LinkVersion);
       }
       size += extensionInfo_.CalculateSize(_map_extensionInfo_codec);
       if (_unknownFields != null) {
@@ -268,6 +293,9 @@ namespace AcFunDanmu {
       }
       if (other.SdkVersion.Length != 0) {
         SdkVersion = other.SdkVersion;
+      }
+      if (other.LinkVersion.Length != 0) {
+        LinkVersion = other.LinkVersion;
       }
       extensionInfo_.Add(other.extensionInfo_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -298,6 +326,10 @@ namespace AcFunDanmu {
           }
           case 34: {
             SdkVersion = input.ReadString();
+            break;
+          }
+          case 42: {
+            LinkVersion = input.ReadString();
             break;
           }
           case 90: {
@@ -332,6 +364,10 @@ namespace AcFunDanmu {
           }
           case 34: {
             SdkVersion = input.ReadString();
+            break;
+          }
+          case 42: {
+            LinkVersion = input.ReadString();
             break;
           }
           case 90: {

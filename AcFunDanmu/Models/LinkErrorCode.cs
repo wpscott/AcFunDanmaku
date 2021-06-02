@@ -24,7 +24,7 @@ namespace AcFunDanmu {
     static LinkErrorCodeReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChNMaW5rRXJyb3JDb2RlLnByb3RvEgpBY0Z1bkRhbm11KosHCg1MaW5rRXJy",
+            "ChNMaW5rRXJyb3JDb2RlLnByb3RvEgpBY0Z1bkRhbm11Ks0HCg1MaW5rRXJy",
             "b3JDb2RlEggKBFNVQ0MQABIOCglCQVNJQ19NSU4QkE4SEwoOSU5URVJORUxf",
             "RVJST1IQkU4SGAoTU0VSVklDRV9VTkFWQUlMQUJMRRCSThIUCg9TRVJWSUNF",
             "X1RJTUVPVVQQk04SEgoNSU5WQUxJRF9UT0tFThCUThIeChlSRUdfRU5DWVJQ",
@@ -44,8 +44,9 @@ namespace AcFunDanmu {
             "T05ORUNUEK1OEhMKDkNMSUVOVF9USU1FT1VUEK5OEhUKEElOVkFMSURfQVJH",
             "VU1FTlQQr04SGQoUSU5WQUxJRF9GT1JNQVRfVE9LRU4QsE4SEgoNRU1QVFlf",
             "UEFZTE9BRBCxThISCg1DT01QUkVTU19GQUlMELJOEhQKD0RFQ09NUFJFU1Nf",
-            "RkFJTBCzThIRCgxPVVRfT0ZfT1JERVIQtE4SDwoJQkFTSUNfTUFYEJ+cAWIG",
-            "cHJvdG8z"));
+            "RkFJTBCzThIRCgxPVVRfT0ZfT1JERVIQtE4SEQoMT1VUX09GX0xJTUlUELVO",
+            "EhYKEVRPT19MQVJHRV9QQVlMT0FEELZOEhUKEEFOT05ZTU9VU0VfRVJST1IQ",
+            "t04SDwoJQkFTSUNfTUFYEJ+cAWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AcFunDanmu.LinkErrorCode), }, null, null));
@@ -92,6 +93,9 @@ namespace AcFunDanmu {
     [pbr::OriginalName("COMPRESS_FAIL")] CompressFail = 10034,
     [pbr::OriginalName("DECOMPRESS_FAIL")] DecompressFail = 10035,
     [pbr::OriginalName("OUT_OF_ORDER")] OutOfOrder = 10036,
+    [pbr::OriginalName("OUT_OF_LIMIT")] OutOfLimit = 10037,
+    [pbr::OriginalName("TOO_LARGE_PAYLOAD")] TooLargePayload = 10038,
+    [pbr::OriginalName("ANONYMOUSE_ERROR")] AnonymouseError = 10039,
     [pbr::OriginalName("BASIC_MAX")] BasicMax = 19999,
   }
 

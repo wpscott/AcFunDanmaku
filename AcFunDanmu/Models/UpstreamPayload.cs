@@ -26,7 +26,7 @@ namespace AcFunDanmu {
           string.Concat(
             "ChVVcHN0cmVhbVBheWxvYWQucHJvdG8SCkFjRnVuRGFubXUaElVzZXJJbnN0",
             "YW5jZS5wcm90bxoRU2V0dGluZ0luZm8ucHJvdG8aFlJlcXVlc3RCYXNpY0lu",
-            "Zm8ucHJvdG8aEkZyb250ZW5kSW5mby5wcm90byLoAgoPVXBzdHJlYW1QYXls",
+            "Zm8ucHJvdG8aEkZyb250ZW5kSW5mby5wcm90byL4AgoPVXBzdHJlYW1QYXls",
             "b2FkEg8KB2NvbW1hbmQYASABKAkSDQoFc2VxSWQYAiABKAMSEgoKcmV0cnlD",
             "b3VudBgDIAEoDRITCgtwYXlsb2FkRGF0YRgEIAEoDBIuCgx1c2VySW5zdGFu",
             "Y2UYBSABKAsyGC5BY0Z1bkRhbm11LlVzZXJJbnN0YW5jZRIRCgllcnJvckNv",
@@ -34,11 +34,12 @@ namespace AcFunDanmu {
             "dHRpbmdJbmZvEjYKEHJlcXVlc3RCYXNpY0luZm8YCCABKAsyHC5BY0Z1bkRh",
             "bm11LlJlcXVlc3RCYXNpY0luZm8SDgoGc3ViQml6GAkgASgJEi4KDGZyb250",
             "ZW5kSW5mbxgKIAEoCzIYLkFjRnVuRGFubXUuRnJvbnRlbmRJbmZvEgsKA2tw",
-            "bhgLIAEoCRIWCg5hbm9ueW1vdXNlVXNlchgMIAEoCGIGcHJvdG8z"));
+            "bhgLIAEoCRIWCg5hbm9ueW1vdXNlVXNlchgMIAEoCBIOCgZsYW5lSWQYDSAB",
+            "KAliBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.UserInstanceReflection.Descriptor, global::AcFunDanmu.SettingInfoReflection.Descriptor, global::AcFunDanmu.RequestBasicInfoReflection.Descriptor, global::AcFunDanmu.FrontendInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.UpstreamPayload), global::AcFunDanmu.UpstreamPayload.Parser, new[]{ "Command", "SeqId", "RetryCount", "PayloadData", "UserInstance", "ErrorCode", "SettingInfo", "RequestBasicInfo", "SubBiz", "FrontendInfo", "Kpn", "AnonymouseUser" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.UpstreamPayload), global::AcFunDanmu.UpstreamPayload.Parser, new[]{ "Command", "SeqId", "RetryCount", "PayloadData", "UserInstance", "ErrorCode", "SettingInfo", "RequestBasicInfo", "SubBiz", "FrontendInfo", "Kpn", "AnonymouseUser", "LaneId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -86,6 +87,7 @@ namespace AcFunDanmu {
       frontendInfo_ = other.frontendInfo_ != null ? other.frontendInfo_.Clone() : null;
       kpn_ = other.kpn_;
       anonymouseUser_ = other.anonymouseUser_;
+      laneId_ = other.laneId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -226,6 +228,17 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "laneId" field.</summary>
+    public const int LaneIdFieldNumber = 13;
+    private string laneId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string LaneId {
+      get { return laneId_; }
+      set {
+        laneId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as UpstreamPayload);
@@ -251,6 +264,7 @@ namespace AcFunDanmu {
       if (!object.Equals(FrontendInfo, other.FrontendInfo)) return false;
       if (Kpn != other.Kpn) return false;
       if (AnonymouseUser != other.AnonymouseUser) return false;
+      if (LaneId != other.LaneId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -269,6 +283,7 @@ namespace AcFunDanmu {
       if (frontendInfo_ != null) hash ^= FrontendInfo.GetHashCode();
       if (Kpn.Length != 0) hash ^= Kpn.GetHashCode();
       if (AnonymouseUser != false) hash ^= AnonymouseUser.GetHashCode();
+      if (LaneId.Length != 0) hash ^= LaneId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -333,6 +348,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(96);
         output.WriteBool(AnonymouseUser);
       }
+      if (LaneId.Length != 0) {
+        output.WriteRawTag(106);
+        output.WriteString(LaneId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -390,6 +409,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(96);
         output.WriteBool(AnonymouseUser);
       }
+      if (LaneId.Length != 0) {
+        output.WriteRawTag(106);
+        output.WriteString(LaneId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -434,6 +457,9 @@ namespace AcFunDanmu {
       }
       if (AnonymouseUser != false) {
         size += 1 + 1;
+      }
+      if (LaneId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(LaneId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -493,6 +519,9 @@ namespace AcFunDanmu {
       }
       if (other.AnonymouseUser != false) {
         AnonymouseUser = other.AnonymouseUser;
+      }
+      if (other.LaneId.Length != 0) {
+        LaneId = other.LaneId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -568,6 +597,10 @@ namespace AcFunDanmu {
             AnonymouseUser = input.ReadBool();
             break;
           }
+          case 106: {
+            LaneId = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -640,6 +673,10 @@ namespace AcFunDanmu {
           }
           case 96: {
             AnonymouseUser = input.ReadBool();
+            break;
+          }
+          case 106: {
+            LaneId = input.ReadString();
             break;
           }
         }

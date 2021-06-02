@@ -25,7 +25,7 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChZSZXF1ZXN0QmFzaWNJbmZvLnByb3RvEgpBY0Z1bkRhbm11GhBEZXZpY2VJ",
-            "bmZvLnByb3RvGg1BcHBJbmZvLnByb3RvGg1FbnZJbmZvLnByb3RvIr8CChBS",
+            "bmZvLnByb3RvGg1BcHBJbmZvLnByb3RvGg1FbnZJbmZvLnByb3RvIugCChBS",
             "ZXF1ZXN0QmFzaWNJbmZvEjcKCmNsaWVudFR5cGUYASABKA4yIy5BY0Z1bkRh",
             "bm11LkRldmljZUluZm8uUGxhdGZvcm1UeXBlEhAKCGRldmljZUlkGAIgASgJ",
             "EhAKCGNsaWVudElwGAMgASgJEhIKCmFwcFZlcnNpb24YBCABKAkSDwoHY2hh",
@@ -33,11 +33,12 @@ namespace AcFunDanmu {
             "bmZvEioKCmRldmljZUluZm8YByABKAsyFi5BY0Z1bkRhbm11LkRldmljZUlu",
             "Zm8SJAoHZW52SW5mbxgIIAEoCzITLkFjRnVuRGFubXUuRW52SW5mbxISCgpj",
             "bGllbnRQb3J0GAkgASgFEhAKCGxvY2F0aW9uGAogASgJEgsKA2twZhgLIAEo",
-            "CWIGcHJvdG8z"));
+            "CRISCgpjbGllbnRJcFY2GAwgASgJEhMKC2NvdW50cnlDb2RlGA0gASgJYgZw",
+            "cm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.DeviceInfoReflection.Descriptor, global::AcFunDanmu.AppInfoReflection.Descriptor, global::AcFunDanmu.EnvInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.RequestBasicInfo), global::AcFunDanmu.RequestBasicInfo.Parser, new[]{ "ClientType", "DeviceId", "ClientIp", "AppVersion", "Channel", "AppInfo", "DeviceInfo", "EnvInfo", "ClientPort", "Location", "Kpf" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.RequestBasicInfo), global::AcFunDanmu.RequestBasicInfo.Parser, new[]{ "ClientType", "DeviceId", "ClientIp", "AppVersion", "Channel", "AppInfo", "DeviceInfo", "EnvInfo", "ClientPort", "Location", "Kpf", "ClientIpV6", "CountryCode" }, null, null, null, null)
           }));
     }
     #endregion
@@ -87,6 +88,8 @@ namespace AcFunDanmu {
       clientPort_ = other.clientPort_;
       location_ = other.location_;
       kpf_ = other.kpf_;
+      clientIpV6_ = other.clientIpV6_;
+      countryCode_ = other.countryCode_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -216,6 +219,28 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "clientIpV6" field.</summary>
+    public const int ClientIpV6FieldNumber = 12;
+    private string clientIpV6_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ClientIpV6 {
+      get { return clientIpV6_; }
+      set {
+        clientIpV6_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "countryCode" field.</summary>
+    public const int CountryCodeFieldNumber = 13;
+    private string countryCode_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CountryCode {
+      get { return countryCode_; }
+      set {
+        countryCode_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as RequestBasicInfo);
@@ -240,6 +265,8 @@ namespace AcFunDanmu {
       if (ClientPort != other.ClientPort) return false;
       if (Location != other.Location) return false;
       if (Kpf != other.Kpf) return false;
+      if (ClientIpV6 != other.ClientIpV6) return false;
+      if (CountryCode != other.CountryCode) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -257,6 +284,8 @@ namespace AcFunDanmu {
       if (ClientPort != 0) hash ^= ClientPort.GetHashCode();
       if (Location.Length != 0) hash ^= Location.GetHashCode();
       if (Kpf.Length != 0) hash ^= Kpf.GetHashCode();
+      if (ClientIpV6.Length != 0) hash ^= ClientIpV6.GetHashCode();
+      if (CountryCode.Length != 0) hash ^= CountryCode.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -317,6 +346,14 @@ namespace AcFunDanmu {
         output.WriteRawTag(90);
         output.WriteString(Kpf);
       }
+      if (ClientIpV6.Length != 0) {
+        output.WriteRawTag(98);
+        output.WriteString(ClientIpV6);
+      }
+      if (CountryCode.Length != 0) {
+        output.WriteRawTag(106);
+        output.WriteString(CountryCode);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -370,6 +407,14 @@ namespace AcFunDanmu {
         output.WriteRawTag(90);
         output.WriteString(Kpf);
       }
+      if (ClientIpV6.Length != 0) {
+        output.WriteRawTag(98);
+        output.WriteString(ClientIpV6);
+      }
+      if (CountryCode.Length != 0) {
+        output.WriteRawTag(106);
+        output.WriteString(CountryCode);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -411,6 +456,12 @@ namespace AcFunDanmu {
       }
       if (Kpf.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Kpf);
+      }
+      if (ClientIpV6.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ClientIpV6);
+      }
+      if (CountryCode.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CountryCode);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -464,6 +515,12 @@ namespace AcFunDanmu {
       }
       if (other.Kpf.Length != 0) {
         Kpf = other.Kpf;
+      }
+      if (other.ClientIpV6.Length != 0) {
+        ClientIpV6 = other.ClientIpV6;
+      }
+      if (other.CountryCode.Length != 0) {
+        CountryCode = other.CountryCode;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -532,6 +589,14 @@ namespace AcFunDanmu {
             Kpf = input.ReadString();
             break;
           }
+          case 98: {
+            ClientIpV6 = input.ReadString();
+            break;
+          }
+          case 106: {
+            CountryCode = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -597,6 +662,14 @@ namespace AcFunDanmu {
           }
           case 90: {
             Kpf = input.ReadString();
+            break;
+          }
+          case 98: {
+            ClientIpV6 = input.ReadString();
+            break;
+          }
+          case 106: {
+            CountryCode = input.ReadString();
             break;
           }
         }

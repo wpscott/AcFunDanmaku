@@ -24,15 +24,17 @@ namespace AcFunDanmu {
     static AccessPointReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFBY2Nlc3NQb2ludC5wcm90bxIKQWNGdW5EYW5tdSKzAQoLQWNjZXNzUG9p",
+            "ChFBY2Nlc3NQb2ludC5wcm90bxIKQWNGdW5EYW5tdSLpAQoLQWNjZXNzUG9p",
             "bnQSOAoLYWRkcmVzc1R5cGUYASABKA4yIy5BY0Z1bkRhbm11LkFjY2Vzc1Bv",
             "aW50LkFkZHJlc3NUeXBlEgwKBHBvcnQYAiABKA0SDAoEaXBWNBgDIAEoBxIM",
-            "CgRpcFY2GAQgASgMEg4KBmRvbWFpbhgFIAEoCSIwCgtBZGRyZXNzVHlwZRIJ",
-            "CgVrSVBWNBAAEgkKBWtJUFY2EAESCwoHa0RvbWFpbhACYgZwcm90bzM="));
+            "CgRpcFY2GAQgASgMEg4KBmRvbWFpbhgFIAEoCRIMCgRxdWljGAYgASgHEg4K",
+            "BnF1aWNWNhgHIAEoDCJICgtBZGRyZXNzVHlwZRIJCgVrSVBWNBAAEgkKBWtJ",
+            "UFY2EAESCwoHa0RvbWFpbhACEgkKBWtRdWljEAMSCwoHa1F1aWNWNhAEYgZw",
+            "cm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AccessPoint), global::AcFunDanmu.AccessPoint.Parser, new[]{ "AddressType", "Port", "IpV4", "IpV6", "Domain" }, null, new[]{ typeof(global::AcFunDanmu.AccessPoint.Types.AddressType) }, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.AccessPoint), global::AcFunDanmu.AccessPoint.Parser, new[]{ "AddressType", "Port", "IpV4", "IpV6", "Domain", "Quic", "QuicV6" }, null, new[]{ typeof(global::AcFunDanmu.AccessPoint.Types.AddressType) }, null, null)
           }));
     }
     #endregion
@@ -73,6 +75,8 @@ namespace AcFunDanmu {
       ipV4_ = other.ipV4_;
       ipV6_ = other.ipV6_;
       domain_ = other.domain_;
+      quic_ = other.quic_;
+      quicV6_ = other.quicV6_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -136,6 +140,28 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "quic" field.</summary>
+    public const int QuicFieldNumber = 6;
+    private uint quic_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint Quic {
+      get { return quic_; }
+      set {
+        quic_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "quicV6" field.</summary>
+    public const int QuicV6FieldNumber = 7;
+    private pb::ByteString quicV6_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString QuicV6 {
+      get { return quicV6_; }
+      set {
+        quicV6_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as AccessPoint);
@@ -154,6 +180,8 @@ namespace AcFunDanmu {
       if (IpV4 != other.IpV4) return false;
       if (IpV6 != other.IpV6) return false;
       if (Domain != other.Domain) return false;
+      if (Quic != other.Quic) return false;
+      if (QuicV6 != other.QuicV6) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -165,6 +193,8 @@ namespace AcFunDanmu {
       if (IpV4 != 0) hash ^= IpV4.GetHashCode();
       if (IpV6.Length != 0) hash ^= IpV6.GetHashCode();
       if (Domain.Length != 0) hash ^= Domain.GetHashCode();
+      if (Quic != 0) hash ^= Quic.GetHashCode();
+      if (QuicV6.Length != 0) hash ^= QuicV6.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -201,6 +231,14 @@ namespace AcFunDanmu {
         output.WriteRawTag(42);
         output.WriteString(Domain);
       }
+      if (Quic != 0) {
+        output.WriteRawTag(53);
+        output.WriteFixed32(Quic);
+      }
+      if (QuicV6.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteBytes(QuicV6);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -230,6 +268,14 @@ namespace AcFunDanmu {
         output.WriteRawTag(42);
         output.WriteString(Domain);
       }
+      if (Quic != 0) {
+        output.WriteRawTag(53);
+        output.WriteFixed32(Quic);
+      }
+      if (QuicV6.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteBytes(QuicV6);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -253,6 +299,12 @@ namespace AcFunDanmu {
       }
       if (Domain.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Domain);
+      }
+      if (Quic != 0) {
+        size += 1 + 4;
+      }
+      if (QuicV6.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(QuicV6);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -279,6 +331,12 @@ namespace AcFunDanmu {
       }
       if (other.Domain.Length != 0) {
         Domain = other.Domain;
+      }
+      if (other.Quic != 0) {
+        Quic = other.Quic;
+      }
+      if (other.QuicV6.Length != 0) {
+        QuicV6 = other.QuicV6;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -312,6 +370,14 @@ namespace AcFunDanmu {
           }
           case 42: {
             Domain = input.ReadString();
+            break;
+          }
+          case 53: {
+            Quic = input.ReadFixed32();
+            break;
+          }
+          case 58: {
+            QuicV6 = input.ReadBytes();
             break;
           }
         }
@@ -348,6 +414,14 @@ namespace AcFunDanmu {
             Domain = input.ReadString();
             break;
           }
+          case 53: {
+            Quic = input.ReadFixed32();
+            break;
+          }
+          case 58: {
+            QuicV6 = input.ReadBytes();
+            break;
+          }
         }
       }
     }
@@ -361,6 +435,8 @@ namespace AcFunDanmu {
         [pbr::OriginalName("kIPV4")] KIpv4 = 0,
         [pbr::OriginalName("kIPV6")] KIpv6 = 1,
         [pbr::OriginalName("kDomain")] KDomain = 2,
+        [pbr::OriginalName("kQuic")] KQuic = 3,
+        [pbr::OriginalName("kQuicV6")] KQuicV6 = 4,
       }
 
     }

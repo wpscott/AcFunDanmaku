@@ -24,15 +24,15 @@ namespace AcFunDanmu {
     static DownstreamPayloadReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChdEb3duc3RyZWFtUGF5bG9hZC5wcm90bxIKQWNGdW5EYW5tdSKQAQoRRG93",
+            "ChdEb3duc3RyZWFtUGF5bG9hZC5wcm90bxIKQWNGdW5EYW5tdSKlAQoRRG93",
             "bnN0cmVhbVBheWxvYWQSDwoHY29tbWFuZBgBIAEoCRINCgVzZXFJZBgCIAEo",
             "AxIRCgllcnJvckNvZGUYAyABKAUSEwoLcGF5bG9hZERhdGEYBCABKAwSEAoI",
             "ZXJyb3JNc2cYBSABKAkSEQoJZXJyb3JEYXRhGAYgASgMEg4KBnN1YkJpehgH",
-            "IAEoCWIGcHJvdG8z"));
+            "IAEoCRITCgtrbGlua1B1c2hJZBgIIAEoA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.DownstreamPayload), global::AcFunDanmu.DownstreamPayload.Parser, new[]{ "Command", "SeqId", "ErrorCode", "PayloadData", "ErrorMsg", "ErrorData", "SubBiz" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.DownstreamPayload), global::AcFunDanmu.DownstreamPayload.Parser, new[]{ "Command", "SeqId", "ErrorCode", "PayloadData", "ErrorMsg", "ErrorData", "SubBiz", "KlinkPushId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -75,6 +75,7 @@ namespace AcFunDanmu {
       errorMsg_ = other.errorMsg_;
       errorData_ = other.errorData_;
       subBiz_ = other.subBiz_;
+      klinkPushId_ = other.klinkPushId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -160,6 +161,17 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "klinkPushId" field.</summary>
+    public const int KlinkPushIdFieldNumber = 8;
+    private long klinkPushId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long KlinkPushId {
+      get { return klinkPushId_; }
+      set {
+        klinkPushId_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as DownstreamPayload);
@@ -180,6 +192,7 @@ namespace AcFunDanmu {
       if (ErrorMsg != other.ErrorMsg) return false;
       if (ErrorData != other.ErrorData) return false;
       if (SubBiz != other.SubBiz) return false;
+      if (KlinkPushId != other.KlinkPushId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -193,6 +206,7 @@ namespace AcFunDanmu {
       if (ErrorMsg.Length != 0) hash ^= ErrorMsg.GetHashCode();
       if (ErrorData.Length != 0) hash ^= ErrorData.GetHashCode();
       if (SubBiz.Length != 0) hash ^= SubBiz.GetHashCode();
+      if (KlinkPushId != 0L) hash ^= KlinkPushId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -237,6 +251,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(58);
         output.WriteString(SubBiz);
       }
+      if (KlinkPushId != 0L) {
+        output.WriteRawTag(64);
+        output.WriteInt64(KlinkPushId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -274,6 +292,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(58);
         output.WriteString(SubBiz);
       }
+      if (KlinkPushId != 0L) {
+        output.WriteRawTag(64);
+        output.WriteInt64(KlinkPushId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -303,6 +325,9 @@ namespace AcFunDanmu {
       }
       if (SubBiz.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(SubBiz);
+      }
+      if (KlinkPushId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(KlinkPushId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -335,6 +360,9 @@ namespace AcFunDanmu {
       }
       if (other.SubBiz.Length != 0) {
         SubBiz = other.SubBiz;
+      }
+      if (other.KlinkPushId != 0L) {
+        KlinkPushId = other.KlinkPushId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -378,6 +406,10 @@ namespace AcFunDanmu {
             SubBiz = input.ReadString();
             break;
           }
+          case 64: {
+            KlinkPushId = input.ReadInt64();
+            break;
+          }
         }
       }
     #endif
@@ -418,6 +450,10 @@ namespace AcFunDanmu {
           }
           case 58: {
             SubBiz = input.ReadString();
+            break;
+          }
+          case 64: {
+            KlinkPushId = input.ReadInt64();
             break;
           }
         }

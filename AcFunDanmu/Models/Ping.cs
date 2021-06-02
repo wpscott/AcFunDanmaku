@@ -27,15 +27,15 @@ namespace AcFunDanmu {
             "CgpQaW5nLnByb3RvEgpBY0Z1bkRhbm11IpUBCgtQaW5nUmVxdWVzdBIyCghw",
             "aW5nVHlwZRgBIAEoDjIgLkFjRnVuRGFubXUuUGluZ1JlcXVlc3QuUGluZ1R5",
             "cGUSEQoJcGluZ1JvdW5kGAIgASgNIj8KCFBpbmdUeXBlEgwKCGtJbnZhbGlk",
-            "EAASEgoOa1ByaW9yUmVnaXN0ZXIQARIRCg1rUG9zdFJlZ2lzdGVyEAIiYwoM",
+            "EAASEgoOa1ByaW9yUmVnaXN0ZXIQARIRCg1rUG9zdFJlZ2lzdGVyEAIidwoM",
             "UGluZ1Jlc3BvbnNlEhcKD3NlcnZlclRpbWVzdGFtcBgBIAEoDxIQCghjbGll",
             "bnRJcBgCIAEoBxISCgpyZWRpcmVjdElwGAMgASgHEhQKDHJlZGlyZWN0UG9y",
-            "dBgEIAEoDWIGcHJvdG8z"));
+            "dBgEIAEoDRISCgpjbGllbnRJcFY2GAUgASgMYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.PingRequest), global::AcFunDanmu.PingRequest.Parser, new[]{ "PingType", "PingRound" }, null, new[]{ typeof(global::AcFunDanmu.PingRequest.Types.PingType) }, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.PingResponse), global::AcFunDanmu.PingResponse.Parser, new[]{ "ServerTimestamp", "ClientIp", "RedirectIp", "RedirectPort" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.PingResponse), global::AcFunDanmu.PingResponse.Parser, new[]{ "ServerTimestamp", "ClientIp", "RedirectIp", "RedirectPort", "ClientIpV6" }, null, null, null, null)
           }));
     }
     #endregion
@@ -296,6 +296,7 @@ namespace AcFunDanmu {
       clientIp_ = other.clientIp_;
       redirectIp_ = other.redirectIp_;
       redirectPort_ = other.redirectPort_;
+      clientIpV6_ = other.clientIpV6_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -348,6 +349,17 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "clientIpV6" field.</summary>
+    public const int ClientIpV6FieldNumber = 5;
+    private pb::ByteString clientIpV6_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString ClientIpV6 {
+      get { return clientIpV6_; }
+      set {
+        clientIpV6_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PingResponse);
@@ -365,6 +377,7 @@ namespace AcFunDanmu {
       if (ClientIp != other.ClientIp) return false;
       if (RedirectIp != other.RedirectIp) return false;
       if (RedirectPort != other.RedirectPort) return false;
+      if (ClientIpV6 != other.ClientIpV6) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -375,6 +388,7 @@ namespace AcFunDanmu {
       if (ClientIp != 0) hash ^= ClientIp.GetHashCode();
       if (RedirectIp != 0) hash ^= RedirectIp.GetHashCode();
       if (RedirectPort != 0) hash ^= RedirectPort.GetHashCode();
+      if (ClientIpV6.Length != 0) hash ^= ClientIpV6.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -407,6 +421,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(32);
         output.WriteUInt32(RedirectPort);
       }
+      if (ClientIpV6.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteBytes(ClientIpV6);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -432,6 +450,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(32);
         output.WriteUInt32(RedirectPort);
       }
+      if (ClientIpV6.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteBytes(ClientIpV6);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -452,6 +474,9 @@ namespace AcFunDanmu {
       }
       if (RedirectPort != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RedirectPort);
+      }
+      if (ClientIpV6.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ClientIpV6);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -475,6 +500,9 @@ namespace AcFunDanmu {
       }
       if (other.RedirectPort != 0) {
         RedirectPort = other.RedirectPort;
+      }
+      if (other.ClientIpV6.Length != 0) {
+        ClientIpV6 = other.ClientIpV6;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -506,6 +534,10 @@ namespace AcFunDanmu {
             RedirectPort = input.ReadUInt32();
             break;
           }
+          case 42: {
+            ClientIpV6 = input.ReadBytes();
+            break;
+          }
         }
       }
     #endif
@@ -534,6 +566,10 @@ namespace AcFunDanmu {
           }
           case 32: {
             RedirectPort = input.ReadUInt32();
+            break;
+          }
+          case 42: {
+            ClientIpV6 = input.ReadBytes();
             break;
           }
         }

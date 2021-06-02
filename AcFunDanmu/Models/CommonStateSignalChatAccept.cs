@@ -25,14 +25,14 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiFDb21tb25TdGF0ZVNpZ25hbENoYXRBY2NlcHQucHJvdG8SCkFjRnVuRGFu",
-            "bXUaE0NoYXRNZWRpYVR5cGUucHJvdG8idAobQ29tbW9uU3RhdGVTaWduYWxD",
+            "bXUaE0NoYXRNZWRpYVR5cGUucHJvdG8icwobQ29tbW9uU3RhdGVTaWduYWxD",
             "aGF0QWNjZXB0Eg4KBmNoYXRJZBgBIAEoCRIsCgltZWRpYVR5cGUYAiABKA4y",
-            "GS5BY0Z1bkRhbm11LkNoYXRNZWRpYVR5cGUSFwoPYXJyYXlTaWduYWxJbmZv",
-            "GAMgASgJYgZwcm90bzM="));
+            "GS5BY0Z1bkRhbm11LkNoYXRNZWRpYVR5cGUSFgoOYXJ5YVNpZ25hbEluZm8Y",
+            "AyABKAliBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.ChatMediaTypeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatAccept), global::AcFunDanmu.CommonStateSignalChatAccept.Parser, new[]{ "ChatId", "MediaType", "ArraySignalInfo" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatAccept), global::AcFunDanmu.CommonStateSignalChatAccept.Parser, new[]{ "ChatId", "MediaType", "AryaSignalInfo" }, null, null, null, null)
           }));
     }
     #endregion
@@ -70,7 +70,7 @@ namespace AcFunDanmu {
     public CommonStateSignalChatAccept(CommonStateSignalChatAccept other) : this() {
       chatId_ = other.chatId_;
       mediaType_ = other.mediaType_;
-      arraySignalInfo_ = other.arraySignalInfo_;
+      aryaSignalInfo_ = other.aryaSignalInfo_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -101,14 +101,14 @@ namespace AcFunDanmu {
       }
     }
 
-    /// <summary>Field number for the "arraySignalInfo" field.</summary>
-    public const int ArraySignalInfoFieldNumber = 3;
-    private string arraySignalInfo_ = "";
+    /// <summary>Field number for the "aryaSignalInfo" field.</summary>
+    public const int AryaSignalInfoFieldNumber = 3;
+    private string aryaSignalInfo_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string ArraySignalInfo {
-      get { return arraySignalInfo_; }
+    public string AryaSignalInfo {
+      get { return aryaSignalInfo_; }
       set {
-        arraySignalInfo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        aryaSignalInfo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -127,7 +127,7 @@ namespace AcFunDanmu {
       }
       if (ChatId != other.ChatId) return false;
       if (MediaType != other.MediaType) return false;
-      if (ArraySignalInfo != other.ArraySignalInfo) return false;
+      if (AryaSignalInfo != other.AryaSignalInfo) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -136,7 +136,7 @@ namespace AcFunDanmu {
       int hash = 1;
       if (ChatId.Length != 0) hash ^= ChatId.GetHashCode();
       if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) hash ^= MediaType.GetHashCode();
-      if (ArraySignalInfo.Length != 0) hash ^= ArraySignalInfo.GetHashCode();
+      if (AryaSignalInfo.Length != 0) hash ^= AryaSignalInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -161,9 +161,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(16);
         output.WriteEnum((int) MediaType);
       }
-      if (ArraySignalInfo.Length != 0) {
+      if (AryaSignalInfo.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(ArraySignalInfo);
+        output.WriteString(AryaSignalInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -182,9 +182,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(16);
         output.WriteEnum((int) MediaType);
       }
-      if (ArraySignalInfo.Length != 0) {
+      if (AryaSignalInfo.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(ArraySignalInfo);
+        output.WriteString(AryaSignalInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -201,8 +201,8 @@ namespace AcFunDanmu {
       if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) MediaType);
       }
-      if (ArraySignalInfo.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(ArraySignalInfo);
+      if (AryaSignalInfo.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AryaSignalInfo);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -221,8 +221,8 @@ namespace AcFunDanmu {
       if (other.MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
         MediaType = other.MediaType;
       }
-      if (other.ArraySignalInfo.Length != 0) {
-        ArraySignalInfo = other.ArraySignalInfo;
+      if (other.AryaSignalInfo.Length != 0) {
+        AryaSignalInfo = other.AryaSignalInfo;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -247,7 +247,7 @@ namespace AcFunDanmu {
             break;
           }
           case 26: {
-            ArraySignalInfo = input.ReadString();
+            AryaSignalInfo = input.ReadString();
             break;
           }
         }
@@ -273,7 +273,7 @@ namespace AcFunDanmu {
             break;
           }
           case 26: {
-            ArraySignalInfo = input.ReadString();
+            AryaSignalInfo = input.ReadString();
             break;
           }
         }
