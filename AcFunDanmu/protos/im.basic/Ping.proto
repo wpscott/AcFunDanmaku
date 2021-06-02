@@ -17,4 +17,5 @@ message PingResponse {
     fixed32 clientIp = 2;
     fixed32 redirectIp = 3;
     uint32 redirectPort = 4;
+    bytes clientIpV6 = 5;
 }

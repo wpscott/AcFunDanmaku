@@ -10,4 +10,5 @@ message DownstreamPayload {
     string errorMsg = 5;
     bytes errorData = 6;
     string subBiz = 7;
+    int64 klinkPushId = 8;
 }

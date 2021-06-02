@@ -40,5 +40,11 @@ message RegisterResponse {
 	bytes sessKey = 2;
 	int64 instanceId = 3;
 	SdkOption sdkOption = 4;
-	AccessPointsConfig accessPointsCOnfigIpv6 = 5;
+	AccessPointsConfig accessPointsConfigIpv6 = 5;
+	AccessPointsConfig accessPointsConfigQUic = 6;
+	AccessPointsConfig accessPointsConfigQuicIpv6 = 7;
+	bool cleanAccessPoint = 8;
+	float flowCostSampleRate = 9;
+	float commandSampleRate = 10;
+	AccessPointsConfig accessPointsConfigWs = 11;
 }

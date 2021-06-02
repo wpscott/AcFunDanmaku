@@ -7,5 +7,6 @@ message AppInfo {
     string appVersion = 2;
     string appChannel = 3;
     string sdkVersion = 4;
+    string linkVersion = 5;
     map<string, string> extensionInfo = 11;
 }

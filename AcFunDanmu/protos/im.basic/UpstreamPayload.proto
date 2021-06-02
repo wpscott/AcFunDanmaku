@@ -20,4 +20,5 @@ message UpstreamPayload {
     FrontendInfo frontendInfo = 10;
     string kpn = 11;
     bool anonymouseUser = 12;
+    string laneId = 13;
 }

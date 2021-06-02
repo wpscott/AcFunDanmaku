@@ -18,4 +18,6 @@ message RequestBasicInfo { //RequsetBasicInfo
     int32 clientPort = 9;
     string location = 10;
     string kpf = 11;
+    string clientIpV6 = 12;
+    string countryCode = 13;
 }
