@@ -27,7 +27,7 @@ namespace AcFunDanmu {
             "Cg5SZWdpc3Rlci5wcm90bxIKQWNGdW5EYW5tdRoNQXBwSW5mby5wcm90bxoQ",
             "RGV2aWNlSW5mby5wcm90bxoNRW52SW5mby5wcm90bxoSWnRDb21tb25JbmZv",
             "LnByb3RvGhhBY2Nlc3NQb2ludHNDb25maWcucHJvdG8aFlB1c2hTZXJ2aWNl",
-            "VG9rZW4ucHJvdG8aD1Nka09wdGlvbi5wcm90byKGBQoPUmVnaXN0ZXJSZXF1",
+            "VG9rZW4ucHJvdG8aD1Nka09wdGlvbi5wcm90byKdBQoPUmVnaXN0ZXJSZXF1",
             "ZXN0EiQKB2FwcEluZm8YASABKAsyEy5BY0Z1bkRhbm11LkFwcEluZm8SKgoK",
             "ZGV2aWNlSW5mbxgCIAEoCzIWLkFjRnVuRGFubXUuRGV2aWNlSW5mbxIkCgdl",
             "bnZJbmZvGAMgASgLMhMuQWNGdW5EYW5tdS5FbnZJbmZvEkIKDnByZXNlbmNl",
@@ -39,25 +39,25 @@ namespace AcFunDanmu {
             "OgoUcHVzaFNlcnZpY2VUb2tlbkxpc3QYCSADKAsyHC5BY0Z1bkRhbm11LlB1",
             "c2hTZXJ2aWNlVG9rZW4SHAoUa2VlcGFsaXZlSW50ZXJ2YWxTZWMYCiABKAUS",
             "LgoMenRDb21tb25JbmZvGAsgASgLMhguQWNGdW5EYW5tdS5adENvbW1vbklu",
-            "Zm8iOwoOUHJlc2VuY2VTdGF0dXMSFAoQa1ByZXNlbmNlT2ZmbGluZRAAEhMK",
-            "D2tQcmVzZW5jZU9ubGluZRABIkgKDEFjdGl2ZVN0YXR1cxIMCghrSW52YWxp",
-            "ZBAAEhQKEGtBcHBJbkZvcmVncm91bmQQARIUChBrQXBwSW5CYWNrZ3JvdW5k",
-            "EAIi8AMKEFJlZ2lzdGVyUmVzcG9uc2USOgoSYWNjZXNzUG9pbnRzQ29uZmln",
-            "GAEgASgLMh4uQWNGdW5EYW5tdS5BY2Nlc3NQb2ludHNDb25maWcSDwoHc2Vz",
-            "c0tleRgCIAEoDBISCgppbnN0YW5jZUlkGAMgASgDEigKCXNka09wdGlvbhgE",
-            "IAEoCzIVLkFjRnVuRGFubXUuU2RrT3B0aW9uEj4KFmFjY2Vzc1BvaW50c0Nv",
-            "bmZpZ0lwdjYYBSABKAsyHi5BY0Z1bkRhbm11LkFjY2Vzc1BvaW50c0NvbmZp",
-            "ZxI+ChZhY2Nlc3NQb2ludHNDb25maWdRVWljGAYgASgLMh4uQWNGdW5EYW5t",
-            "dS5BY2Nlc3NQb2ludHNDb25maWcSQgoaYWNjZXNzUG9pbnRzQ29uZmlnUXVp",
-            "Y0lwdjYYByABKAsyHi5BY0Z1bkRhbm11LkFjY2Vzc1BvaW50c0NvbmZpZxIY",
-            "ChBjbGVhbkFjY2Vzc1BvaW50GAggASgIEhoKEmZsb3dDb3N0U2FtcGxlUmF0",
-            "ZRgJIAEoAhIZChFjb21tYW5kU2FtcGxlUmF0ZRgKIAEoAhI8ChRhY2Nlc3NQ",
-            "b2ludHNDb25maWdXcxgLIAEoCzIeLkFjRnVuRGFubXUuQWNjZXNzUG9pbnRz",
-            "Q29uZmlnYgZwcm90bzM="));
+            "Zm8SFQoNaXB2NkF2YWlsYWJsZRgMIAEoCCI7Cg5QcmVzZW5jZVN0YXR1cxIU",
+            "ChBrUHJlc2VuY2VPZmZsaW5lEAASEwoPa1ByZXNlbmNlT25saW5lEAEiSAoM",
+            "QWN0aXZlU3RhdHVzEgwKCGtJbnZhbGlkEAASFAoQa0FwcEluRm9yZWdyb3Vu",
+            "ZBABEhQKEGtBcHBJbkJhY2tncm91bmQQAiLwAwoQUmVnaXN0ZXJSZXNwb25z",
+            "ZRI6ChJhY2Nlc3NQb2ludHNDb25maWcYASABKAsyHi5BY0Z1bkRhbm11LkFj",
+            "Y2Vzc1BvaW50c0NvbmZpZxIPCgdzZXNzS2V5GAIgASgMEhIKCmluc3RhbmNl",
+            "SWQYAyABKAMSKAoJc2RrT3B0aW9uGAQgASgLMhUuQWNGdW5EYW5tdS5TZGtP",
+            "cHRpb24SPgoWYWNjZXNzUG9pbnRzQ29uZmlnSXB2NhgFIAEoCzIeLkFjRnVu",
+            "RGFubXUuQWNjZXNzUG9pbnRzQ29uZmlnEj4KFmFjY2Vzc1BvaW50c0NvbmZp",
+            "Z1FVaWMYBiABKAsyHi5BY0Z1bkRhbm11LkFjY2Vzc1BvaW50c0NvbmZpZxJC",
+            "ChphY2Nlc3NQb2ludHNDb25maWdRdWljSXB2NhgHIAEoCzIeLkFjRnVuRGFu",
+            "bXUuQWNjZXNzUG9pbnRzQ29uZmlnEhgKEGNsZWFuQWNjZXNzUG9pbnQYCCAB",
+            "KAgSGgoSZmxvd0Nvc3RTYW1wbGVSYXRlGAkgASgCEhkKEWNvbW1hbmRTYW1w",
+            "bGVSYXRlGAogASgCEjwKFGFjY2Vzc1BvaW50c0NvbmZpZ1dzGAsgASgLMh4u",
+            "QWNGdW5EYW5tdS5BY2Nlc3NQb2ludHNDb25maWdiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.AppInfoReflection.Descriptor, global::AcFunDanmu.DeviceInfoReflection.Descriptor, global::AcFunDanmu.EnvInfoReflection.Descriptor, global::AcFunDanmu.ZtCommonInfoReflection.Descriptor, global::AcFunDanmu.AccessPointsConfigReflection.Descriptor, global::AcFunDanmu.PushServiceTokenReflection.Descriptor, global::AcFunDanmu.SdkOptionReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.RegisterRequest), global::AcFunDanmu.RegisterRequest.Parser, new[]{ "AppInfo", "DeviceInfo", "EnvInfo", "PresenceStatus", "AppActiveStatus", "AppCustomStatus", "PushServiceToken", "InstanceId", "PushServiceTokenList", "KeepaliveIntervalSec", "ZtCommonInfo" }, null, new[]{ typeof(global::AcFunDanmu.RegisterRequest.Types.PresenceStatus), typeof(global::AcFunDanmu.RegisterRequest.Types.ActiveStatus) }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.RegisterRequest), global::AcFunDanmu.RegisterRequest.Parser, new[]{ "AppInfo", "DeviceInfo", "EnvInfo", "PresenceStatus", "AppActiveStatus", "AppCustomStatus", "PushServiceToken", "InstanceId", "PushServiceTokenList", "KeepaliveIntervalSec", "ZtCommonInfo", "Ipv6Available" }, null, new[]{ typeof(global::AcFunDanmu.RegisterRequest.Types.PresenceStatus), typeof(global::AcFunDanmu.RegisterRequest.Types.ActiveStatus) }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.RegisterResponse), global::AcFunDanmu.RegisterResponse.Parser, new[]{ "AccessPointsConfig", "SessKey", "InstanceId", "SdkOption", "AccessPointsConfigIpv6", "AccessPointsConfigQUic", "AccessPointsConfigQuicIpv6", "CleanAccessPoint", "FlowCostSampleRate", "CommandSampleRate", "AccessPointsConfigWs" }, null, null, null, null)
           }));
     }
@@ -105,6 +105,7 @@ namespace AcFunDanmu {
       pushServiceTokenList_ = other.pushServiceTokenList_.Clone();
       keepaliveIntervalSec_ = other.keepaliveIntervalSec_;
       ztCommonInfo_ = other.ztCommonInfo_ != null ? other.ztCommonInfo_.Clone() : null;
+      ipv6Available_ = other.ipv6Available_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -233,6 +234,17 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "ipv6Available" field.</summary>
+    public const int Ipv6AvailableFieldNumber = 12;
+    private bool ipv6Available_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Ipv6Available {
+      get { return ipv6Available_; }
+      set {
+        ipv6Available_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as RegisterRequest);
@@ -257,6 +269,7 @@ namespace AcFunDanmu {
       if(!pushServiceTokenList_.Equals(other.pushServiceTokenList_)) return false;
       if (KeepaliveIntervalSec != other.KeepaliveIntervalSec) return false;
       if (!object.Equals(ZtCommonInfo, other.ZtCommonInfo)) return false;
+      if (Ipv6Available != other.Ipv6Available) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -274,6 +287,7 @@ namespace AcFunDanmu {
       hash ^= pushServiceTokenList_.GetHashCode();
       if (KeepaliveIntervalSec != 0) hash ^= KeepaliveIntervalSec.GetHashCode();
       if (ztCommonInfo_ != null) hash ^= ZtCommonInfo.GetHashCode();
+      if (Ipv6Available != false) hash ^= Ipv6Available.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -331,6 +345,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(90);
         output.WriteMessage(ZtCommonInfo);
       }
+      if (Ipv6Available != false) {
+        output.WriteRawTag(96);
+        output.WriteBool(Ipv6Available);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -381,6 +399,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(90);
         output.WriteMessage(ZtCommonInfo);
       }
+      if (Ipv6Available != false) {
+        output.WriteRawTag(96);
+        output.WriteBool(Ipv6Available);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -420,6 +442,9 @@ namespace AcFunDanmu {
       }
       if (ztCommonInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(ZtCommonInfo);
+      }
+      if (Ipv6Available != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -477,6 +502,9 @@ namespace AcFunDanmu {
           ZtCommonInfo = new global::AcFunDanmu.ZtCommonInfo();
         }
         ZtCommonInfo.MergeFrom(other.ZtCommonInfo);
+      }
+      if (other.Ipv6Available != false) {
+        Ipv6Available = other.Ipv6Available;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -551,6 +579,10 @@ namespace AcFunDanmu {
             input.ReadMessage(ZtCommonInfo);
             break;
           }
+          case 96: {
+            Ipv6Available = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -622,6 +654,10 @@ namespace AcFunDanmu {
               ZtCommonInfo = new global::AcFunDanmu.ZtCommonInfo();
             }
             input.ReadMessage(ZtCommonInfo);
+            break;
+          }
+          case 96: {
+            Ipv6Available = input.ReadBool();
             break;
           }
         }

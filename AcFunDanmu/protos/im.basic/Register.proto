@@ -22,6 +22,7 @@ message RegisterRequest {
 	repeated PushServiceToken pushServiceTokenList = 9;
 	int32 keepaliveIntervalSec = 10;
 	ZtCommonInfo ztCommonInfo = 11;
+	bool ipv6Available = 12;
 
 	enum PresenceStatus {
 		kPresenceOffline = 0;
