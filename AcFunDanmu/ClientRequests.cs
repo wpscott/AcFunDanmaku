@@ -89,7 +89,7 @@ namespace AcFunDanmu
 
             var payload = GeneratePayload(Command.REGISTER, register);
 
-            var body = payload.ToByteString();
+            var body = payload.ToByteArray();
 
             var header = GenerateHeader(body, PacketHeader.Types.EncryptionMode.KEncryptionServiceToken);
             header.TokenInfo = new TokenInfo
@@ -103,6 +103,7 @@ namespace AcFunDanmu
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
             Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
             Log.Debug("\t{Register}", register);
             Log.Debug("--------");
@@ -120,7 +121,7 @@ namespace AcFunDanmu
 
             var payload = GeneratePayload(Command.KEEP_ALIVE, keepalive);
 
-            var body = payload.ToByteString();
+            var body = payload.ToByteArray();
 
             var header = GenerateHeader(body);
 
@@ -129,6 +130,7 @@ namespace AcFunDanmu
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
             Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
             Log.Debug("\t{KeepAlive}", keepalive);
             Log.Debug("--------");
@@ -148,7 +150,7 @@ namespace AcFunDanmu
 
             var payload = GeneratePayload(Command.GLOBAL_COMMAND, cmd);
 
-            var body = payload.ToByteString();
+            var body = payload.ToByteArray();
 
             var header = GenerateHeader(body);
 
@@ -157,6 +159,7 @@ namespace AcFunDanmu
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
             Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
             Log.Debug("\t{Command}", cmd);
             Log.Debug("\t\t{EnterRoom}", enterroom);
@@ -169,13 +172,14 @@ namespace AcFunDanmu
         {
             var payload = GeneratePayload(Command.PUSH_MESSAGE);
 
-            var body = payload.ToByteString();
+            var body = payload.ToByteArray();
 
             var header = GenerateHeader(body);
             header.SeqId = HeaderSeqId;
 
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
             Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
             Log.Debug("\t{PushMessage}");
 
@@ -194,7 +198,7 @@ namespace AcFunDanmu
 
             var payload = GeneratePayload(Command.GLOBAL_COMMAND, cmd);
 
-            var body = payload.ToByteString();
+            var body = payload.ToByteArray();
 
             var header = GenerateHeader(body);
 
@@ -204,6 +208,7 @@ namespace AcFunDanmu
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
             Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
             Log.Debug("\t{Command}", cmd);
             Log.Debug("\t\t{Heartbeat}", heartbeat);
@@ -218,7 +223,7 @@ namespace AcFunDanmu
 
             var payload = GeneratePayload(Command.GLOBAL_COMMAND, userexit);
 
-            var body = payload.ToByteString();
+            var body = payload.ToByteArray();
 
             var header = GenerateHeader(body);
 
@@ -227,6 +232,7 @@ namespace AcFunDanmu
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
             Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
             Log.Debug("\t{UserExit}", userexit);
             Log.Debug("--------");
@@ -238,13 +244,14 @@ namespace AcFunDanmu
         {
             var payload = GeneratePayload(Command.UNREGISTER);
 
-            var body = payload.ToByteString();
+            var body = payload.ToByteArray();
 
             var header = GenerateHeader(body);
 
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
             Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
             Log.Debug("\t{Unregister}");
             Log.Debug("--------");
@@ -261,13 +268,14 @@ namespace AcFunDanmu
 
             var payload = GeneratePayload(Command.PING, ping);
 
-            var body = payload.ToByteString();
+            var body = payload.ToByteArray();
 
             var header = GenerateHeader(body);
 
             Log.Debug("--------");
             Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
             Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
             Log.Debug("\t{Ping}", ping);
             Log.Debug("--------");
@@ -275,53 +283,43 @@ namespace AcFunDanmu
             return Encode(header, body, SessionKey);
         }
 
-        private ZtLiveCsCmd GenerateCommand(string command)
+        private ZtLiveCsCmd GenerateCommand(string command, IMessage msg = null) => new()
         {
-            return new ZtLiveCsCmd
-            {
-                CmdType = command,
-                Ticket = Ticket,
-                LiveId = LiveId,
-            };
-        }
+            CmdType = command,
+            Ticket = Ticket,
+            LiveId = LiveId,
+            Payload = msg?.ToByteString() ?? ByteString.Empty,
+        };
 
-        private ZtLiveCsCmd GenerateCommand(string command, IMessage msg)
+        private UpstreamPayload GeneratePayload(string command, IMessage msg = null) => new()
         {
-            var cmd = GenerateCommand(command);
-            cmd.Payload = msg.ToByteString();
-            return cmd;
-        }
+            Command = command,
+            RetryCount = RetryCount,
+            SeqId = SeqId,
+            SubBiz = SubBiz,
+            PayloadData = msg?.ToByteString() ?? ByteString.Empty,
+        };
 
-        private UpstreamPayload GeneratePayload(string command)
+        private PacketHeader GenerateHeader(ByteString body, PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new()
         {
-            return new UpstreamPayload
-            {
-                Command = command,
-                RetryCount = RetryCount,
-                SeqId = SeqId,
-                SubBiz = SubBiz,
-            };
-        }
+            AppId = AppId,
+            Uid = UserId,
+            InstanceId = InstanceId,
+            DecodedPayloadLen = Convert.ToUInt32(body.Length),
+            EncryptionMode = encryptionMode,
+            SeqId = SeqId,
+            Kpn = KPN
+        };
 
-        private UpstreamPayload GeneratePayload(string command, IMessage msg)
+        private PacketHeader GenerateHeader(ReadOnlySpan<byte> body, PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new()
         {
-            var payload = GeneratePayload(command);
-            payload.PayloadData = msg.ToByteString();
-            return payload;
-        }
-
-        private PacketHeader GenerateHeader(ByteString body, PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey)
-        {
-            return new PacketHeader
-            {
-                AppId = AppId,
-                Uid = UserId,
-                InstanceId = InstanceId,
-                DecodedPayloadLen = Convert.ToUInt32(body.Length),
-                EncryptionMode = encryptionMode,
-                SeqId = SeqId,
-                Kpn = KPN
-            };
-        }
+            AppId = AppId,
+            Uid = UserId,
+            InstanceId = InstanceId,
+            DecodedPayloadLen = Convert.ToUInt32(body.Length),
+            EncryptionMode = encryptionMode,
+            SeqId = SeqId,
+            Kpn = KPN
+        };
     }
 }

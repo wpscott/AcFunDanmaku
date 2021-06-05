@@ -43,13 +43,15 @@ namespace AcFunDanmu
             return (packet.ToArray(), body.ToArray());
         }
 
-        public static byte[] Encode(PacketHeader header, ByteString body, string key)
+        public static byte[] Encode(PacketHeader header, ByteString body, string key) => Encode(header, Encrypt(key, body));
+
+        public static byte[] Encode(PacketHeader header, ReadOnlySpan<byte> body, string key) => Encode(header, Encrypt(key, body));
+
+        internal static byte[] Encode(PacketHeader header, ReadOnlySpan<byte> encrypted)
         {
             var bHeader = header.ToByteArray();
 
-            var encrypt = Encrypt(key, body);
-
-            var len = HeaderOffset + bHeader.Length + encrypt.Length;
+            var len = HeaderOffset + bHeader.Length + encrypted.Length;
 
             Span<byte> data = stackalloc byte[len];
             data[0] = 0xAB;
@@ -57,13 +59,34 @@ namespace AcFunDanmu
             data[2] = 0x00;
             data[3] = 0x01;
 
-            var (packetLength, bodyLength) = EncodeLengths(bHeader.Length, encrypt.Length);
+            var (packetLength, bodyLength) = EncodeLengths(bHeader.Length, encrypted.Length);
             Copy(packetLength, 0, data, 4, packetLength.Length);
             Copy(bodyLength, 0, data, 8, bodyLength.Length);
             Copy(bHeader, 0, data, HeaderOffset, bHeader.Length);
-            Copy(encrypt, 0, data, HeaderOffset + bHeader.Length, encrypt.Length);
+            Copy(encrypted, 0, data, HeaderOffset + bHeader.Length, encrypted.Length);
+
+            //Dump(data);
+
+            //Decode<UpstreamPayload>(data, key, key, out _);
 
             return data.ToArray();
+        }
+
+        public static void Dump(ReadOnlySpan<byte> data)
+        {
+            for (var i = 0; i < data.Length; i++)
+            {
+                Console.Write(data[i].ToString("X2"));
+                if ((i & 1) == 1)
+                {
+                    Console.Write(" ");
+                }
+                if ((i & 15) == 15)
+                {
+                    Console.WriteLine();
+                }
+            }
+            Console.WriteLine();
         }
 
         internal static (int, int) DecodeLengths(ReadOnlySpan<byte> bytes)
@@ -85,20 +108,22 @@ namespace AcFunDanmu
             return (headerLength, payloadLength);
         }
 
-        public static T Decode<T>(ReadOnlySpan<byte> bytes, string SecurityKey, string SessionKey, out PacketHeader header) where T: class, IMessage<T>
+        public static T Decode<T>(ReadOnlySpan<byte> bytes, string SecurityKey, string SessionKey, out PacketHeader header) where T : class, IMessage<T>
         {
             var (headerLength, payloadLength) = DecodeLengths(bytes);
 
             header = PacketHeader.Parser.ParseFrom(bytes.Slice(HeaderOffset, headerLength).ToArray());
 
-            ReadOnlySpan<byte> payload = bytes.Slice(HeaderOffset + headerLength, payloadLength);
-            if (header.EncryptionMode != PacketHeader.Types.EncryptionMode.KEncryptionNone)
+            ReadOnlySpan<byte> payload = header.EncryptionMode switch
             {
-                var key = header.EncryptionMode == PacketHeader.Types.EncryptionMode.KEncryptionServiceToken ? SecurityKey : SessionKey;
+                PacketHeader.Types.EncryptionMode.KEncryptionServiceToken => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey),
+                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey),
+                _ => bytes.Slice(HeaderOffset + headerLength, payloadLength),
+            };
 
-                payload = Decrypt(payload, key);
-            }
-
+            //Log.Debug("Payload length: {0} | DecodedPayloadLen: {1}", payload.Length, header.DecodedPayloadLen);
+            //Log.Debug("Payload Base64: {0}", Convert.ToBase64String(payload));
+            //Dump(payload);
 
             if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
             {
@@ -117,14 +142,12 @@ namespace AcFunDanmu
 
             header = PacketHeader.Parser.ParseFrom(bytes.Slice(HeaderOffset, headerLength).ToArray());
 
-            ReadOnlySpan<byte> payload = bytes.Slice(HeaderOffset + headerLength, payloadLength);
-            if (header.EncryptionMode != PacketHeader.Types.EncryptionMode.KEncryptionNone)
+            ReadOnlySpan<byte> payload = header.EncryptionMode switch
             {
-                var key = header.EncryptionMode == PacketHeader.Types.EncryptionMode.KEncryptionServiceToken ? SecurityKey : SessionKey;
-
-                payload = Decrypt(payload, key);
-            }
-
+                PacketHeader.Types.EncryptionMode.KEncryptionServiceToken => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey),
+                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey),
+                _ => bytes.Slice(HeaderOffset + headerLength, payloadLength),
+            };
 
             if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
             {
@@ -149,11 +172,31 @@ namespace AcFunDanmu
 
             var encrypted = ms.ToArray();
 
-            var len = aes.IV.Length + encrypted.Length;
+            return Encrypt(aes.IV, encrypted);
+        }
+
+        internal static byte[] Encrypt(string key, ReadOnlySpan<byte> body)
+        {
+            using var aes = Aes.Create();
+
+            using var encryptor = aes.CreateEncryptor(Convert.FromBase64String(key), aes.IV);
+            using var ms = new MemoryStream();
+            using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
+            cs.Write(body);
+            cs.FlushFinalBlock();
+
+            var encrypted = ms.ToArray();
+
+            return Encrypt(aes.IV, encrypted);
+        }
+
+        internal static byte[] Encrypt(ReadOnlySpan<byte> iv, ReadOnlySpan<byte> encrypted)
+        {
+            var len = iv.Length + encrypted.Length;
 
             Span<byte> payload = stackalloc byte[len];
-            Copy(aes.IV, 0, payload, 0, aes.IV.Length);
-            Copy(encrypted, 0, payload, aes.IV.Length, encrypted.Length);
+            Copy(iv, 0, payload, 0, iv.Length);
+            Copy(encrypted, 0, payload, iv.Length, encrypted.Length);
 
             return payload.ToArray();
         }
@@ -170,15 +213,9 @@ namespace AcFunDanmu
             return ms.ToArray();
         }
 
-        internal static ByteString Compress(ByteString payload)
-        {
-            return GZip(CompressionMode.Compress, payload);
-        }
+        internal static ByteString Compress(ByteString payload) => GZip(CompressionMode.Compress, payload);
 
-        public static ByteString Decompress(ByteString payload)
-        {
-            return GZip(CompressionMode.Decompress, payload);
-        }
+        public static ByteString Decompress(ByteString payload) => GZip(CompressionMode.Decompress, payload);
 
         internal static ByteString GZip(CompressionMode mode, ByteString payload)
         {
@@ -204,15 +241,9 @@ namespace AcFunDanmu
             return obj;
         }
 
-        public static T Parse<T>(ReadOnlySpan<byte> payload) where T : class, IMessage<T>
-        {
-            return Parse(typeof(T), new object[] { ByteString.CopyFrom(payload) }) as T;
-        }
+        public static T Parse<T>(ReadOnlySpan<byte> payload) where T : class, IMessage<T> => Parse(typeof(T), new object[] { ByteString.CopyFrom(payload) }) as T;
 
-        public static object Parse(Type type, ReadOnlySpan<byte> payload)
-        {
-            return Parse(type, new object[] { ByteString.CopyFrom(payload) });
-        }
+        public static object Parse(Type type, ReadOnlySpan<byte> payload) => Parse(type, new object[] { ByteString.CopyFrom(payload) });
 
         public static object Parse(string typeName, ByteString payload)
         {

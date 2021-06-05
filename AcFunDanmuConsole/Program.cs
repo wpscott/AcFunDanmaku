@@ -43,15 +43,15 @@ namespace AcFunDanmuConsole
                 return;
             }
 
-            //client.Handler += HandleSignal; // Use your own signal handler
+            client.Handler += HandleSignal; // Use your own signal handler
 
-            var resetTimer = new System.Timers.Timer(10000);
+            var resetTimer = new System.Timers.Timer(31000);
             resetTimer.Elapsed += (s, e) =>
             {
                 retry = 0;
             };
 
-            while (!await client.Start() && retry < 3)
+            while (retry == 0 && !await client.Start())
             {
                 if (retry > 0)
                 {
@@ -297,6 +297,7 @@ namespace AcFunDanmuConsole
                     var us = Decode<UpstreamPayload>(Convert.FromBase64String(message.data), securityKey, sessionKey, out var header);
                     writer.WriteLine("Up\t\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, us.SeqId, us.Command);
                     writer.WriteLine("Header: {0}", header);
+                    writer.WriteLine("Payload Base64: {0}", us.ToByteString().ToBase64());
                     writer.WriteLine("Payload: {0}", us);
                     switch (us.Command)
                     {
@@ -366,6 +367,7 @@ namespace AcFunDanmuConsole
                     var ds = Decode<DownstreamPayload>(Convert.FromBase64String(message.data), securityKey, sessionKey, out var header);
                     writer.WriteLine("Down\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, ds.SeqId, ds.Command);
                     writer.WriteLine("Header: {0}", header);
+                    writer.WriteLine("Payload Base64: {0}", ds.ToByteString().ToBase64());
                     writer.WriteLine("Payload: {0}", ds);
                     switch (ds.Command)
                     {
