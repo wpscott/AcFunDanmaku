@@ -4,4 +4,5 @@ package AcFunDanmu;
 
 message CommonNotifySignalViolationAlert {
 	string violationContent = 1;
+	string b = 2;
 }

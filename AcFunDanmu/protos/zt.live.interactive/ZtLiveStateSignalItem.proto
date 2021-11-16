@@ -6,4 +6,3 @@ message ZtLiveStateSignalItem {
 	string signalType = 1;
 	bytes payload = 2;
 }
-

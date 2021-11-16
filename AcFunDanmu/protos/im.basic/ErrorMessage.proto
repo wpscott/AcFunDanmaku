@@ -7,4 +7,3 @@ import "LocaleMessage.proto";
 message ErrorMessage {
     repeated LocaleMessage localeMessages = 1;
 }
-

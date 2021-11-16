@@ -13,10 +13,12 @@ message CommonActionSignalRichText {
 		repeated ImageCdnNode pictures = 1; //cdnNode
 		string alternativeText = 2;
 		string alternativeColor = 3;
+		string d = 4;
 	}
 	message PlainSegment {
 		string text = 1;
 		string color = 2;
+		string c = 3;
 	}
 	message RichTextSegment {
 		oneof segment {
@@ -30,4 +32,3 @@ message CommonActionSignalRichText {
 		string color = 2;
 	}
 }
-

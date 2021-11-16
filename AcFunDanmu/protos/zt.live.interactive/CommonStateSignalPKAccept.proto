@@ -6,4 +6,3 @@ message CommonStateSignalPKAccept {
     string a = 1;
     string b = 2;
 }
-

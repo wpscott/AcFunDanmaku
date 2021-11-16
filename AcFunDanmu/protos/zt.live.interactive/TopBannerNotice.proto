@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "BackgroundStyle.proto";
+import "Button.proto";
+import "ImageCdnNode.proto";
+
+message TopBannerNotice {
+    string a = 1;
+    string b = 2;
+    string c = 3;
+    BackgroundStyle d = 4;
+    int32 e = 5;
+    Button f = 6;
+    repeated ImageCdnNode g = 7;
+    int64 h = 8;
+}

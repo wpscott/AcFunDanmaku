@@ -16,4 +16,3 @@ enum SharePlatform {
     kSharePlatformKakao = 10;
     kSharePlatformZalo = 11;
 }
-

@@ -11,5 +11,6 @@ message ZtLiveUserInfo {
 	repeated ImageCdnNode avatar = 3;
 	string badge = 4;  // bizCustomInfo
     ZtLiveUserIdentity userIdentity = 5;
+	bool f = 6;
+	string g = 7;
 }
-

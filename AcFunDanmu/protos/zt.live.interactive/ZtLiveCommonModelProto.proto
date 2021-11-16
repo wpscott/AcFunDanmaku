@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+enum ZtLiveCommonModelProto {
+    ZtLiveCommonModelProtoA = 0;
+    ZtLiveCommonModelProtoB = 1;
+    ZtLiveCommonModelProtoC = 2;
+}

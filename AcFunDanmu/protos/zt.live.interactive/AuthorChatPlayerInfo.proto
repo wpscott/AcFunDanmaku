@@ -7,6 +7,5 @@ import "ZtLiveUserInfo.proto";
 message AuthorChatPlayerInfo {
 	ZtLiveUserInfo player = 1;
 	string liveId = 2;
-	bool enableJumpPeerLiveRoom = 3;
+	bool enableJumpPeerLiveRoom = 3; // enableVisit
 }
-

@@ -5,4 +5,3 @@ package AcFunDanmu;
 message SyncCookie {
     int64 syncOffset = 1;
 }
-

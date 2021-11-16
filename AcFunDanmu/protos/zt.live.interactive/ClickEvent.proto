@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "ZtLiveCommonModelProto.proto";
+
+message ClickEvent {
+    string url = 1;
+    ZtLiveCommonModelProto urlType = 2;
+    float heightPercent = 3;
+}

@@ -13,4 +13,3 @@ message ZtLiveCsEnterRoom {
 message ZtLiveCsEnterRoomAck {
 	int64 heartbeatIntervalMs = 1;
 }
-

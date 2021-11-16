@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "WidgetDisplayStyle.proto";
+import "WidgetPictureInfo.proto";
+import "ZtLiveWidgetProto.proto";
+
+message WidgetItem {
+    int64 a = 1;
+    string b = 2;
+    int32 c = 3;
+    int64 d = 4;
+    int64 e = 5;
+    WidgetPictureInfo f = 6;
+    string g = 7;
+    ZtLiveWidgetProtoA h = 8;
+    ZtLiveWidgetProtoB i = 9;
+    WidgetDisplayStyle j = 10;
+    ZtLiveWidgetProtoC k = 11;
+    repeated string l = 12;
+    repeated string m = 13;
+    int64 n = 14;
+}
