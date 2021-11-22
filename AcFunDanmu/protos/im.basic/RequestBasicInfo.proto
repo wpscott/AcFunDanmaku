@@ -6,7 +6,7 @@ import "DeviceInfo.proto";
 import "AppInfo.proto";
 import "EnvInfo.proto";
 
-message RequestBasicInfo { //RequsetBasicInfo
+message RequestBasicInfo { // RequsetBasicInfo
     DeviceInfo.PlatformType clientType = 1;
     string deviceId = 2;
     string clientIp = 3;
@@ -21,4 +21,3 @@ message RequestBasicInfo { //RequsetBasicInfo
     string clientIpV6 = 12;
     string countryCode = 13;
 }
-

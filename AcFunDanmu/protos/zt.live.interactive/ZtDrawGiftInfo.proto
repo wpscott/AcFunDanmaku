@@ -12,6 +12,7 @@ message ZtDrawGiftInfo {
 		int64 marginTop = 2;
 		double scaleRatio = 3;
 		bool handup = 4;
+		int64 pointWidth = 5;
+		int64 pointHeight = 6;
 	}
 }
-

@@ -5,6 +5,7 @@ package AcFunDanmu;
 message CommonStateSignalChatEnd {
 	string chatId = 1;
 	EndType endType = 2;
+	BannedInfo c = 3;
 
 	enum EndType {
 		UNKNOWN = 0;
@@ -16,5 +17,12 @@ message CommonStateSignalChatEnd {
 		GUEST_HEARTBEAT_TIMEOUT = 6;
 		AUTHOR_HEARTBEAT_TIMEOUT = 7;
 		PEER_LIVE_STOPPED = 8;
+	}
+
+	message BannedInfo {
+		string a = 1;
+		string b = 2;
+		string c = 3;
+		string d = 4;
 	}
 }

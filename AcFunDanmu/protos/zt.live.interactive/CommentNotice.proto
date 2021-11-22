@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "Button.proto";
+import "ClickEvent.proto";
+import "ImageCdnNode.proto";
+
+message CommentNotice {
+    string a = 1;
+    bytes b = 2;
+    string c = 3;
+    repeated ImageCdnNode d = 4;
+    repeated ImageCdnNode e = 5;
+    string f = 6;
+    string g = 7;
+    Button h = 8;
+    ClickEvent i = 9;
+    int32 j = 10;
+    int64 k = 11;
+    int64 l = 12;
+    int32 m = 13;
+}

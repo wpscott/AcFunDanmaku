@@ -12,4 +12,3 @@ message ZtLiveCsHeartbeatAck {
 	int64 clientTimestampMs = 2;
 	int64 clientSequence = 3;
 }
-

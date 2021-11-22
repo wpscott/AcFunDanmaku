@@ -11,6 +11,7 @@ message CommonStateSignalCurrentRedpackList {
 		SHOW = 0;
 		GET_TOKEN = 1;
 		GRAB = 2;
+		e = 3;
 	}
 
 	message Redpack {
@@ -22,6 +23,6 @@ message CommonStateSignalCurrentRedpackList {
 		string redpackBizUnit = 6;
 		int64 redpackAmount = 7;
 		int64 settleBeginTime = 8;
+		int64 i = 9;
 	}
 }
-

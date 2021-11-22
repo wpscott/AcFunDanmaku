@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "ZtLiveUserInfo.proto";
+
+message CommonActionSignalUserShareLive {
+    ZtLiveUserInfo userInfo = 1;
+    int32 sharePlatformId = 2; // platformId
+    string sharePlatformIcon = 3; // platformIcon
+    int64 sendTimeMs = 4;
+
+    enum unknown {
+        e = 0;
+        f = 1;
+    }
+}

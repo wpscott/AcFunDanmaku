@@ -7,4 +7,3 @@ import "LiveFeatureState.proto";
 message CommonStateSignalFeatureStateSync {
 	repeated LiveFeatureState featureState = 1;
 }
-

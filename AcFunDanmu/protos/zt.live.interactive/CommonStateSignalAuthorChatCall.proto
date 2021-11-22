@@ -9,4 +9,3 @@ message CommonStateSignalAuthorChatCall {
 	AuthorChatPlayerInfo inviterUserInfo = 2;
 	int64 callTimestampMs = 3;
 }
-

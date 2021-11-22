@@ -17,6 +17,6 @@ message ZtLiveScStatusChanged {
 
 	message BannedInfo {
 		string banReason = 1;
+		string b = 2;
 	}
 }
-

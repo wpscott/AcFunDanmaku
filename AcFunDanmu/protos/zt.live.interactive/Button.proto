@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+import "ZtLiveCommonModelProto.proto";
+
+message Button {
+    string a = 1;
+    string b = 2;
+    ZtLiveCommonModelProto c = 3;
+    float d = 4;
+}

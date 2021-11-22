@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package AcFunDanmu;
+
+enum ZtLiveWidgetProtoA {
+    ZtLiveWidgetProtoAa = 0;
+    ZtLiveWidgetProtoAb = 1;
+    ZtLiveWidgetProtoAc = 2;
+    ZtLiveWidgetProtoAd = 3;
+    ZtLiveWidgetProtoAe = 4;
+}
+
+enum ZtLiveWidgetProtoB {
+    ZtLiveWidgetProtoBa = 0;
+    ZtLiveWidgetProtoBb = 1;
+    ZtLiveWidgetProtoBc = 2;
+    ZtLiveWidgetProtoBd = 3;
+    ZtLiveWidgetProtoBe = 4;
+    ZtLiveWidgetProtoBf = 5;
+}
+
+enum ZtLiveWidgetProtoC {
+    ZtLiveWidgetProtoCa = 0;
+    ZtLiveWidgetProtoCb = 1;
+    ZtLiveWidgetProtoCc = 2;
+    ZtLiveWidgetProtoCd = 3;
+}

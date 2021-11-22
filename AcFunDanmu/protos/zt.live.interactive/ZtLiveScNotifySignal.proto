@@ -7,4 +7,3 @@ import "ZtLiveNotifySignalItem.proto";
 message ZtLiveScNotifySignal {
 	repeated ZtLiveNotifySignalItem item = 1;
 }
-

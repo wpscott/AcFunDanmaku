@@ -4,7 +4,7 @@ package AcFunDanmu;
 
 message CommonStateSignalAuthorChatChangeSoundConfig {
 	string authorChatId = 1;
-	SoundConfigChangeType soundConfigChangeType = 2;
+	SoundConfigChangeType soundConfigChangeType = 2; // authorChatVoiceType
 
 	enum SoundConfigChangeType {
 		UNKNOWN = 0;
@@ -12,4 +12,3 @@ message CommonStateSignalAuthorChatChangeSoundConfig {
 		CLOSE_SOUND = 2;
 	}
 }
-

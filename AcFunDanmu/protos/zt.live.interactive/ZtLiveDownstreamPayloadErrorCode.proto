@@ -8,4 +8,3 @@ enum ZtLiveDownstreamPayloadErrorCode {
 	CS_CMD_CMD_NOT_SUPPORT = 100002;
 	CS_CMD_TICKET_ILLEGAL = 100003;
 }
-

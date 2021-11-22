@@ -10,4 +10,3 @@ message AppInfo {
     string linkVersion = 5;
     map<string, string> extensionInfo = 11;
 }
-

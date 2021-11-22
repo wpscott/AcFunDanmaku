@@ -13,4 +13,3 @@ enum CsAckErrorCode {
 	ROOM_NOT_EXIST_IN_STATE_MANAGER = 7;
 	NEW_LIVE_OPENED = 8;
 }
-
