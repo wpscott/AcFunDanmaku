@@ -15,7 +15,7 @@ namespace AcFunDMJ.Vanilla
     class Program
     {
         private static readonly Encoding Encoding = Encoding.UTF8;
-        private static readonly JsonSerializerOptions Options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+        private static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         private static WebSocket ws;
         private static Client danmaku;
@@ -33,7 +33,7 @@ namespace AcFunDMJ.Vanilla
             while (true)
             {
                 var ctx = await server.GetContextAsync();
-                var path = ctx.Request.Url.LocalPath.Substring(1);
+                var path = ctx.Request.Url.LocalPath[1..];
 
                 switch (path)
                 {

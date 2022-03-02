@@ -46,8 +46,10 @@ namespace AcFunDanmuSongRequest
 
         private static async void Connect()
         {
-            var client = new Client();
-            client.Handler = HandleSignal;
+            var client = new Client
+            {
+                Handler = HandleSignal
+            };
 
             await client.Initialize(Config.UserId.ToString());
 

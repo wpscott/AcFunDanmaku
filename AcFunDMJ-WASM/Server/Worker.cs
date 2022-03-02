@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,12 +28,15 @@ namespace AcFunDMJ_WASM.Server
     {
         public const string Url = "https://live.acfun.cn/api/channel/list";
 
-        public Live[] liveList { get; set; }
+        [JsonPropertyName("liveList")]
+        public Live[] LiveList { get; set; }
 
         public struct Live
         {
-            public long authorId { get; set; }
-            public string title { get; set; }
+            [JsonPropertyName("authorId")]
+            public long AuthorId { get; set; }
+            [JsonPropertyName("title")]
+            public string Title { get; set; }
         }
     }
 
@@ -44,8 +48,8 @@ namespace AcFunDMJ_WASM.Server
         private readonly ILogger<Worker> _logger;
         private readonly IHubContext<DanmakuHub, IDanmaku> _hub;
         private readonly IConfiguration _configuration;
-        private readonly HashSet<long> MonitorIds = new HashSet<long>();
-        private readonly Dictionary<long, AcFunDanmu.Client> Monitoring = new Dictionary<long, AcFunDanmu.Client>();
+        private readonly HashSet<long> MonitorIds = new();
+        private readonly Dictionary<long, AcFunDanmu.Client> Monitoring = new();
         private Timer _timer;
 
         public Worker(ILogger<Worker> logger, IConfiguration configuration, IHubContext<DanmakuHub, IDanmaku> hub)
@@ -78,7 +82,17 @@ namespace AcFunDMJ_WASM.Server
 
         public void Dispose()
         {
-            _timer?.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _timer?.Dispose();
+                _timer = null;
+            }
         }
 
         private async void StartMonitor(object state)
@@ -90,25 +104,25 @@ namespace AcFunDMJ_WASM.Server
 
             using var resp = await client.GetAsync(Channel.Url);
             var list = await JsonSerializer.DeserializeAsync<Channel>(await resp.Content.ReadAsStreamAsync());
-            var available = list.liveList.Where(live => MonitorIds.Contains(live.authorId) && !Monitoring.ContainsKey(live.authorId));
-            _logger.LogInformation($"Found {available.Count()} up(s)");
+            var available = list.LiveList.Where(live => MonitorIds.Contains(live.AuthorId) && !Monitoring.ContainsKey(live.AuthorId));
+            _logger.LogInformation("Found {Count} up(s)", available.Count());
             foreach (var live in available)
             {
-                Monitor(live.authorId);
+                Monitor(live.AuthorId);
             }
         }
 
         private async void Monitor(long Id)
         {
-            _logger.LogInformation($"Connect to {Id}");
+            _logger.LogInformation("Connect to {Id}", Id);
             var client = new AcFunDanmu.Client();
             client.Handler += HandleSignal;
 
             await client.Initialize($"{Id}");
             Monitoring.Add(Id, client);
-            _logger.LogInformation($"Start monitoring {Id}");
+            _logger.LogInformation("Start monitoring {Id}", Id);
             await client.Start();
-            _logger.LogInformation($"End monitoring {Id}");
+            _logger.LogInformation("End monitoring {Id}", Id);
             Monitoring.Remove(Id);
         }
 
@@ -129,7 +143,7 @@ namespace AcFunDMJ_WASM.Server
                                 {
                                     var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
                                     _hub.Clients.Group(sender.HostId).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
-                                    _logger.LogDebug(comment.ToString());
+                                    _logger.LogDebug("{Data}", comment.ToString());
                                 }
                                 break;
                             case PushMessage.ActionSignal.LIKE:
@@ -137,7 +151,7 @@ namespace AcFunDMJ_WASM.Server
                                 {
                                     var like = CommonActionSignalLike.Parser.ParseFrom(pl);
                                     _hub.Clients.Group(sender.HostId).SendLike(new Like { Name = like.UserInfo.Nickname });
-                                    _logger.LogDebug(like.ToString());
+                                    _logger.LogDebug("{Data}", like.ToString());
                                 }
                                 break;
                             case PushMessage.ActionSignal.ENTER_ROOM:
@@ -145,7 +159,7 @@ namespace AcFunDMJ_WASM.Server
                                 {
                                     var enter = CommonActionSignalUserEnterRoom.Parser.ParseFrom(pl);
                                     _hub.Clients.Group(sender.HostId).SendEnter(new Enter { Name = enter.UserInfo.Nickname });
-                                    _logger.LogDebug(enter.ToString());
+                                    _logger.LogDebug("{Data}", enter.ToString());
                                 }
                                 break;
                             case PushMessage.ActionSignal.FOLLOW:
@@ -153,7 +167,7 @@ namespace AcFunDMJ_WASM.Server
                                 {
                                     var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
                                     _hub.Clients.Group(sender.HostId).SendFollow(new Follow { Name = follower.UserInfo.Nickname });
-                                    _logger.LogDebug(follower.ToString());
+                                    _logger.LogDebug("{Data}", follower.ToString());
                                 }
                                 break;
                             case PushMessage.ActionSignal.THROW_BANANA:
@@ -169,7 +183,7 @@ namespace AcFunDMJ_WASM.Server
                                     var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
                                     var info = AcFunDanmu.Client.Gifts[gift.GiftId];
                                     _hub.Clients.Group(sender.HostId).SendGift(new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, Detail = new Gift.GiftInfo { Name = info.Name, Pic = info.Pic } });
-                                    _logger.LogDebug(gift.ToString());
+                                    _logger.LogDebug("{Data}", gift.ToString());
                                 }
                                 break;
                             default:
@@ -202,7 +216,7 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var comment in comments.Comment)
                                 {
                                     _hub.Clients.Group(sender.HostId).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
-                                    _logger.LogDebug(comment.ToString());
+                                    _logger.LogDebug("{Data}", comment.ToString());
                                 }
                                 break;
                             default:
