@@ -17,7 +17,8 @@ namespace AcFunOBS
     {
         private const string StreamCategory = "https://api-new.acfunchina.com/rest/pc-client/live/type/list?kpf=WINDOWS_PC&appver=1.4.0.145";
 
-        private static readonly SortedList<string, string> QueryDict = new SortedList<string, string> {
+        private static readonly SortedList<string, string> QueryDict = new()
+        {
             { "appver", "1.4.0.145" },
             { "sys", "PC_10" },
             { "kpn", "ACFUN_APP.LIVE_MATE" },
@@ -35,18 +36,26 @@ namespace AcFunOBS
 
         private const string DefaultKey = "zqVDaMgabl6SjsS1EPlhJA==";
 
-        private static readonly CookieContainer Container = new CookieContainer();
+        private static readonly CookieContainer Container = new();
 
         struct Config
         {
-            public string acPasstoken { get; set; }
-            public long uid { get; set; }
-            public int category { get; set; }
-            public int type { get; set; }
-            public int bitrate { get; set; }
-            public int fps { get; set; }
-            public string title { get; set; }
-            public string cover { get; set; }
+            [JsonPropertyName("acPasstoken")]
+            public string AcPasstoken { get; set; }
+            [JsonPropertyName("uid")]
+            public long Uid { get; set; }
+            [JsonPropertyName("category")]
+            public int Category { get; set; }
+            [JsonPropertyName("type")]
+            public int Type { get; set; }
+            [JsonPropertyName("bitrate")]
+            public int Bitrate { get; set; }
+            [JsonPropertyName("fps")]
+            public int Fps { get; set; }
+            [JsonPropertyName("title")]
+            public string Title { get; set; }
+            [JsonPropertyName("cover")]
+            public string Cover { get; set; }
         }
 
         static async Task Main(string[] args)
@@ -67,17 +76,17 @@ namespace AcFunOBS
             using var reader = fInfo.OpenText();
             var config = JsonSerializer.Deserialize<Config>(reader.ReadToEnd());
 
-            Container.Add(new Cookie("acPasstoken", config.acPasstoken, "/", ".acfun.cn"));
-            Container.Add(new Cookie("auth_key", $"{config.uid}", "/", ".acfun.cn"));
-            Container.Add(new Cookie("userId", $"{config.uid}", "/", ".kuaishouzt.com"));
+            Container.Add(new Cookie("acPasstoken", config.AcPasstoken, "/", ".acfun.cn"));
+            Container.Add(new Cookie("auth_key", $"{config.Uid}", "/", ".acfun.cn"));
+            Container.Add(new Cookie("userId", $"{config.Uid}", "/", ".kuaishouzt.com"));
 
             var token = await GetToken();
 
-            Container.Add(new Cookie("acfun.midground.api_st", token.st, "/", ".kuaishouzt.com"));
+            Container.Add(new Cookie("acfun.midground.api_st", token.ST, "/", ".kuaishouzt.com"));
 
             await PostAuthorAuth(token);
 
-            await PostStartPush(token, config.title, config.cover, new StartPushRequest { Category = config.category, Type = config.type, Bitrate = config.bitrate, Fps = config.fps, Unknown1 = 7, Unknown2 = 1, Unknown3 = 3000 });
+            await PostStartPush(token, config.Title, config.Cover, new StartPushRequest { Category = config.Category, Type = config.Type, Bitrate = config.Bitrate, Fps = config.Fps, Unknown1 = 7, Unknown2 = 1, Unknown3 = 3000 });
         }
 
         static void Test(string url, string key, string sign)
@@ -85,7 +94,7 @@ namespace AcFunOBS
             using var hmac = new HMACSHA256(Convert.FromBase64String(key));
 
             Span<byte> data = FromBase64Url(sign);
-            var rnd = data.Slice(0, 8);
+            var rnd = data[..8];
             if (BitConverter.IsLittleEndian) { rnd.Reverse(); }
             var num = BitConverter.ToInt64(rnd);
             if (BitConverter.IsLittleEndian) { rnd.Reverse(); }
@@ -93,7 +102,7 @@ namespace AcFunOBS
             var test = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{url}&{num}")); // no extra data !!
             Console.WriteLine(num);
             Console.WriteLine(BitConverter.ToString(rnd.ToArray()));
-            Console.WriteLine(BitConverter.ToString(data.Slice(8).ToArray()));
+            Console.WriteLine(BitConverter.ToString(data[8..].ToArray()));
             Console.WriteLine(BitConverter.ToString(test));
             Console.WriteLine(BitConverter.ToString(data.ToArray()));
 
@@ -111,23 +120,88 @@ namespace AcFunOBS
             return token;
         }
 
+        struct Auth
+        {
+            [JsonPropertyName("result")]
+            public int Result { get; init; }
+            [JsonPropertyName("data")]
+            public AuthData Data { get; init; }
+            [JsonPropertyName("host")]
+            public string Host { get; init; }
+        }
+        struct AuthData
+        {
+            [JsonPropertyName("authStatus")]
+            public string AuthStatus { get; init; }
+            [JsonPropertyName("desc")]
+            public string Desc { get; init; }
+        }
+
         static async Task PostAuthorAuth(TokenResult token)
         {
             using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
 
-            var sign = Sign(AuthorAuth, token.ssecurity);
+            var sign = Sign(AuthorAuth, token.Ssecurity);
 
             using var form = new StringContent(string.Empty);
             using var resp = await client.PostAsync($"{KuaishouZt}{AuthorAuth}?{Query}&__clientSign={sign}", form);
-            var content = await resp.Content.ReadAsStringAsync();
+            var content = await JsonSerializer.DeserializeAsync<Auth>(await resp.Content.ReadAsStreamAsync());
             Console.WriteLine(content);
+        }
+
+        struct Push
+        {
+            [JsonPropertyName("result")]
+            public int Result { get; init; }
+            [JsonPropertyName("data")]
+            public PushData Data { get; init; }
+            [JsonPropertyName("host")]
+            public string Host { get; init; }
+        }
+
+        struct PushData
+        {
+            [JsonPropertyName("videoPushRes")]
+            public string VideoPushRes { get; init; }
+            [JsonPropertyName("liveId")]
+            public string LiveId { get; init; }
+            [JsonPropertyName("enterRoomAttach")]
+            public string EnterRoomAttach { get; init; }
+            [JsonPropertyName("availableTickets")]
+            public string[] AvailableTickets { get; init; }
+            [JsonPropertyName("notices")]
+            public NoticeData[] Notices { get; init; }
+            [JsonPropertyName("ticketRetryCount")]
+            public short TicketRetryCount { get; init; }
+            [JsonPropertyName("ticketRetryIntervalMs")]
+            public int TicketRetryIntervalMs { get; init; }
+            [JsonPropertyName("config")]
+            public GiftConfig Config { get; init; }
+        }
+
+        struct NoticeData
+        {
+            [JsonPropertyName("userId")]
+            public long UserId { get; init; }
+            [JsonPropertyName("userName")]
+            public string UserName { get; init; }
+            [JsonPropertyName("userGender")]
+            public string UserGender { get; init; }
+            [JsonPropertyName("notice")]
+            public string Notice { get; init; }
+        }
+
+        struct GiftConfig
+        {
+            [JsonPropertyName("giftSlotSize")]
+            public short GiftSlotSize { get; init; }
         }
 
         static async Task PostStartPush(TokenResult token, string title, string cover, StartPushRequest startPushRequest)
         {
             var bizCustomData = $"{{\"typeId\":{startPushRequest.Category}}}";
             var req = Convert.ToBase64String(startPushRequest.ToByteArray());
-            var sign = Sign(StartPush, token.ssecurity, new SortedList<string, string> { { "bizCustomData", bizCustomData }, { "caption", title }, { "videoPushReq", req } });
+            var sign = Sign(StartPush, token.Ssecurity, new SortedList<string, string> { { "bizCustomData", bizCustomData }, { "caption", title }, { "videoPushReq", req } });
 
             using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
             client.DefaultRequestHeaders.ExpectContinue = true;
@@ -144,19 +218,22 @@ namespace AcFunOBS
             form.Add(file, "cover", "live-preview.jpg");
 
             using var resp = await client.PostAsync($"{KuaishouZt}{StartPush}?{Query}&__clientSign={sign}", form);
-            var content = await resp.Content.ReadAsStringAsync();
+            var content = await JsonSerializer.DeserializeAsync<Push>(await resp.Content.ReadAsStreamAsync());
             Console.WriteLine(content);
         }
 
         struct TokenResult
         {
-            public int result { get; set; }
+            [JsonPropertyName("result")]
+            public int Result { get; set; }
             [JsonPropertyName("acfun.midground.api_st")]
-            public string st { get; set; }
+            public string ST { get; set; }
             [JsonPropertyName("acfun.midground.api.at")]
-            public string at { get; set; }
-            public long userId { get; set; }
-            public string ssecurity { get; set; }
+            public string AT { get; set; }
+            [JsonPropertyName("userId")]
+            public long UserId { get; set; }
+            [JsonPropertyName("ssecurity")]
+            public string Ssecurity { get; set; }
         }
 
         static string Sign(string uri, string key, long rnd, Span<byte> bytes, SortedList<string, string> extra = null)
@@ -188,13 +265,9 @@ namespace AcFunOBS
 
         static long Random()
         {
-            var random = new Random();
-            var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds() / 60;
-            Span<byte> rand = stackalloc byte[4];
-            random.NextBytes(rand);
-            long result = BitConverter.ToInt32(rand);
+            long result = BitConverter.ToInt32(RandomNumberGenerator.GetBytes(4));
             result <<= 0x20;
-            result |= now;
+            result |= DateTimeOffset.UtcNow.ToUnixTimeSeconds() / 60;
             return result;
         }
 
@@ -212,9 +285,6 @@ namespace AcFunOBS
             }
         }
 
-        static string ToBase64Url(ReadOnlySpan<byte> data)
-        {
-            return Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
-        }
+        static string ToBase64Url(ReadOnlySpan<byte> data) => Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
     }
 }
