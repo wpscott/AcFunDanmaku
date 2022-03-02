@@ -324,7 +324,7 @@ namespace AcFunDanmu
                             {
                                 Name = item.GiftName,
                                 Value = item.GiftPrice,
-                                Pic = new Uri(item.WebpPicList[0].url)
+                                Pic = new Uri(item.WebpPicList[0].Url)
                             };
                             Gifts[item.GiftId] = giftInfo;
                         }
@@ -408,7 +408,7 @@ namespace AcFunDanmu
             {
                 #region Timers
                 using var heartbeatTimer = new Timer();
-                heartbeatTimer.Elapsed += ElapsedEventHandler;
+                heartbeatTimer.Elapsed += Heartbeat;
                 heartbeatTimer.AutoReset = true;
                 #endregion
 
@@ -659,7 +659,7 @@ namespace AcFunDanmu
         }
 
 
-        private async Task HandleStatusChanged(ByteString payload, System.Timers.Timer heartbeatTimer)
+        private async Task HandleStatusChanged(ByteString payload, Timer heartbeatTimer)
         {
             var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);
             Log.Debug("\t\t{StatusChanged}", statusChanged);
@@ -723,12 +723,9 @@ namespace AcFunDanmu
             return client;
         }
 
-        private static bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            return true;
-        }
+        private static bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) => true;
 
-        private async void ElapsedEventHandler(object sender, ElapsedEventArgs e)
+        private async void Heartbeat(object sender, ElapsedEventArgs e)
         {
             if (_client.State == WebSocketState.Open)
             {

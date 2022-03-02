@@ -12,7 +12,8 @@ namespace AcFunDanmu
 {
     public static class ClientUtils
     {
-        private static readonly SortedList<string, string> QueryDict = new SortedList<string, string> {
+        private static readonly SortedList<string, string> QueryDict = new()
+        {
             { "appver", "1.4.0.145" },
             { "sys", "PC_10" },
             { "kpn", "ACFUN_APP.LIVE_MATE" },
@@ -204,7 +205,7 @@ namespace AcFunDanmu
         internal static byte[] Decrypt(ReadOnlySpan<byte> bytes, string key)
         {
             using var aes = Aes.Create();
-            using var decryptor = aes.CreateDecryptor(Convert.FromBase64String(key), bytes.Slice(0, IVLength).ToArray());
+            using var decryptor = aes.CreateDecryptor(Convert.FromBase64String(key), bytes[..IVLength].ToArray());
             using var ms = new MemoryStream();
             using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Write);
             cs.Write(bytes[IVLength..]);

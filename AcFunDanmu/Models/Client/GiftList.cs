@@ -96,8 +96,10 @@ namespace AcFunDanmu.Models.Client
 
     public record Pic
     {
-        public string cdn { get; init; }
-        public string url { get; init; }
+        [JsonPropertyName("cdn")]
+        public string CDN { get; init; }
+        [JsonPropertyName("url")]
+        public string Url { get; init; }
     }
 
     public sealed record GiftInfo
