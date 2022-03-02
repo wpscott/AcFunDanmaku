@@ -25,22 +25,22 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CilDb21tb25TdGF0ZVNpZ25hbEN1cnJlbnRSZWRwYWNrTGlzdC5wcm90bxIK",
-            "QWNGdW5EYW5tdRoUWnRMaXZlVXNlckluZm8ucHJvdG8i0gMKI0NvbW1vblN0",
+            "QWNGdW5EYW5tdRoUWnRMaXZlVXNlckluZm8ucHJvdG8i5AMKI0NvbW1vblN0",
             "YXRlU2lnbmFsQ3VycmVudFJlZHBhY2tMaXN0EkkKCHJlZHBhY2tzGAEgAygL",
             "MjcuQWNGdW5EYW5tdS5Db21tb25TdGF0ZVNpZ25hbEN1cnJlbnRSZWRwYWNr",
-            "TGlzdC5SZWRwYWNrGqQCCgdSZWRwYWNrEioKBnNlbmRlchgBIAEoCzIaLkFj",
+            "TGlzdC5SZWRwYWNrGq8CCgdSZWRwYWNrEioKBnNlbmRlchgBIAEoCzIaLkFj",
             "RnVuRGFubXUuWnRMaXZlVXNlckluZm8SWwoNZGlzcGxheVN0YXR1cxgCIAEo",
             "DjJELkFjRnVuRGFubXUuQ29tbW9uU3RhdGVTaWduYWxDdXJyZW50UmVkcGFj",
             "a0xpc3QuUmVkcGFja0Rpc3BsYXlTdGF0dXMSFwoPZ3JhYkJlZ2luVGltZU1z",
             "GAMgASgDEhwKFGdldFRva2VuTGF0ZXN0VGltZU1zGAQgASgDEhEKCXJlZFBh",
             "Y2tJZBgFIAEoCRIWCg5yZWRwYWNrQml6VW5pdBgGIAEoCRIVCg1yZWRwYWNr",
-            "QW1vdW50GAcgASgDEhcKD3NldHRsZUJlZ2luVGltZRgIIAEoAyI5ChRSZWRw",
-            "YWNrRGlzcGxheVN0YXR1cxIICgRTSE9XEAASDQoJR0VUX1RPS0VOEAESCAoE",
-            "R1JBQhACYgZwcm90bzM="));
+            "QW1vdW50GAcgASgDEhcKD3NldHRsZUJlZ2luVGltZRgIIAEoAxIJCgFpGAkg",
+            "ASgDIkAKFFJlZHBhY2tEaXNwbGF5U3RhdHVzEggKBFNIT1cQABINCglHRVRf",
+            "VE9LRU4QARIICgRHUkFCEAISBQoBZRADYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.ZtLiveUserInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Parser, new[]{ "Redpacks" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack.Parser, new[]{ "Sender", "DisplayStatus", "GrabBeginTimeMs", "GetTokenLatestTimeMs", "RedPackId", "RedpackBizUnit", "RedpackAmount", "SettleBeginTime" }, null, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Parser, new[]{ "Redpacks" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack), global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack.Parser, new[]{ "Sender", "DisplayStatus", "GrabBeginTimeMs", "GetTokenLatestTimeMs", "RedPackId", "RedpackBizUnit", "RedpackAmount", "SettleBeginTime", "I" }, null, null, null, null)})
           }));
     }
     #endregion
@@ -55,19 +55,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<CommonStateSignalCurrentRedpackList> _parser = new pb::MessageParser<CommonStateSignalCurrentRedpackList>(() => new CommonStateSignalCurrentRedpackList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<CommonStateSignalCurrentRedpackList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.CommonStateSignalCurrentRedpackListReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalCurrentRedpackList() {
       OnConstruction();
     }
@@ -75,12 +79,14 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalCurrentRedpackList(CommonStateSignalCurrentRedpackList other) : this() {
       redpacks_ = other.redpacks_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalCurrentRedpackList Clone() {
       return new CommonStateSignalCurrentRedpackList(this);
     }
@@ -94,16 +100,19 @@ namespace AcFunDanmu {
     ///redpack
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::RepeatedField<global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.Redpack> Redpacks {
       get { return redpacks_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as CommonStateSignalCurrentRedpackList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(CommonStateSignalCurrentRedpackList other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -116,6 +125,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       hash ^= redpacks_.GetHashCode();
@@ -126,11 +136,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -144,6 +156,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       redpacks_.WriteTo(ref output, _repeated_redpacks_codec);
       if (_unknownFields != null) {
@@ -153,6 +166,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       size += redpacks_.CalculateSize(_repeated_redpacks_codec);
@@ -163,6 +177,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(CommonStateSignalCurrentRedpackList other) {
       if (other == null) {
         return;
@@ -172,6 +187,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -193,6 +209,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -212,11 +229,13 @@ namespace AcFunDanmu {
     #region Nested types
     /// <summary>Container for nested types declared in the CommonStateSignalCurrentRedpackList message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
       public enum RedpackDisplayStatus {
         [pbr::OriginalName("SHOW")] Show = 0,
         [pbr::OriginalName("GET_TOKEN")] GetToken = 1,
         [pbr::OriginalName("GRAB")] Grab = 2,
+        [pbr::OriginalName("e")] E = 3,
       }
 
       public sealed partial class Redpack : pb::IMessage<Redpack>
@@ -227,19 +246,23 @@ namespace AcFunDanmu {
         private static readonly pb::MessageParser<Redpack> _parser = new pb::MessageParser<Redpack>(() => new Redpack());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pb::MessageParser<Redpack> Parser { get { return _parser; } }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
           get { return global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Descriptor.NestedTypes[0]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         pbr::MessageDescriptor pb::IMessage.Descriptor {
           get { return Descriptor; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public Redpack() {
           OnConstruction();
         }
@@ -247,6 +270,7 @@ namespace AcFunDanmu {
         partial void OnConstruction();
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public Redpack(Redpack other) : this() {
           sender_ = other.sender_ != null ? other.sender_.Clone() : null;
           displayStatus_ = other.displayStatus_;
@@ -256,10 +280,12 @@ namespace AcFunDanmu {
           redpackBizUnit_ = other.redpackBizUnit_;
           redpackAmount_ = other.redpackAmount_;
           settleBeginTime_ = other.settleBeginTime_;
+          i_ = other.i_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public Redpack Clone() {
           return new Redpack(this);
         }
@@ -268,6 +294,7 @@ namespace AcFunDanmu {
         public const int SenderFieldNumber = 1;
         private global::AcFunDanmu.ZtLiveUserInfo sender_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public global::AcFunDanmu.ZtLiveUserInfo Sender {
           get { return sender_; }
           set {
@@ -279,6 +306,7 @@ namespace AcFunDanmu {
         public const int DisplayStatusFieldNumber = 2;
         private global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus displayStatus_ = global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus.Show;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public global::AcFunDanmu.CommonStateSignalCurrentRedpackList.Types.RedpackDisplayStatus DisplayStatus {
           get { return displayStatus_; }
           set {
@@ -290,6 +318,7 @@ namespace AcFunDanmu {
         public const int GrabBeginTimeMsFieldNumber = 3;
         private long grabBeginTimeMs_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public long GrabBeginTimeMs {
           get { return grabBeginTimeMs_; }
           set {
@@ -301,6 +330,7 @@ namespace AcFunDanmu {
         public const int GetTokenLatestTimeMsFieldNumber = 4;
         private long getTokenLatestTimeMs_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public long GetTokenLatestTimeMs {
           get { return getTokenLatestTimeMs_; }
           set {
@@ -312,6 +342,7 @@ namespace AcFunDanmu {
         public const int RedPackIdFieldNumber = 5;
         private string redPackId_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public string RedPackId {
           get { return redPackId_; }
           set {
@@ -323,6 +354,7 @@ namespace AcFunDanmu {
         public const int RedpackBizUnitFieldNumber = 6;
         private string redpackBizUnit_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public string RedpackBizUnit {
           get { return redpackBizUnit_; }
           set {
@@ -334,6 +366,7 @@ namespace AcFunDanmu {
         public const int RedpackAmountFieldNumber = 7;
         private long redpackAmount_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public long RedpackAmount {
           get { return redpackAmount_; }
           set {
@@ -345,6 +378,7 @@ namespace AcFunDanmu {
         public const int SettleBeginTimeFieldNumber = 8;
         private long settleBeginTime_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public long SettleBeginTime {
           get { return settleBeginTime_; }
           set {
@@ -352,12 +386,26 @@ namespace AcFunDanmu {
           }
         }
 
+        /// <summary>Field number for the "i" field.</summary>
+        public const int IFieldNumber = 9;
+        private long i_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public long I {
+          get { return i_; }
+          set {
+            i_ = value;
+          }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override bool Equals(object other) {
           return Equals(other as Redpack);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public bool Equals(Redpack other) {
           if (ReferenceEquals(other, null)) {
             return false;
@@ -373,10 +421,12 @@ namespace AcFunDanmu {
           if (RedpackBizUnit != other.RedpackBizUnit) return false;
           if (RedpackAmount != other.RedpackAmount) return false;
           if (SettleBeginTime != other.SettleBeginTime) return false;
+          if (I != other.I) return false;
           return Equals(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override int GetHashCode() {
           int hash = 1;
           if (sender_ != null) hash ^= Sender.GetHashCode();
@@ -387,6 +437,7 @@ namespace AcFunDanmu {
           if (RedpackBizUnit.Length != 0) hash ^= RedpackBizUnit.GetHashCode();
           if (RedpackAmount != 0L) hash ^= RedpackAmount.GetHashCode();
           if (SettleBeginTime != 0L) hash ^= SettleBeginTime.GetHashCode();
+          if (I != 0L) hash ^= I.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -394,11 +445,13 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override string ToString() {
           return pb::JsonFormatter.ToDiagnosticString(this);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void WriteTo(pb::CodedOutputStream output) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           output.WriteRawMessage(this);
@@ -435,6 +488,10 @@ namespace AcFunDanmu {
             output.WriteRawTag(64);
             output.WriteInt64(SettleBeginTime);
           }
+          if (I != 0L) {
+            output.WriteRawTag(72);
+            output.WriteInt64(I);
+          }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
           }
@@ -443,6 +500,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
           if (sender_ != null) {
             output.WriteRawTag(10);
@@ -476,6 +534,10 @@ namespace AcFunDanmu {
             output.WriteRawTag(64);
             output.WriteInt64(SettleBeginTime);
           }
+          if (I != 0L) {
+            output.WriteRawTag(72);
+            output.WriteInt64(I);
+          }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(ref output);
           }
@@ -483,6 +545,7 @@ namespace AcFunDanmu {
         #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public int CalculateSize() {
           int size = 0;
           if (sender_ != null) {
@@ -509,6 +572,9 @@ namespace AcFunDanmu {
           if (SettleBeginTime != 0L) {
             size += 1 + pb::CodedOutputStream.ComputeInt64Size(SettleBeginTime);
           }
+          if (I != 0L) {
+            size += 1 + pb::CodedOutputStream.ComputeInt64Size(I);
+          }
           if (_unknownFields != null) {
             size += _unknownFields.CalculateSize();
           }
@@ -516,6 +582,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(Redpack other) {
           if (other == null) {
             return;
@@ -547,10 +614,14 @@ namespace AcFunDanmu {
           if (other.SettleBeginTime != 0L) {
             SettleBeginTime = other.SettleBeginTime;
           }
+          if (other.I != 0L) {
+            I = other.I;
+          }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(pb::CodedInputStream input) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           input.ReadRawMessage(this);
@@ -596,6 +667,10 @@ namespace AcFunDanmu {
                 SettleBeginTime = input.ReadInt64();
                 break;
               }
+              case 72: {
+                I = input.ReadInt64();
+                break;
+              }
             }
           }
         #endif
@@ -603,6 +678,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
@@ -643,6 +719,10 @@ namespace AcFunDanmu {
               }
               case 64: {
                 SettleBeginTime = input.ReadInt64();
+                break;
+              }
+              case 72: {
+                I = input.ReadInt64();
                 break;
               }
             }

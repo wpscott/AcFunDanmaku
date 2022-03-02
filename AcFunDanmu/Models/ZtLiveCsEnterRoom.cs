@@ -49,19 +49,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<ZtLiveCsEnterRoom> _parser = new pb::MessageParser<ZtLiveCsEnterRoom>(() => new ZtLiveCsEnterRoom());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<ZtLiveCsEnterRoom> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.ZtLiveCsEnterRoomReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveCsEnterRoom() {
       OnConstruction();
     }
@@ -69,6 +73,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveCsEnterRoom(ZtLiveCsEnterRoom other) : this() {
       isAuthor_ = other.isAuthor_;
       reconnectCount_ = other.reconnectCount_;
@@ -79,6 +84,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveCsEnterRoom Clone() {
       return new ZtLiveCsEnterRoom(this);
     }
@@ -87,6 +93,7 @@ namespace AcFunDanmu {
     public const int IsAuthorFieldNumber = 1;
     private bool isAuthor_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool IsAuthor {
       get { return isAuthor_; }
       set {
@@ -98,6 +105,7 @@ namespace AcFunDanmu {
     public const int ReconnectCountFieldNumber = 2;
     private int reconnectCount_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int ReconnectCount {
       get { return reconnectCount_; }
       set {
@@ -109,6 +117,7 @@ namespace AcFunDanmu {
     public const int LastErrorCodeFieldNumber = 3;
     private int lastErrorCode_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int LastErrorCode {
       get { return lastErrorCode_; }
       set {
@@ -120,6 +129,7 @@ namespace AcFunDanmu {
     public const int EnterRoomAttachFieldNumber = 4;
     private string enterRoomAttach_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string EnterRoomAttach {
       get { return enterRoomAttach_; }
       set {
@@ -131,6 +141,7 @@ namespace AcFunDanmu {
     public const int ClientLiveSdkVersionFieldNumber = 5;
     private string clientLiveSdkVersion_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string ClientLiveSdkVersion {
       get { return clientLiveSdkVersion_; }
       set {
@@ -139,11 +150,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as ZtLiveCsEnterRoom);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(ZtLiveCsEnterRoom other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -160,6 +173,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (IsAuthor != false) hash ^= IsAuthor.GetHashCode();
@@ -174,11 +188,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -211,6 +227,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (IsAuthor != false) {
         output.WriteRawTag(8);
@@ -239,6 +256,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (IsAuthor != false) {
@@ -263,6 +281,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(ZtLiveCsEnterRoom other) {
       if (other == null) {
         return;
@@ -286,6 +305,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -323,6 +343,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -365,19 +386,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<ZtLiveCsEnterRoomAck> _parser = new pb::MessageParser<ZtLiveCsEnterRoomAck>(() => new ZtLiveCsEnterRoomAck());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<ZtLiveCsEnterRoomAck> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.ZtLiveCsEnterRoomReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveCsEnterRoomAck() {
       OnConstruction();
     }
@@ -385,12 +410,14 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveCsEnterRoomAck(ZtLiveCsEnterRoomAck other) : this() {
       heartbeatIntervalMs_ = other.heartbeatIntervalMs_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveCsEnterRoomAck Clone() {
       return new ZtLiveCsEnterRoomAck(this);
     }
@@ -399,6 +426,7 @@ namespace AcFunDanmu {
     public const int HeartbeatIntervalMsFieldNumber = 1;
     private long heartbeatIntervalMs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long HeartbeatIntervalMs {
       get { return heartbeatIntervalMs_; }
       set {
@@ -407,11 +435,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as ZtLiveCsEnterRoomAck);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(ZtLiveCsEnterRoomAck other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -424,6 +454,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (HeartbeatIntervalMs != 0L) hash ^= HeartbeatIntervalMs.GetHashCode();
@@ -434,11 +465,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -455,6 +488,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (HeartbeatIntervalMs != 0L) {
         output.WriteRawTag(8);
@@ -467,6 +501,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (HeartbeatIntervalMs != 0L) {
@@ -479,6 +514,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(ZtLiveCsEnterRoomAck other) {
       if (other == null) {
         return;
@@ -490,6 +526,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -511,6 +548,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {

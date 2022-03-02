@@ -62,19 +62,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<KeepAliveRequest> _parser = new pb::MessageParser<KeepAliveRequest>(() => new KeepAliveRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<KeepAliveRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.KeepAliveReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public KeepAliveRequest() {
       OnConstruction();
     }
@@ -82,6 +86,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public KeepAliveRequest(KeepAliveRequest other) : this() {
       presenceStatus_ = other.presenceStatus_;
       appActiveStatus_ = other.appActiveStatus_;
@@ -93,6 +98,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public KeepAliveRequest Clone() {
       return new KeepAliveRequest(this);
     }
@@ -101,6 +107,7 @@ namespace AcFunDanmu {
     public const int PresenceStatusFieldNumber = 1;
     private global::AcFunDanmu.RegisterRequest.Types.PresenceStatus presenceStatus_ = global::AcFunDanmu.RegisterRequest.Types.PresenceStatus.KPresenceOffline;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.RegisterRequest.Types.PresenceStatus PresenceStatus {
       get { return presenceStatus_; }
       set {
@@ -112,6 +119,7 @@ namespace AcFunDanmu {
     public const int AppActiveStatusFieldNumber = 2;
     private global::AcFunDanmu.RegisterRequest.Types.ActiveStatus appActiveStatus_ = global::AcFunDanmu.RegisterRequest.Types.ActiveStatus.KInvalid;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.RegisterRequest.Types.ActiveStatus AppActiveStatus {
       get { return appActiveStatus_; }
       set {
@@ -123,6 +131,7 @@ namespace AcFunDanmu {
     public const int PushServiceTokenFieldNumber = 3;
     private global::AcFunDanmu.PushServiceToken pushServiceToken_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.PushServiceToken PushServiceToken {
       get { return pushServiceToken_; }
       set {
@@ -136,6 +145,7 @@ namespace AcFunDanmu {
         = pb::FieldCodec.ForMessage(34, global::AcFunDanmu.PushServiceToken.Parser);
     private readonly pbc::RepeatedField<global::AcFunDanmu.PushServiceToken> pushServiceTokenList_ = new pbc::RepeatedField<global::AcFunDanmu.PushServiceToken>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::RepeatedField<global::AcFunDanmu.PushServiceToken> PushServiceTokenList {
       get { return pushServiceTokenList_; }
     }
@@ -144,6 +154,7 @@ namespace AcFunDanmu {
     public const int KeepaliveIntervalSecFieldNumber = 5;
     private int keepaliveIntervalSec_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int KeepaliveIntervalSec {
       get { return keepaliveIntervalSec_; }
       set {
@@ -155,6 +166,7 @@ namespace AcFunDanmu {
     public const int Ipv6AvailableFieldNumber = 6;
     private bool ipv6Available_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Ipv6Available {
       get { return ipv6Available_; }
       set {
@@ -163,11 +175,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as KeepAliveRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(KeepAliveRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -185,6 +199,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (PresenceStatus != global::AcFunDanmu.RegisterRequest.Types.PresenceStatus.KPresenceOffline) hash ^= PresenceStatus.GetHashCode();
@@ -200,11 +215,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -238,6 +255,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (PresenceStatus != global::AcFunDanmu.RegisterRequest.Types.PresenceStatus.KPresenceOffline) {
         output.WriteRawTag(8);
@@ -267,6 +285,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (PresenceStatus != global::AcFunDanmu.RegisterRequest.Types.PresenceStatus.KPresenceOffline) {
@@ -292,6 +311,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(KeepAliveRequest other) {
       if (other == null) {
         return;
@@ -319,6 +339,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -363,6 +384,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -412,19 +434,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<KeepAliveResponse> _parser = new pb::MessageParser<KeepAliveResponse>(() => new KeepAliveResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<KeepAliveResponse> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.KeepAliveReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public KeepAliveResponse() {
       OnConstruction();
     }
@@ -432,6 +458,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public KeepAliveResponse(KeepAliveResponse other) : this() {
       accessPointsConfig_ = other.accessPointsConfig_ != null ? other.accessPointsConfig_.Clone() : null;
       serverMsec_ = other.serverMsec_;
@@ -445,6 +472,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public KeepAliveResponse Clone() {
       return new KeepAliveResponse(this);
     }
@@ -453,6 +481,7 @@ namespace AcFunDanmu {
     public const int AccessPointsConfigFieldNumber = 1;
     private global::AcFunDanmu.AccessPointsConfig accessPointsConfig_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.AccessPointsConfig AccessPointsConfig {
       get { return accessPointsConfig_; }
       set {
@@ -464,6 +493,7 @@ namespace AcFunDanmu {
     public const int ServerMsecFieldNumber = 2;
     private long serverMsec_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long ServerMsec {
       get { return serverMsec_; }
       set {
@@ -475,6 +505,7 @@ namespace AcFunDanmu {
     public const int AccessPointsConfigIpv6FieldNumber = 3;
     private global::AcFunDanmu.AccessPointsConfig accessPointsConfigIpv6_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.AccessPointsConfig AccessPointsConfigIpv6 {
       get { return accessPointsConfigIpv6_; }
       set {
@@ -486,6 +517,7 @@ namespace AcFunDanmu {
     public const int AccessPointsConfigQUicFieldNumber = 6;
     private global::AcFunDanmu.AccessPointsConfig accessPointsConfigQUic_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.AccessPointsConfig AccessPointsConfigQUic {
       get { return accessPointsConfigQUic_; }
       set {
@@ -497,6 +529,7 @@ namespace AcFunDanmu {
     public const int AccessPointsConfigQuicIpv6FieldNumber = 7;
     private global::AcFunDanmu.AccessPointsConfig accessPointsConfigQuicIpv6_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.AccessPointsConfig AccessPointsConfigQuicIpv6 {
       get { return accessPointsConfigQuicIpv6_; }
       set {
@@ -508,6 +541,7 @@ namespace AcFunDanmu {
     public const int FlowCostSampleRateFieldNumber = 8;
     private float flowCostSampleRate_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float FlowCostSampleRate {
       get { return flowCostSampleRate_; }
       set {
@@ -519,6 +553,7 @@ namespace AcFunDanmu {
     public const int CommandSampleRateFieldNumber = 9;
     private float commandSampleRate_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float CommandSampleRate {
       get { return commandSampleRate_; }
       set {
@@ -530,6 +565,7 @@ namespace AcFunDanmu {
     public const int AccessPointsConfigWsFieldNumber = 10;
     private global::AcFunDanmu.AccessPointsConfig accessPointsConfigWs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.AccessPointsConfig AccessPointsConfigWs {
       get { return accessPointsConfigWs_; }
       set {
@@ -538,11 +574,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as KeepAliveResponse);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(KeepAliveResponse other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -562,6 +600,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (accessPointsConfig_ != null) hash ^= AccessPointsConfig.GetHashCode();
@@ -579,11 +618,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -628,6 +669,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (accessPointsConfig_ != null) {
         output.WriteRawTag(10);
@@ -668,6 +710,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (accessPointsConfig_ != null) {
@@ -701,6 +744,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(KeepAliveResponse other) {
       if (other == null) {
         return;
@@ -748,6 +792,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -812,6 +857,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {

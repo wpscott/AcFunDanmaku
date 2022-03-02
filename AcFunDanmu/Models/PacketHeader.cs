@@ -57,19 +57,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<PacketHeader> _parser = new pb::MessageParser<PacketHeader>(() => new PacketHeader());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<PacketHeader> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.PacketHeaderReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public PacketHeader() {
       OnConstruction();
     }
@@ -77,6 +81,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public PacketHeader(PacketHeader other) : this() {
       appId_ = other.appId_;
       uid_ = other.uid_;
@@ -93,6 +98,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public PacketHeader Clone() {
       return new PacketHeader(this);
     }
@@ -101,6 +107,7 @@ namespace AcFunDanmu {
     public const int AppIdFieldNumber = 1;
     private int appId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int AppId {
       get { return appId_; }
       set {
@@ -112,6 +119,7 @@ namespace AcFunDanmu {
     public const int UidFieldNumber = 2;
     private long uid_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long Uid {
       get { return uid_; }
       set {
@@ -123,6 +131,7 @@ namespace AcFunDanmu {
     public const int InstanceIdFieldNumber = 3;
     private long instanceId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long InstanceId {
       get { return instanceId_; }
       set {
@@ -134,6 +143,7 @@ namespace AcFunDanmu {
     public const int FlagsFieldNumber = 5;
     private uint flags_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public uint Flags {
       get { return flags_; }
       set {
@@ -145,6 +155,7 @@ namespace AcFunDanmu {
     public const int EncodingTypeFieldNumber = 6;
     private global::AcFunDanmu.PacketHeader.Types.EncodingType encodingType_ = global::AcFunDanmu.PacketHeader.Types.EncodingType.KEncodingNone;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.PacketHeader.Types.EncodingType EncodingType {
       get { return encodingType_; }
       set {
@@ -156,6 +167,7 @@ namespace AcFunDanmu {
     public const int DecodedPayloadLenFieldNumber = 7;
     private uint decodedPayloadLen_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public uint DecodedPayloadLen {
       get { return decodedPayloadLen_; }
       set {
@@ -167,6 +179,7 @@ namespace AcFunDanmu {
     public const int EncryptionModeFieldNumber = 8;
     private global::AcFunDanmu.PacketHeader.Types.EncryptionMode encryptionMode_ = global::AcFunDanmu.PacketHeader.Types.EncryptionMode.KEncryptionNone;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.PacketHeader.Types.EncryptionMode EncryptionMode {
       get { return encryptionMode_; }
       set {
@@ -178,6 +191,7 @@ namespace AcFunDanmu {
     public const int TokenInfoFieldNumber = 9;
     private global::AcFunDanmu.TokenInfo tokenInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.TokenInfo TokenInfo {
       get { return tokenInfo_; }
       set {
@@ -189,6 +203,7 @@ namespace AcFunDanmu {
     public const int SeqIdFieldNumber = 10;
     private long seqId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long SeqId {
       get { return seqId_; }
       set {
@@ -202,6 +217,7 @@ namespace AcFunDanmu {
         = pb::FieldCodec.ForEnum(90, x => (int) x, x => (global::AcFunDanmu.PacketHeader.Types.Feature) x);
     private readonly pbc::RepeatedField<global::AcFunDanmu.PacketHeader.Types.Feature> features_ = new pbc::RepeatedField<global::AcFunDanmu.PacketHeader.Types.Feature>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::RepeatedField<global::AcFunDanmu.PacketHeader.Types.Feature> Features {
       get { return features_; }
     }
@@ -210,6 +226,7 @@ namespace AcFunDanmu {
     public const int KpnFieldNumber = 12;
     private string kpn_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Kpn {
       get { return kpn_; }
       set {
@@ -218,11 +235,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as PacketHeader);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(PacketHeader other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -245,6 +264,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (AppId != 0) hash ^= AppId.GetHashCode();
@@ -265,11 +285,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -323,6 +345,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (AppId != 0) {
         output.WriteRawTag(8);
@@ -372,6 +395,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (AppId != 0) {
@@ -412,6 +436,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(PacketHeader other) {
       if (other == null) {
         return;
@@ -454,6 +479,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -519,6 +545,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -582,6 +609,7 @@ namespace AcFunDanmu {
     #region Nested types
     /// <summary>Container for nested types declared in the PacketHeader message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
       public enum Flags {
         [pbr::OriginalName("kDirUpstream")] KDirUpstream = 0,

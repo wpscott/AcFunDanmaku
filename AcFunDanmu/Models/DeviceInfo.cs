@@ -52,19 +52,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<DeviceInfo> _parser = new pb::MessageParser<DeviceInfo>(() => new DeviceInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<DeviceInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.DeviceInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public DeviceInfo() {
       OnConstruction();
     }
@@ -72,6 +76,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public DeviceInfo(DeviceInfo other) : this() {
       platformType_ = other.platformType_;
       osVersion_ = other.osVersion_;
@@ -86,6 +91,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public DeviceInfo Clone() {
       return new DeviceInfo(this);
     }
@@ -94,6 +100,7 @@ namespace AcFunDanmu {
     public const int PlatformTypeFieldNumber = 1;
     private global::AcFunDanmu.DeviceInfo.Types.PlatformType platformType_ = global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.DeviceInfo.Types.PlatformType PlatformType {
       get { return platformType_; }
       set {
@@ -105,6 +112,7 @@ namespace AcFunDanmu {
     public const int OsVersionFieldNumber = 2;
     private string osVersion_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string OsVersion {
       get { return osVersion_; }
       set {
@@ -116,6 +124,7 @@ namespace AcFunDanmu {
     public const int DeviceModelFieldNumber = 3;
     private string deviceModel_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string DeviceModel {
       get { return deviceModel_; }
       set {
@@ -127,6 +136,7 @@ namespace AcFunDanmu {
     public const int ImeiMd5FieldNumber = 4;
     private pb::ByteString imeiMd5_ = pb::ByteString.Empty;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pb::ByteString ImeiMd5 {
       get { return imeiMd5_; }
       set {
@@ -138,6 +148,7 @@ namespace AcFunDanmu {
     public const int DeviceIdFieldNumber = 5;
     private string deviceId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string DeviceId {
       get { return deviceId_; }
       set {
@@ -149,6 +160,7 @@ namespace AcFunDanmu {
     public const int SoftDidFieldNumber = 6;
     private string softDid_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string SoftDid {
       get { return softDid_; }
       set {
@@ -160,6 +172,7 @@ namespace AcFunDanmu {
     public const int KwaiDidFieldNumber = 7;
     private string kwaiDid_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string KwaiDid {
       get { return kwaiDid_; }
       set {
@@ -171,6 +184,7 @@ namespace AcFunDanmu {
     public const int ManufacturerFieldNumber = 8;
     private string manufacturer_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Manufacturer {
       get { return manufacturer_; }
       set {
@@ -182,6 +196,7 @@ namespace AcFunDanmu {
     public const int DeviceNameFieldNumber = 9;
     private string deviceName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string DeviceName {
       get { return deviceName_; }
       set {
@@ -190,11 +205,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as DeviceInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(DeviceInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -215,6 +232,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (PlatformType != global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid) hash ^= PlatformType.GetHashCode();
@@ -233,11 +251,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -286,6 +306,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (PlatformType != global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid) {
         output.WriteRawTag(8);
@@ -330,6 +351,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (PlatformType != global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid) {
@@ -366,6 +388,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(DeviceInfo other) {
       if (other == null) {
         return;
@@ -401,6 +424,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -454,6 +478,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -505,6 +530,7 @@ namespace AcFunDanmu {
     #region Nested types
     /// <summary>Container for nested types declared in the DeviceInfo message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
       public enum PlatformType {
         [pbr::OriginalName("kInvalid")] KInvalid = 0,

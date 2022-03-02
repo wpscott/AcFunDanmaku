@@ -46,7 +46,7 @@ namespace AcFunDanmu {
   }
   #region Messages
   /// <summary>
-  ///RequsetBasicInfo
+  /// RequsetBasicInfo
   /// </summary>
   public sealed partial class RequestBasicInfo : pb::IMessage<RequestBasicInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -56,19 +56,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<RequestBasicInfo> _parser = new pb::MessageParser<RequestBasicInfo>(() => new RequestBasicInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<RequestBasicInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.RequestBasicInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public RequestBasicInfo() {
       OnConstruction();
     }
@@ -76,6 +80,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public RequestBasicInfo(RequestBasicInfo other) : this() {
       clientType_ = other.clientType_;
       deviceId_ = other.deviceId_;
@@ -94,6 +99,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public RequestBasicInfo Clone() {
       return new RequestBasicInfo(this);
     }
@@ -102,6 +108,7 @@ namespace AcFunDanmu {
     public const int ClientTypeFieldNumber = 1;
     private global::AcFunDanmu.DeviceInfo.Types.PlatformType clientType_ = global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.DeviceInfo.Types.PlatformType ClientType {
       get { return clientType_; }
       set {
@@ -113,6 +120,7 @@ namespace AcFunDanmu {
     public const int DeviceIdFieldNumber = 2;
     private string deviceId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string DeviceId {
       get { return deviceId_; }
       set {
@@ -124,6 +132,7 @@ namespace AcFunDanmu {
     public const int ClientIpFieldNumber = 3;
     private string clientIp_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string ClientIp {
       get { return clientIp_; }
       set {
@@ -135,6 +144,7 @@ namespace AcFunDanmu {
     public const int AppVersionFieldNumber = 4;
     private string appVersion_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string AppVersion {
       get { return appVersion_; }
       set {
@@ -146,6 +156,7 @@ namespace AcFunDanmu {
     public const int ChannelFieldNumber = 5;
     private string channel_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Channel {
       get { return channel_; }
       set {
@@ -157,6 +168,7 @@ namespace AcFunDanmu {
     public const int AppInfoFieldNumber = 6;
     private global::AcFunDanmu.AppInfo appInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.AppInfo AppInfo {
       get { return appInfo_; }
       set {
@@ -168,6 +180,7 @@ namespace AcFunDanmu {
     public const int DeviceInfoFieldNumber = 7;
     private global::AcFunDanmu.DeviceInfo deviceInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.DeviceInfo DeviceInfo {
       get { return deviceInfo_; }
       set {
@@ -179,6 +192,7 @@ namespace AcFunDanmu {
     public const int EnvInfoFieldNumber = 8;
     private global::AcFunDanmu.EnvInfo envInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.EnvInfo EnvInfo {
       get { return envInfo_; }
       set {
@@ -190,6 +204,7 @@ namespace AcFunDanmu {
     public const int ClientPortFieldNumber = 9;
     private int clientPort_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int ClientPort {
       get { return clientPort_; }
       set {
@@ -201,6 +216,7 @@ namespace AcFunDanmu {
     public const int LocationFieldNumber = 10;
     private string location_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Location {
       get { return location_; }
       set {
@@ -212,6 +228,7 @@ namespace AcFunDanmu {
     public const int KpfFieldNumber = 11;
     private string kpf_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Kpf {
       get { return kpf_; }
       set {
@@ -223,6 +240,7 @@ namespace AcFunDanmu {
     public const int ClientIpV6FieldNumber = 12;
     private string clientIpV6_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string ClientIpV6 {
       get { return clientIpV6_; }
       set {
@@ -234,6 +252,7 @@ namespace AcFunDanmu {
     public const int CountryCodeFieldNumber = 13;
     private string countryCode_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string CountryCode {
       get { return countryCode_; }
       set {
@@ -242,11 +261,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as RequestBasicInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(RequestBasicInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -271,6 +292,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (ClientType != global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid) hash ^= ClientType.GetHashCode();
@@ -293,11 +315,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -362,6 +386,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (ClientType != global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid) {
         output.WriteRawTag(8);
@@ -422,6 +447,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (ClientType != global::AcFunDanmu.DeviceInfo.Types.PlatformType.KInvalid) {
@@ -470,6 +496,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(RequestBasicInfo other) {
       if (other == null) {
         return;
@@ -526,6 +553,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -604,6 +632,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {

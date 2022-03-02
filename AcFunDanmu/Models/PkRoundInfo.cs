@@ -24,11 +24,12 @@ namespace AcFunDanmu {
     static PkRoundInfoReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFQa1JvdW5kSW5mby5wcm90bxIKQWNGdW5EYW5tdSJECgtQa1JvdW5kSW5m",
-            "bxIJCgFhGAEgASgDEgkKAWIYAiABKAUSCQoBYxgDIAEoBRIJCgFkGAQgASgD",
-            "EgkKAWUYBSABKAViBnByb3RvMw=="));
+            "ChFQa1JvdW5kSW5mby5wcm90bxIKQWNGdW5EYW5tdRoTWnRMaXZlUGtQcm90",
+            "by5wcm90byJfCgtQa1JvdW5kSW5mbxIJCgFhGAEgASgDEgkKAWIYAiABKAUS",
+            "CQoBYxgDIAEoBRIJCgFkGAQgASgDEiQKAWUYBSABKA4yGS5BY0Z1bkRhbm11",
+            "Llp0TGl2ZVBrUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::AcFunDanmu.ZtLivePkProtoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.PkRoundInfo), global::AcFunDanmu.PkRoundInfo.Parser, new[]{ "A", "B", "C", "D", "E" }, null, null, null, null)
           }));
@@ -45,19 +46,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<PkRoundInfo> _parser = new pb::MessageParser<PkRoundInfo>(() => new PkRoundInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<PkRoundInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.PkRoundInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public PkRoundInfo() {
       OnConstruction();
     }
@@ -65,6 +70,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public PkRoundInfo(PkRoundInfo other) : this() {
       a_ = other.a_;
       b_ = other.b_;
@@ -75,6 +81,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public PkRoundInfo Clone() {
       return new PkRoundInfo(this);
     }
@@ -83,6 +90,7 @@ namespace AcFunDanmu {
     public const int AFieldNumber = 1;
     private long a_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long A {
       get { return a_; }
       set {
@@ -94,6 +102,7 @@ namespace AcFunDanmu {
     public const int BFieldNumber = 2;
     private int b_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int B {
       get { return b_; }
       set {
@@ -105,6 +114,7 @@ namespace AcFunDanmu {
     public const int CFieldNumber = 3;
     private int c_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int C {
       get { return c_; }
       set {
@@ -116,6 +126,7 @@ namespace AcFunDanmu {
     public const int DFieldNumber = 4;
     private long d_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long D {
       get { return d_; }
       set {
@@ -125,12 +136,10 @@ namespace AcFunDanmu {
 
     /// <summary>Field number for the "e" field.</summary>
     public const int EFieldNumber = 5;
-    private int e_;
-    /// <summary>
-    ///enum
-    /// </summary>
+    private global::AcFunDanmu.ZtLivePkProto e_ = global::AcFunDanmu.ZtLivePkProto.A;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int E {
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AcFunDanmu.ZtLivePkProto E {
       get { return e_; }
       set {
         e_ = value;
@@ -138,11 +147,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as PkRoundInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(PkRoundInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -159,13 +170,14 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (A != 0L) hash ^= A.GetHashCode();
       if (B != 0) hash ^= B.GetHashCode();
       if (C != 0) hash ^= C.GetHashCode();
       if (D != 0L) hash ^= D.GetHashCode();
-      if (E != 0) hash ^= E.GetHashCode();
+      if (E != global::AcFunDanmu.ZtLivePkProto.A) hash ^= E.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -173,11 +185,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -198,9 +212,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(32);
         output.WriteInt64(D);
       }
-      if (E != 0) {
+      if (E != global::AcFunDanmu.ZtLivePkProto.A) {
         output.WriteRawTag(40);
-        output.WriteInt32(E);
+        output.WriteEnum((int) E);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -210,6 +224,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (A != 0L) {
         output.WriteRawTag(8);
@@ -227,9 +242,9 @@ namespace AcFunDanmu {
         output.WriteRawTag(32);
         output.WriteInt64(D);
       }
-      if (E != 0) {
+      if (E != global::AcFunDanmu.ZtLivePkProto.A) {
         output.WriteRawTag(40);
-        output.WriteInt32(E);
+        output.WriteEnum((int) E);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -238,6 +253,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (A != 0L) {
@@ -252,8 +268,8 @@ namespace AcFunDanmu {
       if (D != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(D);
       }
-      if (E != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(E);
+      if (E != global::AcFunDanmu.ZtLivePkProto.A) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) E);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -262,6 +278,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(PkRoundInfo other) {
       if (other == null) {
         return;
@@ -278,13 +295,14 @@ namespace AcFunDanmu {
       if (other.D != 0L) {
         D = other.D;
       }
-      if (other.E != 0) {
+      if (other.E != global::AcFunDanmu.ZtLivePkProto.A) {
         E = other.E;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -312,7 +330,7 @@ namespace AcFunDanmu {
             break;
           }
           case 40: {
-            E = input.ReadInt32();
+            E = (global::AcFunDanmu.ZtLivePkProto) input.ReadEnum();
             break;
           }
         }
@@ -322,6 +340,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -346,7 +365,7 @@ namespace AcFunDanmu {
             break;
           }
           case 40: {
-            E = input.ReadInt32();
+            E = (global::AcFunDanmu.ZtLivePkProto) input.ReadEnum();
             break;
           }
         }

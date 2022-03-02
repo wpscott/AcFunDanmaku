@@ -25,13 +25,14 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ch9Db21tb25TdGF0ZVNpZ25hbENoYXRDYWxsLnByb3RvEgpBY0Z1bkRhbm11",
-            "IlQKGUNvbW1vblN0YXRlU2lnbmFsQ2hhdENhbGwSDgoGY2hhdElkGAEgASgJ",
-            "Eg4KBmxpdmVJZBgCIAEoCRIXCg9jYWxsVGltZXN0YW1wTXMYAyABKANiBnBy",
-            "b3RvMw=="));
+            "GhNDaGF0TWVkaWFUeXBlLnByb3RvIoIBChlDb21tb25TdGF0ZVNpZ25hbENo",
+            "YXRDYWxsEg4KBmNoYXRJZBgBIAEoCRIOCgZsaXZlSWQYAiABKAkSFwoPY2Fs",
+            "bFRpbWVzdGFtcE1zGAMgASgDEiwKCW1lZGlhVHlwZRgEIAEoDjIZLkFjRnVu",
+            "RGFubXUuQ2hhdE1lZGlhVHlwZWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::AcFunDanmu.ChatMediaTypeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatCall), global::AcFunDanmu.CommonStateSignalChatCall.Parser, new[]{ "ChatId", "LiveId", "CallTimestampMs" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatCall), global::AcFunDanmu.CommonStateSignalChatCall.Parser, new[]{ "ChatId", "LiveId", "CallTimestampMs", "MediaType" }, null, null, null, null)
           }));
     }
     #endregion
@@ -46,19 +47,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<CommonStateSignalChatCall> _parser = new pb::MessageParser<CommonStateSignalChatCall>(() => new CommonStateSignalChatCall());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<CommonStateSignalChatCall> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.CommonStateSignalChatCallReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalChatCall() {
       OnConstruction();
     }
@@ -66,14 +71,17 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalChatCall(CommonStateSignalChatCall other) : this() {
       chatId_ = other.chatId_;
       liveId_ = other.liveId_;
       callTimestampMs_ = other.callTimestampMs_;
+      mediaType_ = other.mediaType_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalChatCall Clone() {
       return new CommonStateSignalChatCall(this);
     }
@@ -82,6 +90,7 @@ namespace AcFunDanmu {
     public const int ChatIdFieldNumber = 1;
     private string chatId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string ChatId {
       get { return chatId_; }
       set {
@@ -93,6 +102,7 @@ namespace AcFunDanmu {
     public const int LiveIdFieldNumber = 2;
     private string liveId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string LiveId {
       get { return liveId_; }
       set {
@@ -104,6 +114,7 @@ namespace AcFunDanmu {
     public const int CallTimestampMsFieldNumber = 3;
     private long callTimestampMs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long CallTimestampMs {
       get { return callTimestampMs_; }
       set {
@@ -111,12 +122,26 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "mediaType" field.</summary>
+    public const int MediaTypeFieldNumber = 4;
+    private global::AcFunDanmu.ChatMediaType mediaType_ = global::AcFunDanmu.ChatMediaType.Unknown;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AcFunDanmu.ChatMediaType MediaType {
+      get { return mediaType_; }
+      set {
+        mediaType_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as CommonStateSignalChatCall);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(CommonStateSignalChatCall other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -127,15 +152,18 @@ namespace AcFunDanmu {
       if (ChatId != other.ChatId) return false;
       if (LiveId != other.LiveId) return false;
       if (CallTimestampMs != other.CallTimestampMs) return false;
+      if (MediaType != other.MediaType) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (ChatId.Length != 0) hash ^= ChatId.GetHashCode();
       if (LiveId.Length != 0) hash ^= LiveId.GetHashCode();
       if (CallTimestampMs != 0L) hash ^= CallTimestampMs.GetHashCode();
+      if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) hash ^= MediaType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -143,11 +171,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -164,6 +194,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(24);
         output.WriteInt64(CallTimestampMs);
       }
+      if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) MediaType);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -172,6 +206,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (ChatId.Length != 0) {
         output.WriteRawTag(10);
@@ -185,6 +220,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(24);
         output.WriteInt64(CallTimestampMs);
       }
+      if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) MediaType);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -192,6 +231,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (ChatId.Length != 0) {
@@ -203,6 +243,9 @@ namespace AcFunDanmu {
       if (CallTimestampMs != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(CallTimestampMs);
       }
+      if (MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) MediaType);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -210,6 +253,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(CommonStateSignalChatCall other) {
       if (other == null) {
         return;
@@ -223,10 +267,14 @@ namespace AcFunDanmu {
       if (other.CallTimestampMs != 0L) {
         CallTimestampMs = other.CallTimestampMs;
       }
+      if (other.MediaType != global::AcFunDanmu.ChatMediaType.Unknown) {
+        MediaType = other.MediaType;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -249,6 +297,10 @@ namespace AcFunDanmu {
             CallTimestampMs = input.ReadInt64();
             break;
           }
+          case 32: {
+            MediaType = (global::AcFunDanmu.ChatMediaType) input.ReadEnum();
+            break;
+          }
         }
       }
     #endif
@@ -256,6 +308,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -273,6 +326,10 @@ namespace AcFunDanmu {
           }
           case 24: {
             CallTimestampMs = input.ReadInt64();
+            break;
+          }
+          case 32: {
+            MediaType = (global::AcFunDanmu.ChatMediaType) input.ReadEnum();
             break;
           }
         }

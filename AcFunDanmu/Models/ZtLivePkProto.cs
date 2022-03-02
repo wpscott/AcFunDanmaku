@@ -24,8 +24,10 @@ namespace AcFunDanmu {
     static ZtLivePkProtoReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChNadExpdmVQa1Byb3RvLnByb3RvEgpBY0Z1bkRhbm11KisKDVp0TGl2ZVBr",
-            "UHJvdG8SBQoBZBAAEgUKAWUQARIFCgFmEAISBQoBZxADYgZwcm90bzM="));
+            "ChNadExpdmVQa1Byb3RvLnByb3RvEgpBY0Z1bkRhbm11Kl8KDVp0TGl2ZVBr",
+            "UHJvdG8SEgoOWnRMaXZlUGtQcm90b0EQABISCg5adExpdmVQa1Byb3RvQhAB",
+            "EhIKDlp0TGl2ZVBrUHJvdG9DEAISEgoOWnRMaXZlUGtQcm90b0QQA2IGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AcFunDanmu.ZtLivePkProto), }, null, null));
@@ -35,10 +37,10 @@ namespace AcFunDanmu {
   }
   #region Enums
   public enum ZtLivePkProto {
-    [pbr::OriginalName("d")] D = 0,
-    [pbr::OriginalName("e")] E = 1,
-    [pbr::OriginalName("f")] F = 2,
-    [pbr::OriginalName("g")] G = 3,
+    [pbr::OriginalName("ZtLivePkProtoA")] A = 0,
+    [pbr::OriginalName("ZtLivePkProtoB")] B = 1,
+    [pbr::OriginalName("ZtLivePkProtoC")] C = 2,
+    [pbr::OriginalName("ZtLivePkProtoD")] D = 3,
   }
 
   #endregion

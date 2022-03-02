@@ -49,19 +49,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<ZtLiveScMessage> _parser = new pb::MessageParser<ZtLiveScMessage>(() => new ZtLiveScMessage());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<ZtLiveScMessage> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.ZtLiveScMessageReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveScMessage() {
       OnConstruction();
     }
@@ -69,6 +73,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveScMessage(ZtLiveScMessage other) : this() {
       messageType_ = other.messageType_;
       compressionType_ = other.compressionType_;
@@ -80,6 +85,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveScMessage Clone() {
       return new ZtLiveScMessage(this);
     }
@@ -88,6 +94,7 @@ namespace AcFunDanmu {
     public const int MessageTypeFieldNumber = 1;
     private string messageType_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string MessageType {
       get { return messageType_; }
       set {
@@ -99,6 +106,7 @@ namespace AcFunDanmu {
     public const int CompressionTypeFieldNumber = 2;
     private global::AcFunDanmu.ZtLiveScMessage.Types.CompressionType compressionType_ = global::AcFunDanmu.ZtLiveScMessage.Types.CompressionType.Unknown;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.ZtLiveScMessage.Types.CompressionType CompressionType {
       get { return compressionType_; }
       set {
@@ -110,6 +118,7 @@ namespace AcFunDanmu {
     public const int PayloadFieldNumber = 3;
     private pb::ByteString payload_ = pb::ByteString.Empty;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pb::ByteString Payload {
       get { return payload_; }
       set {
@@ -121,6 +130,7 @@ namespace AcFunDanmu {
     public const int LiveIdFieldNumber = 4;
     private string liveId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string LiveId {
       get { return liveId_; }
       set {
@@ -132,6 +142,7 @@ namespace AcFunDanmu {
     public const int TicketFieldNumber = 5;
     private string ticket_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Ticket {
       get { return ticket_; }
       set {
@@ -143,6 +154,7 @@ namespace AcFunDanmu {
     public const int ServerTimestampMsFieldNumber = 6;
     private long serverTimestampMs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long ServerTimestampMs {
       get { return serverTimestampMs_; }
       set {
@@ -151,11 +163,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as ZtLiveScMessage);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(ZtLiveScMessage other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -173,6 +187,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (MessageType.Length != 0) hash ^= MessageType.GetHashCode();
@@ -188,11 +203,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -229,6 +246,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (MessageType.Length != 0) {
         output.WriteRawTag(10);
@@ -261,6 +279,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (MessageType.Length != 0) {
@@ -288,6 +307,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(ZtLiveScMessage other) {
       if (other == null) {
         return;
@@ -314,6 +334,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -355,6 +376,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -394,6 +416,7 @@ namespace AcFunDanmu {
     #region Nested types
     /// <summary>Container for nested types declared in the ZtLiveScMessage message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
       public enum CompressionType {
         [pbr::OriginalName("UNKNOWN")] Unknown = 0,

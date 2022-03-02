@@ -25,26 +25,27 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiBDb21tb25BY3Rpb25TaWduYWxSaWNoVGV4dC5wcm90bxIKQWNGdW5EYW5t",
-            "dRoUWnRMaXZlVXNlckluZm8ucHJvdG8aEkltYWdlQ2RuTm9kZS5wcm90byLZ",
+            "dRoUWnRMaXZlVXNlckluZm8ucHJvdG8aEkltYWdlQ2RuTm9kZS5wcm90byLv",
             "BAoaQ29tbW9uQWN0aW9uU2lnbmFsUmljaFRleHQSSAoIc2VnbWVudHMYASAD",
             "KAsyNi5BY0Z1bkRhbm11LkNvbW1vbkFjdGlvblNpZ25hbFJpY2hUZXh0LlJp",
-            "Y2hUZXh0U2VnbWVudBISCgpzZW5kVGltZU1zGAIgASgDGm0KDEltYWdlU2Vn",
+            "Y2hUZXh0U2VnbWVudBISCgpzZW5kVGltZU1zGAIgASgDGngKDEltYWdlU2Vn",
             "bWVudBIqCghwaWN0dXJlcxgBIAMoCzIYLkFjRnVuRGFubXUuSW1hZ2VDZG5O",
             "b2RlEhcKD2FsdGVybmF0aXZlVGV4dBgCIAEoCRIYChBhbHRlcm5hdGl2ZUNv",
-            "bG9yGAMgASgJGisKDFBsYWluU2VnbWVudBIMCgR0ZXh0GAEgASgJEg0KBWNv",
-            "bG9yGAIgASgJGvQBCg9SaWNoVGV4dFNlZ21lbnQSSgoIdXNlckluZm8YASAB",
-            "KAsyNi5BY0Z1bkRhbm11LkNvbW1vbkFjdGlvblNpZ25hbFJpY2hUZXh0LlVz",
-            "ZXJJbmZvU2VnbWVudEgAEkQKBXBsYWluGAIgASgLMjMuQWNGdW5EYW5tdS5D",
-            "b21tb25BY3Rpb25TaWduYWxSaWNoVGV4dC5QbGFpblNlZ21lbnRIABJECgVp",
-            "bWFnZRgDIAEoCzIzLkFjRnVuRGFubXUuQ29tbW9uQWN0aW9uU2lnbmFsUmlj",
-            "aFRleHQuSW1hZ2VTZWdtZW50SABCCQoHc2VnbWVudBpKCg9Vc2VySW5mb1Nl",
-            "Z21lbnQSKAoEdXNlchgBIAEoCzIaLkFjRnVuRGFubXUuWnRMaXZlVXNlcklu",
-            "Zm8SDQoFY29sb3IYAiABKAliBnByb3RvMw=="));
+            "bG9yGAMgASgJEgkKAWQYBCABKAkaNgoMUGxhaW5TZWdtZW50EgwKBHRleHQY",
+            "ASABKAkSDQoFY29sb3IYAiABKAkSCQoBYxgDIAEoCRr0AQoPUmljaFRleHRT",
+            "ZWdtZW50EkoKCHVzZXJJbmZvGAEgASgLMjYuQWNGdW5EYW5tdS5Db21tb25B",
+            "Y3Rpb25TaWduYWxSaWNoVGV4dC5Vc2VySW5mb1NlZ21lbnRIABJECgVwbGFp",
+            "bhgCIAEoCzIzLkFjRnVuRGFubXUuQ29tbW9uQWN0aW9uU2lnbmFsUmljaFRl",
+            "eHQuUGxhaW5TZWdtZW50SAASRAoFaW1hZ2UYAyABKAsyMy5BY0Z1bkRhbm11",
+            "LkNvbW1vbkFjdGlvblNpZ25hbFJpY2hUZXh0LkltYWdlU2VnbWVudEgAQgkK",
+            "B3NlZ21lbnQaSgoPVXNlckluZm9TZWdtZW50EigKBHVzZXIYASABKAsyGi5B",
+            "Y0Z1bkRhbm11Llp0TGl2ZVVzZXJJbmZvEg0KBWNvbG9yGAIgASgJYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.ZtLiveUserInfoReflection.Descriptor, global::AcFunDanmu.ImageCdnNodeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText), global::AcFunDanmu.CommonActionSignalRichText.Parser, new[]{ "Segments", "SendTimeMs" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment.Parser, new[]{ "Pictures", "AlternativeText", "AlternativeColor" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment.Parser, new[]{ "Text", "Color" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText), global::AcFunDanmu.CommonActionSignalRichText.Parser, new[]{ "Segments", "SendTimeMs" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment.Parser, new[]{ "Pictures", "AlternativeText", "AlternativeColor", "D" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment.Parser, new[]{ "Text", "Color", "C" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment.Parser, new[]{ "UserInfo", "Plain", "Image" }, new[]{ "Segment" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment), global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment.Parser, new[]{ "User", "Color" }, null, null, null, null)})
           }));
@@ -61,19 +62,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<CommonActionSignalRichText> _parser = new pb::MessageParser<CommonActionSignalRichText>(() => new CommonActionSignalRichText());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<CommonActionSignalRichText> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.CommonActionSignalRichTextReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonActionSignalRichText() {
       OnConstruction();
     }
@@ -81,6 +86,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonActionSignalRichText(CommonActionSignalRichText other) : this() {
       segments_ = other.segments_.Clone();
       sendTimeMs_ = other.sendTimeMs_;
@@ -88,6 +94,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonActionSignalRichText Clone() {
       return new CommonActionSignalRichText(this);
     }
@@ -101,6 +108,7 @@ namespace AcFunDanmu {
     ///segment
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::RepeatedField<global::AcFunDanmu.CommonActionSignalRichText.Types.RichTextSegment> Segments {
       get { return segments_; }
     }
@@ -109,6 +117,7 @@ namespace AcFunDanmu {
     public const int SendTimeMsFieldNumber = 2;
     private long sendTimeMs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long SendTimeMs {
       get { return sendTimeMs_; }
       set {
@@ -117,11 +126,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as CommonActionSignalRichText);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(CommonActionSignalRichText other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -135,6 +146,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       hash ^= segments_.GetHashCode();
@@ -146,11 +158,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -168,6 +182,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       segments_.WriteTo(ref output, _repeated_segments_codec);
       if (SendTimeMs != 0L) {
@@ -181,6 +196,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       size += segments_.CalculateSize(_repeated_segments_codec);
@@ -194,6 +210,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(CommonActionSignalRichText other) {
       if (other == null) {
         return;
@@ -206,6 +223,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -231,6 +249,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -254,6 +273,7 @@ namespace AcFunDanmu {
     #region Nested types
     /// <summary>Container for nested types declared in the CommonActionSignalRichText message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
       public sealed partial class ImageSegment : pb::IMessage<ImageSegment>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -263,19 +283,23 @@ namespace AcFunDanmu {
         private static readonly pb::MessageParser<ImageSegment> _parser = new pb::MessageParser<ImageSegment>(() => new ImageSegment());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pb::MessageParser<ImageSegment> Parser { get { return _parser; } }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
           get { return global::AcFunDanmu.CommonActionSignalRichText.Descriptor.NestedTypes[0]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         pbr::MessageDescriptor pb::IMessage.Descriptor {
           get { return Descriptor; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public ImageSegment() {
           OnConstruction();
         }
@@ -283,14 +307,17 @@ namespace AcFunDanmu {
         partial void OnConstruction();
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public ImageSegment(ImageSegment other) : this() {
           pictures_ = other.pictures_.Clone();
           alternativeText_ = other.alternativeText_;
           alternativeColor_ = other.alternativeColor_;
+          d_ = other.d_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public ImageSegment Clone() {
           return new ImageSegment(this);
         }
@@ -304,6 +331,7 @@ namespace AcFunDanmu {
         ///cdnNode
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public pbc::RepeatedField<global::AcFunDanmu.ImageCdnNode> Pictures {
           get { return pictures_; }
         }
@@ -312,6 +340,7 @@ namespace AcFunDanmu {
         public const int AlternativeTextFieldNumber = 2;
         private string alternativeText_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public string AlternativeText {
           get { return alternativeText_; }
           set {
@@ -323,6 +352,7 @@ namespace AcFunDanmu {
         public const int AlternativeColorFieldNumber = 3;
         private string alternativeColor_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public string AlternativeColor {
           get { return alternativeColor_; }
           set {
@@ -330,12 +360,26 @@ namespace AcFunDanmu {
           }
         }
 
+        /// <summary>Field number for the "d" field.</summary>
+        public const int DFieldNumber = 4;
+        private string d_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public string D {
+          get { return d_; }
+          set {
+            d_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+          }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override bool Equals(object other) {
           return Equals(other as ImageSegment);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public bool Equals(ImageSegment other) {
           if (ReferenceEquals(other, null)) {
             return false;
@@ -346,15 +390,18 @@ namespace AcFunDanmu {
           if(!pictures_.Equals(other.pictures_)) return false;
           if (AlternativeText != other.AlternativeText) return false;
           if (AlternativeColor != other.AlternativeColor) return false;
+          if (D != other.D) return false;
           return Equals(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override int GetHashCode() {
           int hash = 1;
           hash ^= pictures_.GetHashCode();
           if (AlternativeText.Length != 0) hash ^= AlternativeText.GetHashCode();
           if (AlternativeColor.Length != 0) hash ^= AlternativeColor.GetHashCode();
+          if (D.Length != 0) hash ^= D.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -362,11 +409,13 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override string ToString() {
           return pb::JsonFormatter.ToDiagnosticString(this);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void WriteTo(pb::CodedOutputStream output) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           output.WriteRawMessage(this);
@@ -380,6 +429,10 @@ namespace AcFunDanmu {
             output.WriteRawTag(26);
             output.WriteString(AlternativeColor);
           }
+          if (D.Length != 0) {
+            output.WriteRawTag(34);
+            output.WriteString(D);
+          }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
           }
@@ -388,6 +441,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
           pictures_.WriteTo(ref output, _repeated_pictures_codec);
           if (AlternativeText.Length != 0) {
@@ -398,6 +452,10 @@ namespace AcFunDanmu {
             output.WriteRawTag(26);
             output.WriteString(AlternativeColor);
           }
+          if (D.Length != 0) {
+            output.WriteRawTag(34);
+            output.WriteString(D);
+          }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(ref output);
           }
@@ -405,6 +463,7 @@ namespace AcFunDanmu {
         #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public int CalculateSize() {
           int size = 0;
           size += pictures_.CalculateSize(_repeated_pictures_codec);
@@ -414,6 +473,9 @@ namespace AcFunDanmu {
           if (AlternativeColor.Length != 0) {
             size += 1 + pb::CodedOutputStream.ComputeStringSize(AlternativeColor);
           }
+          if (D.Length != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeStringSize(D);
+          }
           if (_unknownFields != null) {
             size += _unknownFields.CalculateSize();
           }
@@ -421,6 +483,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(ImageSegment other) {
           if (other == null) {
             return;
@@ -432,10 +495,14 @@ namespace AcFunDanmu {
           if (other.AlternativeColor.Length != 0) {
             AlternativeColor = other.AlternativeColor;
           }
+          if (other.D.Length != 0) {
+            D = other.D;
+          }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(pb::CodedInputStream input) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           input.ReadRawMessage(this);
@@ -458,6 +525,10 @@ namespace AcFunDanmu {
                 AlternativeColor = input.ReadString();
                 break;
               }
+              case 34: {
+                D = input.ReadString();
+                break;
+              }
             }
           }
         #endif
@@ -465,6 +536,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
@@ -484,6 +556,10 @@ namespace AcFunDanmu {
                 AlternativeColor = input.ReadString();
                 break;
               }
+              case 34: {
+                D = input.ReadString();
+                break;
+              }
             }
           }
         }
@@ -499,19 +575,23 @@ namespace AcFunDanmu {
         private static readonly pb::MessageParser<PlainSegment> _parser = new pb::MessageParser<PlainSegment>(() => new PlainSegment());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pb::MessageParser<PlainSegment> Parser { get { return _parser; } }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
           get { return global::AcFunDanmu.CommonActionSignalRichText.Descriptor.NestedTypes[1]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         pbr::MessageDescriptor pb::IMessage.Descriptor {
           get { return Descriptor; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public PlainSegment() {
           OnConstruction();
         }
@@ -519,13 +599,16 @@ namespace AcFunDanmu {
         partial void OnConstruction();
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public PlainSegment(PlainSegment other) : this() {
           text_ = other.text_;
           color_ = other.color_;
+          c_ = other.c_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public PlainSegment Clone() {
           return new PlainSegment(this);
         }
@@ -534,6 +617,7 @@ namespace AcFunDanmu {
         public const int TextFieldNumber = 1;
         private string text_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public string Text {
           get { return text_; }
           set {
@@ -545,6 +629,7 @@ namespace AcFunDanmu {
         public const int ColorFieldNumber = 2;
         private string color_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public string Color {
           get { return color_; }
           set {
@@ -552,12 +637,26 @@ namespace AcFunDanmu {
           }
         }
 
+        /// <summary>Field number for the "c" field.</summary>
+        public const int CFieldNumber = 3;
+        private string c_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public string C {
+          get { return c_; }
+          set {
+            c_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+          }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override bool Equals(object other) {
           return Equals(other as PlainSegment);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public bool Equals(PlainSegment other) {
           if (ReferenceEquals(other, null)) {
             return false;
@@ -567,14 +666,17 @@ namespace AcFunDanmu {
           }
           if (Text != other.Text) return false;
           if (Color != other.Color) return false;
+          if (C != other.C) return false;
           return Equals(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override int GetHashCode() {
           int hash = 1;
           if (Text.Length != 0) hash ^= Text.GetHashCode();
           if (Color.Length != 0) hash ^= Color.GetHashCode();
+          if (C.Length != 0) hash ^= C.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -582,11 +684,13 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override string ToString() {
           return pb::JsonFormatter.ToDiagnosticString(this);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void WriteTo(pb::CodedOutputStream output) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           output.WriteRawMessage(this);
@@ -599,6 +703,10 @@ namespace AcFunDanmu {
             output.WriteRawTag(18);
             output.WriteString(Color);
           }
+          if (C.Length != 0) {
+            output.WriteRawTag(26);
+            output.WriteString(C);
+          }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
           }
@@ -607,6 +715,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
           if (Text.Length != 0) {
             output.WriteRawTag(10);
@@ -616,6 +725,10 @@ namespace AcFunDanmu {
             output.WriteRawTag(18);
             output.WriteString(Color);
           }
+          if (C.Length != 0) {
+            output.WriteRawTag(26);
+            output.WriteString(C);
+          }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(ref output);
           }
@@ -623,6 +736,7 @@ namespace AcFunDanmu {
         #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public int CalculateSize() {
           int size = 0;
           if (Text.Length != 0) {
@@ -631,6 +745,9 @@ namespace AcFunDanmu {
           if (Color.Length != 0) {
             size += 1 + pb::CodedOutputStream.ComputeStringSize(Color);
           }
+          if (C.Length != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeStringSize(C);
+          }
           if (_unknownFields != null) {
             size += _unknownFields.CalculateSize();
           }
@@ -638,6 +755,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(PlainSegment other) {
           if (other == null) {
             return;
@@ -648,10 +766,14 @@ namespace AcFunDanmu {
           if (other.Color.Length != 0) {
             Color = other.Color;
           }
+          if (other.C.Length != 0) {
+            C = other.C;
+          }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(pb::CodedInputStream input) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           input.ReadRawMessage(this);
@@ -670,6 +792,10 @@ namespace AcFunDanmu {
                 Color = input.ReadString();
                 break;
               }
+              case 26: {
+                C = input.ReadString();
+                break;
+              }
             }
           }
         #endif
@@ -677,6 +803,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
@@ -690,6 +817,10 @@ namespace AcFunDanmu {
               }
               case 18: {
                 Color = input.ReadString();
+                break;
+              }
+              case 26: {
+                C = input.ReadString();
                 break;
               }
             }
@@ -707,19 +838,23 @@ namespace AcFunDanmu {
         private static readonly pb::MessageParser<RichTextSegment> _parser = new pb::MessageParser<RichTextSegment>(() => new RichTextSegment());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pb::MessageParser<RichTextSegment> Parser { get { return _parser; } }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
           get { return global::AcFunDanmu.CommonActionSignalRichText.Descriptor.NestedTypes[2]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         pbr::MessageDescriptor pb::IMessage.Descriptor {
           get { return Descriptor; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public RichTextSegment() {
           OnConstruction();
         }
@@ -727,6 +862,7 @@ namespace AcFunDanmu {
         partial void OnConstruction();
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public RichTextSegment(RichTextSegment other) : this() {
           switch (other.SegmentCase) {
             case SegmentOneofCase.UserInfo:
@@ -744,6 +880,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public RichTextSegment Clone() {
           return new RichTextSegment(this);
         }
@@ -751,6 +888,7 @@ namespace AcFunDanmu {
         /// <summary>Field number for the "userInfo" field.</summary>
         public const int UserInfoFieldNumber = 1;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment UserInfo {
           get { return segmentCase_ == SegmentOneofCase.UserInfo ? (global::AcFunDanmu.CommonActionSignalRichText.Types.UserInfoSegment) segment_ : null; }
           set {
@@ -762,6 +900,7 @@ namespace AcFunDanmu {
         /// <summary>Field number for the "plain" field.</summary>
         public const int PlainFieldNumber = 2;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment Plain {
           get { return segmentCase_ == SegmentOneofCase.Plain ? (global::AcFunDanmu.CommonActionSignalRichText.Types.PlainSegment) segment_ : null; }
           set {
@@ -773,6 +912,7 @@ namespace AcFunDanmu {
         /// <summary>Field number for the "image" field.</summary>
         public const int ImageFieldNumber = 3;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment Image {
           get { return segmentCase_ == SegmentOneofCase.Image ? (global::AcFunDanmu.CommonActionSignalRichText.Types.ImageSegment) segment_ : null; }
           set {
@@ -791,22 +931,26 @@ namespace AcFunDanmu {
         }
         private SegmentOneofCase segmentCase_ = SegmentOneofCase.None;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public SegmentOneofCase SegmentCase {
           get { return segmentCase_; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void ClearSegment() {
           segmentCase_ = SegmentOneofCase.None;
           segment_ = null;
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override bool Equals(object other) {
           return Equals(other as RichTextSegment);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public bool Equals(RichTextSegment other) {
           if (ReferenceEquals(other, null)) {
             return false;
@@ -822,6 +966,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override int GetHashCode() {
           int hash = 1;
           if (segmentCase_ == SegmentOneofCase.UserInfo) hash ^= UserInfo.GetHashCode();
@@ -835,11 +980,13 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override string ToString() {
           return pb::JsonFormatter.ToDiagnosticString(this);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void WriteTo(pb::CodedOutputStream output) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           output.WriteRawMessage(this);
@@ -864,6 +1011,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
           if (segmentCase_ == SegmentOneofCase.UserInfo) {
             output.WriteRawTag(10);
@@ -884,6 +1032,7 @@ namespace AcFunDanmu {
         #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public int CalculateSize() {
           int size = 0;
           if (segmentCase_ == SegmentOneofCase.UserInfo) {
@@ -902,6 +1051,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(RichTextSegment other) {
           if (other == null) {
             return;
@@ -931,6 +1081,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(pb::CodedInputStream input) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           input.ReadRawMessage(this);
@@ -975,6 +1126,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
@@ -1024,19 +1176,23 @@ namespace AcFunDanmu {
         private static readonly pb::MessageParser<UserInfoSegment> _parser = new pb::MessageParser<UserInfoSegment>(() => new UserInfoSegment());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pb::MessageParser<UserInfoSegment> Parser { get { return _parser; } }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
           get { return global::AcFunDanmu.CommonActionSignalRichText.Descriptor.NestedTypes[3]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         pbr::MessageDescriptor pb::IMessage.Descriptor {
           get { return Descriptor; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public UserInfoSegment() {
           OnConstruction();
         }
@@ -1044,6 +1200,7 @@ namespace AcFunDanmu {
         partial void OnConstruction();
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public UserInfoSegment(UserInfoSegment other) : this() {
           user_ = other.user_ != null ? other.user_.Clone() : null;
           color_ = other.color_;
@@ -1051,6 +1208,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public UserInfoSegment Clone() {
           return new UserInfoSegment(this);
         }
@@ -1059,6 +1217,7 @@ namespace AcFunDanmu {
         public const int UserFieldNumber = 1;
         private global::AcFunDanmu.ZtLiveUserInfo user_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public global::AcFunDanmu.ZtLiveUserInfo User {
           get { return user_; }
           set {
@@ -1070,6 +1229,7 @@ namespace AcFunDanmu {
         public const int ColorFieldNumber = 2;
         private string color_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public string Color {
           get { return color_; }
           set {
@@ -1078,11 +1238,13 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override bool Equals(object other) {
           return Equals(other as UserInfoSegment);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public bool Equals(UserInfoSegment other) {
           if (ReferenceEquals(other, null)) {
             return false;
@@ -1096,6 +1258,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override int GetHashCode() {
           int hash = 1;
           if (user_ != null) hash ^= User.GetHashCode();
@@ -1107,11 +1270,13 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override string ToString() {
           return pb::JsonFormatter.ToDiagnosticString(this);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void WriteTo(pb::CodedOutputStream output) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           output.WriteRawMessage(this);
@@ -1132,6 +1297,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
           if (user_ != null) {
             output.WriteRawTag(10);
@@ -1148,6 +1314,7 @@ namespace AcFunDanmu {
         #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public int CalculateSize() {
           int size = 0;
           if (user_ != null) {
@@ -1163,6 +1330,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(UserInfoSegment other) {
           if (other == null) {
             return;
@@ -1180,6 +1348,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(pb::CodedInputStream input) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           input.ReadRawMessage(this);
@@ -1208,6 +1377,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {

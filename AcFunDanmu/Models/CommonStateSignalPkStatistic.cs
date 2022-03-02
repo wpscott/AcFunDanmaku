@@ -51,19 +51,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<CommonStateSignalPkStatistic> _parser = new pb::MessageParser<CommonStateSignalPkStatistic>(() => new CommonStateSignalPkStatistic());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<CommonStateSignalPkStatistic> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.CommonStateSignalPkStatisticReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalPkStatistic() {
       OnConstruction();
     }
@@ -71,6 +75,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalPkStatistic(CommonStateSignalPkStatistic other) : this() {
       a_ = other.a_;
       b_ = other.b_;
@@ -88,6 +93,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalPkStatistic Clone() {
       return new CommonStateSignalPkStatistic(this);
     }
@@ -96,6 +102,7 @@ namespace AcFunDanmu {
     public const int AFieldNumber = 1;
     private string a_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string A {
       get { return a_; }
       set {
@@ -107,6 +114,7 @@ namespace AcFunDanmu {
     public const int BFieldNumber = 2;
     private long b_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long B {
       get { return b_; }
       set {
@@ -118,6 +126,7 @@ namespace AcFunDanmu {
     public const int CFieldNumber = 3;
     private long c_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long C {
       get { return c_; }
       set {
@@ -129,6 +138,7 @@ namespace AcFunDanmu {
     public const int DFieldNumber = 4;
     private long d_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long D {
       get { return d_; }
       set {
@@ -140,6 +150,7 @@ namespace AcFunDanmu {
     public const int EFieldNumber = 5;
     private bool e_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool E {
       get { return e_; }
       set {
@@ -151,6 +162,7 @@ namespace AcFunDanmu {
     public const int FFieldNumber = 6;
     private long f_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long F {
       get { return f_; }
       set {
@@ -162,6 +174,7 @@ namespace AcFunDanmu {
     public const int GFieldNumber = 7;
     private long g_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long G {
       get { return g_; }
       set {
@@ -173,6 +186,7 @@ namespace AcFunDanmu {
     public const int HFieldNumber = 8;
     private long h_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long H {
       get { return h_; }
       set {
@@ -186,6 +200,7 @@ namespace AcFunDanmu {
         = pb::FieldCodec.ForMessage(74, global::AcFunDanmu.PkAudienceContributionInfo.Parser);
     private readonly pbc::RepeatedField<global::AcFunDanmu.PkAudienceContributionInfo> i_ = new pbc::RepeatedField<global::AcFunDanmu.PkAudienceContributionInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::RepeatedField<global::AcFunDanmu.PkAudienceContributionInfo> I {
       get { return i_; }
     }
@@ -196,6 +211,7 @@ namespace AcFunDanmu {
         = pb::FieldCodec.ForMessage(82, global::AcFunDanmu.PkPlayerStatistic.Parser);
     private readonly pbc::RepeatedField<global::AcFunDanmu.PkPlayerStatistic> j_ = new pbc::RepeatedField<global::AcFunDanmu.PkPlayerStatistic>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::RepeatedField<global::AcFunDanmu.PkPlayerStatistic> J {
       get { return j_; }
     }
@@ -204,6 +220,7 @@ namespace AcFunDanmu {
     public const int KFieldNumber = 11;
     private global::AcFunDanmu.PkRoundInfo k_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.PkRoundInfo K {
       get { return k_; }
       set {
@@ -215,6 +232,7 @@ namespace AcFunDanmu {
     public const int LFieldNumber = 12;
     private long l_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long L {
       get { return l_; }
       set {
@@ -223,11 +241,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as CommonStateSignalPkStatistic);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(CommonStateSignalPkStatistic other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -251,6 +271,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (A.Length != 0) hash ^= A.GetHashCode();
@@ -272,11 +293,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -331,6 +354,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (A.Length != 0) {
         output.WriteRawTag(10);
@@ -381,6 +405,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (A.Length != 0) {
@@ -422,6 +447,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(CommonStateSignalPkStatistic other) {
       if (other == null) {
         return;
@@ -465,6 +491,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -533,6 +560,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {

@@ -25,15 +25,16 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChRadExpdmVVc2VySW5mby5wcm90bxIKQWNGdW5EYW5tdRoSSW1hZ2VDZG5O",
-            "b2RlLnByb3RvGhhadExpdmVVc2VySWRlbnRpdHkucHJvdG8ioQEKDlp0TGl2",
+            "b2RlLnByb3RvGhhadExpdmVVc2VySWRlbnRpdHkucHJvdG8itwEKDlp0TGl2",
             "ZVVzZXJJbmZvEg4KBnVzZXJJZBgBIAEoAxIQCghuaWNrbmFtZRgCIAEoCRIo",
             "CgZhdmF0YXIYAyADKAsyGC5BY0Z1bkRhbm11LkltYWdlQ2RuTm9kZRINCgVi",
             "YWRnZRgEIAEoCRI0Cgx1c2VySWRlbnRpdHkYBSABKAsyHi5BY0Z1bkRhbm11",
-            "Llp0TGl2ZVVzZXJJZGVudGl0eWIGcHJvdG8z"));
+            "Llp0TGl2ZVVzZXJJZGVudGl0eRIJCgFmGAYgASgIEgkKAWcYByABKAliBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.ImageCdnNodeReflection.Descriptor, global::AcFunDanmu.ZtLiveUserIdentityReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveUserInfo), global::AcFunDanmu.ZtLiveUserInfo.Parser, new[]{ "UserId", "Nickname", "Avatar", "Badge", "UserIdentity" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveUserInfo), global::AcFunDanmu.ZtLiveUserInfo.Parser, new[]{ "UserId", "Nickname", "Avatar", "Badge", "UserIdentity", "F", "G" }, null, null, null, null)
           }));
     }
     #endregion
@@ -48,19 +49,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<ZtLiveUserInfo> _parser = new pb::MessageParser<ZtLiveUserInfo>(() => new ZtLiveUserInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<ZtLiveUserInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.ZtLiveUserInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveUserInfo() {
       OnConstruction();
     }
@@ -68,16 +73,20 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveUserInfo(ZtLiveUserInfo other) : this() {
       userId_ = other.userId_;
       nickname_ = other.nickname_;
       avatar_ = other.avatar_.Clone();
       badge_ = other.badge_;
       userIdentity_ = other.userIdentity_ != null ? other.userIdentity_.Clone() : null;
+      f_ = other.f_;
+      g_ = other.g_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveUserInfo Clone() {
       return new ZtLiveUserInfo(this);
     }
@@ -86,6 +95,7 @@ namespace AcFunDanmu {
     public const int UserIdFieldNumber = 1;
     private long userId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long UserId {
       get { return userId_; }
       set {
@@ -97,6 +107,7 @@ namespace AcFunDanmu {
     public const int NicknameFieldNumber = 2;
     private string nickname_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Nickname {
       get { return nickname_; }
       set {
@@ -110,6 +121,7 @@ namespace AcFunDanmu {
         = pb::FieldCodec.ForMessage(26, global::AcFunDanmu.ImageCdnNode.Parser);
     private readonly pbc::RepeatedField<global::AcFunDanmu.ImageCdnNode> avatar_ = new pbc::RepeatedField<global::AcFunDanmu.ImageCdnNode>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::RepeatedField<global::AcFunDanmu.ImageCdnNode> Avatar {
       get { return avatar_; }
     }
@@ -121,6 +133,7 @@ namespace AcFunDanmu {
     /// bizCustomInfo
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Badge {
       get { return badge_; }
       set {
@@ -132,6 +145,7 @@ namespace AcFunDanmu {
     public const int UserIdentityFieldNumber = 5;
     private global::AcFunDanmu.ZtLiveUserIdentity userIdentity_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.ZtLiveUserIdentity UserIdentity {
       get { return userIdentity_; }
       set {
@@ -139,12 +153,38 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "f" field.</summary>
+    public const int FFieldNumber = 6;
+    private bool f_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool F {
+      get { return f_; }
+      set {
+        f_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "g" field.</summary>
+    public const int GFieldNumber = 7;
+    private string g_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string G {
+      get { return g_; }
+      set {
+        g_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as ZtLiveUserInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(ZtLiveUserInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -157,10 +197,13 @@ namespace AcFunDanmu {
       if(!avatar_.Equals(other.avatar_)) return false;
       if (Badge != other.Badge) return false;
       if (!object.Equals(UserIdentity, other.UserIdentity)) return false;
+      if (F != other.F) return false;
+      if (G != other.G) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (UserId != 0L) hash ^= UserId.GetHashCode();
@@ -168,6 +211,8 @@ namespace AcFunDanmu {
       hash ^= avatar_.GetHashCode();
       if (Badge.Length != 0) hash ^= Badge.GetHashCode();
       if (userIdentity_ != null) hash ^= UserIdentity.GetHashCode();
+      if (F != false) hash ^= F.GetHashCode();
+      if (G.Length != 0) hash ^= G.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -175,11 +220,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -201,6 +248,14 @@ namespace AcFunDanmu {
         output.WriteRawTag(42);
         output.WriteMessage(UserIdentity);
       }
+      if (F != false) {
+        output.WriteRawTag(48);
+        output.WriteBool(F);
+      }
+      if (G.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(G);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -209,6 +264,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (UserId != 0L) {
         output.WriteRawTag(8);
@@ -227,6 +283,14 @@ namespace AcFunDanmu {
         output.WriteRawTag(42);
         output.WriteMessage(UserIdentity);
       }
+      if (F != false) {
+        output.WriteRawTag(48);
+        output.WriteBool(F);
+      }
+      if (G.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(G);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -234,6 +298,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (UserId != 0L) {
@@ -249,6 +314,12 @@ namespace AcFunDanmu {
       if (userIdentity_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(UserIdentity);
       }
+      if (F != false) {
+        size += 1 + 1;
+      }
+      if (G.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(G);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -256,6 +327,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(ZtLiveUserInfo other) {
       if (other == null) {
         return;
@@ -276,10 +348,17 @@ namespace AcFunDanmu {
         }
         UserIdentity.MergeFrom(other.UserIdentity);
       }
+      if (other.F != false) {
+        F = other.F;
+      }
+      if (other.G.Length != 0) {
+        G = other.G;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -313,6 +392,14 @@ namespace AcFunDanmu {
             input.ReadMessage(UserIdentity);
             break;
           }
+          case 48: {
+            F = input.ReadBool();
+            break;
+          }
+          case 58: {
+            G = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -320,6 +407,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -348,6 +436,14 @@ namespace AcFunDanmu {
               UserIdentity = new global::AcFunDanmu.ZtLiveUserIdentity();
             }
             input.ReadMessage(UserIdentity);
+            break;
+          }
+          case 48: {
+            F = input.ReadBool();
+            break;
+          }
+          case 58: {
+            G = input.ReadString();
             break;
           }
         }

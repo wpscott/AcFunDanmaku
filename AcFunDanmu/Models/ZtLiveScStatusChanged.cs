@@ -24,18 +24,19 @@ namespace AcFunDanmu {
     static ZtLiveScStatusChangedReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChtadExpdmVTY1N0YXR1c0NoYW5nZWQucHJvdG8SCkFjRnVuRGFubXUirAIK",
+            "ChtadExpdmVTY1N0YXR1c0NoYW5nZWQucHJvdG8SCkFjRnVuRGFubXUitwIK",
             "FVp0TGl2ZVNjU3RhdHVzQ2hhbmdlZBI0CgR0eXBlGAEgASgOMiYuQWNGdW5E",
             "YW5tdS5adExpdmVTY1N0YXR1c0NoYW5nZWQuVHlwZRIYChBtYXhSYW5kb21E",
             "ZWxheU1zGAIgASgDEkAKCmJhbm5lZEluZm8YAyABKAsyLC5BY0Z1bkRhbm11",
-            "Llp0TGl2ZVNjU3RhdHVzQ2hhbmdlZC5CYW5uZWRJbmZvGh8KCkJhbm5lZElu",
-            "Zm8SEQoJYmFuUmVhc29uGAEgASgJImAKBFR5cGUSCwoHVU5LTk9XThAAEg8K",
-            "C0xJVkVfQ0xPU0VEEAESEwoPTkVXX0xJVkVfT1BFTkVEEAISFAoQTElWRV9V",
-            "UkxfQ0hBTkdFRBADEg8KC0xJVkVfQkFOTkVEEARiBnByb3RvMw=="));
+            "Llp0TGl2ZVNjU3RhdHVzQ2hhbmdlZC5CYW5uZWRJbmZvGioKCkJhbm5lZElu",
+            "Zm8SEQoJYmFuUmVhc29uGAEgASgJEgkKAWIYAiABKAkiYAoEVHlwZRILCgdV",
+            "TktOT1dOEAASDwoLTElWRV9DTE9TRUQQARITCg9ORVdfTElWRV9PUEVORUQQ",
+            "AhIUChBMSVZFX1VSTF9DSEFOR0VEEAMSDwoLTElWRV9CQU5ORUQQBGIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveScStatusChanged), global::AcFunDanmu.ZtLiveScStatusChanged.Parser, new[]{ "Type", "MaxRandomDelayMs", "BannedInfo" }, null, new[]{ typeof(global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveScStatusChanged.Types.BannedInfo), global::AcFunDanmu.ZtLiveScStatusChanged.Types.BannedInfo.Parser, new[]{ "BanReason" }, null, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveScStatusChanged), global::AcFunDanmu.ZtLiveScStatusChanged.Parser, new[]{ "Type", "MaxRandomDelayMs", "BannedInfo" }, null, new[]{ typeof(global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.ZtLiveScStatusChanged.Types.BannedInfo), global::AcFunDanmu.ZtLiveScStatusChanged.Types.BannedInfo.Parser, new[]{ "BanReason", "B" }, null, null, null, null)})
           }));
     }
     #endregion
@@ -50,19 +51,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<ZtLiveScStatusChanged> _parser = new pb::MessageParser<ZtLiveScStatusChanged>(() => new ZtLiveScStatusChanged());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<ZtLiveScStatusChanged> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.ZtLiveScStatusChangedReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveScStatusChanged() {
       OnConstruction();
     }
@@ -70,6 +75,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveScStatusChanged(ZtLiveScStatusChanged other) : this() {
       type_ = other.type_;
       maxRandomDelayMs_ = other.maxRandomDelayMs_;
@@ -78,6 +84,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ZtLiveScStatusChanged Clone() {
       return new ZtLiveScStatusChanged(this);
     }
@@ -86,6 +93,7 @@ namespace AcFunDanmu {
     public const int TypeFieldNumber = 1;
     private global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type type_ = global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type.Unknown;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type Type {
       get { return type_; }
       set {
@@ -97,6 +105,7 @@ namespace AcFunDanmu {
     public const int MaxRandomDelayMsFieldNumber = 2;
     private long maxRandomDelayMs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long MaxRandomDelayMs {
       get { return maxRandomDelayMs_; }
       set {
@@ -108,6 +117,7 @@ namespace AcFunDanmu {
     public const int BannedInfoFieldNumber = 3;
     private global::AcFunDanmu.ZtLiveScStatusChanged.Types.BannedInfo bannedInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.ZtLiveScStatusChanged.Types.BannedInfo BannedInfo {
       get { return bannedInfo_; }
       set {
@@ -116,11 +126,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as ZtLiveScStatusChanged);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(ZtLiveScStatusChanged other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -135,6 +147,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (Type != global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type.Unknown) hash ^= Type.GetHashCode();
@@ -147,11 +160,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -176,6 +191,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (Type != global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type.Unknown) {
         output.WriteRawTag(8);
@@ -196,6 +212,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (Type != global::AcFunDanmu.ZtLiveScStatusChanged.Types.Type.Unknown) {
@@ -214,6 +231,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(ZtLiveScStatusChanged other) {
       if (other == null) {
         return;
@@ -234,6 +252,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -266,6 +285,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -296,6 +316,7 @@ namespace AcFunDanmu {
     #region Nested types
     /// <summary>Container for nested types declared in the ZtLiveScStatusChanged message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
       public enum Type {
         [pbr::OriginalName("UNKNOWN")] Unknown = 0,
@@ -313,19 +334,23 @@ namespace AcFunDanmu {
         private static readonly pb::MessageParser<BannedInfo> _parser = new pb::MessageParser<BannedInfo>(() => new BannedInfo());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pb::MessageParser<BannedInfo> Parser { get { return _parser; } }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
           get { return global::AcFunDanmu.ZtLiveScStatusChanged.Descriptor.NestedTypes[0]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         pbr::MessageDescriptor pb::IMessage.Descriptor {
           get { return Descriptor; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public BannedInfo() {
           OnConstruction();
         }
@@ -333,12 +358,15 @@ namespace AcFunDanmu {
         partial void OnConstruction();
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public BannedInfo(BannedInfo other) : this() {
           banReason_ = other.banReason_;
+          b_ = other.b_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public BannedInfo Clone() {
           return new BannedInfo(this);
         }
@@ -347,6 +375,7 @@ namespace AcFunDanmu {
         public const int BanReasonFieldNumber = 1;
         private string banReason_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public string BanReason {
           get { return banReason_; }
           set {
@@ -354,12 +383,26 @@ namespace AcFunDanmu {
           }
         }
 
+        /// <summary>Field number for the "b" field.</summary>
+        public const int BFieldNumber = 2;
+        private string b_ = "";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public string B {
+          get { return b_; }
+          set {
+            b_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+          }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override bool Equals(object other) {
           return Equals(other as BannedInfo);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public bool Equals(BannedInfo other) {
           if (ReferenceEquals(other, null)) {
             return false;
@@ -368,13 +411,16 @@ namespace AcFunDanmu {
             return true;
           }
           if (BanReason != other.BanReason) return false;
+          if (B != other.B) return false;
           return Equals(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override int GetHashCode() {
           int hash = 1;
           if (BanReason.Length != 0) hash ^= BanReason.GetHashCode();
+          if (B.Length != 0) hash ^= B.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -382,11 +428,13 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public override string ToString() {
           return pb::JsonFormatter.ToDiagnosticString(this);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void WriteTo(pb::CodedOutputStream output) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           output.WriteRawMessage(this);
@@ -394,6 +442,10 @@ namespace AcFunDanmu {
           if (BanReason.Length != 0) {
             output.WriteRawTag(10);
             output.WriteString(BanReason);
+          }
+          if (B.Length != 0) {
+            output.WriteRawTag(18);
+            output.WriteString(B);
           }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
@@ -403,10 +455,15 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
           if (BanReason.Length != 0) {
             output.WriteRawTag(10);
             output.WriteString(BanReason);
+          }
+          if (B.Length != 0) {
+            output.WriteRawTag(18);
+            output.WriteString(B);
           }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(ref output);
@@ -415,10 +472,14 @@ namespace AcFunDanmu {
         #endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public int CalculateSize() {
           int size = 0;
           if (BanReason.Length != 0) {
             size += 1 + pb::CodedOutputStream.ComputeStringSize(BanReason);
+          }
+          if (B.Length != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeStringSize(B);
           }
           if (_unknownFields != null) {
             size += _unknownFields.CalculateSize();
@@ -427,6 +488,7 @@ namespace AcFunDanmu {
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(BannedInfo other) {
           if (other == null) {
             return;
@@ -434,10 +496,14 @@ namespace AcFunDanmu {
           if (other.BanReason.Length != 0) {
             BanReason = other.BanReason;
           }
+          if (other.B.Length != 0) {
+            B = other.B;
+          }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public void MergeFrom(pb::CodedInputStream input) {
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           input.ReadRawMessage(this);
@@ -452,6 +518,10 @@ namespace AcFunDanmu {
                 BanReason = input.ReadString();
                 break;
               }
+              case 18: {
+                B = input.ReadString();
+                break;
+              }
             }
           }
         #endif
@@ -459,6 +529,7 @@ namespace AcFunDanmu {
 
         #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
@@ -468,6 +539,10 @@ namespace AcFunDanmu {
                 break;
               case 10: {
                 BanReason = input.ReadString();
+                break;
+              }
+              case 18: {
+                B = input.ReadString();
                 break;
               }
             }

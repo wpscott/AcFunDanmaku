@@ -25,18 +25,20 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ch5Db21tb25TdGF0ZVNpZ25hbENoYXRFbmQucHJvdG8SCkFjRnVuRGFubXUi",
-            "tAIKGENvbW1vblN0YXRlU2lnbmFsQ2hhdEVuZBIOCgZjaGF0SWQYASABKAkS",
+            "qgMKGENvbW1vblN0YXRlU2lnbmFsQ2hhdEVuZBIOCgZjaGF0SWQYASABKAkS",
             "PQoHZW5kVHlwZRgCIAEoDjIsLkFjRnVuRGFubXUuQ29tbW9uU3RhdGVTaWdu",
-            "YWxDaGF0RW5kLkVuZFR5cGUiyAEKB0VuZFR5cGUSCwoHVU5LTk9XThAAEhQK",
-            "EENBTkNFTF9CWV9BVVRIT1IQARIRCg1FTkRfQllfQVVUSE9SEAISEAoMRU5E",
-            "X0JZX0dVRVNUEAMSEAoMR1VFU1RfUkVKRUNUEAQSEQoNR1VFU1RfVElNRU9V",
-            "VBAFEhsKF0dVRVNUX0hFQVJUQkVBVF9USU1FT1VUEAYSHAoYQVVUSE9SX0hF",
-            "QVJUQkVBVF9USU1FT1VUEAcSFQoRUEVFUl9MSVZFX1NUT1BQRUQQCGIGcHJv",
-            "dG8z"));
+            "YWxDaGF0RW5kLkVuZFR5cGUSOgoBYxgDIAEoCzIvLkFjRnVuRGFubXUuQ29t",
+            "bW9uU3RhdGVTaWduYWxDaGF0RW5kLkJhbm5lZEluZm8aOAoKQmFubmVkSW5m",
+            "bxIJCgFhGAEgASgJEgkKAWIYAiABKAkSCQoBYxgDIAEoCRIJCgFkGAQgASgJ",
+            "IsgBCgdFbmRUeXBlEgsKB1VOS05PV04QABIUChBDQU5DRUxfQllfQVVUSE9S",
+            "EAESEQoNRU5EX0JZX0FVVEhPUhACEhAKDEVORF9CWV9HVUVTVBADEhAKDEdV",
+            "RVNUX1JFSkVDVBAEEhEKDUdVRVNUX1RJTUVPVVQQBRIbChdHVUVTVF9IRUFS",
+            "VEJFQVRfVElNRU9VVBAGEhwKGEFVVEhPUl9IRUFSVEJFQVRfVElNRU9VVBAH",
+            "EhUKEVBFRVJfTElWRV9TVE9QUEVEEAhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatEnd), global::AcFunDanmu.CommonStateSignalChatEnd.Parser, new[]{ "ChatId", "EndType" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType) }, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatEnd), global::AcFunDanmu.CommonStateSignalChatEnd.Parser, new[]{ "ChatId", "EndType", "C" }, null, new[]{ typeof(global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonStateSignalChatEnd.Types.BannedInfo), global::AcFunDanmu.CommonStateSignalChatEnd.Types.BannedInfo.Parser, new[]{ "A", "B", "C", "D" }, null, null, null, null)})
           }));
     }
     #endregion
@@ -51,19 +53,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<CommonStateSignalChatEnd> _parser = new pb::MessageParser<CommonStateSignalChatEnd>(() => new CommonStateSignalChatEnd());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<CommonStateSignalChatEnd> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.CommonStateSignalChatEndReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalChatEnd() {
       OnConstruction();
     }
@@ -71,13 +77,16 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalChatEnd(CommonStateSignalChatEnd other) : this() {
       chatId_ = other.chatId_;
       endType_ = other.endType_;
+      c_ = other.c_ != null ? other.c_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonStateSignalChatEnd Clone() {
       return new CommonStateSignalChatEnd(this);
     }
@@ -86,6 +95,7 @@ namespace AcFunDanmu {
     public const int ChatIdFieldNumber = 1;
     private string chatId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string ChatId {
       get { return chatId_; }
       set {
@@ -97,6 +107,7 @@ namespace AcFunDanmu {
     public const int EndTypeFieldNumber = 2;
     private global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType endType_ = global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType.Unknown;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType EndType {
       get { return endType_; }
       set {
@@ -104,12 +115,26 @@ namespace AcFunDanmu {
       }
     }
 
+    /// <summary>Field number for the "c" field.</summary>
+    public const int CFieldNumber = 3;
+    private global::AcFunDanmu.CommonStateSignalChatEnd.Types.BannedInfo c_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AcFunDanmu.CommonStateSignalChatEnd.Types.BannedInfo C {
+      get { return c_; }
+      set {
+        c_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as CommonStateSignalChatEnd);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(CommonStateSignalChatEnd other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -119,14 +144,17 @@ namespace AcFunDanmu {
       }
       if (ChatId != other.ChatId) return false;
       if (EndType != other.EndType) return false;
+      if (!object.Equals(C, other.C)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (ChatId.Length != 0) hash ^= ChatId.GetHashCode();
       if (EndType != global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType.Unknown) hash ^= EndType.GetHashCode();
+      if (c_ != null) hash ^= C.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -134,11 +162,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -151,6 +181,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(16);
         output.WriteEnum((int) EndType);
       }
+      if (c_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(C);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -159,6 +193,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (ChatId.Length != 0) {
         output.WriteRawTag(10);
@@ -168,6 +203,10 @@ namespace AcFunDanmu {
         output.WriteRawTag(16);
         output.WriteEnum((int) EndType);
       }
+      if (c_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(C);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -175,6 +214,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (ChatId.Length != 0) {
@@ -183,6 +223,9 @@ namespace AcFunDanmu {
       if (EndType != global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType.Unknown) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) EndType);
       }
+      if (c_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(C);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -190,6 +233,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(CommonStateSignalChatEnd other) {
       if (other == null) {
         return;
@@ -200,10 +244,17 @@ namespace AcFunDanmu {
       if (other.EndType != global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType.Unknown) {
         EndType = other.EndType;
       }
+      if (other.c_ != null) {
+        if (c_ == null) {
+          C = new global::AcFunDanmu.CommonStateSignalChatEnd.Types.BannedInfo();
+        }
+        C.MergeFrom(other.C);
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -222,6 +273,13 @@ namespace AcFunDanmu {
             EndType = (global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType) input.ReadEnum();
             break;
           }
+          case 26: {
+            if (c_ == null) {
+              C = new global::AcFunDanmu.CommonStateSignalChatEnd.Types.BannedInfo();
+            }
+            input.ReadMessage(C);
+            break;
+          }
         }
       }
     #endif
@@ -229,6 +287,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -244,6 +303,13 @@ namespace AcFunDanmu {
             EndType = (global::AcFunDanmu.CommonStateSignalChatEnd.Types.EndType) input.ReadEnum();
             break;
           }
+          case 26: {
+            if (c_ == null) {
+              C = new global::AcFunDanmu.CommonStateSignalChatEnd.Types.BannedInfo();
+            }
+            input.ReadMessage(C);
+            break;
+          }
         }
       }
     }
@@ -252,6 +318,7 @@ namespace AcFunDanmu {
     #region Nested types
     /// <summary>Container for nested types declared in the CommonStateSignalChatEnd message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
       public enum EndType {
         [pbr::OriginalName("UNKNOWN")] Unknown = 0,
@@ -263,6 +330,306 @@ namespace AcFunDanmu {
         [pbr::OriginalName("GUEST_HEARTBEAT_TIMEOUT")] GuestHeartbeatTimeout = 6,
         [pbr::OriginalName("AUTHOR_HEARTBEAT_TIMEOUT")] AuthorHeartbeatTimeout = 7,
         [pbr::OriginalName("PEER_LIVE_STOPPED")] PeerLiveStopped = 8,
+      }
+
+      public sealed partial class BannedInfo : pb::IMessage<BannedInfo>
+      #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          , pb::IBufferMessage
+      #endif
+      {
+        private static readonly pb::MessageParser<BannedInfo> _parser = new pb::MessageParser<BannedInfo>(() => new BannedInfo());
+        private pb::UnknownFieldSet _unknownFields;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public static pb::MessageParser<BannedInfo> Parser { get { return _parser; } }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public static pbr::MessageDescriptor Descriptor {
+          get { return global::AcFunDanmu.CommonStateSignalChatEnd.Descriptor.NestedTypes[0]; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        pbr::MessageDescriptor pb::IMessage.Descriptor {
+          get { return Descriptor; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public BannedInfo() {
+          OnConstruction();
+        }
+
+        partial void OnConstruction();
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public BannedInfo(BannedInfo other) : this() {
+          a_ = other.a_;
+          b_ = other.b_;
+          c_ = other.c_;
+          d_ = other.d_;
+          _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public BannedInfo Clone() {
+          return new BannedInfo(this);
+        }
+
+        /// <summary>Field number for the "a" field.</summary>
+        public const int AFieldNumber = 1;
+        private string a_ = "";
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public string A {
+          get { return a_; }
+          set {
+            a_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+          }
+        }
+
+        /// <summary>Field number for the "b" field.</summary>
+        public const int BFieldNumber = 2;
+        private string b_ = "";
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public string B {
+          get { return b_; }
+          set {
+            b_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+          }
+        }
+
+        /// <summary>Field number for the "c" field.</summary>
+        public const int CFieldNumber = 3;
+        private string c_ = "";
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public string C {
+          get { return c_; }
+          set {
+            c_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+          }
+        }
+
+        /// <summary>Field number for the "d" field.</summary>
+        public const int DFieldNumber = 4;
+        private string d_ = "";
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public string D {
+          get { return d_; }
+          set {
+            d_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+          }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public override bool Equals(object other) {
+          return Equals(other as BannedInfo);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public bool Equals(BannedInfo other) {
+          if (ReferenceEquals(other, null)) {
+            return false;
+          }
+          if (ReferenceEquals(other, this)) {
+            return true;
+          }
+          if (A != other.A) return false;
+          if (B != other.B) return false;
+          if (C != other.C) return false;
+          if (D != other.D) return false;
+          return Equals(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public override int GetHashCode() {
+          int hash = 1;
+          if (A.Length != 0) hash ^= A.GetHashCode();
+          if (B.Length != 0) hash ^= B.GetHashCode();
+          if (C.Length != 0) hash ^= C.GetHashCode();
+          if (D.Length != 0) hash ^= D.GetHashCode();
+          if (_unknownFields != null) {
+            hash ^= _unknownFields.GetHashCode();
+          }
+          return hash;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public override string ToString() {
+          return pb::JsonFormatter.ToDiagnosticString(this);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public void WriteTo(pb::CodedOutputStream output) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          output.WriteRawMessage(this);
+        #else
+          if (A.Length != 0) {
+            output.WriteRawTag(10);
+            output.WriteString(A);
+          }
+          if (B.Length != 0) {
+            output.WriteRawTag(18);
+            output.WriteString(B);
+          }
+          if (C.Length != 0) {
+            output.WriteRawTag(26);
+            output.WriteString(C);
+          }
+          if (D.Length != 0) {
+            output.WriteRawTag(34);
+            output.WriteString(D);
+          }
+          if (_unknownFields != null) {
+            _unknownFields.WriteTo(output);
+          }
+        #endif
+        }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+          if (A.Length != 0) {
+            output.WriteRawTag(10);
+            output.WriteString(A);
+          }
+          if (B.Length != 0) {
+            output.WriteRawTag(18);
+            output.WriteString(B);
+          }
+          if (C.Length != 0) {
+            output.WriteRawTag(26);
+            output.WriteString(C);
+          }
+          if (D.Length != 0) {
+            output.WriteRawTag(34);
+            output.WriteString(D);
+          }
+          if (_unknownFields != null) {
+            _unknownFields.WriteTo(ref output);
+          }
+        }
+        #endif
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public int CalculateSize() {
+          int size = 0;
+          if (A.Length != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeStringSize(A);
+          }
+          if (B.Length != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeStringSize(B);
+          }
+          if (C.Length != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeStringSize(C);
+          }
+          if (D.Length != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeStringSize(D);
+          }
+          if (_unknownFields != null) {
+            size += _unknownFields.CalculateSize();
+          }
+          return size;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public void MergeFrom(BannedInfo other) {
+          if (other == null) {
+            return;
+          }
+          if (other.A.Length != 0) {
+            A = other.A;
+          }
+          if (other.B.Length != 0) {
+            B = other.B;
+          }
+          if (other.C.Length != 0) {
+            C = other.C;
+          }
+          if (other.D.Length != 0) {
+            D = other.D;
+          }
+          _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public void MergeFrom(pb::CodedInputStream input) {
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+          input.ReadRawMessage(this);
+        #else
+          uint tag;
+          while ((tag = input.ReadTag()) != 0) {
+            switch(tag) {
+              default:
+                _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+                break;
+              case 10: {
+                A = input.ReadString();
+                break;
+              }
+              case 18: {
+                B = input.ReadString();
+                break;
+              }
+              case 26: {
+                C = input.ReadString();
+                break;
+              }
+              case 34: {
+                D = input.ReadString();
+                break;
+              }
+            }
+          }
+        #endif
+        }
+
+        #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+          uint tag;
+          while ((tag = input.ReadTag()) != 0) {
+            switch(tag) {
+              default:
+                _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                break;
+              case 10: {
+                A = input.ReadString();
+                break;
+              }
+              case 18: {
+                B = input.ReadString();
+                break;
+              }
+              case 26: {
+                C = input.ReadString();
+                break;
+              }
+              case 34: {
+                D = input.ReadString();
+                break;
+              }
+            }
+          }
+        }
+        #endif
+
       }
 
     }

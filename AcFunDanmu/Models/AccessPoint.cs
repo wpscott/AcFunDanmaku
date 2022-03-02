@@ -49,19 +49,23 @@ namespace AcFunDanmu {
     private static readonly pb::MessageParser<AccessPoint> _parser = new pb::MessageParser<AccessPoint>(() => new AccessPoint());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<AccessPoint> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunDanmu.AccessPointReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public AccessPoint() {
       OnConstruction();
     }
@@ -69,6 +73,7 @@ namespace AcFunDanmu {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public AccessPoint(AccessPoint other) : this() {
       addressType_ = other.addressType_;
       port_ = other.port_;
@@ -81,6 +86,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public AccessPoint Clone() {
       return new AccessPoint(this);
     }
@@ -89,6 +95,7 @@ namespace AcFunDanmu {
     public const int AddressTypeFieldNumber = 1;
     private global::AcFunDanmu.AccessPoint.Types.AddressType addressType_ = global::AcFunDanmu.AccessPoint.Types.AddressType.KIpv4;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::AcFunDanmu.AccessPoint.Types.AddressType AddressType {
       get { return addressType_; }
       set {
@@ -100,6 +107,7 @@ namespace AcFunDanmu {
     public const int PortFieldNumber = 2;
     private uint port_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public uint Port {
       get { return port_; }
       set {
@@ -111,6 +119,7 @@ namespace AcFunDanmu {
     public const int IpV4FieldNumber = 3;
     private uint ipV4_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public uint IpV4 {
       get { return ipV4_; }
       set {
@@ -122,6 +131,7 @@ namespace AcFunDanmu {
     public const int IpV6FieldNumber = 4;
     private pb::ByteString ipV6_ = pb::ByteString.Empty;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pb::ByteString IpV6 {
       get { return ipV6_; }
       set {
@@ -133,6 +143,7 @@ namespace AcFunDanmu {
     public const int DomainFieldNumber = 5;
     private string domain_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Domain {
       get { return domain_; }
       set {
@@ -144,6 +155,7 @@ namespace AcFunDanmu {
     public const int QuicFieldNumber = 6;
     private uint quic_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public uint Quic {
       get { return quic_; }
       set {
@@ -155,6 +167,7 @@ namespace AcFunDanmu {
     public const int QuicV6FieldNumber = 7;
     private pb::ByteString quicV6_ = pb::ByteString.Empty;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pb::ByteString QuicV6 {
       get { return quicV6_; }
       set {
@@ -163,11 +176,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as AccessPoint);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(AccessPoint other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -186,6 +201,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (AddressType != global::AcFunDanmu.AccessPoint.Types.AddressType.KIpv4) hash ^= AddressType.GetHashCode();
@@ -202,11 +218,13 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
@@ -247,6 +265,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (AddressType != global::AcFunDanmu.AccessPoint.Types.AddressType.KIpv4) {
         output.WriteRawTag(8);
@@ -283,6 +302,7 @@ namespace AcFunDanmu {
     #endif
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (AddressType != global::AcFunDanmu.AccessPoint.Types.AddressType.KIpv4) {
@@ -313,6 +333,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(AccessPoint other) {
       if (other == null) {
         return;
@@ -342,6 +363,7 @@ namespace AcFunDanmu {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       input.ReadRawMessage(this);
@@ -387,6 +409,7 @@ namespace AcFunDanmu {
 
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
@@ -430,6 +453,7 @@ namespace AcFunDanmu {
     #region Nested types
     /// <summary>Container for nested types declared in the AccessPoint message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
       public enum AddressType {
         [pbr::OriginalName("kIPV4")] KIpv4 = 0,
