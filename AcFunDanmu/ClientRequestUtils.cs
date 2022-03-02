@@ -1,13 +1,13 @@
 ﻿using AcFunDanmu.Enums;
 using Google.Protobuf;
-using System;
 using Serilog;
-using static AcFunDanmu.ClientUtils;
+using System;
 using System.Threading;
+using static AcFunDanmu.ClientUtils;
 
 namespace AcFunDanmu
 {
-    internal class ClientRequests
+    internal class ClientRequestUtils
     {
         private const string AppName = "link-sdk";
         private const string SdkVersion = "1.2.1";
@@ -38,7 +38,7 @@ namespace AcFunDanmu
 
         private string Ticket => Tickets[TicketIndex];
 
-        public ClientRequests(long userid, string did, string servicetoken, string securitykey, string liveid, string enterroomattach, string[] tickets)
+        public ClientRequestUtils(long userid, string did, string servicetoken, string securitykey, string liveid, string enterroomattach, string[] tickets)
         {
             UserId = userid;
             Did = did;

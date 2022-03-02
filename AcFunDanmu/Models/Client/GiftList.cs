@@ -5,28 +5,99 @@ namespace AcFunDanmu.Models.Client
 {
     public sealed record GiftList
     {
-        public int result { get; init; }
-        public GiftData data { get; init; }
+        [JsonPropertyName("result")]
+        public int Result { get; init; }
+        [JsonPropertyName("data")]
+        public GiftData Data { get; init; }
+        [JsonPropertyName("host")]
+        public string Host { get; init; }
+    }
 
-        public sealed record GiftData
-        {
-            public Gift[] giftList { get; init; }
-            public string giftListHash { get; init; }
+    public sealed record GiftData
+    {
+        [JsonPropertyName("giftList")]
+        public Gift[] GiftList { get; init; }
 
-            public sealed record Gift
-            {
-                public long giftId { get; init; }
-                public string giftName { get; init; }
-                public int giftPrice { get; init; }
-                public Pic[] pngPicList { get; init; }
-                public Pic[] webpPicList { get; init; }
-                public record Pic
-                {
-                    public string cdn { get; init; }
-                    public string url { get; init; }
-                }
-            }
-        }
+        [JsonPropertyName("externalDisplayGiftId")]
+        public long ExternalDisplayGiftId { get; init; }
+
+        [JsonPropertyName("externalDisplayGiftTipsDelayTime")]
+        public long ExternalDisplayGiftTipsDelayTime { get; init; }
+
+        [JsonPropertyName("externalDisplayGift")]
+        public ExternalDisplayGift ExternalDisplayGift { get; init; }
+    }
+
+    public sealed record Gift
+    {
+        [JsonPropertyName("giftId")]
+        public long GiftId { get; init; }
+
+        [JsonPropertyName("giftName")]
+        public string GiftName { get; init; }
+
+        [JsonPropertyName("arLiveName")]
+        public string ArLiveName { get; init; }
+
+        [JsonPropertyName("payWalletType")]
+        public long PayWalletType { get; init; }
+
+        [JsonPropertyName("giftPrice")]
+        public int GiftPrice { get; init; }
+
+        [JsonPropertyName("webpPicList")]
+        public Pic[] WebpPicList { get; init; }
+
+        [JsonPropertyName("pngPicList")]
+        public Pic[] PngPicList { get; init; }
+
+        [JsonPropertyName("smallPngPicList")]
+        public Pic[] SmallPngPicList { get; init; }
+
+        [JsonPropertyName("allowBatchSendSizeList")]
+        public long[] AllowBatchSendSizeList { get; init; }
+
+        [JsonPropertyName("canCombo")]
+        public bool CanCombo { get; init; }
+
+        [JsonPropertyName("canDraw")]
+        public bool CanDraw { get; init; }
+
+        [JsonPropertyName("magicFaceId")]
+        public long MagicFaceId { get; init; }
+
+        [JsonPropertyName("vupArId")]
+        public long VupArId { get; init; }
+
+        [JsonPropertyName("description")]
+        public string Description { get; init; }
+
+        [JsonPropertyName("redpackPrice")]
+        public long RedpackPrice { get; init; }
+
+        [JsonPropertyName("cornerMarkerText")]
+        public string CornerMarkerText { get; init; }
+    }
+
+    public sealed record ExternalDisplayGift
+    {
+        [JsonPropertyName("cdn")]
+        public string Cdn { get; init; }
+
+        [JsonPropertyName("url")]
+        public Uri Url { get; init; }
+
+        [JsonPropertyName("urlPattern")]
+        public Uri UrlPattern { get; init; }
+
+        [JsonPropertyName("freeTraffic")]
+        public bool FreeTraffic { get; init; }
+    }
+
+    public record Pic
+    {
+        public string cdn { get; init; }
+        public string url { get; init; }
     }
 
     public sealed record GiftInfo
