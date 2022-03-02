@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -8,7 +6,7 @@ namespace AcFunDanmuSongRequest.Platform.NetEase.Response
 {
     struct PlayResponse
     {
-        public static readonly JsonSerializerOptions Options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+        public static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
         static PlayResponse()
         {
             Options.Converters.Add(new TimeSpanConverver());

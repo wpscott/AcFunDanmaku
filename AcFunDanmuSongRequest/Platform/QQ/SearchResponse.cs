@@ -6,7 +6,7 @@ namespace AcFunDanmuSongRequest.Platform.QQ
 {
     struct SearchResponse
     {
-        public static readonly JsonSerializerOptions Options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+        public static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
         static SearchResponse()
         {
             Options.Converters.Add(new DateTimeOffsetConverter());
@@ -24,7 +24,7 @@ namespace AcFunDanmuSongRequest.Platform.QQ
         {
             public SongList Song { get; set; }
 
-            
+
             public struct SongList
             {
                 public int Curnum { get; set; }

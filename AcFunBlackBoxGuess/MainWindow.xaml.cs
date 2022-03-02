@@ -1,5 +1,4 @@
 ﻿using AcFunBlackBoxGuess.Models;
-using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -68,7 +67,7 @@ namespace AcFunBlackBoxGuess
             game.Remove(danmu);
         }
 
-        private static readonly Regex NumberOnly = new Regex(@"^[\d]+$", RegexOptions.Compiled);
+        private static readonly Regex NumberOnly = new(@"^[\d]+$", RegexOptions.Compiled);
         private void CheckInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !NumberOnly.IsMatch(e.Text);

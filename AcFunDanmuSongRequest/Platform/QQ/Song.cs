@@ -1,7 +1,5 @@
 ﻿using AcFunDanmuSongRequest.Platform.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AcFunDanmuSongRequest.Platform.QQ
 {

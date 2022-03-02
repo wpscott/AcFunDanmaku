@@ -1,5 +1,5 @@
-﻿using AcFunCommentLottery.Models;
-using AcFunCommentControl.Models;
+﻿using AcFunCommentControl.Models;
+using AcFunCommentLottery.Models;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;

@@ -189,7 +189,7 @@ namespace AcFunOBS
         static long Random()
         {
             var random = new Random();
-            var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds() / 60;
             Span<byte> rand = stackalloc byte[4];
             random.NextBytes(rand);
             long result = BitConverter.ToInt32(rand);

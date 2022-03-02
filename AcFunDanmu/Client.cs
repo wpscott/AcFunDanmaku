@@ -17,8 +17,8 @@ using static AcFunDanmu.ClientUtils;
 
 namespace AcFunDanmu
 {
-    public delegate void SignalHandler(string messageType, ByteString payload);
-    public delegate void DedicatedSignalHandler(string userId, string messageType, ByteString payload);
+    public delegate void SignalHandler(Client sender, string messageType, ByteString payload);
+
     public class Client
     {
         #region Constants
@@ -53,7 +53,6 @@ namespace AcFunDanmu
         #endregion
 
         public SignalHandler Handler { get; set; }
-        public DedicatedSignalHandler DedicatedHandler { get; set; }
 
         #region Properties and Fields
         public static readonly ConcurrentDictionary<long, GiftInfo> Gifts = new();

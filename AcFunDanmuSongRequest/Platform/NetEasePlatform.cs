@@ -134,7 +134,7 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
                 var length = BitConverter.ToInt32(lenData);
                 if (length > dataLength) { return null; }
 
-                var hex = '%' + BitConverter.ToString(decryptedData.Slice(0, length).ToArray()).Replace('-', '%');
+                var hex = '%' + BitConverter.ToString(decryptedData[..length].ToArray()).Replace('-', '%');
                 return HttpUtility.UrlDecode(hex);
             }
         }
@@ -210,19 +210,7 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
 
             private const int RandomSize = 16;
             private static readonly char[] Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".ToCharArray();
-            private static byte[] GenerateRandom()
-            {
-                Span<byte> data = stackalloc byte[RandomSize];
-                Span<char> randomString = stackalloc char[RandomSize];
-                using var crypto = new RNGCryptoServiceProvider();
-                crypto.GetBytes(data);
-                for (var i = 0; i < RandomSize; i++)
-                {
-                    randomString[i] = Chars[data[i] & 63];
-                }
-                return Encoding.UTF8.GetBytes(randomString.ToArray()).ToArray();
-
-            }
+            private static byte[] GenerateRandom() => Encoding.UTF8.GetBytes(RandomNumberGenerator.GetBytes(RandomSize).Select(b => Chars[b & 63]).ToArray()).ToArray();
         }
     }
 }

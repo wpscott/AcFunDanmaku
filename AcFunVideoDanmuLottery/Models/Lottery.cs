@@ -32,17 +32,17 @@ namespace AcFunVideoDanmuLottery.Models
 
         public string FilterResult => _filtered ? $"已找到{Danmus.Count}条弹幕" : string.Empty;
 
-        private readonly ObservableCollection<Danmu> _danmus = new ObservableCollection<Danmu>();
+        private readonly ObservableCollection<Danmu> _danmus = new();
         private ObservableCollection<Danmu> _filteredDanmu;
-        public ReadOnlyObservableCollection<Danmu> Danmus => new ReadOnlyObservableCollection<Danmu>(_filtered ? _filteredDanmu : _danmus);
+        public ReadOnlyObservableCollection<Danmu> Danmus => new(_filtered ? _filteredDanmu : _danmus);
 
         public bool Ready => Danmus.Count > 0 && Amount < Danmus.Count;
 
         private int _amount = 1;
         public int Amount { get { return _amount; } set { _amount = value; OnPropertyChanged(nameof(Amount)); OnPropertyChanged(nameof(Ready)); } }
 
-        private readonly ObservableCollection<Danmu> _result = new ObservableCollection<Danmu>();
-        public ReadOnlyObservableCollection<Danmu> Result => new ReadOnlyObservableCollection<Danmu>(_result);
+        private readonly ObservableCollection<Danmu> _result = new();
+        public ReadOnlyObservableCollection<Danmu> Result => new(_result);
 
 
         protected void OnPropertyChanged(string name)
@@ -79,10 +79,10 @@ namespace AcFunVideoDanmuLottery.Models
             var rnd = new Random();
             var chars = new byte[4];
             rnd.NextBytes(chars);
-            return $"{rnd.Next(100000000, 999999999)}{BitConverter.ToString(chars).Replace("-", string.Empty).Substring(1)}";
+            return $"{rnd.Next(100000000, 999999999)}{BitConverter.ToString(chars).Replace("-", string.Empty)[1..]}";
         }
 
-        private static readonly Regex VideoIdReg = new Regex("currentVideoId\":(\\d+)", RegexOptions.Compiled);
+        private static readonly Regex VideoIdReg = new("currentVideoId\":(\\d+)", RegexOptions.Compiled);
         private async Task<Danmu[]> FetchDanmu()
         {
             var container = new CookieContainer();
@@ -132,17 +132,11 @@ namespace AcFunVideoDanmuLottery.Models
         public void Roll()
         {
             _result.Clear();
-            using var provider = new RNGCryptoServiceProvider();
-            //var rnd = new Random();
-            HashSet<int> indexes = new HashSet<int>(Amount);
+            HashSet<int> indexes = new(Amount);
             while (indexes.Count < Amount)
             {
-                var bytes = new byte[4];
-                provider.GetBytes(bytes);
-                var randInt = BitConverter.ToUInt32(bytes);
+                var randInt = BitConverter.ToUInt32(RandomNumberGenerator.GetBytes(4));
                 indexes.Add((int)(randInt % (uint)Danmus.Count));
-
-                //indexes.Add(rnd.Next(Comments.Count));
             }
             foreach (var index in indexes)
             {

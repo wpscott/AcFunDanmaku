@@ -102,7 +102,7 @@ namespace AcFunDMJ_WASM.Server
         {
             _logger.LogInformation($"Connect to {Id}");
             var client = new AcFunDanmu.Client();
-            client.DedicatedHandler += HandleSignal;
+            client.Handler += HandleSignal;
 
             await client.Initialize($"{Id}");
             Monitoring.Add(Id, client);
@@ -112,7 +112,7 @@ namespace AcFunDMJ_WASM.Server
             Monitoring.Remove(Id);
         }
 
-        private void HandleSignal(string avupId, string messagetType, ByteString payload)
+        private void HandleSignal(AcFunDanmu.Client sender, string messagetType, ByteString payload)
         {
             switch (messagetType)
             {
@@ -128,7 +128,7 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var pl in item.Payload)
                                 {
                                     var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(avupId).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    _hub.Clients.Group(sender.HostId).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
                                     _logger.LogDebug(comment.ToString());
                                 }
                                 break;
@@ -136,7 +136,7 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var pl in item.Payload)
                                 {
                                     var like = CommonActionSignalLike.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(avupId).SendLike(new Like { Name = like.UserInfo.Nickname });
+                                    _hub.Clients.Group(sender.HostId).SendLike(new Like { Name = like.UserInfo.Nickname });
                                     _logger.LogDebug(like.ToString());
                                 }
                                 break;
@@ -144,7 +144,7 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var pl in item.Payload)
                                 {
                                     var enter = CommonActionSignalUserEnterRoom.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(avupId).SendEnter(new Enter { Name = enter.UserInfo.Nickname });
+                                    _hub.Clients.Group(sender.HostId).SendEnter(new Enter { Name = enter.UserInfo.Nickname });
                                     _logger.LogDebug(enter.ToString());
                                 }
                                 break;
@@ -152,7 +152,7 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var pl in item.Payload)
                                 {
                                     var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(avupId).SendFollow(new Follow { Name = follower.UserInfo.Nickname });
+                                    _hub.Clients.Group(sender.HostId).SendFollow(new Follow { Name = follower.UserInfo.Nickname });
                                     _logger.LogDebug(follower.ToString());
                                 }
                                 break;
@@ -168,7 +168,7 @@ namespace AcFunDMJ_WASM.Server
                                 {
                                     var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
                                     var info = AcFunDanmu.Client.Gifts[gift.GiftId];
-                                    _hub.Clients.Group(avupId).SendGift(new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, Detail = new Gift.GiftInfo { Name = info.Name, Pic = info.Pic } });
+                                    _hub.Clients.Group(sender.HostId).SendGift(new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, Detail = new Gift.GiftInfo { Name = info.Name, Pic = info.Pic } });
                                     _logger.LogDebug(gift.ToString());
                                 }
                                 break;
@@ -201,7 +201,7 @@ namespace AcFunDMJ_WASM.Server
                                 var comments = CommonStateSignalRecentComment.Parser.ParseFrom(item.Payload);
                                 foreach (var comment in comments.Comment)
                                 {
-                                    _hub.Clients.Group(avupId).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    _hub.Clients.Group(sender.HostId).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
                                     _logger.LogDebug(comment.ToString());
                                 }
                                 break;

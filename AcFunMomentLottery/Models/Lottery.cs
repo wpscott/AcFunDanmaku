@@ -28,17 +28,17 @@ namespace AcFunMomentLottery.Models
 
         public string FilterResult => _filtered ? $"已找到{Comments.Count}条评论" : string.Empty;
 
-        private readonly ObservableCollection<Comment> _comments = new ObservableCollection<Comment>();
+        private readonly ObservableCollection<Comment> _comments = new();
         private ObservableCollection<Comment> _filteredComment;
-        public ReadOnlyObservableCollection<Comment> Comments => new ReadOnlyObservableCollection<Comment>(_filtered ? _filteredComment : _comments);
+        public ReadOnlyObservableCollection<Comment> Comments => new(_filtered ? _filteredComment : _comments);
 
         public bool Ready => Comments.Count > 0 && Amount < Comments.Count;
 
         private int _amount = 1;
         public int Amount { get { return _amount; } set { _amount = value; OnPropertyChanged(nameof(Amount)); OnPropertyChanged(nameof(Ready)); } }
 
-        private readonly ObservableCollection<Comment> _result = new ObservableCollection<Comment>();
-        public ReadOnlyObservableCollection<Comment> Result => new ReadOnlyObservableCollection<Comment>(_result);
+        private readonly ObservableCollection<Comment> _result = new();
+        public ReadOnlyObservableCollection<Comment> Result => new(_result);
 
 
         protected void OnPropertyChanged(string name)
@@ -96,17 +96,11 @@ namespace AcFunMomentLottery.Models
         public void Roll()
         {
             _result.Clear();
-            using var provider = new RNGCryptoServiceProvider();
-            //var rnd = new Random();
-            HashSet<int> indexes = new HashSet<int>(Amount);
+            HashSet<int> indexes = new(Amount);
             while (indexes.Count < Amount)
             {
-                var bytes = new byte[4];
-                provider.GetBytes(bytes);
-                var randInt = BitConverter.ToUInt32(bytes);
+                var randInt = BitConverter.ToUInt32(RandomNumberGenerator.GetBytes(4));
                 indexes.Add((int)(randInt % (uint)Comments.Count));
-
-                //indexes.Add(rnd.Next(Comments.Count));
             }
             foreach (var index in indexes)
             {

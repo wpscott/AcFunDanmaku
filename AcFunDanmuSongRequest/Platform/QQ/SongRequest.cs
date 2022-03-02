@@ -1,24 +1,24 @@
 ﻿using AcFunDanmuSongRequest.Platform.Interfaces;
 using System.Text.Json;
-using System.Web;
+using System.Text.Json.Serialization;
 
 namespace AcFunDanmuSongRequest.Platform.QQ
 {
     struct SongRequest : IGetRequest
     {
-        public string Host => $"https://u.y.qq.com/cgi-bin/musicu.fcg?data={JsonSerializer.Serialize(data)}";
+        public string Host => $"https://u.y.qq.com/cgi-bin/musicu.fcg?data={JsonSerializer.Serialize(Data)}";
 
         public SongRequest(int uin, int guid, string songmid)
         {
-            data = new MusicuData
+            Data = new MusicuData
             {
-                req_0 = new MusicuData.Request
+                Req0 = new MusicuData.Request
                 {
-                    param = new MusicuData.Request.RequestParams
+                    Param = new MusicuData.Request.RequestParams
                     {
-                        uin = $"{uin}",
-                        guid = $"{guid}",
-                        songmid = new string[] { songmid }
+                        Uin = $"{uin}",
+                        Guid = $"{guid}",
+                        Songmid = new string[] { songmid }
                     },
                     //comm = new MusicuData.Request.CommonParams
                     //{
@@ -27,32 +27,47 @@ namespace AcFunDanmuSongRequest.Platform.QQ
                 }
             };
         }
-        MusicuData data { get; set; }
+
+        [JsonPropertyName("data")]
+        MusicuData Data { get; set; }
 
         struct MusicuData
         {
-            public Request req_0 { get; set; }
+            [JsonPropertyName("req_0")]
+            public Request Req0 { get; set; }
 
             public struct Request
             {
-                public string module => "vkey.GetVkeyServer";
-                public string method => "CgiGetVkey";
-                public RequestParams param { get; set; }
+                [JsonPropertyName("module")]
+                public static string Module => "vkey.GetVkeyServer";
+                [JsonPropertyName("method")]
+                public static string Method => "CgiGetVkey";
+                [JsonPropertyName("param")]
+                public RequestParams Param { get; set; }
                 //public CommonParams comm { get; set; }
                 public struct RequestParams
                 {
-                    public string guid { get; set; }
-                    public string[] songmid { get; set; }
-                    public int[] songtype => new int[] { 0 };
-                    public string uin { get; set; }
-                    public int platform => 20;
+                    [JsonPropertyName("guid")]
+                    public string Guid { get; set; }
+                    [JsonPropertyName("songmid")]
+                    public string[] Songmid { get; set; }
+                    [JsonPropertyName("songtype")]
+                    public static int[] Songtype => new int[] { 0 };
+                    [JsonPropertyName("uin")]
+                    public string Uin { get; set; }
+                    [JsonPropertyName("platform")]
+                    public static int Platform => 20;
                 }
                 public struct CommonParams
                 {
-                    public int uin { get; set; }
-                    public string format => "json";
-                    public int ct => 20;
-                    public int cv => 0;
+                    [JsonPropertyName("uin")]
+                    public int Uin { get; set; }
+                    [JsonPropertyName("format")]
+                    public static string Format => "json";
+                    [JsonPropertyName("ct")]
+                    public static int Ct => 20;
+                    [JsonPropertyName("cv")]
+                    public static int Cv => 0;
                 }
             }
         }

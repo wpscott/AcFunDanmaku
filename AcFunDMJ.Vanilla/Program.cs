@@ -129,7 +129,7 @@ namespace AcFunDMJ.Vanilla
             }
         }
 
-        private static void HandleSignal(string messagetType, ByteString payload)
+        private static void HandleSignal(Client sender, string messagetType, ByteString payload)
         {
             switch (messagetType)
             {

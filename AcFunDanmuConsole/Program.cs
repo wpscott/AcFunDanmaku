@@ -1,16 +1,16 @@
 ﻿using AcFunDanmu;
 using AcFunDanmu.Enums;
 using Google.Protobuf;
+using Serilog;
 using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using static AcFunDanmu.ClientUtils;
-using Serilog;
 
 namespace AcFunDanmuConsole
 {
@@ -67,7 +67,7 @@ namespace AcFunDanmuConsole
             //await LoginToGetGiftList();
         }
 
-        static void HandleSignal(string messagetType, ByteString payload)
+        static void HandleSignal(Client sender, string messagetType, ByteString payload)
         {
             switch (messagetType)
             {
@@ -271,8 +271,10 @@ namespace AcFunDanmuConsole
         }
         class Message
         {
-            public string type { get; set; }
-            public string data { get; set; }
+            [JsonPropertyName("type")]
+            public string Type { get; set; }
+            [JsonPropertyName("data")]
+            public string Data { get; set; }
         }
         static void DecodeHar(string filePath)
         {
@@ -291,10 +293,10 @@ namespace AcFunDanmuConsole
 
             foreach (var message in messages)
             {
-                if (message.type == "send")
+                if (message.Type == "send")
                 {
 #if DEBUG
-                    var us = Decode<UpstreamPayload>(Convert.FromBase64String(message.data), securityKey, sessionKey, out var header);
+                    var us = Decode<UpstreamPayload>(Convert.FromBase64String(message.Data), securityKey, sessionKey, out var header);
                     writer.WriteLine("Up\t\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, us.SeqId, us.Command);
                     writer.WriteLine("Header: {0}", header);
                     writer.WriteLine("Payload Base64: {0}", us.ToByteString().ToBase64());
@@ -362,9 +364,9 @@ namespace AcFunDanmuConsole
                     writer.WriteLine("--------------------------------");
 #endif
                 }
-                else if (message.type == "receive")
+                else if (message.Type == "receive")
                 {
-                    var ds = Decode<DownstreamPayload>(Convert.FromBase64String(message.data), securityKey, sessionKey, out var header);
+                    var ds = Decode<DownstreamPayload>(Convert.FromBase64String(message.Data), securityKey, sessionKey, out var header);
                     writer.WriteLine("Down\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, ds.SeqId, ds.Command);
                     writer.WriteLine("Header: {0}", header);
                     writer.WriteLine("Payload Base64: {0}", ds.ToByteString().ToBase64());
@@ -434,7 +436,7 @@ namespace AcFunDanmuConsole
                                 case PushMessage.STATE_SIGNAL:
                                 case PushMessage.NOTIFY_SIGNAL:
                                     // Handled by user
-                                    HandleSignal(scmessage.MessageType, payload);
+                                    HandleSignal(null, scmessage.MessageType, payload);
                                     break;
                                 case PushMessage.STATUS_CHANGED:
                                     var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);

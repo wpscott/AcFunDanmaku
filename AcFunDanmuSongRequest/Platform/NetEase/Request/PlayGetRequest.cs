@@ -2,7 +2,7 @@
 
 namespace AcFunDanmuSongRequest.Platform.NetEase.Request
 {
-    struct  PlayGetRequest : IGetRequest
+    struct PlayGetRequest : IGetRequest
     {
         public string Host => $"https://music.163.com/api/song/enhance/player/url?csrf_token=&ids=[{Id}]&br={BitRate}";
 

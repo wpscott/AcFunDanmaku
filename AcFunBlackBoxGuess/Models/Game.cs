@@ -17,7 +17,7 @@ namespace AcFunBlackBoxGuess.Models
 {
     class Game : INotifyPropertyChanged
     {
-        private static readonly Regex Pattern = new Regex(@"^[\[【]+(.*?)[\]】]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex Pattern = new(@"^[\[【]+(.*?)[\]】]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private const int MaxGuess = 100;
         private const int MaxTry = 2;
 
@@ -47,13 +47,13 @@ namespace AcFunBlackBoxGuess.Models
 
         public string GuessResult => GameStart ? $"已回答{_result.Where(danmu => !danmu.Failed).Count()}/{MaxGuess}条弹幕" : string.Empty;
 
-        private ObservableCollection<Danmu> _pendingDanmu = new ObservableCollection<Danmu>();
-        public ReadOnlyObservableCollection<Danmu> PendingDanmu => new ReadOnlyObservableCollection<Danmu>(_pendingDanmu);
+        private readonly ObservableCollection<Danmu> _pendingDanmu = new();
+        public ReadOnlyObservableCollection<Danmu> PendingDanmu => new(_pendingDanmu);
 
-        private ObservableCollection<Danmu> _result = new ObservableCollection<Danmu>();
-        public ReadOnlyObservableCollection<Danmu> Result => new ReadOnlyObservableCollection<Danmu>(_result);
+        private readonly ObservableCollection<Danmu> _result = new();
+        public ReadOnlyObservableCollection<Danmu> Result => new(_result);
 
-        private Dictionary<long, byte> _bingo = new Dictionary<long, byte>();
+        private readonly Dictionary<long, byte> _bingo = new();
 
 
         protected void OnPropertyChanged(string name)
@@ -72,8 +72,10 @@ namespace AcFunBlackBoxGuess.Models
                 DanmuStatus = "连接中";
                 CanConnect = false;
 
-                client = new Client();
-                client.Handler = HandleSignal;
+                client = new Client
+                {
+                    Handler = HandleSignal
+                };
 
                 await client.Initialize(UserId.ToString());
 
@@ -215,14 +217,14 @@ namespace AcFunBlackBoxGuess.Models
         public void AddDanmu(CommonActionSignalComment comment)
         {
             var match = Pattern.Match(HttpUtility.HtmlDecode(comment.Content));
-            if(GameStart && match.Success)
+            if (GameStart && match.Success)
             {
                 _pendingDanmu.Add(new Danmu { Timestamp = comment.SendTimeMs, UserId = comment.UserInfo.UserId, Nickname = comment.UserInfo.Nickname, Content = match.Groups[1].Value });
                 OnPropertyChanged(nameof(PendingDanmu));
             }
         }
 
-        private void HandleSignal(string messagetType, ByteString payload)
+        private void HandleSignal(Client sender, string messagetType, ByteString payload)
         {
             if (messagetType == PushMessage.ACTION_SIGNAL)
             {
@@ -263,7 +265,7 @@ namespace AcFunBlackBoxGuess.Models
             var timestamp = now.ToUnixTimeMilliseconds();
             using var writer = new StreamWriter(@$".\{UserId}-{now:yyyy-MM-dd HH_mm_ss}.txt");
             var toHash = $"{timestamp}{UserId}{Answer}{Salt}";
-            writer.Write($"本次游戏加密结果\r\n时间戳:\t{timestamp}\r\n主播ID:\t{UserId}\r\n答案:\t{Answer}\r\nHash:\t{BitConverter.ToString(Hash(toHash)).Replace("-",string.Empty)}");
+            writer.Write($"本次游戏加密结果\r\n时间戳:\t{timestamp}\r\n主播ID:\t{UserId}\r\n答案:\t{Answer}\r\nHash:\t{BitConverter.ToString(Hash(toHash)).Replace("-", string.Empty)}");
             writer.Flush();
             writer.Close();
         }

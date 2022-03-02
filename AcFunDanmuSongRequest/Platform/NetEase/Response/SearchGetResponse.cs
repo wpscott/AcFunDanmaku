@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace AcFunDanmuSongRequest.Platform.NetEase.Response
+﻿namespace AcFunDanmuSongRequest.Platform.NetEase.Response
 {
     struct SearchGetResponse
     {

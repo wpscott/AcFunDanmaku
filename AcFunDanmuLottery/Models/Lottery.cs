@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -41,17 +40,17 @@ namespace AcFunDanmuLottery.Models
 
         public bool ShowAll { get; set; } = false;
 
-        private readonly ObservableCollection<Comment> _comments = new ObservableCollection<Comment>();
-        private readonly ObservableCollection<Comment> _pool = new ObservableCollection<Comment>();
-        public ReadOnlyObservableCollection<Comment> Comments => new ReadOnlyObservableCollection<Comment>(ShowAll ? _comments : _pool);
+        private readonly ObservableCollection<Comment> _comments = new();
+        private readonly ObservableCollection<Comment> _pool = new();
+        public ReadOnlyObservableCollection<Comment> Comments => new(ShowAll ? _comments : _pool);
 
         public bool Ready => !SearchStart && Comments.Count > 0 && Amount < Comments.Count;
 
         private int _amount = 1;
         public int Amount { get { return _amount; } set { _amount = value; OnPropertyChanged(nameof(Amount)); OnPropertyChanged(nameof(Ready)); } }
 
-        private readonly ObservableCollection<Comment> _result = new ObservableCollection<Comment>();
-        public ReadOnlyObservableCollection<Comment> Result => new ReadOnlyObservableCollection<Comment>(_result);
+        private readonly ObservableCollection<Comment> _result = new();
+        public ReadOnlyObservableCollection<Comment> Result => new(_result);
 
         protected void OnPropertyChanged(string name)
         {
@@ -67,8 +66,10 @@ namespace AcFunDanmuLottery.Models
                 CurrentStatus = "连接中";
                 CanConnect = false;
 
-                client = new Client();
-                client.Handler = HandleSignal;
+                client = new Client
+                {
+                    Handler = HandleSignal
+                };
 
                 await client.Initialize(UserId.ToString());
 
@@ -151,17 +152,11 @@ namespace AcFunDanmuLottery.Models
         {
             _result.Clear();
 
-            using var provider = new RNGCryptoServiceProvider();
-            //var rnd = new Random();
-            HashSet<int> indexes = new HashSet<int>(Amount);
+            HashSet<int> indexes = new(Amount);
             while (indexes.Count < Amount)
             {
-                var bytes = new byte[4];
-                provider.GetBytes(bytes);
-                var randInt = BitConverter.ToUInt32(bytes);
+                var randInt = BitConverter.ToUInt32(RandomNumberGenerator.GetBytes(4));
                 indexes.Add((int)(randInt % (uint)Comments.Count));
-
-                //indexes.Add(rnd.Next(Comments.Count));
             }
             foreach (var index in indexes)
             {
@@ -176,7 +171,7 @@ namespace AcFunDanmuLottery.Models
 
         private Client client;
 
-        private void HandleSignal(string messagetType, ByteString payload)
+        private void HandleSignal(Client sender, string messagetType, ByteString payload)
         {
             if (messagetType == PushMessage.ACTION_SIGNAL)
             {

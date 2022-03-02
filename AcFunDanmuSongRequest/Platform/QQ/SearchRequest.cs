@@ -1,5 +1,5 @@
-﻿using System.Web;
-using AcFunDanmuSongRequest.Platform.Interfaces;
+﻿using AcFunDanmuSongRequest.Platform.Interfaces;
+using System.Web;
 
 namespace AcFunDanmuSongRequest.Platform.QQ
 {

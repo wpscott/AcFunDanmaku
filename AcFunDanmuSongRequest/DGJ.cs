@@ -86,7 +86,7 @@ namespace AcFunDanmuSongRequest
             return await platform.NextSong();
         }
 
-        public static async void HandleSignal(string messagetType, ByteString payload)
+        public static async void HandleSignal(Client sender, string messagetType, ByteString payload)
         {
             if (messagetType == PushMessage.ACTION_SIGNAL)
             {
