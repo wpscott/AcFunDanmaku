@@ -25,7 +25,11 @@ namespace AcFunDanmuConsole
             Client client = new();
 
             Log.Logger = new LoggerConfiguration()
+#if DEBUG
                 .MinimumLevel.Debug()
+#else
+                .MinimumLevel.Information()
+#endif
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .CreateLogger();

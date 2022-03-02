@@ -14,9 +14,11 @@ using System.Net.Security;
 using System.Net.WebSockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using static AcFunDanmu.ClientUtils;
+using HeartbeatTimer = System.Timers.Timer;
 
 namespace AcFunDanmu
 {
@@ -77,12 +79,22 @@ namespace AcFunDanmu
 
         private ClientWebSocket _client;
         private ClientRequestUtils _utils;
+        private CancellationTokenSource _source;
+        private CancellationToken _token;
         #endregion
 
         #region Constructor
         public Client()
         {
-            Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+            Log.Logger = new LoggerConfiguration()
+#if DEBUG
+                .MinimumLevel.Debug()
+#else
+                .MinimumLevel.Information()
+#endif
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
         }
 
         public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach, string liveId) : this()
@@ -392,6 +404,21 @@ namespace AcFunDanmu
 
             using var owner = MemoryPool<byte>.Shared.Rent();
 
+            if (_source != null)
+            {
+                _source.Cancel();
+                _source.Dispose();
+                _source = null;
+            }
+            _source = new();
+            _token = _source.Token;
+
+            #region Timers
+            using var heartbeatTimer = new HeartbeatTimer();
+            heartbeatTimer.Elapsed += Heartbeat;
+            heartbeatTimer.AutoReset = true;
+            #endregion
+
             if (_utils != null)
             {
                 _utils = null;
@@ -404,18 +431,13 @@ namespace AcFunDanmu
                 GC.Collect();
             }
             _client = CreateWebsocketClient();
+
             try
             {
-                #region Timers
-                using var heartbeatTimer = new Timer();
-                heartbeatTimer.Elapsed += Heartbeat;
-                heartbeatTimer.AutoReset = true;
-                #endregion
-
-                await _client.ConnectAsync(Host, default);
+                await _client.ConnectAsync(Host, _token);
 
                 #region Register
-                await _client.SendAsync(_utils.RegisterRequest(), WebSocketMessageType.Binary, true, default);
+                await _client.SendAsync(_utils.RegisterRequest(), WebSocketMessageType.Binary, true, _token);
                 #endregion
 
                 #region Main loop
@@ -424,7 +446,7 @@ namespace AcFunDanmu
                     var buffer = owner.Memory;
                     try
                     {
-                        await _client.ReceiveAsync(buffer, default);
+                        await _client.ReceiveAsync(buffer, _token);
 
                         var stream = Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey, out var header);
                         if (stream == null) { Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span)); continue; }
@@ -434,18 +456,21 @@ namespace AcFunDanmu
                     {
                         Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
+                        _source.Cancel();
                         break;
                     }
                     catch (OperationCanceledException ex)
                     {
                         Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
+                        _source.Cancel();
                         break;
                     }
                     catch (IOException ex)
                     {
                         Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
+                        _source.Cancel();
                         break;
                     }
                 }
@@ -455,20 +480,31 @@ namespace AcFunDanmu
             catch (HttpRequestException ex)
             {
                 Log.Debug(ex, "Start");
+                _source.Cancel();
             }
             catch (WebSocketException ex)
             {
                 Log.Debug(ex, "Start");
+                _source.Cancel();
             }
             catch (OperationCanceledException ex)
             {
                 Log.Debug(ex, "Start");
+                _source.Cancel();
             }
             catch (IOException ex)
             {
                 Log.Debug(ex, "Start");
+                _source.Cancel();
             }
-            Log.Debug("Client status: {State}", _client.State);
+            finally
+            {
+                Log.Debug("Client status: {State}", _client.State);
+                _source.Cancel();
+                _source.Dispose();
+                _client.Dispose();
+                heartbeatTimer.Stop();
+            }
             return _client.State != WebSocketState.Aborted;
         }
 
@@ -478,9 +514,9 @@ namespace AcFunDanmu
             {
                 if (_client != null && _client.State == WebSocketState.Open)
                 {
-                    await _client.SendAsync(_utils.UserExitRequest(), WebSocketMessageType.Binary, true, default);
-                    await _client.SendAsync(_utils.UnregisterRequest(), WebSocketMessageType.Binary, true, default);
-                    await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, message, default);
+                    await _client.SendAsync(_utils.UserExitRequest(), WebSocketMessageType.Binary, true, _token);
+                    await _client.SendAsync(_utils.UnregisterRequest(), WebSocketMessageType.Binary, true, _token);
+                    await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, message, _token);
                 }
             }
             catch (WebSocketException ex)
@@ -495,9 +531,13 @@ namespace AcFunDanmu
             {
                 Log.Debug(ex, "Stop");
             }
+            finally
+            {
+                _source.Cancel();
+            }
         }
 
-        private async void HandleCommand(PacketHeader header, DownstreamPayload stream, Timer heartbeatTimer)
+        private async void HandleCommand(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer)
         {
             Log.Debug("--------");
             Log.Debug("Down\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, stream.SeqId, stream.Command);
@@ -537,7 +577,7 @@ namespace AcFunDanmu
                     }
                     else
                     {
-                        Log.Information("Unhandled DownstreamPayload Command: {Command}", stream.Command);
+                        Log.Information("Unhandled DownstreamPayload Command: {Command}", stream.Command ?? "Empty");
                         Log.Debug("Command Data: {Data}", stream.ToByteString().ToBase64());
                     }
                     break;
@@ -545,7 +585,7 @@ namespace AcFunDanmu
             Log.Debug("--------");
         }
 
-        private static void HandleGlobalCommand(DownstreamPayload payload, System.Timers.Timer heartbeatTimer)
+        private static void HandleGlobalCommand(DownstreamPayload payload, HeartbeatTimer heartbeatTimer)
         {
             ZtLiveCsCmdAck cmd = ZtLiveCsCmdAck.Parser.ParseFrom(payload.PayloadData);
             Log.Debug("\t{Command}", cmd);
@@ -566,7 +606,7 @@ namespace AcFunDanmu
                     Log.Debug("\t\t{UserExit}", userexit);
                     break;
                 default:
-                    Log.Information("Unhandled Global.ZtLiveInteractive.CsCmdAck: {Type}", cmd.CmdAckType ?? string.Empty);
+                    Log.Information("Unhandled Global.ZtLiveInteractive.CsCmdAck: {Type}", cmd.CmdAckType ?? "Empty");
                     Log.Debug("CsCmdAck Data: {Data}", payload.PayloadData.ToBase64());
                     break;
             }
@@ -589,8 +629,23 @@ namespace AcFunDanmu
             var register = RegisterResponse.Parser.ParseFrom(payload.PayloadData);
             _utils.Register(appId, register.InstanceId, register.SessKey.ToBase64(), register.SdkOption.Lz4CompressionThresholdBytes);
             Log.Debug("\t{Register}", register);
-            await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
-            await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
+            try
+            {
+                await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, _token);
+                await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, _token);
+            }
+            catch (WebSocketException ex)
+            {
+                Log.Debug(ex, "Register response");
+            }
+            catch (OperationCanceledException ex)
+            {
+                Log.Debug(ex, "Register response");
+            }
+            catch (IOException ex)
+            {
+                Log.Debug(ex, "Register response");
+            }
         }
 
         private async Task HandleUnregister(DownstreamPayload payload)
@@ -599,7 +654,7 @@ namespace AcFunDanmu
             Log.Debug("\t{Unregister}", unregister);
             try
             {
-                await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unregister", default);
+                await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unregister", _token);
             }
             catch (WebSocketException ex)
             {
@@ -613,9 +668,13 @@ namespace AcFunDanmu
             {
                 Log.Debug(ex, "Unregister response");
             }
+            finally
+            {
+                _source.Cancel();
+            }
         }
 
-        private async Task HandlePushMessage(PacketHeader header, DownstreamPayload stream, System.Timers.Timer heartbeatTimer)
+        private async Task HandlePushMessage(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer)
         {
             ZtLiveScMessage message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
             Log.Debug("\t{message}", message);
@@ -636,13 +695,13 @@ namespace AcFunDanmu
                     await HandleTicketInvalid(payload);
                     break;
                 default:
-                    Log.Information("Unhandled Push.ZtLiveInteractive.Message: {Type}", message.MessageType ?? string.Empty);
+                    Log.Information("Unhandled Push.ZtLiveInteractive.Message: {Type}", message.MessageType ?? "Empty");
                     Log.Debug("CsCmdAck Data: {Data}", stream.PayloadData.ToBase64());
                     break;
             }
             try
             {
-                await _client.SendAsync(_utils.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, default);
+                await _client.SendAsync(_utils.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, _token);
             }
             catch (WebSocketException ex)
             {
@@ -659,7 +718,7 @@ namespace AcFunDanmu
         }
 
 
-        private async Task HandleStatusChanged(ByteString payload, Timer heartbeatTimer)
+        private async Task HandleStatusChanged(ByteString payload, HeartbeatTimer heartbeatTimer)
         {
             var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);
             Log.Debug("\t\t{StatusChanged}", statusChanged);
@@ -677,7 +736,7 @@ namespace AcFunDanmu
             _utils.NextTicket();
             try
             {
-                await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
+                await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, _token);
             }
             catch (WebSocketException ex)
             {
@@ -732,32 +791,33 @@ namespace AcFunDanmu
                 Log.Debug("HEARTBEAT");
                 try
                 {
-                    await _client.SendAsync(_utils.HeartbeatReqeust(), WebSocketMessageType.Binary, true, default);
+                    await _client.SendAsync(_utils.HeartbeatReqeust(), WebSocketMessageType.Binary, true, _token);
 
                     if (_utils.HeartbeatSeqId % 5 == 4)
                     {
-                        await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
+                        await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, _token);
                     }
                 }
                 catch (WebSocketException ex)
                 {
                     Log.Debug(ex, "Heartbeat");
-                    (sender as Timer).Stop();
+                    (sender as HeartbeatTimer).Stop();
+
                 }
                 catch (OperationCanceledException ex)
                 {
                     Log.Debug(ex, "Heartbeat");
-                    (sender as Timer).Stop();
+                    (sender as HeartbeatTimer).Stop();
                 }
                 catch (IOException ex)
                 {
                     Log.Debug(ex, "Heartbeat");
-                    (sender as Timer).Stop();
+                    (sender as HeartbeatTimer).Stop();
                 }
             }
             else
             {
-                (sender as Timer).Stop();
+                (sender as HeartbeatTimer).Stop();
             }
         }
     }
