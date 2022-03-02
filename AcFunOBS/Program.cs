@@ -123,7 +123,7 @@ namespace AcFunOBS
         struct Auth
         {
             [JsonPropertyName("result")]
-            public int Result { get; init; }
+            public int Result { get; init; }    // 1
             [JsonPropertyName("data")]
             public AuthData Data { get; init; }
             [JsonPropertyName("host")]
@@ -132,9 +132,9 @@ namespace AcFunOBS
         struct AuthData
         {
             [JsonPropertyName("authStatus")]
-            public string AuthStatus { get; init; }
+            public string AuthStatus { get; init; } // "AVAILABLE"
             [JsonPropertyName("desc")]
-            public string Desc { get; init; }
+            public string Desc { get; init; }   // "打开"
         }
 
         static async Task PostAuthorAuth(TokenResult token)
@@ -152,7 +152,7 @@ namespace AcFunOBS
         struct Push
         {
             [JsonPropertyName("result")]
-            public int Result { get; init; }
+            public int Result { get; init; }    // 1
             [JsonPropertyName("data")]
             public PushData Data { get; init; }
             [JsonPropertyName("host")]
@@ -162,7 +162,7 @@ namespace AcFunOBS
         struct PushData
         {
             [JsonPropertyName("videoPushRes")]
-            public string VideoPushRes { get; init; }
+            public string VideoPushRes { get; init; }  // ?.proto {number, pushAddr, streamName}
             [JsonPropertyName("liveId")]
             public string LiveId { get; init; }
             [JsonPropertyName("enterRoomAttach")]
@@ -170,16 +170,16 @@ namespace AcFunOBS
             [JsonPropertyName("availableTickets")]
             public string[] AvailableTickets { get; init; }
             [JsonPropertyName("notices")]
-            public NoticeData[] Notices { get; init; }
+            public PushNotice[] Notices { get; init; }
             [JsonPropertyName("ticketRetryCount")]
-            public short TicketRetryCount { get; init; }
+            public short TicketRetryCount { get; init; }    // 2
             [JsonPropertyName("ticketRetryIntervalMs")]
-            public int TicketRetryIntervalMs { get; init; }
+            public int TicketRetryIntervalMs { get; init; } // 2000
             [JsonPropertyName("config")]
-            public GiftConfig Config { get; init; }
+            public PushConfig Config { get; init; }
         }
 
-        struct NoticeData
+        struct PushNotice
         {
             [JsonPropertyName("userId")]
             public long UserId { get; init; }
@@ -191,10 +191,10 @@ namespace AcFunOBS
             public string Notice { get; init; }
         }
 
-        struct GiftConfig
+        struct PushConfig
         {
             [JsonPropertyName("giftSlotSize")]
-            public short GiftSlotSize { get; init; }
+            public short GiftSlotSize { get; init; }    // 2
         }
 
         static async Task PostStartPush(TokenResult token, string title, string cover, StartPushRequest startPushRequest)
