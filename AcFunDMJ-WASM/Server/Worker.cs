@@ -142,7 +142,7 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var pl in item.Payload)
                                 {
                                     var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(sender.HostId).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    _hub.Clients.Group(sender.Host).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
                                     _logger.LogDebug("{Data}", comment.ToString());
                                 }
                                 break;
@@ -150,7 +150,7 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var pl in item.Payload)
                                 {
                                     var like = CommonActionSignalLike.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(sender.HostId).SendLike(new Like { Name = like.UserInfo.Nickname });
+                                    _hub.Clients.Group(sender.Host).SendLike(new Like { Name = like.UserInfo.Nickname });
                                     _logger.LogDebug("{Data}", like.ToString());
                                 }
                                 break;
@@ -158,7 +158,7 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var pl in item.Payload)
                                 {
                                     var enter = CommonActionSignalUserEnterRoom.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(sender.HostId).SendEnter(new Enter { Name = enter.UserInfo.Nickname });
+                                    _hub.Clients.Group(sender.Host).SendEnter(new Enter { Name = enter.UserInfo.Nickname });
                                     _logger.LogDebug("{Data}", enter.ToString());
                                 }
                                 break;
@@ -166,7 +166,7 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var pl in item.Payload)
                                 {
                                     var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(sender.HostId).SendFollow(new Follow { Name = follower.UserInfo.Nickname });
+                                    _hub.Clients.Group(sender.Host).SendFollow(new Follow { Name = follower.UserInfo.Nickname });
                                     _logger.LogDebug("{Data}", follower.ToString());
                                 }
                                 break;
@@ -182,7 +182,7 @@ namespace AcFunDMJ_WASM.Server
                                 {
                                     var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
                                     var info = AcFunDanmu.Client.Gifts[gift.GiftId];
-                                    _hub.Clients.Group(sender.HostId).SendGift(new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, Detail = new Gift.GiftInfo { Name = info.Name, Pic = info.Pic } });
+                                    _hub.Clients.Group(sender.Host).SendGift(new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, Detail = new Gift.GiftInfo { Name = info.Name, Pic = info.Pic } });
                                     _logger.LogDebug("{Data}", gift.ToString());
                                 }
                                 break;
@@ -215,7 +215,7 @@ namespace AcFunDMJ_WASM.Server
                                 var comments = CommonStateSignalRecentComment.Parser.ParseFrom(item.Payload);
                                 foreach (var comment in comments.Comment)
                                 {
-                                    _hub.Clients.Group(sender.HostId).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    _hub.Clients.Group(sender.Host).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
                                     _logger.LogDebug("{Data}", comment.ToString());
                                 }
                                 break;

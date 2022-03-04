@@ -53,15 +53,14 @@ namespace AcFunDanmu
         private static readonly Dictionary<string, string> LOGIN_FORM = new() { { "sid", "acfun.api.visitor" } };
         private static readonly Dictionary<string, string> GET_TOKEN_FORM = new() { { "sid", "acfun.midground.api" } };
 
-        private const string _Host = "wss://klink-newproduct-ws1.kwaizt.com/";
-        private static readonly Uri Host = new(_Host);
+        private const string _WEBSOCKET_HOST = "wss://klink-newproduct-ws1.kwaizt.com/";
+        private static readonly Uri WEBSOCKET_HOST = new(_WEBSOCKET_HOST);
         #endregion
 
         public SignalHandler Handler { get; set; }
 
         #region Properties and Fields
-        public static readonly ConcurrentDictionary<long, GiftInfo> Gifts = new();
-        private static DateTimeOffset LastGiftUpdate = DateTimeOffset.MinValue;
+        public static readonly ConcurrentDictionary<long, GiftInfo> Gifts = new(12, 64);
 
         private static readonly CookieContainer CookieContainer = new();
         private static string DeviceId;
@@ -69,7 +68,8 @@ namespace AcFunDanmu
         private static bool IsPrepared = false;
 
         private long UserId = -1;
-        public string HostId { get; private set; }
+        public long HostId { get; private set; }
+        public string Host => $"{HostId}";
         private string ServiceToken;
         private string SecurityKey;
         private string LiveId;
@@ -208,155 +208,159 @@ namespace AcFunDanmu
             catch (TaskCanceledException) { return await Prepare(); }
         }
 
-        public async Task<PlayData> Initialize(string uid, bool refreshGiftList = false)
+        public async Task<PlayData> Initialize(string hostId, bool refreshGiftList = false)
         {
-            if (long.TryParse(uid, out _))
+            if (!IsPrepared) { Log.Error("Client not prepared, please call Client.Prepare() first"); return null; }
+
+            if (long.TryParse(hostId, out var HostId))
             {
-                HostId = uid;
-                if (!IsPrepared) { Log.Error("Client not prepared, please call Client.Prepare() first"); return null; }
-                Log.Information("Client initializing");
-                try
-                {
-                    using var client = CreateHttpClient(LIVE_URI);
-
-                    if (IsSignIn)
-                    {
-                        using var getcontent = new FormUrlEncodedContent(GET_TOKEN_FORM);
-                        using var get = await client.PostAsync(GET_TOKEN_URI, getcontent);
-                        if (!get.IsSuccessStatusCode)
-                        {
-                            Log.Error("Get token error: {Content}", await get.Content.ReadAsStringAsync());
-                            return null;
-                        }
-                        var token = await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
-                        if (token == null)
-                        {
-
-                            Log.Error("Unable to deserialize MidgroundToken");
-                            return null;
-                        }
-                        UserId = token.UserId;
-                        ServiceToken = token.ServiceToken;
-                        SecurityKey = token.SecurityKey;
-                    }
-                    else
-                    {
-                        using var loginContent = new FormUrlEncodedContent(LOGIN_FORM);
-                        using var login = await client.PostAsync(LOGIN_URI, loginContent);
-                        if (!login.IsSuccessStatusCode)
-                        {
-                            Log.Error("Get token error: {Content}", await login.Content.ReadAsStringAsync());
-                            return null;
-                        }
-                        var token = await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
-                        if (token == null)
-                        {
-
-                            Log.Error("Unable to deserialize VisitorToken");
-                            return null;
-                        }
-                        UserId = token.UserId;
-                        ServiceToken = token.ServiceToken;
-                        SecurityKey = token.SecurityKey;
-                    }
-
-                    using var form = new FormUrlEncodedContent(new Dictionary<string, string> { { "authorId", uid }, { "pullStreamType", "FLV" } });
-                    using var play = await client.PostAsync(string.Format(PLAY_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), form);
-
-                    if (!play.IsSuccessStatusCode)
-                    {
-                        Log.Error("Get play info error: {Content}", await play.Content.ReadAsStringAsync());
-                        return null;
-                    }
-
-                    var playData = await JsonSerializer.DeserializeAsync<Play>(await play.Content.ReadAsStreamAsync());
-                    if (playData == null)
-                    {
-                        Log.Error("Unable to deserialize Play");
-                        return null;
-                    }
-                    if (playData.Result > 1)
-                    {
-                        Log.Error(playData.ErrorMsg);
-                        return null;
-                    }
-                    Tickets = playData.Data?.AvailableTickets ?? Array.Empty<string>();
-                    EnterRoomAttach = playData.Data?.EnterRoomAttach;
-                    LiveId = playData.Data?.LiveId;
-
-                    UpdateGiftList(refreshGiftList);
-
-                    Log.Information("Client initialized");
-
-                    return playData.Data;
-                }
-                catch (HttpRequestException ex)
-                {
-                    Log.Error(ex, "Initialize exception");
-                    return await Initialize(uid);
-                }
-                catch (TaskCanceledException ex)
-                {
-                    Log.Error(ex, "Initialize exception");
-                    return await Initialize(uid);
-                }
+                return await Initialize(HostId, refreshGiftList);
             }
             else
             {
-                Log.Error($"Invliad user id: {uid}");
+                Log.Error($"Invliad user id: {hostId}");
                 return null;
             }
         }
 
-        private async void UpdateGiftList(bool refresh)
+        public async Task<PlayData> Initialize(long hostId, bool refreshGiftList = false)
         {
-            var now = DateTimeOffset.Now;
-            if (refresh || (now - LastGiftUpdate).TotalHours > 1)
-            {
-                if (!refresh) { LastGiftUpdate = now; }
-                try
-                {
-                    using var client = CreateHttpClient(LIVE_URI);
+            if (!IsPrepared) { Log.Error("Client not prepared, please call Client.Prepare() first"); return null; }
 
-                    using var giftContent = new FormUrlEncodedContent(new Dictionary<string, string>
+            HostId = hostId;
+            Log.Information("Client initializing");
+            try
+            {
+                using var client = CreateHttpClient(LIVE_URI);
+
+                if (IsSignIn)
+                {
+                    using var getcontent = new FormUrlEncodedContent(GET_TOKEN_FORM);
+                    using var get = await client.PostAsync(GET_TOKEN_URI, getcontent);
+                    if (!get.IsSuccessStatusCode)
+                    {
+                        Log.Error("Get token error: {Content}", await get.Content.ReadAsStringAsync());
+                        return null;
+                    }
+                    var token = await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
+                    if (token == null)
+                    {
+
+                        Log.Error("Unable to deserialize MidgroundToken");
+                        return null;
+                    }
+                    UserId = token.UserId;
+                    ServiceToken = token.ServiceToken;
+                    SecurityKey = token.SecurityKey;
+                }
+                else
+                {
+                    using var loginContent = new FormUrlEncodedContent(LOGIN_FORM);
+                    using var login = await client.PostAsync(LOGIN_URI, loginContent);
+                    if (!login.IsSuccessStatusCode)
+                    {
+                        Log.Error("Get token error: {Content}", await login.Content.ReadAsStringAsync());
+                        return null;
+                    }
+                    var token = await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
+                    if (token == null)
+                    {
+
+                        Log.Error("Unable to deserialize VisitorToken");
+                        return null;
+                    }
+                    UserId = token.UserId;
+                    ServiceToken = token.ServiceToken;
+                    SecurityKey = token.SecurityKey;
+                }
+
+                using var form = new FormUrlEncodedContent(new Dictionary<string, string> { { "authorId", $"{hostId}" }, { "pullStreamType", "FLV" } });
+                using var play = await client.PostAsync(string.Format(PLAY_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), form);
+
+                if (!play.IsSuccessStatusCode)
+                {
+                    Log.Error("Get play info error: {Content}", await play.Content.ReadAsStringAsync());
+                    return null;
+                }
+
+                var playData = await JsonSerializer.DeserializeAsync<Play>(await play.Content.ReadAsStreamAsync());
+                if (playData == null)
+                {
+                    Log.Error("Unable to deserialize Play");
+                    return null;
+                }
+                if (playData.Result > 1)
+                {
+                    Log.Error(playData.ErrorMsg);
+                    return null;
+                }
+                Tickets = playData.Data?.AvailableTickets ?? Array.Empty<string>();
+                EnterRoomAttach = playData.Data?.EnterRoomAttach;
+                LiveId = playData.Data?.LiveId;
+
+                if (refreshGiftList) { UpdateGiftList(); }
+
+                Log.Information("Client initialized");
+
+                return playData.Data;
+            }
+            catch (HttpRequestException ex)
+            {
+                Log.Error(ex, "Initialize exception");
+                return await Initialize(hostId);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Log.Error(ex, "Initialize exception");
+                return await Initialize(hostId);
+            }
+        }
+
+
+        private async void UpdateGiftList()
+        {
+            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(LiveId))
+            { return; }
+            try
+            {
+                using var client = CreateHttpClient(LIVE_URI);
+
+                using var giftContent = new FormUrlEncodedContent(new Dictionary<string, string>
                     {
                         {"visitorId", $"{UserId}" },
                         {"liveId", LiveId }
                     });
-                    using var gift = await client.PostAsync(string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), giftContent);
-                    if (gift.IsSuccessStatusCode)
+                using var gift = await client.PostAsync(string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), giftContent);
+                if (gift.IsSuccessStatusCode)
+                {
+                    var giftList = await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
+                    foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
                     {
-                        var giftList = await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
-                        foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
+                        var giftInfo = new GiftInfo
                         {
-                            var giftInfo = new GiftInfo
-                            {
-                                Name = item.GiftName,
-                                Value = item.GiftPrice,
-                                Pic = new Uri(item.WebpPicList[0].Url)
-                            };
-                            Gifts[item.GiftId] = giftInfo;
-                        }
-
-                        if (!refresh) { Log.Information("Gift list updated"); }
+                            Name = item.GiftName,
+                            Value = item.GiftPrice,
+                            Pic = new Uri(item.WebpPicList[0].Url)
+                        };
+                        Gifts[item.GiftId] = giftInfo;
                     }
                 }
-                catch (HttpRequestException ex)
-                {
-                    Log.Error(ex, "Update gift list exception");
-                    UpdateGiftList(refresh);
-                }
-                catch (TaskCanceledException ex)
-                {
-                    Log.Error(ex, "Update gift list exception");
-                    UpdateGiftList(refresh);
-                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Log.Error(ex, "Update gift list exception");
+                UpdateGiftList();
+            }
+            catch (TaskCanceledException ex)
+            {
+                Log.Error(ex, "Update gift list exception");
+                UpdateGiftList();
             }
         }
 
         public async Task<WatchingUser[]> WatchingList()
         {
-            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) || string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null)
+            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(LiveId))
             {
                 return Array.Empty<WatchingUser>();
             }
@@ -422,7 +426,7 @@ namespace AcFunDanmu
 
             try
             {
-                await _client.ConnectAsync(Host, default);
+                await _client.ConnectAsync(WEBSOCKET_HOST, default);
 
                 #region Register
                 await _client.SendAsync(_utils.RegisterRequest(), WebSocketMessageType.Binary, true, default);
