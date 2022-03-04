@@ -71,6 +71,7 @@
             public const string PK_END = "CommonStateSignalPkEnd";
             public const string PK_STATISTICS = "CommonStateSignalPkStatistic";
             public const string WISH_SHEET_CURRENT_STATE = "CommonStateSignalWishSheetCurrentState";
+            public const string AR_LIVE_TREASURE_BOX_STATE = "CommonStateSignalArLiveTreasureBoxState";
         }
 
         public static class NotifySignal

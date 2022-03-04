@@ -14,7 +14,6 @@ using System.Net.Security;
 using System.Net.WebSockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using static AcFunDanmu.ClientUtils;
@@ -79,8 +78,6 @@ namespace AcFunDanmu
 
         private ClientWebSocket _client;
         private ClientRequestUtils _utils;
-        private CancellationTokenSource _source;
-        private CancellationToken _token;
         #endregion
 
         #region Constructor
@@ -404,15 +401,6 @@ namespace AcFunDanmu
 
             using var owner = MemoryPool<byte>.Shared.Rent();
 
-            if (_source != null)
-            {
-                _source.Cancel();
-                _source.Dispose();
-                _source = null;
-            }
-            _source = new();
-            _token = _source.Token;
-
             #region Timers
             using var heartbeatTimer = new HeartbeatTimer();
             heartbeatTimer.Elapsed += Heartbeat;
@@ -434,10 +422,10 @@ namespace AcFunDanmu
 
             try
             {
-                await _client.ConnectAsync(Host, _token);
+                await _client.ConnectAsync(Host, default);
 
                 #region Register
-                await _client.SendAsync(_utils.RegisterRequest(), WebSocketMessageType.Binary, true, _token);
+                await _client.SendAsync(_utils.RegisterRequest(), WebSocketMessageType.Binary, true, default);
                 #endregion
 
                 #region Main loop
@@ -446,7 +434,7 @@ namespace AcFunDanmu
                     var buffer = owner.Memory;
                     try
                     {
-                        await _client.ReceiveAsync(buffer, _token);
+                        await _client.ReceiveAsync(buffer, default);
 
                         var stream = Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey, out var header);
                         if (stream == null) { Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span)); continue; }
@@ -456,55 +444,43 @@ namespace AcFunDanmu
                     {
                         Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
-                        _source.Cancel();
                         break;
                     }
                     catch (OperationCanceledException ex)
                     {
                         Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
-                        _source.Cancel();
                         break;
                     }
                     catch (IOException ex)
                     {
                         Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
-                        _source.Cancel();
                         break;
                     }
                 }
+
+                Log.Debug("Client status: {State}", _client.State);
                 heartbeatTimer.Stop();
                 #endregion
             }
             catch (HttpRequestException ex)
             {
                 Log.Debug(ex, "Start");
-                _source.Cancel();
             }
             catch (WebSocketException ex)
             {
                 Log.Debug(ex, "Start");
-                _source.Cancel();
             }
             catch (OperationCanceledException ex)
             {
                 Log.Debug(ex, "Start");
-                _source.Cancel();
             }
             catch (IOException ex)
             {
                 Log.Debug(ex, "Start");
-                _source.Cancel();
             }
-            finally
-            {
-                Log.Debug("Client status: {State}", _client.State);
-                _source.Cancel();
-                _source.Dispose();
-                _client.Dispose();
-                heartbeatTimer.Stop();
-            }
+
             return _client.State != WebSocketState.Aborted;
         }
 
@@ -514,10 +490,11 @@ namespace AcFunDanmu
             {
                 if (_client != null && _client.State == WebSocketState.Open)
                 {
-                    await _client.SendAsync(_utils.UserExitRequest(), WebSocketMessageType.Binary, true, _token);
-                    await _client.SendAsync(_utils.UnregisterRequest(), WebSocketMessageType.Binary, true, _token);
-                    await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, message, _token);
+                    await _client.SendAsync(_utils.UserExitRequest(), WebSocketMessageType.Binary, true, default);
+                    await _client.SendAsync(_utils.UnregisterRequest(), WebSocketMessageType.Binary, true, default);
+                    await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, message, default);
                 }
+
             }
             catch (WebSocketException ex)
             {
@@ -530,10 +507,6 @@ namespace AcFunDanmu
             catch (IOException ex)
             {
                 Log.Debug(ex, "Stop");
-            }
-            finally
-            {
-                _source.Cancel();
             }
         }
 
@@ -631,8 +604,8 @@ namespace AcFunDanmu
             Log.Debug("\t{Register}", register);
             try
             {
-                await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, _token);
-                await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, _token);
+                await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
+                await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
             }
             catch (WebSocketException ex)
             {
@@ -654,7 +627,7 @@ namespace AcFunDanmu
             Log.Debug("\t{Unregister}", unregister);
             try
             {
-                await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unregister", _token);
+                await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unregister", default);
             }
             catch (WebSocketException ex)
             {
@@ -667,10 +640,6 @@ namespace AcFunDanmu
             catch (IOException ex)
             {
                 Log.Debug(ex, "Unregister response");
-            }
-            finally
-            {
-                _source.Cancel();
             }
         }
 
@@ -701,7 +670,7 @@ namespace AcFunDanmu
             }
             try
             {
-                await _client.SendAsync(_utils.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, _token);
+                await _client.SendAsync(_utils.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, default);
             }
             catch (WebSocketException ex)
             {
@@ -736,7 +705,7 @@ namespace AcFunDanmu
             _utils.NextTicket();
             try
             {
-                await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, _token);
+                await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
             }
             catch (WebSocketException ex)
             {
@@ -791,11 +760,11 @@ namespace AcFunDanmu
                 Log.Debug("HEARTBEAT");
                 try
                 {
-                    await _client.SendAsync(_utils.HeartbeatReqeust(), WebSocketMessageType.Binary, true, _token);
+                    await _client.SendAsync(_utils.HeartbeatReqeust(), WebSocketMessageType.Binary, true, default);
 
                     if (_utils.HeartbeatSeqId % 5 == 4)
                     {
-                        await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, _token);
+                        await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
                     }
                 }
                 catch (WebSocketException ex)

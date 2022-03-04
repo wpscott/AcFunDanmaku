@@ -9,7 +9,7 @@
 
 		<Product />
 
-		<Version>1.5.0</Version>
+		<Version>1.5.4</Version>
 
 		<Description>AcFun直播弹幕客户端</Description>
 
@@ -18,6 +18,16 @@
 		<Company />
 
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+		<RepositoryUrl>https://github.com/wpscott/AcFunDanmaku/tree/master/AcFunDanmu</RepositoryUrl>
+
+		<RepositoryType>git</RepositoryType>
+
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+
+		<DebugType>embedded</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,6 +36,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<None Update="ws.json">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
