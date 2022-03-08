@@ -69,10 +69,10 @@ namespace AcFunDanmu
 
         private long UserId = -1;
         public long HostId { get; private set; }
+        public string LiveId { get; private set; }
         public string Host => $"{HostId}";
         private string ServiceToken;
         private string SecurityKey;
-        private string LiveId;
         private string EnterRoomAttach;
         private string[] Tickets;
 
