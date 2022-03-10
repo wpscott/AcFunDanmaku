@@ -6,7 +6,6 @@ using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -405,12 +404,6 @@ namespace AcFunDanmu
 
             using var owner = MemoryPool<byte>.Shared.Rent();
 
-            #region Timers
-            using var heartbeatTimer = new HeartbeatTimer();
-            heartbeatTimer.Elapsed += Heartbeat;
-            heartbeatTimer.AutoReset = true;
-            #endregion
-
             if (_utils != null)
             {
                 _utils = null;
@@ -423,6 +416,15 @@ namespace AcFunDanmu
                 GC.Collect();
             }
             _client = CreateWebsocketClient();
+
+            #region Timers
+            using var heartbeatTimer = new HeartbeatTimer();
+            heartbeatTimer.Elapsed += Heartbeat;
+            heartbeatTimer.AutoReset = true;
+            using var deathTimer = new HeartbeatTimer();
+            deathTimer.Interval = TimeSpan.FromSeconds(10).TotalMilliseconds;
+            deathTimer.Elapsed += async (s, e) => { await Stop("dead"); };
+            #endregion
 
             try
             {
@@ -442,21 +444,9 @@ namespace AcFunDanmu
 
                         var stream = Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey, out var header);
                         if (stream == null) { Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span)); continue; }
-                        HandleCommand(header, stream, heartbeatTimer);
+                        HandleCommand(header, stream, heartbeatTimer, deathTimer);
                     }
-                    catch (WebSocketException ex)
-                    {
-                        Log.Debug(ex, "Main");
-                        heartbeatTimer.Stop();
-                        break;
-                    }
-                    catch (OperationCanceledException ex)
-                    {
-                        Log.Debug(ex, "Main");
-                        heartbeatTimer.Stop();
-                        break;
-                    }
-                    catch (IOException ex)
+                    catch (Exception ex)
                     {
                         Log.Debug(ex, "Main");
                         heartbeatTimer.Stop();
@@ -466,21 +456,10 @@ namespace AcFunDanmu
 
                 Log.Debug("Client status: {State}", _client.State);
                 heartbeatTimer.Stop();
+                deathTimer.Stop();
                 #endregion
             }
-            catch (HttpRequestException ex)
-            {
-                Log.Debug(ex, "Start");
-            }
-            catch (WebSocketException ex)
-            {
-                Log.Debug(ex, "Start");
-            }
-            catch (OperationCanceledException ex)
-            {
-                Log.Debug(ex, "Start");
-            }
-            catch (IOException ex)
+            catch (Exception ex)
             {
                 Log.Debug(ex, "Start");
             }
@@ -498,23 +477,14 @@ namespace AcFunDanmu
                     await _client.SendAsync(_utils.UnregisterRequest(), WebSocketMessageType.Binary, true, default);
                     await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, message, default);
                 }
-
             }
-            catch (WebSocketException ex)
-            {
-                Log.Debug(ex, "Stop");
-            }
-            catch (OperationCanceledException ex)
-            {
-                Log.Debug(ex, "Stop");
-            }
-            catch (IOException ex)
+            catch (Exception ex)
             {
                 Log.Debug(ex, "Stop");
             }
         }
 
-        private async void HandleCommand(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer)
+        private async void HandleCommand(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer, HeartbeatTimer deathTimer)
         {
             Log.Debug("--------");
             Log.Debug("Down\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, stream.SeqId, stream.Command);
@@ -538,7 +508,7 @@ namespace AcFunDanmu
                     await HandleUnregister(stream);
                     break;
                 case Command.PUSH_MESSAGE:
-                    await HandlePushMessage(header, stream, heartbeatTimer);
+                    await HandlePushMessage(header, stream, heartbeatTimer, deathTimer);
                     break;
                 case ImEnums.PUSH_MESSAGE:
                     break;
@@ -570,7 +540,7 @@ namespace AcFunDanmu
             {
                 case GlobalCommand.ENTER_ROOM_ACK:
                     var enterRoom = ZtLiveCsEnterRoomAck.Parser.ParseFrom(cmd.Payload);
-                    heartbeatTimer.Interval = enterRoom.HeartbeatIntervalMs > 0 ? enterRoom.HeartbeatIntervalMs : 10000;
+                    heartbeatTimer.Interval = enterRoom.HeartbeatIntervalMs > 0 ? enterRoom.HeartbeatIntervalMs : TimeSpan.FromSeconds(10).TotalMilliseconds;
                     heartbeatTimer.Start();
                     Log.Debug("\t\t{EnterRoom}", enterRoom);
                     break;
@@ -611,15 +581,7 @@ namespace AcFunDanmu
                 await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
                 await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
             }
-            catch (WebSocketException ex)
-            {
-                Log.Debug(ex, "Register response");
-            }
-            catch (OperationCanceledException ex)
-            {
-                Log.Debug(ex, "Register response");
-            }
-            catch (IOException ex)
+            catch (Exception ex)
             {
                 Log.Debug(ex, "Register response");
             }
@@ -633,25 +595,20 @@ namespace AcFunDanmu
             {
                 await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unregister", default);
             }
-            catch (WebSocketException ex)
-            {
-                Log.Debug(ex, "Unregister response");
-            }
-            catch (OperationCanceledException ex)
-            {
-                Log.Debug(ex, "Unregister response");
-            }
-            catch (IOException ex)
+            catch (Exception ex)
             {
                 Log.Debug(ex, "Unregister response");
             }
         }
 
-        private async Task HandlePushMessage(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer)
+        private async Task HandlePushMessage(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer, HeartbeatTimer deathTimer)
         {
             ZtLiveScMessage message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
             Log.Debug("\t{message}", message);
             var payload = message.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip ? Decompress(message.Payload) : message.Payload;
+
+            deathTimer.Stop();
+            deathTimer.Start();
 
             switch (message.MessageType)
             {
@@ -676,15 +633,7 @@ namespace AcFunDanmu
             {
                 await _client.SendAsync(_utils.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, default);
             }
-            catch (WebSocketException ex)
-            {
-                Log.Debug(ex, "Push message response");
-            }
-            catch (OperationCanceledException ex)
-            {
-                Log.Debug(ex, "Push message response");
-            }
-            catch (IOException ex)
+            catch (Exception ex)
             {
                 Log.Debug(ex, "Push message response");
             }
@@ -711,15 +660,7 @@ namespace AcFunDanmu
             {
                 await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
             }
-            catch (WebSocketException ex)
-            {
-                Log.Debug(ex, "Ticket invalid request");
-            }
-            catch (OperationCanceledException ex)
-            {
-                Log.Debug(ex, "Ticket invalid request");
-            }
-            catch (IOException ex)
+            catch (Exception ex)
             {
                 Log.Debug(ex, "Ticket invalid request");
             }
@@ -771,18 +712,7 @@ namespace AcFunDanmu
                         await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
                     }
                 }
-                catch (WebSocketException ex)
-                {
-                    Log.Debug(ex, "Heartbeat");
-                    (sender as HeartbeatTimer).Stop();
-
-                }
-                catch (OperationCanceledException ex)
-                {
-                    Log.Debug(ex, "Heartbeat");
-                    (sender as HeartbeatTimer).Stop();
-                }
-                catch (IOException ex)
+                catch (Exception ex)
                 {
                     Log.Debug(ex, "Heartbeat");
                     (sender as HeartbeatTimer).Stop();
