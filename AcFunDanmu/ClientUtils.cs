@@ -12,7 +12,7 @@ namespace AcFunDanmu
 {
     public static class ClientUtils
     {
-        private static readonly SortedList<string, string> QueryDict = new()
+        private static readonly SortedList<string, string> QueryDict = new SortedList<string, string>()
         {
             { "appver", "1.4.0.145" },
             { "sys", "PC_10" },
@@ -20,12 +20,12 @@ namespace AcFunDanmu
             { "kpf", "WINDOWS_PC" },
             { "subBiz", "mainApp" },
         };
-        private static string Query => string.Join('&', QueryDict.Select(query => $"{query.Key}={query.Value}"));
+        private static string Query => string.Join("&", QueryDict.Select(query => $"{query.Key}={query.Value}"));
 
         private const int HeaderOffset = 12;
         private const int IVLength = 16;
 
-        internal static void Copy<T>(ReadOnlySpan<T> source, int sourceIndex, Span<T> target, int targetIndex, int length)
+        private static void Copy<T>(ReadOnlySpan<T> source, int sourceIndex, Span<T> target, int targetIndex, int length)
         {
             for (var i = 0; i < length; i++)
             {
@@ -33,7 +33,7 @@ namespace AcFunDanmu
             }
         }
 
-        internal static (byte[], byte[]) EncodeLengths(int packetLength, int bodyLength)
+        private static (byte[], byte[]) EncodeLengths(int packetLength, int bodyLength)
         {
             Span<byte> packet = BitConverter.GetBytes(packetLength), body = BitConverter.GetBytes(bodyLength);
             if (BitConverter.IsLittleEndian)
@@ -48,7 +48,7 @@ namespace AcFunDanmu
 
         public static byte[] Encode(PacketHeader header, ReadOnlySpan<byte> body, string key) => Encode(header, Encrypt(key, body));
 
-        internal static byte[] Encode(PacketHeader header, ReadOnlySpan<byte> encrypted)
+        private static byte[] Encode(PacketHeader header, ReadOnlySpan<byte> encrypted)
         {
             var bHeader = header.ToByteArray();
 
@@ -90,10 +90,13 @@ namespace AcFunDanmu
             Console.WriteLine();
         }
 
-        internal static (int, int) DecodeLengths(ReadOnlySpan<byte> bytes)
+        private static (int, int) DecodeLengths(ReadOnlySpan<byte> bytes)
         {
+#if NET5_0_OR_GREATER
             Span<byte> header = stackalloc byte[4], payload = stackalloc byte[4];
-
+#elif NETSTANDARD2_0_OR_GREATER
+            byte[] header = new byte[4], payload = new byte[4];
+#endif
             bytes.Slice(4, 4).CopyTo(header);
             bytes.Slice(8, 4).CopyTo(payload);
 
@@ -103,8 +106,13 @@ namespace AcFunDanmu
                 payload.Reverse();
             }
 
+#if NET5_0_OR_GREATER
             var headerLength = BitConverter.ToInt32(header);
             var payloadLength = BitConverter.ToInt32(payload);
+#elif NETSTANDARD2_0_OR_GREATER
+            var headerLength = BitConverter.ToInt32(header, 0);
+            var payloadLength = BitConverter.ToInt32(payload, 0);
+#endif
 
             return (headerLength, payloadLength);
         }
@@ -115,13 +123,28 @@ namespace AcFunDanmu
 
             header = PacketHeader.Parser.ParseFrom(bytes.Slice(HeaderOffset, headerLength).ToArray());
 
+#if NET5_0_OR_GREATER
             ReadOnlySpan<byte> payload = header.EncryptionMode switch
             {
                 PacketHeader.Types.EncryptionMode.KEncryptionServiceToken => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey),
                 PacketHeader.Types.EncryptionMode.KEncryptionSessionKey => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey),
                 _ => bytes.Slice(HeaderOffset + headerLength, payloadLength),
             };
-
+#elif NETSTANDARD2_0_OR_GREATER
+            byte[] payload = null;
+            switch (header.EncryptionMode)
+            {
+                case PacketHeader.Types.EncryptionMode.KEncryptionServiceToken:
+                    Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey);
+                    break;
+                case PacketHeader.Types.EncryptionMode.KEncryptionSessionKey:
+                    payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey);
+                    break;
+                default:
+                    payload = bytes.Slice(HeaderOffset + headerLength, payloadLength).ToArray();
+                    break;
+            }
+#endif
             //Log.Debug("Payload length: {0} | DecodedPayloadLen: {1}", payload.Length, header.DecodedPayloadLen);
             //Log.Debug("Payload Base64: {0}", Convert.ToBase64String(payload));
             //Dump(payload);
@@ -143,12 +166,28 @@ namespace AcFunDanmu
 
             header = PacketHeader.Parser.ParseFrom(bytes.Slice(HeaderOffset, headerLength).ToArray());
 
+#if NET5_0_OR_GREATER
             ReadOnlySpan<byte> payload = header.EncryptionMode switch
             {
                 PacketHeader.Types.EncryptionMode.KEncryptionServiceToken => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey),
                 PacketHeader.Types.EncryptionMode.KEncryptionSessionKey => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey),
                 _ => bytes.Slice(HeaderOffset + headerLength, payloadLength),
             };
+#elif NETSTANDARD2_0_OR_GREATER
+            byte[] payload = null;
+            switch (header.EncryptionMode)
+            {
+                case PacketHeader.Types.EncryptionMode.KEncryptionServiceToken:
+                    Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey);
+                    break;
+                case PacketHeader.Types.EncryptionMode.KEncryptionSessionKey:
+                    payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey);
+                    break;
+                default:
+                    payload = bytes.Slice(HeaderOffset + headerLength, payloadLength).ToArray();
+                    break;
+            }
+#endif
 
             if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
             {
@@ -161,8 +200,9 @@ namespace AcFunDanmu
             return obj;
         }
 
-        internal static byte[] Encrypt(string key, ByteString body)
+        private static byte[] Encrypt(string key, ByteString body)
         {
+#if NET5_0_OR_GREATER
             using var aes = Aes.Create();
 
             using var encryptor = aes.CreateEncryptor(Convert.FromBase64String(key), aes.IV);
@@ -170,14 +210,36 @@ namespace AcFunDanmu
             using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
             body.WriteTo(cs);
             cs.FlushFinalBlock();
-
+            
             var encrypted = ms.ToArray();
 
             return Encrypt(aes.IV, encrypted);
+#elif NETSTANDARD2_0_OR_GREATER
+            using (var aes = Aes.Create())
+            {
+                using (var encryptor = aes.CreateEncryptor(Convert.FromBase64String(key), aes.IV))
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                        {
+                            body.WriteTo(cs);
+                            cs.FlushFinalBlock();
+
+                            var encrypted = ms.ToArray();
+
+                            return Encrypt(aes.IV, encrypted);
+                        }
+                    }
+                }
+            }
+#endif
         }
 
-        internal static byte[] Encrypt(string key, ReadOnlySpan<byte> body)
+        private static byte[] Encrypt(string key, ReadOnlySpan<byte> body)
         {
+#if NET5_0_OR_GREATER
+
             using var aes = Aes.Create();
 
             using var encryptor = aes.CreateEncryptor(Convert.FromBase64String(key), aes.IV);
@@ -190,8 +252,29 @@ namespace AcFunDanmu
 
             return Encrypt(aes.IV, encrypted);
         }
+#elif NETSTANDARD2_0_OR_GREATER
+            using (var aes = Aes.Create())
+            {
+                using (var encryptor = aes.CreateEncryptor(Convert.FromBase64String(key), aes.IV))
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                        {
+                            cs.Write(body.ToArray(), 0, body.Length);
+                            cs.FlushFinalBlock();
 
-        internal static byte[] Encrypt(ReadOnlySpan<byte> iv, ReadOnlySpan<byte> encrypted)
+                            var encrypted = ms.ToArray();
+
+                            return Encrypt(aes.IV, encrypted);
+                        }
+                    }
+                }
+            }
+        }
+#endif
+
+        private static byte[] Encrypt(ReadOnlySpan<byte> iv, ReadOnlySpan<byte> encrypted)
         {
             var len = iv.Length + encrypted.Length;
 
@@ -202,8 +285,9 @@ namespace AcFunDanmu
             return payload.ToArray();
         }
 
-        internal static byte[] Decrypt(ReadOnlySpan<byte> bytes, string key)
+        private static byte[] Decrypt(ReadOnlySpan<byte> bytes, string key)
         {
+#if NET5_0_OR_GREATER
             using var aes = Aes.Create();
             using var decryptor = aes.CreateDecryptor(Convert.FromBase64String(key), bytes[..IVLength].ToArray());
             using var ms = new MemoryStream();
@@ -213,13 +297,33 @@ namespace AcFunDanmu
 
             return ms.ToArray();
         }
+#elif NETSTANDARD2_0_OR_GREATER
+            using (var aes = Aes.Create())
+            {
+                using (var decryptor = aes.CreateDecryptor(Convert.FromBase64String(key), bytes.Slice(0, IVLength).ToArray()))
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Write))
+                        {
+                            cs.Write(bytes.Slice(IVLength).ToArray(), 0, bytes.Length - IVLength);
+                            cs.FlushFinalBlock();
 
-        internal static ByteString Compress(ByteString payload) => GZip(CompressionMode.Compress, payload);
+                            return ms.ToArray();
+                        }
+                    }
+                }
+            }
+        }
+#endif
+
+        private static ByteString Compress(ByteString payload) => GZip(CompressionMode.Compress, payload);
 
         public static ByteString Decompress(ByteString payload) => GZip(CompressionMode.Decompress, payload);
 
-        internal static ByteString GZip(CompressionMode mode, ByteString payload)
+        private static ByteString GZip(CompressionMode mode, ByteString payload)
         {
+#if NET5_0_OR_GREATER
             using var input = new MemoryStream(payload.ToByteArray());
             using var gzip = new GZipStream(input, mode);
             using var output = new MemoryStream();
@@ -229,9 +333,25 @@ namespace AcFunDanmu
             output.Position = 0;
 
             return ByteString.FromStream(output);
+#elif NETSTANDARD2_0_OR_GREATER
+            using (var input = new MemoryStream(payload.ToByteArray()))
+            {
+                using (var gzip = new GZipStream(input, mode))
+                {
+                    using (var output = new MemoryStream())
+                    {
+                        gzip.CopyTo(output);
+
+                        output.Position = 0;
+
+                        return ByteString.FromStream(output);
+                    }
+                }
+            }
+#endif
         }
 
-        internal static object Parse(Type type, object[] payload)
+        private static object Parse(Type type, object[] payload)
         {
             var pt = typeof(MessageParser<>).MakeGenericType(new Type[] { type });
 
@@ -261,13 +381,26 @@ namespace AcFunDanmu
             }
         }
 
-        internal static string Sign(string uri, string key, long rnd, Span<byte> bytes, SortedList<string, string> extra = null)
+        private static string Sign(string uri, string key, long rnd, Span<byte> bytes, SortedList<string, string> extra = null)
         {
+#if NET5_0_OR_GREATER
             using var hmac = new HMACSHA256(Convert.FromBase64String(key));
             string query = extra == null ? Query : string.Join('&', QueryDict.Concat(extra).OrderBy(query => query.Key).Select(query => $"{query.Key}={query.Value}"));
 
             var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{uri}&{query}&{rnd}"));
+
             Span<byte> sign = stackalloc byte[bytes.Length + hash.Length];
+#elif NETSTANDARD2_0_OR_GREATER
+            byte[] hash = null;
+            using (var hmac = new HMACSHA256(Convert.FromBase64String(key)))
+            {
+                string query = extra == null ? Query : string.Join("&", QueryDict.Concat(extra).OrderBy(item => item.Key).Select(item => $"{item.Key}={item.Value}"));
+
+                hash = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{uri}&{query}&{rnd}"));
+            }
+
+            byte[] sign = new byte[bytes.Length + hash.Length];
+#endif
             if (BitConverter.IsLittleEndian) { bytes.Reverse(); }
 
             for (var i = 0; i < bytes.Length; i++)
@@ -282,24 +415,30 @@ namespace AcFunDanmu
             return ToBase64Url(sign);
         }
 
-        internal static string Sign(string url, string key, long rnd, SortedList<string, string> extra = null) => Sign(url, key, rnd, BitConverter.GetBytes(rnd), extra);
+        private static string Sign(string url, string key, long rnd, SortedList<string, string> extra = null) => Sign(url, key, rnd, BitConverter.GetBytes(rnd), extra);
 
 
-        internal static string Sign(string url, string key, SortedList<string, string> extra = null) => Sign(url, key, Random(), extra);
+        private static string Sign(string url, string key, SortedList<string, string> extra = null) => Sign(url, key, Random(), extra);
 
-        internal static long Random()
+        private static long Random()
         {
             var random = new Random();
             var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+#if NET5_0_OR_GREATER
             Span<byte> rand = stackalloc byte[4];
             random.NextBytes(rand);
             long result = BitConverter.ToInt32(rand);
+#elif NETSTANDARD2_0_OR_GREATER
+            byte[] rand = new byte[4];
+            random.NextBytes(rand);
+            long result = BitConverter.ToInt32(rand, 0);
+#endif
             result <<= 0x20;
             result |= now;
             return result;
         }
 
-        internal static byte[] FromBase64Url(string text)
+        private static byte[] FromBase64Url(string text)
         {
             var temp = text.Replace('-', '+').Replace('_', '/');
             var rem = 4 - (temp.Length & 3);
@@ -313,9 +452,16 @@ namespace AcFunDanmu
             }
         }
 
-        internal static string ToBase64Url(ReadOnlySpan<byte> data)
+#if NET5_0_OR_GREATER
+        private static string ToBase64Url(ReadOnlySpan<byte> data)
         {
             return Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
         }
+#elif NETSTANDARD2_0_OR_GREATER
+        private static string ToBase64Url(byte[] data)
+        {
+            return Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
+        }
+#endif
     }
 }

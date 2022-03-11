@@ -283,7 +283,7 @@ namespace AcFunDanmu
             return Encode(header, body, SessionKey);
         }
 
-        private ZtLiveCsCmd GenerateCommand(string command, IMessage msg = null) => new()
+        private ZtLiveCsCmd GenerateCommand(string command, IMessage msg = null) => new ZtLiveCsCmd()
         {
             CmdType = command,
             Ticket = Ticket,
@@ -291,7 +291,7 @@ namespace AcFunDanmu
             Payload = msg?.ToByteString() ?? ByteString.Empty,
         };
 
-        private UpstreamPayload GeneratePayload(string command, IMessage msg = null) => new()
+        private UpstreamPayload GeneratePayload(string command, IMessage msg = null) => new UpstreamPayload()
         {
             Command = command,
             RetryCount = RetryCount,
@@ -300,7 +300,7 @@ namespace AcFunDanmu
             PayloadData = msg?.ToByteString() ?? ByteString.Empty,
         };
 
-        private PacketHeader GenerateHeader(ByteString body, PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new()
+        private PacketHeader GenerateHeader(ByteString body, PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
         {
             AppId = AppId,
             Uid = UserId,
@@ -311,7 +311,7 @@ namespace AcFunDanmu
             Kpn = KPN
         };
 
-        private PacketHeader GenerateHeader(ReadOnlySpan<byte> body, PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new()
+        private PacketHeader GenerateHeader(ReadOnlySpan<byte> body, PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
         {
             AppId = AppId,
             Uid = UserId,

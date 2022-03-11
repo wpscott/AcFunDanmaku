@@ -1,7 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿#if NET5_0_OR_GREATER
+using System.Text.Json.Serialization;
+#elif NETSTANDARD2_0_OR_GREATER
+using Newtonsoft.Json;
+#endif
 
 namespace AcFunDanmu.Models.Client
 {
+#if NET5_0_OR_GREATER
     public sealed record VisitorToken
     {
         [JsonPropertyName("result")]
@@ -13,4 +18,17 @@ namespace AcFunDanmu.Models.Client
         [JsonPropertyName("userId")]
         public long UserId { get; init; }
     }
+#elif NETSTANDARD2_0_OR_GREATER
+    public sealed class VisitorToken
+    {
+        [JsonProperty("result")]
+        public int Result { get; set; }
+        [JsonProperty("acfun.api.visitor_st")]
+        public string ServiceToken { get; set; }
+        [JsonProperty("acSecurity")]
+        public string SecurityKey { get; set; }
+        [JsonProperty("userId")]
+        public long UserId { get; set; }
+    }
+#endif
 }
