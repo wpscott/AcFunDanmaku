@@ -28,6 +28,8 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 
 		<DebugType>embedded</DebugType>
+
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>

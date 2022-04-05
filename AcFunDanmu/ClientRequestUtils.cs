@@ -2,6 +2,7 @@
 using Google.Protobuf;
 using Serilog;
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using static AcFunDanmu.ClientUtils;
 
@@ -283,7 +284,8 @@ namespace AcFunDanmu
             return Encode(header, body, SessionKey);
         }
 
-        private ZtLiveCsCmd GenerateCommand(string command, IMessage msg = null) => new ZtLiveCsCmd()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private ZtLiveCsCmd GenerateCommand(in string command, in IMessage msg = null) => new ZtLiveCsCmd()
         {
             CmdType = command,
             Ticket = Ticket,
@@ -291,7 +293,8 @@ namespace AcFunDanmu
             Payload = msg?.ToByteString() ?? ByteString.Empty,
         };
 
-        private UpstreamPayload GeneratePayload(string command, IMessage msg = null) => new UpstreamPayload()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private UpstreamPayload GeneratePayload(in string command, in IMessage msg = null) => new UpstreamPayload()
         {
             Command = command,
             RetryCount = RetryCount,
@@ -300,7 +303,8 @@ namespace AcFunDanmu
             PayloadData = msg?.ToByteString() ?? ByteString.Empty,
         };
 
-        private PacketHeader GenerateHeader(ByteString body, PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private PacketHeader GenerateHeader(in ByteString body, in PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
         {
             AppId = AppId,
             Uid = UserId,
@@ -311,7 +315,8 @@ namespace AcFunDanmu
             Kpn = KPN
         };
 
-        private PacketHeader GenerateHeader(ReadOnlySpan<byte> body, PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private PacketHeader GenerateHeader(in ReadOnlySpan<byte> body, in PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
         {
             AppId = AppId,
             Uid = UserId,
