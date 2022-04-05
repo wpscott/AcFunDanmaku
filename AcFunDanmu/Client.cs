@@ -56,7 +56,7 @@ namespace AcFunDanmu
         private static readonly Dictionary<string, string> LOGIN_FORM = new Dictionary<string, string>() { { "sid", "acfun.api.visitor" } };
         private static readonly Dictionary<string, string> GET_TOKEN_FORM = new Dictionary<string, string>() { { "sid", "acfun.midground.api" } };
 
-        private const string _WEBSOCKET_HOST = "wss://klink-newproduct-ws1.kwaizt.com/";
+        private const string _WEBSOCKET_HOST = "wss://klink-newproduct-ws2.kwaizt.com/";
         private static readonly Uri WEBSOCKET_HOST = new Uri(_WEBSOCKET_HOST);
         #endregion
 
