@@ -67,7 +67,7 @@ namespace AcFunDanmuConsole
             }
             Log.Information("Client closed, maybe live is end");
 
-            //DecodeHar(@".\12152626.har");
+            //DecodeHar(@".\34195163.har");
             //await LoginToGetGiftList();
         }
 
@@ -221,6 +221,7 @@ namespace AcFunDanmuConsole
                             case PushMessage.StateSignal.CHAT_READY:
                             case PushMessage.StateSignal.CHAT_END:
                             case PushMessage.StateSignal.CURRENT_RED_PACK_LIST:
+                            case PushMessage.StateSignal.AR_LIVE_TREASURE_BOX_STATE:
                                 break;
                             default:
                                 var pi = Parse(item.SignalType, item.Payload);
@@ -282,12 +283,15 @@ namespace AcFunDanmuConsole
         }
         static void DecodeHar(string filePath)
         {
-            string securityKey = "tYyoLPQwUP7C8L84727s2g==";
             string sessionKey = string.Empty;
 
             using var file = new StreamReader(filePath);
 
             using var json = JsonDocument.Parse(file.ReadToEnd());
+
+            var loginResponse = json.RootElement.GetProperty("log").GetProperty("entries").EnumerateArray().First(item => item.GetProperty("request").GetProperty("url").ToString() == "https://id.app.acfun.cn/rest/app/visitor/login");
+            using var login = JsonDocument.Parse(loginResponse.GetProperty("response").GetProperty("content").GetProperty("text").ToString());
+            string securityKey = login.RootElement.GetProperty("acSecurity").ToString();
 
             var ws = json.RootElement.GetProperty("log").GetProperty("entries").EnumerateArray().First(item => item.GetProperty("request").GetProperty("url").ToString() == "wss://klink-newproduct-ws3.kwaizt.com/");
 
