@@ -122,3 +122,7 @@
             1. 选取之前获取的`availableTickets`中的下一个
             2. 发送[EnterRoomRequest](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/zt.live.interactive/ZtLiveCsEnterRoom.proto#L5)
             3. SeqId + 1
+
+# 有问题？
+1. 提交Issue
+2. 搜索QQ频道“AcFun开源⑨课”
