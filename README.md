@@ -160,3 +160,7 @@ AcFun直播弹幕姬OBS版。**开发中**
 2. 运行AcFunDMJ.Vanilla.exe
 3. 打开OBS，添加浏览器，地址为http://localhost:5000/[主播ID]
 4. 查看弹幕
+
+# 有问题？
+1. 提交Issue
+2. 搜索QQ频道“AcFun开源⑨课”
