@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTargetType.proto";
+
+message ChatTarget {
+    string targetId = 1;
+    ChatTargetType targetType = 2;
+}

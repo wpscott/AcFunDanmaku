@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+import "ChatSession.proto";
+
+message MessageUnreadRequest {
+    ChatTarget target = 1;
+}
+
+message MessageUnreadResponse {
+    ChatSession session = 1;
+}

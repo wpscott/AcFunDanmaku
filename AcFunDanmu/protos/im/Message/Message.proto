@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "User.proto";
+import "Reminder.proto";
+
+message Message {
+    int64 seqId = 1;
+    int64 clientSeqId = 2;
+    int64 timestampMs = 3;
+    Im.Basic.User fromUser = 4;
+    int64 targetId = 5;
+    Im.Basic.User toUser = 6;
+    string title = 7;
+    int32 contentType = 8;
+    bytes content = 9;
+    string buckupTips = 10;
+    repeated Im.Basic.User receivers = 11;
+    bool notContentUnread = 12;
+    int32 sessionPriority = 13;
+    int32 sessionCategoryId = 14;
+    int32 sessionAccountType = 15;
+    bool notAutoCreateSession = 16;
+    int32 userRelationship = 17;
+    string strTargetId = 18;
+    repeated Im.Basic.User excludeReceivers = 19;
+    bool markDelte = 20;
+    Reminder reminder = 21;
+    bytes extra = 22;
+    bool receiptRequired = 23;
+    Im.Basic.User realFromUser = 24;
+    bytes csExtra = 25;
+    bool sessionInvisible = 26;
+}

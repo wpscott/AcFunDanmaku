@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message RichTextNoticeMessage{
+    repeated RichTextItem items = 1;
+
+    message RichTextItem {
+        int32 color = 1;
+        int32 start = 2;
+        int32 len = 3;
+        string clickAction = 4;
+        bool underline = 5;
+    }
+}

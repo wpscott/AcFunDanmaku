@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package AcFunDanmu;
-
-message LocaleMessage {
-    string locale = 1;
-    map<int32, string> errorMessage = 2;
-}

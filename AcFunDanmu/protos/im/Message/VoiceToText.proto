@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message VoiceToTextRequest {
+    string uri = 1;
+}
+
+message VoiceToTextResponse {
+    string text = 1;
+}

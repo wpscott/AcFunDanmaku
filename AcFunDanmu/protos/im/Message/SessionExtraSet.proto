@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+import "ChatSession.proto";
+
+message SessionExtraSetRequest {
+    ChatTarget chatTarget = 1;
+    bytes extra = 2;
+}
+
+message SessionExtraSetResponse {
+    ChatSession session = 1;
+}

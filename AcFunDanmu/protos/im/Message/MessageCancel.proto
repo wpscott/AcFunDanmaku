@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+
+message MessageCancelRequest {
+    ChatTarget chatTarget = 1;
+    repeated int64 seqId = 2;
+}
+
+message MessageCancelResponse {} 

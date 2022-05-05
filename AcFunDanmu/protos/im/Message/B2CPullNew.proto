@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "Message.proto";
+
+message B2CPullNewRequest {
+    string strTargetId = 5;
+    int64 minSeq = 2;
+    int32 count = 3;
+}
+
+message B2CPullNewResponse {
+    repeated Message messages = 1;
+}

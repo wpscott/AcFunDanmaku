@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "Message.proto";
+import "B2CMessageSend.proto";
+
+message B2CMessageBatchSendRequest {
+    repeated Message message = 1;
+}
+
+message B2CMessageBatchSendResponse {
+    repeated B2CMessageSendResponse response = 1;
+}

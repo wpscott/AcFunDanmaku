@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+message EnvInfo {
+    enum NetworkType {
+        kInvalid = 0;
+        kWIFI = 1;
+        kCellular = 2;
+    }
+    NetworkType networkType = 1;
+    bytes appName = 2;
+}

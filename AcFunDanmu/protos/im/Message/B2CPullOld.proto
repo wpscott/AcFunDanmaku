@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "Message.proto";
+
+message B2CPullOldRequest {
+    string strTargetId = 6;
+    int64 minSeq = 2;
+    int64 maxSeq = 3;
+    int32 count = 4;
+}
+
+message B2CPullOldResponse {
+    repeated Message messages = 1;
+    int64 serverTime = 2;
+}

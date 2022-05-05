@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+message SettingInfo {
+	string locale = 1;
+	sint32 timezone = 2;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "User.proto";
+
+message B2CMessageReceiptDetailGetRequest {
+    int64 seqId = 1;
+    string strTargetId = 2;
+}
+
+message B2CMessageReceiptDetailGetResponse {
+    repeated Im.Basic.User readUser = 1;
+    repeated Im.Basic.User unreadUser = 2;
+}

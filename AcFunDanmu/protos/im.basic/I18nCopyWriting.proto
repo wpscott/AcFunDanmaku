@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package AcFunDanmu;
-
-message I18nCopyWriting {
-    string formatKey = 1;
-    repeated string formatParam = 2;
-}

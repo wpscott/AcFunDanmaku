@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+enum SessionStatus {
+    SESSION_VALID = 0;
+    SESSION_DELETED = 1;
+}

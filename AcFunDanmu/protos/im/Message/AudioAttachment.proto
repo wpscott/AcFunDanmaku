@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message AudioAttachment {
+    string mimeType = 1;
+    string url = 2;
+    int64 durationInMs = 3;
+    int64 lengthInBytes = 5;
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatSession.proto";
+
+message SessionPageListRequest {
+    string cursor = 1;
+    int32 count = 2;
+    int32 categoryId = 3;
+}
+
+message SessionPageListResponse {
+    bool hasMore = 1;
+    repeated ChatSession sessions = 2;
+}

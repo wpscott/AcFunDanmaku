@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+enum MessageReceiveStatus {
+    RECEIVE_MSG = 0;
+    REJECT_MSG = 1;
+}

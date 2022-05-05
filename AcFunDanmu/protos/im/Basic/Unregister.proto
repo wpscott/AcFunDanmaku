@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+message UnregisterRequest {}
+
+message UnregisterResponse {}

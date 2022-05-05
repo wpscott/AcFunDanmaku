@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message RemindBody {
+    RemindType remindType = 1;
+    int64 seqId = 2;
+    int64 targetId = 3;
+    string userName = 4;
+    int32 startIndex = 5;
+    int32 length = 6;
+
+    enum RemindType {
+        UNKNOWN = 0;
+        AT_ALL = 1;
+        AT_USER = 2;
+        GROUP_BULLETIN = 3;
+        RECEIPT_MESSAGE = 4;
+        GROUP_JOIN_REQUEST = 5;
+        USER_MESSAGE_ALERT = 6;
+    }
+}

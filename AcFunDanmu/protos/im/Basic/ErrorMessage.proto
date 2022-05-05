@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+import "LocaleMessage.proto";
+
+message ErrorMessage {
+    repeated LocaleMessage localeMessages = 1;
+}

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message MessageReceiptStatus {
+    int32 readCount = 1;
+    int32 unreadCount = 2;
+    int64 seqId = 3;
+    int64 serverTime = 4;
+} 

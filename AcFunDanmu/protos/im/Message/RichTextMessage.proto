@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "RichTextNoticeMessage.proto";
+
+message RichTextMessage {
+    RichTextNoticeMessage richTextMessage = 1;
+}
