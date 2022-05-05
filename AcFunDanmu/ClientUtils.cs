@@ -130,32 +130,22 @@ namespace AcFunDanmu
             public byte b3;
             [FieldOffset(0)]
             public int iLength;
+            [FieldOffset(0)]
+            public fixed byte Data[4];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int ByteToInt32(in Length length)
         {
-            if (BitConverter.IsLittleEndian)
-            {
-                return (length.b0 << 24) | (length.b1 << 16) | (length.b2 << 8) | (length.b3 << 0);
-            }
-            else
-            {
-                return (length.b3 << 24) | (length.b2 << 16) | (length.b1 << 8) | (length.b0 << 0);
-            }
+            return BitConverter.IsLittleEndian
+                ? length.iLength
+                : (length.b3 << 24) | (length.b2 << 16) | (length.b1 << 8) | (length.b0 << 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte[] Int32ToByte(in Length length)
         {
-            if (BitConverter.IsLittleEndian)
-            {
-                return new byte[4] { length.b3, length.b2, length.b1, length.b0 };
-            }
-            else
-            {
-                return new byte[4] { length.b0, length.b1, length.b2, length.b3 };
-            }
+            return BitConverter.IsLittleEndian ? new[] { length.b3, length.b2, length.b1, length.b0 } : new[] { length.b0, length.b1, length.b2, length.b3 };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -229,15 +219,16 @@ namespace AcFunDanmu
                 _ => bytes.Slice(HeaderOffset + headerLength, payloadLength),
             };
 #elif NETSTANDARD2_0_OR_GREATER
-            byte[] payload = null;
+            byte[] payload;
             switch (header.EncryptionMode)
             {
                 case PacketHeader.Types.EncryptionMode.KEncryptionServiceToken:
-                    Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey);
+                    payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey);
                     break;
                 case PacketHeader.Types.EncryptionMode.KEncryptionSessionKey:
                     payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey);
                     break;
+                case PacketHeader.Types.EncryptionMode.KEncryptionNone:
                 default:
                     payload = bytes.Slice(HeaderOffset + headerLength, payloadLength).ToArray();
                     break;
@@ -266,7 +257,7 @@ namespace AcFunDanmu
             using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
             body.WriteTo(cs);
             cs.FlushFinalBlock();
-            
+
             var encrypted = ms.ToArray();
 
             return Encrypt(aes.IV, encrypted);
@@ -420,12 +411,12 @@ namespace AcFunDanmu
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static object Parse(in Type type, in object[] payload)
         {
-            var pt = typeof(MessageParser<>).MakeGenericType(new Type[] { type });
+            var pt = typeof(MessageParser<>).MakeGenericType(type);
 
-            var parser = type.GetProperty("Parser", pt).GetValue(null);
-            var method = pt.GetMethod("ParseFrom", new Type[] { typeof(ByteString) });
+            var parser = type.GetProperty("Parser", pt)?.GetValue(null);
+            var method = pt.GetMethod("ParseFrom", new[] { typeof(ByteString) });
 
-            var obj = method.Invoke(parser, payload);
+            var obj = method?.Invoke(parser, payload);
             return obj;
         }
 
@@ -465,12 +456,12 @@ namespace AcFunDanmu
             byte[] hash = null;
             using (var hmac = new HMACSHA256(Convert.FromBase64String(key)))
             {
-                string query = extra == null ? Query : string.Join("&", QueryDict.Concat(extra).OrderBy(item => item.Key).Select(item => $"{item.Key}={item.Value}"));
+                var query = extra == null ? Query : string.Join("&", QueryDict.Concat(extra).OrderBy(item => item.Key).Select(item => $"{item.Key}={item.Value}"));
 
                 hash = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{uri}&{query}&{nonce.Result}"));
             }
 
-            byte[] sign = new byte[NonceSize + hash.Length];
+            var sign = new byte[NonceSize + hash.Length];
 #endif
             if (BitConverter.IsLittleEndian)
             {
@@ -558,7 +549,7 @@ namespace AcFunDanmu
 #elif NETSTANDARD2_0_OR_GREATER
             using (var generator = RandomNumberGenerator.Create())
             {
-                byte[] rand = new byte[4];
+                var rand = new byte[4];
                 generator.GetNonZeroBytes(rand);
 
                 nonce.Random = BitConverter.ToInt32(rand, 0);
@@ -572,14 +563,7 @@ namespace AcFunDanmu
         {
             var temp = text.Replace('-', '+').Replace('_', '/');
             var rem = 4 - (temp.Length & 3);
-            if (rem == 4)
-            {
-                return Convert.FromBase64String(temp);
-            }
-            else
-            {
-                return Convert.FromBase64String(temp.PadRight(temp.Length + rem, '='));
-            }
+            return Convert.FromBase64String(rem == 4 ? temp : temp.PadRight(temp.Length + rem, '='));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

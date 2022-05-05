@@ -67,8 +67,8 @@ namespace AcFunDanmu
 
         private static readonly CookieContainer CookieContainer = new CookieContainer();
         private static string DeviceId;
-        private static bool IsSignIn = false;
-        private static bool IsPrepared = false;
+        private static bool IsSignIn;
+        private static bool IsPrepared;
 
         private long UserId = -1;
         public long HostId { get; private set; }
@@ -110,136 +110,134 @@ namespace AcFunDanmu
 
         public async Task<bool> Login(string username, string password)
         {
-            if (!IsSignIn)
+            if (IsSignIn) return IsSignIn;
+            Log.Information("Client signing in");
+            try
             {
-                Log.Information("Client signing in");
-                try
-                {
 #if NET5_0_OR_GREATER
-                    using var client = CreateHttpClient(ACFUN_LOGIN_URI);
+                using var client = CreateHttpClient(ACFUN_LOGIN_URI);
 
-                    using var login = await client.GetAsync(ACFUN_LOGIN_URI);
-                    if (!login.IsSuccessStatusCode)
-                    {
-                        Log.Error("Get login error: {Content}", await login.Content.ReadAsStringAsync());
-                        return false;
-                    }
+                using var login = await client.GetAsync(ACFUN_LOGIN_URI);
+                if (!login.IsSuccessStatusCode)
+                {
+                    Log.Error("Get login error: {Content}", await login.Content.ReadAsStringAsync());
+                    return false;
+                }
 
-                    using var signinContent = new FormUrlEncodedContent(new Dictionary<string, string>
+                using var signinContent = new FormUrlEncodedContent(new Dictionary<string, string>
                                                                         {
                                                                             {"username", username },
                                                                             {"password", password },
                                                                             {"key", null },
                                                                             {"captcha", null}
                                                                         });
-                    using var signin = await client.PostAsync(ACFUN_SIGN_IN_URI, signinContent);
-                    if (!signin.IsSuccessStatusCode)
-                    {
-                        Log.Error("Post sign in error: {Content}", await signin.Content.ReadAsStringAsync());
-                        return false;
-                    }
-                    var user = await JsonSerializer.DeserializeAsync<SignIn>(await signin.Content.ReadAsStreamAsync());
-                    if (user == null)
-                    {
-                        Log.Error("Unable to deserialize SignIn");
-                        return false;
-                    }
+                using var signin = await client.PostAsync(ACFUN_SIGN_IN_URI, signinContent);
+                if (!signin.IsSuccessStatusCode)
+                {
+                    Log.Error("Post sign in error: {Content}", await signin.Content.ReadAsStringAsync());
+                    return false;
+                }
+                var user = await JsonSerializer.DeserializeAsync<SignIn>(await signin.Content.ReadAsStreamAsync());
+                if (user == null)
+                {
+                    Log.Error("Unable to deserialize SignIn");
+                    return false;
+                }
 
-                    using var sidContent = new StringContent(string.Format(SAFETY_ID_CONTENT, user.UserId));
-                    using var sid = await client.PostAsync(ACFUN_SAFETY_ID_URI, sidContent);
-                    if (!sid.IsSuccessStatusCode)
-                    {
-                        Log.Error("Post safety id error: {Content}", await sid.Content.ReadAsStringAsync());
-                        return false;
-                    }
-                    var safetyid = await JsonSerializer.DeserializeAsync<SafetyId>(await sid.Content.ReadAsStreamAsync());
-                    if (safetyid == null)
-                    {
-                        Log.Error("Unable to deserialize SignIn");
-                        return false;
-                    }
-                    CookieContainer.Add(new Cookie
-                    {
-                        Domain = ".acfun.cn",
-                        Name = "safety_id",
-                        Value = safetyid.Id
-                    });
+                using var sidContent = new StringContent(string.Format(SAFETY_ID_CONTENT, user.UserId));
+                using var sid = await client.PostAsync(ACFUN_SAFETY_ID_URI, sidContent);
+                if (!sid.IsSuccessStatusCode)
+                {
+                    Log.Error("Post safety id error: {Content}", await sid.Content.ReadAsStringAsync());
+                    return false;
+                }
+                var safetyid = await JsonSerializer.DeserializeAsync<SafetyId>(await sid.Content.ReadAsStreamAsync());
+                if (safetyid == null)
+                {
+                    Log.Error("Unable to deserialize SignIn");
+                    return false;
+                }
+                CookieContainer.Add(new Cookie
+                {
+                    Domain = ".acfun.cn",
+                    Name = "safety_id",
+                    Value = safetyid.Id
+                });
 
-                    IsSignIn = true;
+                IsSignIn = true;
 #elif NETSTANDARD2_0_OR_GREATER
-                    using (var client = CreateHttpClient(ACFUN_LOGIN_URI))
+                using (var client = CreateHttpClient(ACFUN_LOGIN_URI))
+                {
+                    using (var login = await client.GetAsync(ACFUN_LOGIN_URI))
                     {
-                        using (var login = await client.GetAsync(ACFUN_LOGIN_URI))
+                        if (!login.IsSuccessStatusCode)
                         {
-                            if (!login.IsSuccessStatusCode)
-                            {
-                                Log.Error("Get login error: {Content}", await login.Content.ReadAsStringAsync());
-                                return false;
-                            }
+                            Log.Error("Get login error: {Content}", await login.Content.ReadAsStringAsync());
+                            return false;
+                        }
 
-                            using (var signinContent = new FormUrlEncodedContent(new Dictionary<string, string>
-                                {
-                                    {"username", username },
-                                    {"password", password },
-                                    {"key", null },
-                                    {"captcha", null}
-                                }))
+                        using (var signinContent = new FormUrlEncodedContent(new Dictionary<string, string>
+                               {
+                                   {"username", username },
+                                   {"password", password },
+                                   {"key", null },
+                                   {"captcha", null}
+                               }))
+                        {
+                            using (var signin = await client.PostAsync(ACFUN_SIGN_IN_URI, signinContent))
                             {
-                                using (var signin = await client.PostAsync(ACFUN_SIGN_IN_URI, signinContent))
+                                if (!signin.IsSuccessStatusCode)
                                 {
-                                    if (!signin.IsSuccessStatusCode)
-                                    {
-                                        Log.Error("Post sign in error: {Content}", await signin.Content.ReadAsStringAsync());
-                                        return false;
-                                    }
-                                    var user = JsonConvert.DeserializeObject<SignIn>(await signin.Content.ReadAsStringAsync());
-                                    if (user == null)
-                                    {
-                                        Log.Error("Unable to deserialize SignIn");
-                                        return false;
-                                    }
+                                    Log.Error("Post sign in error: {Content}", await signin.Content.ReadAsStringAsync());
+                                    return false;
+                                }
+                                var user = JsonConvert.DeserializeObject<SignIn>(await signin.Content.ReadAsStringAsync());
+                                if (user == null)
+                                {
+                                    Log.Error("Unable to deserialize SignIn");
+                                    return false;
+                                }
 
-                                    using (var sidContent = new StringContent(string.Format(SAFETY_ID_CONTENT, user.UserId)))
+                                using (var sidContent = new StringContent(string.Format(SAFETY_ID_CONTENT, user.UserId)))
+                                {
+                                    using (var sid = await client.PostAsync(ACFUN_SAFETY_ID_URI, sidContent))
                                     {
-                                        using (var sid = await client.PostAsync(ACFUN_SAFETY_ID_URI, sidContent))
+                                        if (!sid.IsSuccessStatusCode)
                                         {
-                                            if (!sid.IsSuccessStatusCode)
-                                            {
-                                                Log.Error("Post safety id error: {Content}", await sid.Content.ReadAsStringAsync());
-                                                return false;
-                                            }
-                                            var safetyid = JsonConvert.DeserializeObject<SafetyId>(await sid.Content.ReadAsStringAsync());
-                                            if (safetyid == null)
-                                            {
-                                                Log.Error("Unable to deserialize SignIn");
-                                                return false;
-                                            }
-                                            CookieContainer.Add(new Cookie
-                                            {
-                                                Domain = ".acfun.cn",
-                                                Name = "safety_id",
-                                                Value = safetyid.Id
-                                            });
-
-                                            IsSignIn = true;
+                                            Log.Error("Post safety id error: {Content}", await sid.Content.ReadAsStringAsync());
+                                            return false;
                                         }
+                                        var safetyid = JsonConvert.DeserializeObject<SafetyId>(await sid.Content.ReadAsStringAsync());
+                                        if (safetyid == null)
+                                        {
+                                            Log.Error("Unable to deserialize SignIn");
+                                            return false;
+                                        }
+                                        CookieContainer.Add(new Cookie
+                                        {
+                                            Domain = ".acfun.cn",
+                                            Name = "safety_id",
+                                            Value = safetyid.Id
+                                        });
+
+                                        IsSignIn = true;
                                     }
                                 }
                             }
                         }
                     }
+                }
 #endif
-                }
-                catch (HttpRequestException ex)
-                {
-                    Log.Error(ex, "Login Exception");
-                    return await Login(username, password);
-                }
-                catch (TaskCanceledException ex)
-                {
-                    Log.Error(ex, "Login Exception");
-                    return await Login(username, password);
-                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Log.Error(ex, "Login Exception");
+                return await Login(username, password);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Log.Error(ex, "Login Exception");
+                return await Login(username, password);
             }
             return IsSignIn;
         }
@@ -254,39 +252,37 @@ namespace AcFunDanmu
         {
             try
             {
-                if (!IsPrepared)
-                {
+                if (IsPrepared) return IsPrepared;
 #if NET5_0_OR_GREATER
-                    using var client = CreateHttpClient(LIVE_URI);
+                using var client = CreateHttpClient(LIVE_URI);
 
-                    using var index = await client.GetAsync(LIVE_URI);
-                    if (!index.IsSuccessStatusCode)
-                    {
-                        Log.Error("Get live info error: {Content}", await index.Content.ReadAsStringAsync());
-                    }
-                    if (string.IsNullOrEmpty(DeviceId))
-                    {
-                        DeviceId = CookieContainer.GetCookies(ACFUN_HOST).First(cookie => cookie.Name == "_did").Value;
-                    }
-                    IsPrepared = true;
-#elif NETSTANDARD2_0_OR_GREATER
-                    using (var client = CreateHttpClient(LIVE_URI))
-                    {
-                        using (var index = await client.GetAsync(LIVE_URI))
-                        {
-                            if (!index.IsSuccessStatusCode)
-                            {
-                                Log.Error("Get live info error: {Content}", await index.Content.ReadAsStringAsync());
-                            }
-                            if (string.IsNullOrEmpty(DeviceId))
-                            {
-                                DeviceId = CookieContainer.GetCookies(ACFUN_HOST)["_did"].Value;
-                            }
-                            IsPrepared = true;
-                        }
-                    }
-#endif
+                using var index = await client.GetAsync(LIVE_URI);
+                if (!index.IsSuccessStatusCode)
+                {
+                    Log.Error("Get live info error: {Content}", await index.Content.ReadAsStringAsync());
                 }
+                if (string.IsNullOrEmpty(DeviceId))
+                {
+                    DeviceId = CookieContainer.GetCookies(ACFUN_HOST).First(cookie => cookie.Name == "_did").Value;
+                }
+                IsPrepared = true;
+#elif NETSTANDARD2_0_OR_GREATER
+                using (var client = CreateHttpClient(LIVE_URI))
+                {
+                    using (var index = await client.GetAsync(LIVE_URI))
+                    {
+                        if (!index.IsSuccessStatusCode)
+                        {
+                            Log.Error("Get live info error: {Content}", await index.Content.ReadAsStringAsync());
+                        }
+                        if (string.IsNullOrEmpty(DeviceId))
+                        {
+                            DeviceId = CookieContainer.GetCookies(ACFUN_HOST)["_did"]?.Value;
+                        }
+                        IsPrepared = true;
+                    }
+                }
+#endif
                 return IsPrepared;
             }
             catch (HttpRequestException) { return await Prepare(); }
@@ -303,7 +299,7 @@ namespace AcFunDanmu
             }
             else
             {
-                Log.Error($"Invliad user id: {hostId}");
+                Log.Error($"Invalid user id: {hostId}");
                 return null;
             }
         }
@@ -531,19 +527,17 @@ namespace AcFunDanmu
                     {
                         using (var gift = await client.PostAsync(string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), giftContent))
                         {
-                            if (gift.IsSuccessStatusCode)
+                            if (!gift.IsSuccessStatusCode) return;
+                            var giftList = JsonConvert.DeserializeObject<GiftList>(await gift.Content.ReadAsStringAsync());
+                            foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
                             {
-                                var giftList = JsonConvert.DeserializeObject<GiftList>(await gift.Content.ReadAsStringAsync());
-                                foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
+                                var giftInfo = new GiftInfo
                                 {
-                                    var giftInfo = new GiftInfo
-                                    {
-                                        Name = item.GiftName,
-                                        Value = item.GiftPrice,
-                                        Pic = new Uri(item.WebpPicList[0].Url)
-                                    };
-                                    Gifts[item.GiftId] = giftInfo;
-                                }
+                                    Name = item.GiftName,
+                                    Value = item.GiftPrice,
+                                    Pic = new Uri(item.WebpPicList[0].Url)
+                                };
+                                Gifts[item.GiftId] = giftInfo;
                             }
                         }
                     }
@@ -842,7 +836,7 @@ namespace AcFunDanmu
 
         private static void HandleGlobalCommand(DownstreamPayload payload, HeartbeatTimer heartbeatTimer)
         {
-            ZtLiveCsCmdAck cmd = ZtLiveCsCmdAck.Parser.ParseFrom(payload.PayloadData);
+            var cmd = ZtLiveCsCmdAck.Parser.ParseFrom(payload.PayloadData);
             Log.Debug("\t{Command}", cmd);
             switch (cmd.CmdAckType)
             {
@@ -916,7 +910,7 @@ namespace AcFunDanmu
 
         private async Task HandlePushMessage(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer, HeartbeatTimer deathTimer)
         {
-            ZtLiveScMessage message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
+            var message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
             Log.Debug("\t{message}", message);
             var payload = message.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip ? Decompress(message.Payload) : message.Payload;
 
@@ -1049,12 +1043,12 @@ namespace AcFunDanmu
                 catch (Exception ex)
                 {
                     Log.Debug(ex, "Heartbeat");
-                    (sender as HeartbeatTimer).Stop();
+                    (sender as HeartbeatTimer)?.Stop();
                 }
             }
             else
             {
-                (sender as HeartbeatTimer).Stop();
+                (sender as HeartbeatTimer)?.Stop();
             }
         }
     }
