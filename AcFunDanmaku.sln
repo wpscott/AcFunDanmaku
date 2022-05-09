@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30128.74
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunDanmu", "AcFunDanmu\AcFunDanmu.csproj", "{1698860B-7DC2-4222-8A04-031A4BB76B82}"
 EndProject
@@ -40,6 +40,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunDMJ.Vanilla", "AcFunDMJ.Vanilla\AcFunDMJ.Vanilla.csproj", "{A153BB06-2517-401E-BE81-8133E757D8A1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcFunOBS", "AcFunOBS\AcFunOBS.csproj", "{ADB16908-0FEB-4571-A190-0497A9FCB4BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoGenerator", "ProtoGenerator\ProtoGenerator.csproj", "{A8DC4390-E408-4B7A-9765-579C58D73AF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,10 @@ Global
 		{ADB16908-0FEB-4571-A190-0497A9FCB4BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADB16908-0FEB-4571-A190-0497A9FCB4BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADB16908-0FEB-4571-A190-0497A9FCB4BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8DC4390-E408-4B7A-9765-579C58D73AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8DC4390-E408-4B7A-9765-579C58D73AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8DC4390-E408-4B7A-9765-579C58D73AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8DC4390-E408-4B7A-9765-579C58D73AF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
