@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message Location {
+	int64 poiId = 1;
+	string latitude = 2;
+	string longitude = 3;
+	string poi = 4;
+}

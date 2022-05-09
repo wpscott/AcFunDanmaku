@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+import "CallType.proto";
+
+message VoiceCallRequestEvent {
+	CallType callType = 1;
+}

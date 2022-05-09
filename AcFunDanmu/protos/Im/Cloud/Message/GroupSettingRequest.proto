@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupExtraDataUpdate.proto";
+import "GroupHeadUrlUpdate.proto";
+import "GroupInviteNeedUserAgree.proto";
+import "GroupSettingAdminTransfer.proto";
+import "GroupSettingBatchUpdate.proto";
+import "GroupSettingDesc.proto";
+import "GroupSettingInvitePermission.proto";
+import "GroupSettingJoinNeedPermission.proto";
+import "GroupSettingMemberSilence.proto";
+import "GroupSettingMemberTempSilence.proto";
+import "GroupSettingRemindAllOnlyAdmin.proto";
+import "GroupSettingRename.proto";
+import "GroupSettingUpdateOnlyAdmin.proto";
+
+message GroupSettingRequest {
+	oneof GroupSetting {
+		GroupSettingRename rename = 2;
+		GroupSettingDesc desc = 3;
+		GroupSettingJoinNeedPermission joinNeedPermission = 4;
+		GroupSettingInvitePermission invitePermission = 5;
+		GroupSettingMemberSilence groupMembersSilence = 6;
+		GroupSettingAdminTransfer groupAdminTransfer = 7;
+		GroupSettingUpdateOnlyAdmin settingUpdateOnlyAdmin = 8;
+		GroupSettingRemindAllOnlyAdmin remindAllOnlyAdmin = 9;
+		GroupSettingBatchUpdate batchUpdate = 10;
+		GroupSettingMemberTempSilence groupMemberTempSilence = 11;
+		GroupExtraDataUpdate groupExtraDataUpdate = 12;
+		GroupHeadUrlUpdate groupHeadUrlUpdate = 13;
+		GroupInviteNeedUserAgree groupInviteNeedUserAgree = 14;
+	}
+
+	string groupId = 1;
+}

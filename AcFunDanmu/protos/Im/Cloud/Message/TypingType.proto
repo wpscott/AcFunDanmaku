@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum TypingType {
+	INVALID_TT = 0;
+	TEXT_TYPE = 1;
+	AUDIO_TYPE = 2;
+}

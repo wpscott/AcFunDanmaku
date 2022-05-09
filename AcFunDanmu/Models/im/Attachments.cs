@@ -9,24 +9,213 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-/// <summary>Holder for reflection information generated from Attachments.proto</summary>
-public static partial class AttachmentsReflection {
+namespace AcFunDanmu.Im.Message {
 
-  #region Descriptor
-  /// <summary>File descriptor for Attachments.proto</summary>
-  public static pbr::FileDescriptor Descriptor {
-    get { return descriptor; }
-  }
-  private static pbr::FileDescriptor descriptor;
+  /// <summary>Holder for reflection information generated from Attachments.proto</summary>
+  public static partial class AttachmentsReflection {
 
-  static AttachmentsReflection() {
-    byte[] descriptorData = global::System.Convert.FromBase64String(
-        string.Concat(
-          "ChFBdHRhY2htZW50cy5wcm90bw=="));
-    descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
-        new pbr::GeneratedClrTypeInfo(null, null, null));
+    #region Descriptor
+    /// <summary>File descriptor for Attachments.proto</summary>
+    public static pbr::FileDescriptor Descriptor {
+      get { return descriptor; }
+    }
+    private static pbr::FileDescriptor descriptor;
+
+    static AttachmentsReflection() {
+      byte[] descriptorData = global::System.Convert.FromBase64String(
+          string.Concat(
+            "ChFBdHRhY2htZW50cy5wcm90bxIVQWNGdW5EYW5tdS5JbS5NZXNzYWdlGhBB",
+            "dHRhY2htZW50LnByb3RvIkUKC0F0dGFjaG1lbnRzEjYKC2F0dGFjaG1lbnRz",
+            "GAEgAygLMiEuQWNGdW5EYW5tdS5JbS5NZXNzYWdlLkF0dGFjaG1lbnRiBnBy",
+            "b3RvMw=="));
+      descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
+          new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Message.AttachmentReflection.Descriptor, },
+          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Message.Attachments), global::AcFunDanmu.Im.Message.Attachments.Parser, new[]{ "Attachments_" }, null, null, null, null)
+          }));
+    }
+    #endregion
+
   }
+  #region Messages
+  public sealed partial class Attachments : pb::IMessage<Attachments>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<Attachments> _parser = new pb::MessageParser<Attachments>(() => new Attachments());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<Attachments> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::AcFunDanmu.Im.Message.AttachmentsReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public Attachments() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public Attachments(Attachments other) : this() {
+      attachments_ = other.attachments_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public Attachments Clone() {
+      return new Attachments(this);
+    }
+
+    /// <summary>Field number for the "attachments" field.</summary>
+    public const int Attachments_FieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AcFunDanmu.Im.Message.Attachment> _repeated_attachments_codec
+        = pb::FieldCodec.ForMessage(10, global::AcFunDanmu.Im.Message.Attachment.Parser);
+    private readonly pbc::RepeatedField<global::AcFunDanmu.Im.Message.Attachment> attachments_ = new pbc::RepeatedField<global::AcFunDanmu.Im.Message.Attachment>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::AcFunDanmu.Im.Message.Attachment> Attachments_ {
+      get { return attachments_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as Attachments);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(Attachments other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!attachments_.Equals(other.attachments_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= attachments_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      attachments_.WriteTo(output, _repeated_attachments_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      attachments_.WriteTo(ref output, _repeated_attachments_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += attachments_.CalculateSize(_repeated_attachments_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(Attachments other) {
+      if (other == null) {
+        return;
+      }
+      attachments_.Add(other.attachments_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            attachments_.AddEntriesFrom(input, _repeated_attachments_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            attachments_.AddEntriesFrom(ref input, _repeated_attachments_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   #endregion
 
 }

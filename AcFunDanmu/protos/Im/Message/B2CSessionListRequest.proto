@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "SyncCookie.proto";
+
+message B2CSessionListRequest {
+	Im.Basic.SyncCookie syncCookie = 1;
+	int32 categoryId = 2;
+	int32 localDataStatus = 3;
+}

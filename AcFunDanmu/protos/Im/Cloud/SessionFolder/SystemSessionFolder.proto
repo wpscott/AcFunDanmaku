@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+enum SystemSessionFolder {
+	UNKNOWN = 0;
+	FOLDER_DISPATCHING = 1;
+	FOLDER_SERVING = 2;
+	FOLDER_REPLY = 3;
+	FOLDER_AUTO_REPLY = 4;
+	FOLDER_TIMEOUT = 5;
+	FOLDER_CLOSED = 6;
+}

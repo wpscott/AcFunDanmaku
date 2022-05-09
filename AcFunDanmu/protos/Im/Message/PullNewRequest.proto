@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "User.proto";
+
+message PullNewRequest {
+	Im.Basic.User target = 1;
+	int64 minSeq = 2;
+	int32 count = 3;
+	int64 targetId = 4;
+	string strTargetId = 5;
+}

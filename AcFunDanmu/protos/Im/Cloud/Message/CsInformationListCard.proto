@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "CsCommonInfoItem.proto";
+
+message CsInformationListCard {
+	repeated CsCommonInfoItem commonInfoItem = 1;
+}

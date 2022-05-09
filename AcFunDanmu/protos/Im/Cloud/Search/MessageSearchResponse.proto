@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+import "Message.proto";
+
+message MessageSearchResponse {
+	repeated Im.Message.Message msg = 1;
+	string offset = 2;
+	bool hasMore = 3;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+
+message EnterSession {
+	ChatTarget chatTarget = 1;
+	string pageRefer = 2;
+	string extraInfo = 3;
+	string actionType = 4;
+}

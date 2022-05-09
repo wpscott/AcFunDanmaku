@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTargetType.proto";
+import "User.proto";
+
+message MessageReadRequest {
+	Im.Basic.User target = 1;
+	int64 readSeq = 2;
+	int64 targetId = 3;
+	string strTargetId = 4;
+	ChatTargetType chatTargetType = 5;
+}

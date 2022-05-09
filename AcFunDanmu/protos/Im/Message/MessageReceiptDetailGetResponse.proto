@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "User.proto";
+
+message MessageReceiptDetailGetResponse {
+	repeated Im.Basic.User readUser = 1;
+	repeated Im.Basic.User unreadUser = 2;
+}

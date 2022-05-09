@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message GroupJoinResponse {
+	JoinStatus joinStatus = 1;
+
+	enum JoinStatus {
+		UNKNOWN_STATUS = 0;
+		SUCC = 1;
+		PENDING = 2;
+	}
+}

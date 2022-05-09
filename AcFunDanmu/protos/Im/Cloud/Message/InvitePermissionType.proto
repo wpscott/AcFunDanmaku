@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum InvitePermissionType {
+	UNKNOWN_INVITE_PERMISSION_TYPE = 0;
+	EVERYONE = 1;
+	ONLY_ADMIN = 2;
+}

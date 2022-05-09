@@ -30,9 +30,9 @@ namespace AcFunDanmu.Im.Basic {
             "BXRva2VuGAIgASgMEhUKDWlzUGFzc1Rocm91Z2gYAyABKAgiwwEKCFB1c2hU",
             "eXBlEhQKEGtQdXNoVHlwZUludmFsaWQQABIRCg1rUHVzaFR5cGVBUE5TEAES",
             "EwoPa1B1c2hUeXBlWG1QdXNoEAISEwoPa1B1c2hUeXBlSmdQdXNoEAMSEwoP",
-            "a1B1c2hUeXBlR3RQVXNoEAQSEwoPa1B1c2hUeXBlT3BQdXNoEAUSEwoPa1B1",
-            "c2hUWXBlVnZQdXNoEAYSEwoPa1B1c2hUeXBlSHdQdXNoEAcSEAoMa1B1c2hU",
-            "WXBlRmNtEAhiBnByb3RvMw=="));
+            "a1B1c2hUeXBlR3RQdXNoEAQSEwoPa1B1c2hUeXBlT3BQdXNoEAUSEwoPa1B1",
+            "c2hUeXBlVnZQdXNoEAYSEwoPa1B1c2hUeXBlSHdQdXNoEAcSEAoMa1B1c2hU",
+            "eXBlRmNtEAhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -314,11 +314,11 @@ namespace AcFunDanmu.Im.Basic {
         [pbr::OriginalName("kPushTypeAPNS")] KPushTypeApns = 1,
         [pbr::OriginalName("kPushTypeXmPush")] KPushTypeXmPush = 2,
         [pbr::OriginalName("kPushTypeJgPush")] KPushTypeJgPush = 3,
-        [pbr::OriginalName("kPushTypeGtPUsh")] KPushTypeGtPush = 4,
+        [pbr::OriginalName("kPushTypeGtPush")] KPushTypeGtPush = 4,
         [pbr::OriginalName("kPushTypeOpPush")] KPushTypeOpPush = 5,
-        [pbr::OriginalName("kPushTYpeVvPush")] KPushTypeVvPush = 6,
+        [pbr::OriginalName("kPushTypeVvPush")] KPushTypeVvPush = 6,
         [pbr::OriginalName("kPushTypeHwPush")] KPushTypeHwPush = 7,
-        [pbr::OriginalName("kPushTYpeFcm")] KPushTypeFcm = 8,
+        [pbr::OriginalName("kPushTypeFcm")] KPushTypeFcm = 8,
       }
 
     }

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "MessageReceiveStatus.proto";
+
+message MessageStatusSettingListRequest {
+	MessageReceiveStatus status = 1;
+	string offset = 2;
+	int32 count = 3;
+}

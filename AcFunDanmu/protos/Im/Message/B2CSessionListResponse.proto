@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatSession.proto";
+import "SyncCookie.proto";
+
+message B2CSessionListResponse {
+	Im.Basic.SyncCookie syncCookie = 1;
+	repeated ChatSession sessions = 2;
+	bool notFullFetch = 3;
+	int64 serverTime = 4;
+	bool clearLocalData = 5;
+	int32 categoryId = 6;
+	int32 clientDataStatus = 7;
+}

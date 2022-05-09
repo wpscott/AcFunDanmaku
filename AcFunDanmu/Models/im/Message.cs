@@ -24,28 +24,28 @@ namespace AcFunDanmu.Im.Message {
     static MessageReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1NZXNzYWdlLnByb3RvEhVBY0Z1bkRhbm11LkltLk1lc3NhZ2UaClVzZXIu",
-            "cHJvdG8aDlJlbWluZGVyLnByb3RvItkFCgdNZXNzYWdlEg0KBXNlcUlkGAEg",
+            "Cg1NZXNzYWdlLnByb3RvEhVBY0Z1bkRhbm11LkltLk1lc3NhZ2UaDlJlbWlu",
+            "ZGVyLnByb3RvGgpVc2VyLnByb3RvItgFCgdNZXNzYWdlEg0KBXNlcUlkGAEg",
             "ASgDEhMKC2NsaWVudFNlcUlkGAIgASgDEhMKC3RpbWVzdGFtcE1zGAMgASgD",
             "EisKCGZyb21Vc2VyGAQgASgLMhkuQWNGdW5EYW5tdS5JbS5CYXNpYy5Vc2Vy",
             "EhAKCHRhcmdldElkGAUgASgDEikKBnRvVXNlchgGIAEoCzIZLkFjRnVuRGFu",
             "bXUuSW0uQmFzaWMuVXNlchINCgV0aXRsZRgHIAEoCRITCgtjb250ZW50VHlw",
-            "ZRgIIAEoBRIPCgdjb250ZW50GAkgASgMEhIKCmJ1Y2t1cFRpcHMYCiABKAkS",
+            "ZRgIIAEoBRIPCgdjb250ZW50GAkgASgMEhIKCmJhY2t1cFRpcHMYCiABKAkS",
             "LAoJcmVjZWl2ZXJzGAsgAygLMhkuQWNGdW5EYW5tdS5JbS5CYXNpYy5Vc2Vy",
-            "EhgKEG5vdENvbnRlbnRVbnJlYWQYDCABKAgSFwoPc2Vzc2lvblByaW9yaXR5",
-            "GA0gASgFEhkKEXNlc3Npb25DYXRlZ29yeUlkGA4gASgFEhoKEnNlc3Npb25B",
-            "Y2NvdW50VHlwZRgPIAEoBRIcChRub3RBdXRvQ3JlYXRlU2Vzc2lvbhgQIAEo",
-            "CBIYChB1c2VyUmVsYXRpb25zaGlwGBEgASgFEhMKC3N0clRhcmdldElkGBIg",
-            "ASgJEjMKEGV4Y2x1ZGVSZWNlaXZlcnMYEyADKAsyGS5BY0Z1bkRhbm11Lklt",
-            "LkJhc2ljLlVzZXISEQoJbWFya0RlbHRlGBQgASgIEjEKCHJlbWluZGVyGBUg",
-            "ASgLMh8uQWNGdW5EYW5tdS5JbS5NZXNzYWdlLlJlbWluZGVyEg0KBWV4dHJh",
-            "GBYgASgMEhcKD3JlY2VpcHRSZXF1aXJlZBgXIAEoCBIvCgxyZWFsRnJvbVVz",
-            "ZXIYGCABKAsyGS5BY0Z1bkRhbm11LkltLkJhc2ljLlVzZXISDwoHY3NFeHRy",
-            "YRgZIAEoDBIYChBzZXNzaW9uSW52aXNpYmxlGBogASgIYgZwcm90bzM="));
+            "EhYKDm5vdENvdW50VW5yZWFkGAwgASgIEhcKD3Nlc3Npb25Qcmlvcml0eRgN",
+            "IAEoBRIZChFzZXNzaW9uQ2F0ZWdvcnlJZBgOIAEoBRIaChJzZXNzaW9uQWNj",
+            "b3VudFR5cGUYDyABKAUSHAoUbm90QXV0b0NyZWF0ZVNlc3Npb24YECABKAgS",
+            "GAoQdXNlclJlbGF0aW9uc2hpcBgRIAEoBRITCgtzdHJUYXJnZXRJZBgSIAEo",
+            "CRIzChBleGNsdWRlUmVjZWl2ZXJzGBMgAygLMhkuQWNGdW5EYW5tdS5JbS5C",
+            "YXNpYy5Vc2VyEhIKCm1hcmtEZWxldGUYFCABKAgSMQoIcmVtaW5kZXIYFSAB",
+            "KAsyHy5BY0Z1bkRhbm11LkltLk1lc3NhZ2UuUmVtaW5kZXISDQoFZXh0cmEY",
+            "FiABKAwSFwoPcmVjZWlwdFJlcXVpcmVkGBcgASgIEi8KDHJlYWxGcm9tVXNl",
+            "chgYIAEoCzIZLkFjRnVuRGFubXUuSW0uQmFzaWMuVXNlchIPCgdjc0V4dHJh",
+            "GBkgASgMEhgKEHNlc3Npb25JbnZpc2libGUYGiABKAhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Basic.UserReflection.Descriptor, global::AcFunDanmu.Im.Message.ReminderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Message.ReminderReflection.Descriptor, global::AcFunDanmu.Im.Basic.UserReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Message.Message), global::AcFunDanmu.Im.Message.Message.Parser, new[]{ "SeqId", "ClientSeqId", "TimestampMs", "FromUser", "TargetId", "ToUser", "Title", "ContentType", "Content", "BuckupTips", "Receivers", "NotContentUnread", "SessionPriority", "SessionCategoryId", "SessionAccountType", "NotAutoCreateSession", "UserRelationship", "StrTargetId", "ExcludeReceivers", "MarkDelte", "Reminder", "Extra", "ReceiptRequired", "RealFromUser", "CsExtra", "SessionInvisible" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Message.Message), global::AcFunDanmu.Im.Message.Message.Parser, new[]{ "SeqId", "ClientSeqId", "TimestampMs", "FromUser", "TargetId", "ToUser", "Title", "ContentType", "Content", "BackupTips", "Receivers", "NotCountUnread", "SessionPriority", "SessionCategoryId", "SessionAccountType", "NotAutoCreateSession", "UserRelationship", "StrTargetId", "ExcludeReceivers", "MarkDelete", "Reminder", "Extra", "ReceiptRequired", "RealFromUser", "CsExtra", "SessionInvisible" }, null, null, null, null)
           }));
     }
     #endregion
@@ -95,9 +95,9 @@ namespace AcFunDanmu.Im.Message {
       title_ = other.title_;
       contentType_ = other.contentType_;
       content_ = other.content_;
-      buckupTips_ = other.buckupTips_;
+      backupTips_ = other.backupTips_;
       receivers_ = other.receivers_.Clone();
-      notContentUnread_ = other.notContentUnread_;
+      notCountUnread_ = other.notCountUnread_;
       sessionPriority_ = other.sessionPriority_;
       sessionCategoryId_ = other.sessionCategoryId_;
       sessionAccountType_ = other.sessionAccountType_;
@@ -105,7 +105,7 @@ namespace AcFunDanmu.Im.Message {
       userRelationship_ = other.userRelationship_;
       strTargetId_ = other.strTargetId_;
       excludeReceivers_ = other.excludeReceivers_.Clone();
-      markDelte_ = other.markDelte_;
+      markDelete_ = other.markDelete_;
       reminder_ = other.reminder_ != null ? other.reminder_.Clone() : null;
       extra_ = other.extra_;
       receiptRequired_ = other.receiptRequired_;
@@ -229,15 +229,15 @@ namespace AcFunDanmu.Im.Message {
       }
     }
 
-    /// <summary>Field number for the "buckupTips" field.</summary>
-    public const int BuckupTipsFieldNumber = 10;
-    private string buckupTips_ = "";
+    /// <summary>Field number for the "backupTips" field.</summary>
+    public const int BackupTipsFieldNumber = 10;
+    private string backupTips_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string BuckupTips {
-      get { return buckupTips_; }
+    public string BackupTips {
+      get { return backupTips_; }
       set {
-        buckupTips_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        backupTips_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -252,15 +252,15 @@ namespace AcFunDanmu.Im.Message {
       get { return receivers_; }
     }
 
-    /// <summary>Field number for the "notContentUnread" field.</summary>
-    public const int NotContentUnreadFieldNumber = 12;
-    private bool notContentUnread_;
+    /// <summary>Field number for the "notCountUnread" field.</summary>
+    public const int NotCountUnreadFieldNumber = 12;
+    private bool notCountUnread_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool NotContentUnread {
-      get { return notContentUnread_; }
+    public bool NotCountUnread {
+      get { return notCountUnread_; }
       set {
-        notContentUnread_ = value;
+        notCountUnread_ = value;
       }
     }
 
@@ -347,15 +347,15 @@ namespace AcFunDanmu.Im.Message {
       get { return excludeReceivers_; }
     }
 
-    /// <summary>Field number for the "markDelte" field.</summary>
-    public const int MarkDelteFieldNumber = 20;
-    private bool markDelte_;
+    /// <summary>Field number for the "markDelete" field.</summary>
+    public const int MarkDeleteFieldNumber = 20;
+    private bool markDelete_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool MarkDelte {
-      get { return markDelte_; }
+    public bool MarkDelete {
+      get { return markDelete_; }
       set {
-        markDelte_ = value;
+        markDelete_ = value;
       }
     }
 
@@ -455,9 +455,9 @@ namespace AcFunDanmu.Im.Message {
       if (Title != other.Title) return false;
       if (ContentType != other.ContentType) return false;
       if (Content != other.Content) return false;
-      if (BuckupTips != other.BuckupTips) return false;
+      if (BackupTips != other.BackupTips) return false;
       if(!receivers_.Equals(other.receivers_)) return false;
-      if (NotContentUnread != other.NotContentUnread) return false;
+      if (NotCountUnread != other.NotCountUnread) return false;
       if (SessionPriority != other.SessionPriority) return false;
       if (SessionCategoryId != other.SessionCategoryId) return false;
       if (SessionAccountType != other.SessionAccountType) return false;
@@ -465,7 +465,7 @@ namespace AcFunDanmu.Im.Message {
       if (UserRelationship != other.UserRelationship) return false;
       if (StrTargetId != other.StrTargetId) return false;
       if(!excludeReceivers_.Equals(other.excludeReceivers_)) return false;
-      if (MarkDelte != other.MarkDelte) return false;
+      if (MarkDelete != other.MarkDelete) return false;
       if (!object.Equals(Reminder, other.Reminder)) return false;
       if (Extra != other.Extra) return false;
       if (ReceiptRequired != other.ReceiptRequired) return false;
@@ -488,9 +488,9 @@ namespace AcFunDanmu.Im.Message {
       if (Title.Length != 0) hash ^= Title.GetHashCode();
       if (ContentType != 0) hash ^= ContentType.GetHashCode();
       if (Content.Length != 0) hash ^= Content.GetHashCode();
-      if (BuckupTips.Length != 0) hash ^= BuckupTips.GetHashCode();
+      if (BackupTips.Length != 0) hash ^= BackupTips.GetHashCode();
       hash ^= receivers_.GetHashCode();
-      if (NotContentUnread != false) hash ^= NotContentUnread.GetHashCode();
+      if (NotCountUnread != false) hash ^= NotCountUnread.GetHashCode();
       if (SessionPriority != 0) hash ^= SessionPriority.GetHashCode();
       if (SessionCategoryId != 0) hash ^= SessionCategoryId.GetHashCode();
       if (SessionAccountType != 0) hash ^= SessionAccountType.GetHashCode();
@@ -498,7 +498,7 @@ namespace AcFunDanmu.Im.Message {
       if (UserRelationship != 0) hash ^= UserRelationship.GetHashCode();
       if (StrTargetId.Length != 0) hash ^= StrTargetId.GetHashCode();
       hash ^= excludeReceivers_.GetHashCode();
-      if (MarkDelte != false) hash ^= MarkDelte.GetHashCode();
+      if (MarkDelete != false) hash ^= MarkDelete.GetHashCode();
       if (reminder_ != null) hash ^= Reminder.GetHashCode();
       if (Extra.Length != 0) hash ^= Extra.GetHashCode();
       if (ReceiptRequired != false) hash ^= ReceiptRequired.GetHashCode();
@@ -559,14 +559,14 @@ namespace AcFunDanmu.Im.Message {
         output.WriteRawTag(74);
         output.WriteBytes(Content);
       }
-      if (BuckupTips.Length != 0) {
+      if (BackupTips.Length != 0) {
         output.WriteRawTag(82);
-        output.WriteString(BuckupTips);
+        output.WriteString(BackupTips);
       }
       receivers_.WriteTo(output, _repeated_receivers_codec);
-      if (NotContentUnread != false) {
+      if (NotCountUnread != false) {
         output.WriteRawTag(96);
-        output.WriteBool(NotContentUnread);
+        output.WriteBool(NotCountUnread);
       }
       if (SessionPriority != 0) {
         output.WriteRawTag(104);
@@ -593,9 +593,9 @@ namespace AcFunDanmu.Im.Message {
         output.WriteString(StrTargetId);
       }
       excludeReceivers_.WriteTo(output, _repeated_excludeReceivers_codec);
-      if (MarkDelte != false) {
+      if (MarkDelete != false) {
         output.WriteRawTag(160, 1);
-        output.WriteBool(MarkDelte);
+        output.WriteBool(MarkDelete);
       }
       if (reminder_ != null) {
         output.WriteRawTag(170, 1);
@@ -667,14 +667,14 @@ namespace AcFunDanmu.Im.Message {
         output.WriteRawTag(74);
         output.WriteBytes(Content);
       }
-      if (BuckupTips.Length != 0) {
+      if (BackupTips.Length != 0) {
         output.WriteRawTag(82);
-        output.WriteString(BuckupTips);
+        output.WriteString(BackupTips);
       }
       receivers_.WriteTo(ref output, _repeated_receivers_codec);
-      if (NotContentUnread != false) {
+      if (NotCountUnread != false) {
         output.WriteRawTag(96);
-        output.WriteBool(NotContentUnread);
+        output.WriteBool(NotCountUnread);
       }
       if (SessionPriority != 0) {
         output.WriteRawTag(104);
@@ -701,9 +701,9 @@ namespace AcFunDanmu.Im.Message {
         output.WriteString(StrTargetId);
       }
       excludeReceivers_.WriteTo(ref output, _repeated_excludeReceivers_codec);
-      if (MarkDelte != false) {
+      if (MarkDelete != false) {
         output.WriteRawTag(160, 1);
-        output.WriteBool(MarkDelte);
+        output.WriteBool(MarkDelete);
       }
       if (reminder_ != null) {
         output.WriteRawTag(170, 1);
@@ -766,11 +766,11 @@ namespace AcFunDanmu.Im.Message {
       if (Content.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(Content);
       }
-      if (BuckupTips.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(BuckupTips);
+      if (BackupTips.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(BackupTips);
       }
       size += receivers_.CalculateSize(_repeated_receivers_codec);
-      if (NotContentUnread != false) {
+      if (NotCountUnread != false) {
         size += 1 + 1;
       }
       if (SessionPriority != 0) {
@@ -792,7 +792,7 @@ namespace AcFunDanmu.Im.Message {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(StrTargetId);
       }
       size += excludeReceivers_.CalculateSize(_repeated_excludeReceivers_codec);
-      if (MarkDelte != false) {
+      if (MarkDelete != false) {
         size += 2 + 1;
       }
       if (reminder_ != null) {
@@ -858,12 +858,12 @@ namespace AcFunDanmu.Im.Message {
       if (other.Content.Length != 0) {
         Content = other.Content;
       }
-      if (other.BuckupTips.Length != 0) {
-        BuckupTips = other.BuckupTips;
+      if (other.BackupTips.Length != 0) {
+        BackupTips = other.BackupTips;
       }
       receivers_.Add(other.receivers_);
-      if (other.NotContentUnread != false) {
-        NotContentUnread = other.NotContentUnread;
+      if (other.NotCountUnread != false) {
+        NotCountUnread = other.NotCountUnread;
       }
       if (other.SessionPriority != 0) {
         SessionPriority = other.SessionPriority;
@@ -884,8 +884,8 @@ namespace AcFunDanmu.Im.Message {
         StrTargetId = other.StrTargetId;
       }
       excludeReceivers_.Add(other.excludeReceivers_);
-      if (other.MarkDelte != false) {
-        MarkDelte = other.MarkDelte;
+      if (other.MarkDelete != false) {
+        MarkDelete = other.MarkDelete;
       }
       if (other.reminder_ != null) {
         if (reminder_ == null) {
@@ -969,7 +969,7 @@ namespace AcFunDanmu.Im.Message {
             break;
           }
           case 82: {
-            BuckupTips = input.ReadString();
+            BackupTips = input.ReadString();
             break;
           }
           case 90: {
@@ -977,7 +977,7 @@ namespace AcFunDanmu.Im.Message {
             break;
           }
           case 96: {
-            NotContentUnread = input.ReadBool();
+            NotCountUnread = input.ReadBool();
             break;
           }
           case 104: {
@@ -1009,7 +1009,7 @@ namespace AcFunDanmu.Im.Message {
             break;
           }
           case 160: {
-            MarkDelte = input.ReadBool();
+            MarkDelete = input.ReadBool();
             break;
           }
           case 170: {
@@ -1100,7 +1100,7 @@ namespace AcFunDanmu.Im.Message {
             break;
           }
           case 82: {
-            BuckupTips = input.ReadString();
+            BackupTips = input.ReadString();
             break;
           }
           case 90: {
@@ -1108,7 +1108,7 @@ namespace AcFunDanmu.Im.Message {
             break;
           }
           case 96: {
-            NotContentUnread = input.ReadBool();
+            NotCountUnread = input.ReadBool();
             break;
           }
           case 104: {
@@ -1140,7 +1140,7 @@ namespace AcFunDanmu.Im.Message {
             break;
           }
           case 160: {
-            MarkDelte = input.ReadBool();
+            MarkDelete = input.ReadBool();
             break;
           }
           case 170: {

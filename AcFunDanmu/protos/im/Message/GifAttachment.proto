@@ -3,10 +3,10 @@ syntax = "proto3";
 package AcFunDanmu.Im.Message;
 
 message GifAttachment {
-    string mimeType = 1;
-    string url = 2;
-    int32 width = 3;
-    int32 height = 4;
-    string thumbaUrl = 5;
-    string text = 6;
+	string mimeType = 1;
+	string url = 2;
+	int32 width = 3;
+	int32 height = 4;
+	string thumbaUrl = 5;
+	string text = 6;
 }

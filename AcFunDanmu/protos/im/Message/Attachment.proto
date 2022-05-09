@@ -2,16 +2,12 @@ syntax = "proto3";
 
 package AcFunDanmu.Im.Message;
 
-import "ImageAttachment.proto";
 import "AudioAttachment.proto";
+import "ImageAttachment.proto";
 
 message Attachment {
-    oneof attacmnent {
-        ImageAttachment imageAttachment = 1;
-        AudioAttachment audioAttachment = 2;
-    }
-}
-
-message Attachments {
-    repeated Attachment attachments = 1;
+	oneof attachment {
+		ImageAttachment imageAttachment = 1;
+		AudioAttachment audioAttachment = 2;
+	}
 }

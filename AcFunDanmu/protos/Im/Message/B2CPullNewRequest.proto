@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message B2CPullNewRequest {
+	string strTargetId = 1;
+	int64 minSeq = 2;
+	int32 count = 3;
+}

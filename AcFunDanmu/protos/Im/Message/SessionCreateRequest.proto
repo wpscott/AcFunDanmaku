@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+
+message SessionCreateRequest {
+	ChatTarget chatTarget = 1;
+}

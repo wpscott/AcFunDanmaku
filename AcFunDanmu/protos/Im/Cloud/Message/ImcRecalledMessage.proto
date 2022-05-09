@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "ImcNoticeMessage.proto";
+import "Message.proto";
+
+message ImcRecalledMessage {
+	Im.Message.Message originMsg = 1;
+	ImcNoticeMessage noticeMsg = 2;
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum GroupJoinStatus {
+	INVITE_STATUS = 0;
+	AGREE = 1;
+	REFUSE = 2;
+	APPLYING = 3;
+	OUT_OF_GROUP = 4;
+}

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "PicUrl.proto";
+
+message Emoticon {
+	string id = 1;
+	string packageId = 2;
+	string name = 3;
+	Type type = 4;
+	repeated PicUrl bigUrl = 5;
+	int32 width = 6;
+	int32 height = 7;
+	repeated Code emoticonCode = 8;
+
+	enum Type {
+		UNKNOWN = 0;
+		BASIC = 1;
+		IMAGE = 2;
+		GIF = 3;
+		SPECIAL_EFFECT = 4;
+		SCRIPT = 5;
+	}
+	message Code {
+		string language = 1;
+		repeated string code = 2;
+	}
+}

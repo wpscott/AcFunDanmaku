@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "ChatTarget.proto";
+
+message SessionReference {
+	Im.Message.ChatTarget chatTarget = 1;
+	int64 priority = 2;
+}

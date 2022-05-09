@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+import "User.proto";
+import "VoiceCallAcceptedEvent.proto";
+import "VoiceCallAlreadyProcessedEvent.proto";
+import "VoiceCallCancelledEvent.proto";
+import "VoiceCallClosedEvent.proto";
+import "VoiceCallDetailUpdateEvent.proto";
+import "VoiceCallRejectedEvent.proto";
+import "VoiceCallRequestEvent.proto";
+import "VoiceCallTimeoutEvent.proto";
+
+message VoiceCallEventPush {
+	oneof voiceCallEvent {
+		VoiceCallRequestEvent requestEvent = 20;
+		VoiceCallAcceptedEvent acceptedEvent = 21;
+		VoiceCallRejectedEvent rejectedEvent = 22;
+		VoiceCallClosedEvent closedEvent = 23;
+		VoiceCallCancelledEvent cancelledEvent = 24;
+		VoiceCallAlreadyProcessedEvent alreadyProcessedEvent = 25;
+		VoiceCallTimeoutEvent timeoutEvent = 26;
+		VoiceCallDetailUpdateEvent detailUpdateEvent = 27;
+	}
+
+	string roomId = 1;
+	Im.Basic.User operator = 2;
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+import "MessageReceiveStatus.proto";
+
+message MessageReceiveStatusSettingRequest {
+	ChatTarget chatTarget = 1;
+	MessageReceiveStatus status = 2;
+}

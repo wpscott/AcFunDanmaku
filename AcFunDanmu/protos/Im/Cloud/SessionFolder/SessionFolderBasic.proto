@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+message SessionFolderBasic {
+	string sessionFolderId = 1;
+	string name = 2;
+	bytes extra = 3;
+	bool deleted = 4;
+	string iconUrl = 5;
+	int32 folderPriority = 6;
+}

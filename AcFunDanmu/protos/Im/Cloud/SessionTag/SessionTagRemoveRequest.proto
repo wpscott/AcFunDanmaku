@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionTag;
+
+import "ChatTarget.proto";
+
+message SessionTagRemoveRequest {
+	Im.Message.ChatTarget chatTarget = 1;
+}

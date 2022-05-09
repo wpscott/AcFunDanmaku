@@ -25,20 +25,20 @@ namespace AcFunDanmu.Im.Basic {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChVVcHN0cmVhbVBheWxvYWQucHJvdG8SE0FjRnVuRGFubXUuSW0uQmFzaWMa",
-            "ElVzZXJJbnN0YW5jZS5wcm90bxoRU2V0dGluZ0luZm8ucHJvdG8aFlJlcXVl",
-            "c3RCYXNpY0luZm8ucHJvdG8aEkZyb250ZW5kSW5mby5wcm90byKcAwoPVXBz",
+            "EkZyb250ZW5kSW5mby5wcm90bxoWUmVxdXNldEJhc2ljSW5mby5wcm90bxoR",
+            "U2V0dGluZ0luZm8ucHJvdG8aElVzZXJJbnN0YW5jZS5wcm90byKcAwoPVXBz",
             "dHJlYW1QYXlsb2FkEg8KB2NvbW1hbmQYASABKAkSDQoFc2VxSWQYAiABKAMS",
             "EgoKcmV0cnlDb3VudBgDIAEoDRITCgtwYXlsb2FkRGF0YRgEIAEoDBI3Cgx1",
             "c2VySW5zdGFuY2UYBSABKAsyIS5BY0Z1bkRhbm11LkltLkJhc2ljLlVzZXJJ",
             "bnN0YW5jZRIRCgllcnJvckNvZGUYBiABKAUSNQoLc2V0dGluZ0luZm8YByAB",
             "KAsyIC5BY0Z1bkRhbm11LkltLkJhc2ljLlNldHRpbmdJbmZvEj8KEHJlcXVl",
-            "c3RCYXNpY0luZm8YCCABKAsyJS5BY0Z1bkRhbm11LkltLkJhc2ljLlJlcXVl",
-            "c3RCYXNpY0luZm8SDgoGc3ViQml6GAkgASgJEjcKDGZyb250ZW5kSW5mbxgK",
+            "c3RCYXNpY0luZm8YCCABKAsyJS5BY0Z1bkRhbm11LkltLkJhc2ljLlJlcXVz",
+            "ZXRCYXNpY0luZm8SDgoGc3ViQml6GAkgASgJEjcKDGZyb250ZW5kSW5mbxgK",
             "IAEoCzIhLkFjRnVuRGFubXUuSW0uQmFzaWMuRnJvbnRlbmRJbmZvEgsKA2tw",
             "bhgLIAEoCRIWCg5hbm9ueW1vdXNlVXNlchgMIAEoCBIOCgZsYW5lSWQYDSAB",
             "KAliBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Basic.UserInstanceReflection.Descriptor, global::AcFunDanmu.Im.Basic.SettingInfoReflection.Descriptor, global::AcFunDanmu.Im.Basic.RequestBasicInfoReflection.Descriptor, global::AcFunDanmu.Im.Basic.FrontendInfoReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Basic.FrontendInfoReflection.Descriptor, global::AcFunDanmu.Im.Basic.RequsetBasicInfoReflection.Descriptor, global::AcFunDanmu.Im.Basic.SettingInfoReflection.Descriptor, global::AcFunDanmu.Im.Basic.UserInstanceReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Basic.UpstreamPayload), global::AcFunDanmu.Im.Basic.UpstreamPayload.Parser, new[]{ "Command", "SeqId", "RetryCount", "PayloadData", "UserInstance", "ErrorCode", "SettingInfo", "RequestBasicInfo", "SubBiz", "FrontendInfo", "Kpn", "AnonymouseUser", "LaneId" }, null, null, null, null)
           }));
@@ -189,10 +189,10 @@ namespace AcFunDanmu.Im.Basic {
 
     /// <summary>Field number for the "requestBasicInfo" field.</summary>
     public const int RequestBasicInfoFieldNumber = 8;
-    private global::AcFunDanmu.Im.Basic.RequestBasicInfo requestBasicInfo_;
+    private global::AcFunDanmu.Im.Basic.RequsetBasicInfo requestBasicInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::AcFunDanmu.Im.Basic.RequestBasicInfo RequestBasicInfo {
+    public global::AcFunDanmu.Im.Basic.RequsetBasicInfo RequestBasicInfo {
       get { return requestBasicInfo_; }
       set {
         requestBasicInfo_ = value;
@@ -529,7 +529,7 @@ namespace AcFunDanmu.Im.Basic {
       }
       if (other.requestBasicInfo_ != null) {
         if (requestBasicInfo_ == null) {
-          RequestBasicInfo = new global::AcFunDanmu.Im.Basic.RequestBasicInfo();
+          RequestBasicInfo = new global::AcFunDanmu.Im.Basic.RequsetBasicInfo();
         }
         RequestBasicInfo.MergeFrom(other.RequestBasicInfo);
       }
@@ -602,7 +602,7 @@ namespace AcFunDanmu.Im.Basic {
           }
           case 66: {
             if (requestBasicInfo_ == null) {
-              RequestBasicInfo = new global::AcFunDanmu.Im.Basic.RequestBasicInfo();
+              RequestBasicInfo = new global::AcFunDanmu.Im.Basic.RequsetBasicInfo();
             }
             input.ReadMessage(RequestBasicInfo);
             break;
@@ -681,7 +681,7 @@ namespace AcFunDanmu.Im.Basic {
           }
           case 66: {
             if (requestBasicInfo_ == null) {
-              RequestBasicInfo = new global::AcFunDanmu.Im.Basic.RequestBasicInfo();
+              RequestBasicInfo = new global::AcFunDanmu.Im.Basic.RequsetBasicInfo();
             }
             input.ReadMessage(RequestBasicInfo);
             break;

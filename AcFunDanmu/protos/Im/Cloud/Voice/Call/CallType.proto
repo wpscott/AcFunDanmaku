@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+enum CallType {
+	CT_UNKNOWN = 0;
+	VOICE = 1;
+	VIDEO = 2;
+}

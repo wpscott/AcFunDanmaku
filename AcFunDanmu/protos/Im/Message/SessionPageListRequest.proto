@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message SessionPageListRequest {
+	string cursor = 1;
+	int32 count = 2;
+	int32 categoryId = 3;
+}

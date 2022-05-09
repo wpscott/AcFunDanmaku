@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+message PublicGroupHit {
+	PublicGroupMatchType matchType = 1;
+
+	enum PublicGroupMatchType {
+		UNKNOWN_PGMT = 0;
+		GROUP_NAME = 1;
+		GROUP_ID = 2;
+		GROUP_NUMBER = 3;
+	}
+}

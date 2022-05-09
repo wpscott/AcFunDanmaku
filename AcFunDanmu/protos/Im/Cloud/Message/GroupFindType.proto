@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum GroupFindType {
+	BY_UNKNOWN = 0;
+	BY_ID = 1;
+	BY_NAME = 2;
+	BY_QR_CODE = 3;
+	BY_CARD = 4;
+	BY_INVITATION = 5;
+	BY_SHARE_LINK = 6;
+	BY_PROFILE = 7;
+	BY_SEARCH = 8;
+	BY_NEWS = 9;
+}

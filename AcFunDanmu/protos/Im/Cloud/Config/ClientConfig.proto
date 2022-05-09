@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Config;
+
+import "ClientStatisticalDataConfig.proto";
+import "NetworkQualityDetectionConfig.proto";
+import "SubBizAggregationConfig.proto";
+
+message ClientConfig {
+	int32 fetchUserStatusInterval = 1;
+	int32 channelUserHeartbeatInterval = 2;
+	NetworkQualityDetectionConfig networkQualityDetectionConfig = 3;
+	int32 inputtingTipDisplayInterval = 4;
+	int32 batchSendMessageMaxCount = 5;
+	string resourceUploadingDomain = 6;
+	int32 ktpFileLenThreshold = 7;
+	string ktpUploadingDomain = 8;
+	int32 clientSyncMinIntervalMs = 9;
+	int32 downloadFileMaxLenPerRequest = 10;
+	ClientStatisticalDataConfig clientStatisticalDataConfig = 11;
+	int32 maxMessageBytesLength = 12;
+	bool sessionDeletionNotOverAllDevice = 13;
+	SubBizAggregationConfig subBizAggregationConfig = 14;
+	int32 countVisibleMessageThreshold = 15;
+	bool disableSessionSyncWhenAppSwitchToForeground = 16;
+	int32 maxMessagesPreloadAfterSessionSync = 17;
+	int32 maxSessionsNeedPreloadMessageAfterSessionSync = 18;
+	string ztImApiDomain = 19;
+	int32 voiceCallTimeoutInterval = 20;
+	int32 voiceCallHeartbeatInterval = 21;
+	repeated int32 clickMessageType = 22;
+	int32 autoRetryMaxInterval = 23;
+	int32 autoRetryMaxTimes = 24;
+}

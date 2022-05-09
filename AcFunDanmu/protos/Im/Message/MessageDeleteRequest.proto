@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTargetType.proto";
+
+message MessageDeleteRequest {
+	int64 targetId = 1;
+	ChatTargetType chatTargetType = 2;
+	repeated int64 seqId = 3;
+	string strTargetId = 4;
+}

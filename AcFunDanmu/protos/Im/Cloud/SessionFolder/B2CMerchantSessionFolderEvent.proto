@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "SessionReference.proto";
+import "User.proto";
+
+message B2CMerchantSessionFolderEvent {
+	Im.Basic.User user = 1;
+	int32 subBizId = 2;
+	SessionReference sessionRef = 3;
+	string sessionFolderId = 4;
+	bool deleted = 5;
+	int64 updateTime = 6;
+	int64 createTime = 7;
+	int32 retryCount = 8;
+}

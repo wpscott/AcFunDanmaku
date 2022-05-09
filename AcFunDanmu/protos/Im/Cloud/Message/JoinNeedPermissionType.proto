@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum JoinNeedPermissionType {
+	UNKNOWN_JOIN_NEED_PERMISSION_TYPE = 0;
+	NONE = 1;
+	ADMIN = 2;
+}

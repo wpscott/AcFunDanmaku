@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "SessionFolderBasic.proto";
+import "SessionReference.proto";
+
+message SessionFolderInfo {
+	SessionFolderBasic sessionFolderBasic = 1;
+	repeated SessionReference sessionReference = 2;
+}

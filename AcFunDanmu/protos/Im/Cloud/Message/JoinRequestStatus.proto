@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum JoinRequestStatus {
+	UNKNOWN_STATUS = 0;
+	REQUESTED = 1;
+	APPROVED = 2;
+	REFUSED = 3;
+	REQUEST_INVALID = 4;
+}

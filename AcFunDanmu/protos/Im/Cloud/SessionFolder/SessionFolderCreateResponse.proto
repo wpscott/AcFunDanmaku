@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "SessionFolderInfo.proto";
+
+message SessionFolderCreateResponse {
+	SessionFolderInfo sessionFolderInfo = 1;
+}

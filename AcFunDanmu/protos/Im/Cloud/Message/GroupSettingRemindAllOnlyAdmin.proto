@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message GroupSettingRemindAllOnlyAdmin {
+	bool onlyAdminRemindAll = 1;
+}

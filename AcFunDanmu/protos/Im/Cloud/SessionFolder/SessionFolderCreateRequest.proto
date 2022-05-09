@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "ChatTarget.proto";
+
+message SessionFolderCreateRequest {
+	string name = 1;
+	bytes extra = 2;
+	string iconUrl = 3;
+	repeated Im.Message.ChatTarget chatTarget = 4;
+}

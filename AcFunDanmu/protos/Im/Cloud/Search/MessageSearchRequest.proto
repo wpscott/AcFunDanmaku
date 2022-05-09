@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+import "ChatTarget.proto";
+import "ImcMessageType.proto";
+import "TimeFilter.proto";
+import "User.proto";
+
+message MessageSearchRequest {
+	Im.Message.ChatTarget chatTarget = 1;
+	Im.Basic.User from = 2;
+	repeated Im.Cloud.Message.ImcMessageType msgType = 3;
+	repeated string fileName = 4;
+	repeated string query = 5;
+	string offset = 6;
+	TimeFilter timeFilter = 7;
+	int32 msgCountPerSession = 8;
+	repeated int32 messageType = 9;
+	bool searchAfterOffset = 10;
+}

@@ -3,8 +3,8 @@ syntax = "proto3";
 package AcFunDanmu.Im.Message;
 
 enum KsUserRelationShip {
-    kUNKNOW = 0;
-    FOLLOW_EACH_OTHER = 1;
-    TO_FOLLOW_FROM = 2;
-    FROM_FOLLOW_TO = 3;
+	kUNKNOW = 0;
+	FOLLOW_EACH_OTHER = 1;
+	TO_FOLLOW_FROM = 2;
+	FROM_FOLLOW_TO = 3;
 }

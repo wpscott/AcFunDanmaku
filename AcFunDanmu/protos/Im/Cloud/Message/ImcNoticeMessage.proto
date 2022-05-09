@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "NoticePlaceholderMeta.proto";
+
+message ImcNoticeMessage {
+	string text = 1;
+	repeated NoticePlaceholderMeta noticePlaceholderMeta = 2;
+	int32 noticeMetaType = 3;
+	bytes noticeMetaInfo = 4;
+	int32 displayStyle = 5;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "SendMessageResponse.proto";
+
+message MessageBatchSendResponse {
+	repeated SendMessageResponse response = 1;
+}

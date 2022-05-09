@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+message BasicSearchRequest {
+	string query = 1;
+	repeated string sessionFolderId = 2;
+}

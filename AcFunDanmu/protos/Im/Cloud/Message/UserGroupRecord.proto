@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message UserGroupRecord {
+	string groupId = 1;
+	int64 updateTime = 2;
+}

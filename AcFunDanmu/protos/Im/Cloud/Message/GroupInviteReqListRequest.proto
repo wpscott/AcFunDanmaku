@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message GroupInviteReqListRequest {
+	string offset = 1;
+	int32 count = 2;
+}

@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message InputtingContent {
+	int32 displayInterval = 1;
+	int32 typingType = 2;
+}

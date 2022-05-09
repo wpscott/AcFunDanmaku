@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Channel;
+
+message ChannelSubscribeRequest {
+	string channelId = 1;
+	bool setBarrier = 2;
+}

@@ -25,16 +25,16 @@ namespace AcFunDanmu.Im.Basic {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChhBY2Nlc3NQb2ludHNDb25maWcucHJvdG8SE0FjRnVuRGFubXUuSW0uQmFz",
-            "aWMaEUFjY2Vzc1BvaW50LnByb3RvItgBChJBY2Nlc3NQb2ludHNDb25maWcS",
+            "aWMaEUFjY2Vzc1BvaW50LnByb3RvItcBChJBY2Nlc3NQb2ludHNDb25maWcS",
             "NAoKb3B0aW1hbEFwcxgBIAMoCzIgLkFjRnVuRGFubXUuSW0uQmFzaWMuQWNj",
             "ZXNzUG9pbnQSMwoJYmFja3VwQXBzGAIgAygLMiAuQWNGdW5EYW5tdS5JbS5C",
-            "YXNpYy5BY2Nlc3NQb2ludBIWCg5hdmFpbGFibGVQb3J0cxgDIAMoDRI/ChVm",
-            "b3JlY2VMYXN0Q29ubmVjdGVkQXAYBCABKAsyIC5BY0Z1bkRhbm11LkltLkJh",
-            "c2ljLkFjY2Vzc1BvaW50YgZwcm90bzM="));
+            "YXNpYy5BY2Nlc3NQb2ludBIWCg5hdmFpbGFibGVQb3J0cxgDIAMoDRI+ChRm",
+            "b3JjZUxhc3RDb25uZWN0ZWRBcBgEIAEoCzIgLkFjRnVuRGFubXUuSW0uQmFz",
+            "aWMuQWNjZXNzUG9pbnRiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Basic.AccessPointReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Basic.AccessPointsConfig), global::AcFunDanmu.Im.Basic.AccessPointsConfig.Parser, new[]{ "OptimalAps", "BackupAps", "AvailablePorts", "ForeceLastConnectedAp" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Basic.AccessPointsConfig), global::AcFunDanmu.Im.Basic.AccessPointsConfig.Parser, new[]{ "OptimalAps", "BackupAps", "AvailablePorts", "ForceLastConnectedAp" }, null, null, null, null)
           }));
     }
     #endregion
@@ -78,7 +78,7 @@ namespace AcFunDanmu.Im.Basic {
       optimalAps_ = other.optimalAps_.Clone();
       backupAps_ = other.backupAps_.Clone();
       availablePorts_ = other.availablePorts_.Clone();
-      foreceLastConnectedAp_ = other.foreceLastConnectedAp_ != null ? other.foreceLastConnectedAp_.Clone() : null;
+      forceLastConnectedAp_ = other.forceLastConnectedAp_ != null ? other.forceLastConnectedAp_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -121,15 +121,15 @@ namespace AcFunDanmu.Im.Basic {
       get { return availablePorts_; }
     }
 
-    /// <summary>Field number for the "foreceLastConnectedAp" field.</summary>
-    public const int ForeceLastConnectedApFieldNumber = 4;
-    private global::AcFunDanmu.Im.Basic.AccessPoint foreceLastConnectedAp_;
+    /// <summary>Field number for the "forceLastConnectedAp" field.</summary>
+    public const int ForceLastConnectedApFieldNumber = 4;
+    private global::AcFunDanmu.Im.Basic.AccessPoint forceLastConnectedAp_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::AcFunDanmu.Im.Basic.AccessPoint ForeceLastConnectedAp {
-      get { return foreceLastConnectedAp_; }
+    public global::AcFunDanmu.Im.Basic.AccessPoint ForceLastConnectedAp {
+      get { return forceLastConnectedAp_; }
       set {
-        foreceLastConnectedAp_ = value;
+        forceLastConnectedAp_ = value;
       }
     }
 
@@ -151,7 +151,7 @@ namespace AcFunDanmu.Im.Basic {
       if(!optimalAps_.Equals(other.optimalAps_)) return false;
       if(!backupAps_.Equals(other.backupAps_)) return false;
       if(!availablePorts_.Equals(other.availablePorts_)) return false;
-      if (!object.Equals(ForeceLastConnectedAp, other.ForeceLastConnectedAp)) return false;
+      if (!object.Equals(ForceLastConnectedAp, other.ForceLastConnectedAp)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -162,7 +162,7 @@ namespace AcFunDanmu.Im.Basic {
       hash ^= optimalAps_.GetHashCode();
       hash ^= backupAps_.GetHashCode();
       hash ^= availablePorts_.GetHashCode();
-      if (foreceLastConnectedAp_ != null) hash ^= ForeceLastConnectedAp.GetHashCode();
+      if (forceLastConnectedAp_ != null) hash ^= ForceLastConnectedAp.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -184,9 +184,9 @@ namespace AcFunDanmu.Im.Basic {
       optimalAps_.WriteTo(output, _repeated_optimalAps_codec);
       backupAps_.WriteTo(output, _repeated_backupAps_codec);
       availablePorts_.WriteTo(output, _repeated_availablePorts_codec);
-      if (foreceLastConnectedAp_ != null) {
+      if (forceLastConnectedAp_ != null) {
         output.WriteRawTag(34);
-        output.WriteMessage(ForeceLastConnectedAp);
+        output.WriteMessage(ForceLastConnectedAp);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -201,9 +201,9 @@ namespace AcFunDanmu.Im.Basic {
       optimalAps_.WriteTo(ref output, _repeated_optimalAps_codec);
       backupAps_.WriteTo(ref output, _repeated_backupAps_codec);
       availablePorts_.WriteTo(ref output, _repeated_availablePorts_codec);
-      if (foreceLastConnectedAp_ != null) {
+      if (forceLastConnectedAp_ != null) {
         output.WriteRawTag(34);
-        output.WriteMessage(ForeceLastConnectedAp);
+        output.WriteMessage(ForceLastConnectedAp);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -218,8 +218,8 @@ namespace AcFunDanmu.Im.Basic {
       size += optimalAps_.CalculateSize(_repeated_optimalAps_codec);
       size += backupAps_.CalculateSize(_repeated_backupAps_codec);
       size += availablePorts_.CalculateSize(_repeated_availablePorts_codec);
-      if (foreceLastConnectedAp_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ForeceLastConnectedAp);
+      if (forceLastConnectedAp_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ForceLastConnectedAp);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -236,11 +236,11 @@ namespace AcFunDanmu.Im.Basic {
       optimalAps_.Add(other.optimalAps_);
       backupAps_.Add(other.backupAps_);
       availablePorts_.Add(other.availablePorts_);
-      if (other.foreceLastConnectedAp_ != null) {
-        if (foreceLastConnectedAp_ == null) {
-          ForeceLastConnectedAp = new global::AcFunDanmu.Im.Basic.AccessPoint();
+      if (other.forceLastConnectedAp_ != null) {
+        if (forceLastConnectedAp_ == null) {
+          ForceLastConnectedAp = new global::AcFunDanmu.Im.Basic.AccessPoint();
         }
-        ForeceLastConnectedAp.MergeFrom(other.ForeceLastConnectedAp);
+        ForceLastConnectedAp.MergeFrom(other.ForceLastConnectedAp);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -271,10 +271,10 @@ namespace AcFunDanmu.Im.Basic {
             break;
           }
           case 34: {
-            if (foreceLastConnectedAp_ == null) {
-              ForeceLastConnectedAp = new global::AcFunDanmu.Im.Basic.AccessPoint();
+            if (forceLastConnectedAp_ == null) {
+              ForceLastConnectedAp = new global::AcFunDanmu.Im.Basic.AccessPoint();
             }
-            input.ReadMessage(ForeceLastConnectedAp);
+            input.ReadMessage(ForceLastConnectedAp);
             break;
           }
         }
@@ -306,10 +306,10 @@ namespace AcFunDanmu.Im.Basic {
             break;
           }
           case 34: {
-            if (foreceLastConnectedAp_ == null) {
-              ForeceLastConnectedAp = new global::AcFunDanmu.Im.Basic.AccessPoint();
+            if (forceLastConnectedAp_ == null) {
+              ForceLastConnectedAp = new global::AcFunDanmu.Im.Basic.AccessPoint();
             }
-            input.ReadMessage(ForeceLastConnectedAp);
+            input.ReadMessage(ForceLastConnectedAp);
             break;
           }
         }

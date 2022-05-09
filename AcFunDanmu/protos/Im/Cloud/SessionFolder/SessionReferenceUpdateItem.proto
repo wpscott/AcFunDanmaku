@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "SessionReference.proto";
+
+message SessionReferenceUpdateItem {
+	SessionReference sessionReference = 1;
+	string sessionFolderId = 2;
+}

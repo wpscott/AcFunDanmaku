@@ -3,7 +3,7 @@ syntax = "proto3";
 package AcFunDanmu.Im.Message;
 
 enum SessionAggregationType {
-    UNKNOWN_AGGREGATION_TYPE = 0;
-    AGGREGATE = 1;
-    CANCEL_AGGREGATION = 2;
+	UNKNOWN_AGGREGATION_TYPE = 0;
+	AGGREGATE = 1;
+	CANCEL_AGGREGATION = 2;
 }

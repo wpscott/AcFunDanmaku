@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message GroupKickRequest {
+	string groupId = 1;
+	repeated Im.Basic.User target = 2;
+	bool ignoreFutureJoinRequest = 3;
+}

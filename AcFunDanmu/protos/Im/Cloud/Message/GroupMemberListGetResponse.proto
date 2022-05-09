@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupMember.proto";
+import "SyncCookie.proto";
+
+message GroupMemberListGetResponse {
+	repeated GroupMember members = 1;
+	Im.Basic.SyncCookie syncCookie = 2;
+}

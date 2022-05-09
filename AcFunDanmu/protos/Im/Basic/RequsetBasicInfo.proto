@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+import "AppInfo.proto";
+import "DeviceInfo.proto";
+import "EnvInfo.proto";
+
+message RequsetBasicInfo {
+	DeviceInfo.PlatformType clientType = 1;
+	string deviceId = 2;
+	string clientIp = 3;
+	string appVersion = 4;
+	string channel = 5;
+	AppInfo appInfo = 6;
+	DeviceInfo deviceInfo = 7;
+	EnvInfo envInfo = 8;
+	int32 clientPort = 9;
+	string location = 10;
+	string kpf = 11;
+	string clientIpV6 = 12;
+}

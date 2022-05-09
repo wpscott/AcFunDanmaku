@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+import "GroupMsgSearchResult.proto";
+import "GroupSearchResult.proto";
+import "UserMsgSearchResult.proto";
+import "UserSearchResult.proto";
+
+message BasicWithMsgSearchResponse {
+	repeated UserSearchResult userResult = 1;
+	repeated GroupSearchResult groupResult = 2;
+	repeated UserMsgSearchResult userMsgResult = 3;
+	repeated GroupMsgSearchResult groupMsgResult = 4;
+}

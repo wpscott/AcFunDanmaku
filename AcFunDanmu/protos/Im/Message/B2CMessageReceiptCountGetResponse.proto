@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "B2CMessageReceiptStatus.proto";
+
+message B2CMessageReceiptCountGetResponse {
+	repeated B2CMessageReceiptStatus status = 1;
+}

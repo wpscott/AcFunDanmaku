@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+import "SessionAggregationType.proto";
+
+message SessionAggregationRequest {
+	SessionAggregationType aggregationType = 1;
+	repeated ChatTarget chatTarget = 2;
+	int32 categoryId = 3;
+}

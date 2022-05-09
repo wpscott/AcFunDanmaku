@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "SessionReference.proto";
+
+message SessionFolderMoveRefRequest {
+	repeated SessionReference sessionReference = 1;
+	string sourceSessionFolderId = 2;
+	string targetSessionFolderId = 3;
+}

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+import "CallParam.proto";
+import "User.proto";
+
+message VoiceCallUserStatus {
+	Im.Basic.User user = 1;
+	UserCallStatus status = 2;
+	int64 acceptTimeMs = 3;
+	CallParam callParam = 4;
+
+	enum UserCallStatus {
+		US_UNKNOWN = 0;
+		ACCEPTED = 1;
+		REJECTED = 2;
+		REQUESTING = 3;
+		NORMAL_CLOSED = 4;
+		TIMEOUT_CLOSED = 5;
+		BUSYING = 6;
+		FINISHED = 7;
+	}
+}

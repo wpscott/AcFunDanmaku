@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupMemberSilenceInfo.proto";
+
+message GroupSettingMemberSilence {
+	bool muteAll = 1;
+	repeated GroupMemberSilenceInfo memberSilenceInfo = 2;
+}

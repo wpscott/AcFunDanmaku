@@ -3,5 +3,5 @@ syntax = "proto3";
 package AcFunDanmu.Im.Message;
 
 message SessionRaw {
-    map<string, bytes> raw = 1;
-} 
+	map<string,bytes> raw = 1;
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "ChatTarget.proto";
+import "User.proto";
+
+message ImcPassThroughPush {
+	Im.Message.ChatTarget chatTarget = 1;
+	Im.Basic.User fromUser = 2;
+	bytes content = 3;
+	int32 contentType = 4;
+}

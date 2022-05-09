@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message CsEvaluationMessageContent {
+	int64 targetId = 1;
+	repeated EvaluationOption evaluationOption = 2;
+	string title = 3;
+
+	message EvaluationOption {
+		string url = 1;
+		string grayUrl = 2;
+		string optionTxt = 3;
+		int32 optionType = 4;
+		bool selected = 5;
+		repeated EvaluationSecondaryOption secondaryOption = 6;
+		string subTitle = 7;
+	}
+	message EvaluationSecondaryOption {
+		bool selected = 1;
+		string optionTxt = 2;
+	}
+}

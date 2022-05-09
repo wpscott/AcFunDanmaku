@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+import "User.proto";
+
+message CloseVoiceCallRequest {
+	string roomId = 1;
+	CloseReason reason = 2;
+	Im.Basic.User nextHost = 3;
+
+	enum CloseReason {
+		CR_UNKNOWN = 0;
+		NORMAL = 1;
+		CANCELLED = 2;
+		TIMEOUT = 3;
+		FINISHED = 4;
+	}
+}

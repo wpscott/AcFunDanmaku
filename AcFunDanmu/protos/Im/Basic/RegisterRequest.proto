@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+import "AppInfo.proto";
+import "DeviceInfo.proto";
+import "EnvInfo.proto";
+import "PushServiceToken.proto";
+import "ZtCommonInfo.proto";
+
+message RegisterRequest {
+	AppInfo appInfo = 1;
+	DeviceInfo deviceInfo = 2;
+	EnvInfo envInfo = 3;
+	PresenceStatus presenceStatus = 4;
+	ActiveStatus appActiveStatus = 5;
+	bytes appCustomStatus = 6;
+	PushServiceToken pushServiceToken = 7;
+	int64 instanceId = 8;
+	repeated PushServiceToken pushServiceTokenList = 9;
+	int32 keepaliveIntervalSec = 10;
+	ZtCommonInfo ztCommonInfo = 11;
+	bool ipv6Available = 12;
+
+	enum PresenceStatus {
+		kPresenceOffline = 0;
+		kPresenceOnline = 1;
+	}
+	enum ActiveStatus {
+		kInvalid = 0;
+		kAppInForeground = 1;
+		kAppInBackground = 2;
+	}
+}

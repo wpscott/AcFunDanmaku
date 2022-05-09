@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+message SessionFolderSortRequest {
+	repeated string sessionFolderId = 1;
+}

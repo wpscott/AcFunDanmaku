@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message ManagerSettingRequest {
+	repeated Im.Basic.User manager = 1;
+	Operation operation = 2;
+	string groupId = 3;
+
+	enum Operation {
+		UNKNOWN_OPERATION = 0;
+		ADD = 1;
+		DEL = 2;
+	}
+}

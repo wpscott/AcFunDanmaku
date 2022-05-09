@@ -3,10 +3,10 @@ syntax = "proto3";
 package AcFunDanmu.Im.Message;
 
 enum UserType {
-    UT_NORMAL = 0;
-    UT_CUSTOMER = 1;
-    UT_MERCHANT = 2;
-    UT_ASSISTANT = 3;
-    UT_OFFICIAL = 4;
-    UT_UNKNOW = -1;
+	UT_NORMAL = 0;
+	UT_CUSTOMER = 1;
+	UT_MERCHANT = 2;
+	UT_ASSISTANT = 3;
+	UT_OFFICIAL = 4;
+	UT_UNKNOW = -1;
 }

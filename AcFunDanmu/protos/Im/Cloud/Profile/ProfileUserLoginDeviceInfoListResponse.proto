@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Profile;
+
+import "UserLoginDeviceInfo.proto";
+
+message ProfileUserLoginDeviceInfoListResponse {
+	repeated UserLoginDeviceInfo userLoginDeviceInfo = 1;
+}

@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Config;
+
+message NetworkQualityDetectionConfig {
+	string detectionDomain = 1;
+	int32 detectionIntervalSec = 2;
+}

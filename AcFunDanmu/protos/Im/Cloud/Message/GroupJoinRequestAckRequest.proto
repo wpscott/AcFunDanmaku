@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message GroupJoinRequestAckRequest {
+	int64 reqId = 1;
+	string groupId = 2;
+	GroupJoinAckType groupJoinAckType = 3;
+	string auditComment = 4;
+	bool ignoreFutureJoinRequest = 5;
+
+	enum GroupJoinAckType {
+		UNKNOWN_TYPE = 0;
+		AGREE = 1;
+		REFUSE = 2;
+		IGNORE = 3;
+	}
+}

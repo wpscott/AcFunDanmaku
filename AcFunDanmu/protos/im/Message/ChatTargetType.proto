@@ -3,12 +3,12 @@ syntax = "proto3";
 package AcFunDanmu.Im.Message;
 
 enum ChatTargetType {
-    CTT_USER = 0;
-    CTT_CHAT_ROOM = 2;
-    CTT_MULTI_PLAYER_ROOM = 3;
-    CTT_GROUP = 4;
-    CTT_CHANNEL = 5;
-    CTT_AGGREGATE = 6;
-    CTT_B2C = 7;
-    CTT_SUB_BIZ_AGGREGATE = 8;
+	CTT_USER = 0;
+	CTT_CHAT_ROOM = 2;
+	CTT_MULTI_PLAYER_ROOM = 3;
+	CTT_GROUP = 4;
+	CTT_CHANNEL = 5;
+	CTT_AGGREGATE = 6;
+	CTT_B2C = 7;
+	CTT_SUB_BIZ_AGGREGATE = 8;
 }

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "SessionReference.proto";
+
+message SessionFolderBatchAddRefResponse {
+	repeated SessionReference sessionReference = 1;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Channel;
+
+import "ChannelBasicInfo.proto";
+
+message ChannelBasicInfoGetResponse {
+	repeated ChannelBasicInfo basicInfo = 1;
+}

@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package AcFunDanmu.Im.Message;
 
-import "RichTextNoticeMessage.proto";
 import "I18nCopyWriting.proto";
+import "RichTextNoticeMessage.proto";
 
-message NoticeMessage{
-    RichTextNoticeMessage richTextNotice = 2;
-    string msg = 5;
-    Im.Basic.I18nCopyWriting i18nCopyWriting = 10;
+message NoticeMessage {
+	RichTextNoticeMessage richTextNotice = 2;
+	string msg = 5;
+	Im.Basic.I18nCopyWriting i18nCopyWriting = 10;
 }

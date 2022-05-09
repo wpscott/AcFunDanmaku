@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupMember.proto";
+
+message GroupMemberRecentUpdateInfo {
+	repeated GroupMember members = 1;
+}

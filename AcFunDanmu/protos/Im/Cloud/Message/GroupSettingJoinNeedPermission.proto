@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "JoinNeedPermissionType.proto";
+
+message GroupSettingJoinNeedPermission {
+	JoinNeedPermissionType joinNeedPermission = 1;
+}

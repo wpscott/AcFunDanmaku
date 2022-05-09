@@ -5,5 +5,5 @@ package AcFunDanmu.Im.Basic;
 import "LocaleMessage.proto";
 
 message ErrorMessage {
-    repeated LocaleMessage localeMessages = 1;
+	repeated LocaleMessage localeMessages = 1;
 }

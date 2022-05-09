@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Data.Update;
+
+import "ChatSession.proto";
+
+message SessionDataUpdate {
+	Im.Message.ChatSession chatSession = 1;
+}

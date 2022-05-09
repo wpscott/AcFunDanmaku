@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTargetType.proto";
+
+message SessionRemoveRequest {
+	int64 targetId = 1;
+	ChatTargetType chatTargetType = 2;
+	int32 categoryId = 3;
+	string strTargetId = 4;
+	bool notCleanAllMessages = 5;
+}

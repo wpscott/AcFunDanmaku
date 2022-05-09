@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "User.proto";
+
+message B2CMerchantSessionFolderCheckEvent {
+	Im.Basic.User user = 1;
+	int32 subBizId = 2;
+	int64 syncOffset = 3;
+	int64 lastUpdateTime = 4;
+}

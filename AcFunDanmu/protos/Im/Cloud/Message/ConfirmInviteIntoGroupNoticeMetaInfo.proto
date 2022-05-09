@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "JoinRequestStatus.proto";
+
+message ConfirmInviteIntoGroupNoticeMetaInfo {
+	int64 requestId = 1;
+	string groupId = 2;
+	Im.Cloud.Message.JoinRequestStatus status = 3;
+}

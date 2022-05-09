@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message RedPacket {
+	string redPacketId = 1;
+	RedPacketType redPacketType = 2;
+	bytes extra = 3;
+	int64 assignedUid = 4;
+
+	enum RedPacketType {
+		UNKNOWN_RED_PACKET_TYPE = 0;
+		PERSONAL = 1;
+		GROUP_RANDOM_AMOUNT = 2;
+		GROUP_IDENTICAL_AMOUNT = 3;
+		GROUP_ASSIGNED_MEMBER_RANDOM_AMOUNT = 4;
+		GROUP_ASSIGNED_MEMBER_IDENTICAL_AMOUNT = 5;
+	}
+}

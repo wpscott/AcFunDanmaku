@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message GroupInviteRequest {
+	string groupId = 1;
+	repeated Im.Basic.User members = 2;
+	string descContent = 3;
+	bool historyMessagesVisible = 4;
+}

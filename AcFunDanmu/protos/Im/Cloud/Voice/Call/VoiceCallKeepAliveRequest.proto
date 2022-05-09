@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+message VoiceCallKeepAliveRequest {
+	string roomId = 1;
+}

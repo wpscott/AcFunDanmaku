@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message InvitationOperator {
+	Im.Basic.User operator = 1;
+	OperatorRole operatorRole = 2;
+
+	enum OperatorRole {
+		UNKNOWN_ROLE = 0;
+		COMMON = 1;
+		ADMIN = 2;
+		MANAGER = 3;
+	}
+}

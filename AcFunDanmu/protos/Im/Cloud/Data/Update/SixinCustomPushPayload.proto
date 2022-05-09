@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Data.Update;
+
+import "SixinCustomPushType.proto";
+
+message SixinCustomPushPayload {
+	SixinCustomPushType type = 1;
+	bytes content = 2;
+}

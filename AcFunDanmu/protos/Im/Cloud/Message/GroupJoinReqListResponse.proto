@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupJoinReq.proto";
+
+message GroupJoinReqListResponse {
+	repeated GroupJoinReq groupJoinReq = 1;
+	string offset = 2;
+}

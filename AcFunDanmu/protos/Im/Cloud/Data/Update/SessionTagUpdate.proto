@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Data.Update;
+
+import "SessionTagBasic.proto";
+
+message SessionTagUpdate {
+	Im.Cloud.SessionTag.SessionTagBasic sessionTagBasic = 1;
+}

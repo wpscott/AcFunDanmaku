@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+
+message MessageRecallRequest {
+	ChatTarget chatTarget = 1;
+	int64 seqId = 2;
+}

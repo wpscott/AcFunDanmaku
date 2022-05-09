@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message NoticePlaceholderMeta {
+	string targetId = 1;
+	int32 startIndex = 2;
+	int32 length = 3;
+}

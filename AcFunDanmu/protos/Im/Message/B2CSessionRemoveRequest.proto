@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+
+message B2CSessionRemoveRequest {
+	ChatTarget chatTarget = 1;
+	int32 categoryId = 2;
+	bool notCleanAllMessages = 3;
+}

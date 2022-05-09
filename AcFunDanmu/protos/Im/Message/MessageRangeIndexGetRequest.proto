@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message MessageRangeIndexGetRequest {
+	string strTargetId = 1;
+	int64 startTime = 2;
+	int64 endTime = 3;
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Data.Update;
+
+import "ChatTarget.proto";
+import "MessageReceiptStatus.proto";
+import "User.proto";
+
+message MessageReceipt {
+	Im.Message.ChatTarget chatTarget = 1;
+	Im.Message.MessageReceiptStatus receiptStatus = 2;
+	Im.Basic.User reader = 3;
+}

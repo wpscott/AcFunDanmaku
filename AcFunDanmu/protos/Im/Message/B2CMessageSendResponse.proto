@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message B2CMessageSendResponse {
+	int64 clientSeqId = 1;
+	int64 messageTimestamp = 2;
+	int64 seqId = 3;
+	int32 sessionAccountType = 4;
+	int32 sessionPriority = 5;
+	int32 sessionCategoryId = 6;
+	bytes content = 7;
+}

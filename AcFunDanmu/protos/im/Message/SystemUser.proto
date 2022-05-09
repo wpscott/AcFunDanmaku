@@ -3,6 +3,6 @@ syntax = "proto3";
 package AcFunDanmu.Im.Message;
 
 enum SystemUser {
-    kSystemUserInvalid = 0;
-    SYSTEM_USER_ID = 10000;
+	kSystemUserInvalid = 0;
+	SYSTEM_USER_ID = 10000;
 }

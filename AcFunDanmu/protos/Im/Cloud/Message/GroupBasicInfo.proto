@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "ForbiddenState.proto";
+import "GroupLabel.proto";
+import "GroupStatus.proto";
+import "GroupType.proto";
+import "InvitePermissionType.proto";
+import "JoinNeedPermissionType.proto";
+import "Location.proto";
+import "MultiForbiddenState.proto";
+import "User.proto";
+
+message GroupBasicInfo {
+	string groupId = 1;
+	string groupName = 2;
+	Im.Basic.User admin = 3;
+	GroupStatus groupStatus = 4;
+	string description = 5;
+	JoinNeedPermissionType joinNeedPermission = 6;
+	int64 createTime = 7;
+	int64 updateTime = 8;
+	GroupType groupType = 9;
+	ForbiddenState forbiddenState = 10;
+	InvitePermissionType invitePermissionType = 11;
+	int32 bizDefCode = 12;
+	string defaultGroupName = 13;
+	string extra = 14;
+	bool isMuteAll = 15;
+	bool onlyAdminUpdateGroupSetting = 16;
+	bool onlyAdminRemindAll = 17;
+	repeated Im.Basic.User usersCanTalk = 18;
+	repeated Im.Basic.User usersKeepSilence = 19;
+	string groupHeadUrl = 20;
+	Location location = 21;
+	string tag = 22;
+	string groupNumber = 23;
+	string introduction = 24;
+	int32 maxMemberCount = 25;
+	repeated MultiForbiddenState multiForbiddenState = 26;
+	int32 maxManagerCount = 27;
+	repeated GroupLabel label = 28;
+	int64 groupExtraSetting = 29;
+	bool groupInviteNeedUserAgree = 30;
+	bool historyMessagesVisible = 31;
+	bool groupDismissBanned = 32;
+	bool groupQuitBanned = 33;
+}

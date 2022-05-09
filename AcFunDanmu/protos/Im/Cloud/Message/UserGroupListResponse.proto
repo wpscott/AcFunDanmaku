@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "SyncCookie.proto";
+import "UserGroupInfo.proto";
+
+message UserGroupListResponse {
+	repeated UserGroupInfo userGroupInfo = 1;
+	Im.Basic.SyncCookie syncCookie = 2;
+	bool notFullFetch = 3;
+}

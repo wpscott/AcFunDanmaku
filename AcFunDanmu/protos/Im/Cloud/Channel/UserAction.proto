@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Channel;
+
+enum UserAction {
+	USER_ACTION_UNKNOWN = 0;
+	USER_JOIN_CHANNEL = 1;
+	USER_QUIT_CHANNEL = 2;
+	USER_OFFLINE = 3;
+}

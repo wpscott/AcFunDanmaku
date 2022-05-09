@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message File {
+	string uri = 1;
+	string name = 2;
+	string ext = 3;
+	string extra = 4;
+	int64 contentLength = 5;
+}

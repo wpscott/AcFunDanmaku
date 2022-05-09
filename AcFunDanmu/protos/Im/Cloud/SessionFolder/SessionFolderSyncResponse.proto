@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+import "SessionFolderBasic.proto";
+import "SessionReferenceUpdateItem.proto";
+import "SyncCookie.proto";
+
+message SessionFolderSyncResponse {
+	Im.Basic.SyncCookie syncCookie = 1;
+	repeated SessionFolderBasic sessionFolderBasic = 2;
+	repeated SessionReferenceUpdateItem added = 3;
+	repeated SessionReferenceUpdateItem removed = 4;
+	bool notFullFetch = 5;
+	bool clearLocalData = 6;
+}

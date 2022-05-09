@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupJoinStatus.proto";
+import "GroupMember.proto";
+
+message GroupInviteRecord {
+	int64 inviteId = 1;
+	int64 inviterUid = 2;
+	GroupMember.GroupMemberRole inviterRole = 3;
+	string groupId = 4;
+	GroupJoinStatus inviteStatus = 5;
+}

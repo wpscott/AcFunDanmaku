@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message GroupJoinRequest {
+	string groupId = 1;
+	Im.Basic.User inviter = 2;
+	string descContent = 3;
+	int32 findType = 4;
+}

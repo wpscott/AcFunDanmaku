@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionFolder;
+
+message SessionFolderUpdateRequest {
+	string sessionFolderId = 1;
+	repeated UpdateField fields = 2;
+	string folderName = 3;
+	string iconUrl = 4;
+	bytes extra = 5;
+
+	enum UpdateField {
+		UN_KNOWN_FIELD = 0;
+		FOLDER_NAME = 1;
+		ICON_URL = 2;
+		EXTRA = 3;
+	}
+}

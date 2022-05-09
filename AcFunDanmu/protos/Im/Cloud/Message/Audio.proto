@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message Audio {
+	string uri = 1;
+	int32 duration = 2;
+	string type = 3;
+	int64 contentLength = 4;
+}

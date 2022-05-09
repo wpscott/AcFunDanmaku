@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+import "ChatTarget.proto";
+import "Message.proto";
+
+message MessageSearchResult {
+	Im.Message.ChatTarget chatTarget = 1;
+	Im.Message.Message msg = 2;
+}

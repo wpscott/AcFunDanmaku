@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "B2CMessageReceiptInfo.proto";
+
+message B2CMessageReceiptRequest {
+	repeated B2CMessageReceiptInfo messageReceiptInfo = 1;
+	string strTargetId = 2;
+}

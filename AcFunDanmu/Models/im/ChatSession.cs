@@ -24,10 +24,10 @@ namespace AcFunDanmu.Im.Message {
     static ChatSessionReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFDaGF0U2Vzc2lvbi5wcm90bxIVQWNGdW5EYW5tdS5JbS5NZXNzYWdlGgpV",
-            "c2VyLnByb3RvGhRDaGF0VGFyZ2V0VHlwZS5wcm90bxoNTWVzc2FnZS5wcm90",
-            "bxoQUmVtaW5kQm9keS5wcm90bxoTU2Vzc2lvblN0YXR1cy5wcm90bxoaTWVz",
-            "c2FnZVJlY2VpdmVTdGF0dXMucHJvdG8i0AUKC0NoYXRTZXNzaW9uEikKBnRh",
+            "ChFDaGF0U2Vzc2lvbi5wcm90bxIVQWNGdW5EYW5tdS5JbS5NZXNzYWdlGhRD",
+            "aGF0VGFyZ2V0VHlwZS5wcm90bxoNTWVzc2FnZS5wcm90bxoaTWVzc2FnZVJl",
+            "Y2VpdmVTdGF0dXMucHJvdG8aEFJlbWluZEJvZHkucHJvdG8aE1Nlc3Npb25T",
+            "dGF0dXMucHJvdG8aClVzZXIucHJvdG8i0AUKC0NoYXRTZXNzaW9uEikKBnRh",
             "cmdldBgBIAEoCzIZLkFjRnVuRGFubXUuSW0uQmFzaWMuVXNlchIQCghtYXhT",
             "ZXFJZBgCIAEoAxIRCglyZWFkU2VxSWQYAyABKAMSFgoOdW5yZWFkTXNnQ291",
             "bnQYBCABKAUSNQoNbGF0ZXN0TWVzc2FnZRgFIAMoCzIeLkFjRnVuRGFubXUu",
@@ -45,7 +45,7 @@ namespace AcFunDanmu.Im.Message {
             "bXUuSW0uTWVzc2FnZS5NZXNzYWdlUmVjZWl2ZVN0YXR1cxINCgVleHRyYRgZ",
             "IAEoDBIUCgxtYXJrZWRVbnJlYWQYGiABKAhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Basic.UserReflection.Descriptor, global::AcFunDanmu.Im.Message.ChatTargetTypeReflection.Descriptor, global::AcFunDanmu.Im.Message.MessageReflection.Descriptor, global::AcFunDanmu.Im.Message.RemindBodyReflection.Descriptor, global::AcFunDanmu.Im.Message.SessionStatusReflection.Descriptor, global::AcFunDanmu.Im.Message.MessageReceiveStatusReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Message.ChatTargetTypeReflection.Descriptor, global::AcFunDanmu.Im.Message.MessageReflection.Descriptor, global::AcFunDanmu.Im.Message.MessageReceiveStatusReflection.Descriptor, global::AcFunDanmu.Im.Message.RemindBodyReflection.Descriptor, global::AcFunDanmu.Im.Message.SessionStatusReflection.Descriptor, global::AcFunDanmu.Im.Basic.UserReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Message.ChatSession), global::AcFunDanmu.Im.Message.ChatSession.Parser, new[]{ "Target", "MaxSeqId", "ReadSeqId", "UnreadMsgCount", "LatestMessage", "ChatTargetType", "TargetId", "ActiveTime", "Priority", "CategoryId", "Cursor", "AccountType", "AggregateSession", "JumpCategoryId", "ExpireAt", "EffectiveFrom", "StrTargetId", "RemindBody", "TargetReadSeqId", "Mute", "Status", "MessageReceiveStatus", "Extra", "MarkedUnread" }, null, null, null, null)
           }));

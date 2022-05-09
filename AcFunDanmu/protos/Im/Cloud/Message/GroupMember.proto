@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message GroupMember {
+	Im.Basic.User user = 1;
+	string nickname = 2;
+	bool antiDisturbing = 3;
+	GroupMemberStatus status = 4;
+	int64 inviterId = 5;
+	int64 joinTime = 6;
+	int64 createTime = 7;
+	int64 updateTime = 8;
+	GroupMemberRole role = 9;
+	int32 findType = 10;
+	int64 keepSilenceDeadline = 11;
+
+	enum GroupMemberStatus {
+		UNKNOWN_MEMBER_STATUS = 0;
+		NORMAL = 1;
+		QUITTED = 2;
+		KICKED = 3;
+		DISMISSED = 4;
+	}
+	enum GroupMemberRole {
+		UNKNOWN_ROLE = 0;
+		COMMON = 1;
+		ADMIN = 2;
+		MANAGER = 3;
+		ROBOT = 4;
+	}
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupInfo.proto";
+import "GroupMember.proto";
+import "SyncCookie.proto";
+
+message GroupCreateResponse {
+	string groupId = 1;
+	GroupInfo groupInfo = 2;
+	repeated GroupMember members = 3;
+	Im.Basic.SyncCookie syncCookie = 4;
+}

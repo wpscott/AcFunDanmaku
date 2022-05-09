@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+import "CallParam.proto";
+import "CallType.proto";
+import "ChatMode.proto";
+import "ChatTarget.proto";
+import "User.proto";
+
+message CreateVoiceCallRequest {
+	Im.Message.ChatTarget chatTarget = 1;
+	CallType callType = 2;
+	ChatMode chatMode = 3;
+	bytes extra = 4;
+	CallParam callParam = 5;
+	repeated Im.Basic.User participant = 11;
+	string title = 12;
+}

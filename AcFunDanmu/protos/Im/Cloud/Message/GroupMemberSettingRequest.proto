@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "SetUserAntiDisturbing.proto";
+import "SetUserNickname.proto";
+
+message GroupMemberSettingRequest {
+	oneof UserSetting {
+		SetUserNickname setNickname = 2;
+		SetUserAntiDisturbing setAntiDisturbing = 3;
+	}
+
+	string groupId = 1;
+}

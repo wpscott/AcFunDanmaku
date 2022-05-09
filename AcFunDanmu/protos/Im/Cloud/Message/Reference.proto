@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "Message.proto";
+
+message Reference {
+	Im.Message.Message originMsg = 1;
+	ReferenceMessage referenceMsg = 2;
+
+	message ReferenceMessage {
+		int32 contentType = 1;
+		bytes content = 2;
+	}
+}

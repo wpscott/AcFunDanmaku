@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Data.Update;
+
+import "ChatTargetType.proto";
+
+message MessageRead {
+	string strTargetId = 1;
+	int64 readSeq = 2;
+	Im.Message.ChatTargetType chatTargetType = 3;
+}

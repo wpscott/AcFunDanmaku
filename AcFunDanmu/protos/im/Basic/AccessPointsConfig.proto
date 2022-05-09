@@ -1,4 +1,4 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package AcFunDanmu.Im.Basic;
 
@@ -8,5 +8,5 @@ message AccessPointsConfig {
 	repeated AccessPoint optimalAps = 1;
 	repeated AccessPoint backupAps = 2;
 	repeated uint32 availablePorts = 3;
-	AccessPoint foreceLastConnectedAp = 4;
+	AccessPoint forceLastConnectedAp = 4;
 }

@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message B2CMessageReceiptCountGetRequest {
+	repeated int64 seqId = 1;
+	string strTargetId = 2;
+}

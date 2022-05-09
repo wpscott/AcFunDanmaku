@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum GroupType {
+	UNKNOW_GROUP_TYPE = 0;
+	PRIVATE = 3;
+	PUBLIC = 4;
+}

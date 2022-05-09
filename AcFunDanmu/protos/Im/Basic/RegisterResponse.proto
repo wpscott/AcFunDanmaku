@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+import "AccessPointsConfig.proto";
+import "SdkOption.proto";
+
+message RegisterResponse {
+	AccessPointsConfig accessPointsConfig = 1;
+	bytes sessKey = 2;
+	int64 instanceId = 3;
+	SdkOption sdkOption = 4;
+	AccessPointsConfig accessPointsConfigIpv6 = 5;
+	AccessPointsConfig accessPointsConfigQuic = 6;
+	AccessPointsConfig accessPointsConfigQuicIpv6 = 7;
+	bool cleanAccessPoint = 8;
+	AccessPointsConfig accessPointsConfigWs = 9;
+}

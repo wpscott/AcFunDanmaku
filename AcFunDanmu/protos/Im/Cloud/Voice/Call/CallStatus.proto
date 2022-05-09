@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+enum CallStatus {
+	CS_UNKNOWN = 0;
+	WAITING = 1;
+	CALLING = 2;
+	REJECTED = 3;
+	FINISHED = 4;
+	CANCELLED = 5;
+	TIMEOUT = 6;
+	BUSYING = 7;
+}

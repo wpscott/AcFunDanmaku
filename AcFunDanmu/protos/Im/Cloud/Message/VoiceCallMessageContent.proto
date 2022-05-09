@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "CallStatus.proto";
+import "CallType.proto";
+import "ChatMode.proto";
+import "User.proto";
+
+message VoiceCallMessageContent {
+	string roomId = 1;
+	Im.Cloud.Voice.Call.CallType callType = 2;
+	Im.Cloud.Voice.Call.CallStatus status = 3;
+	int64 startTimeMs = 4;
+	int64 endTimeMs = 5;
+	Im.Basic.User fromUser = 6;
+	Im.Cloud.Voice.Call.ChatMode chatMode = 7;
+	string title = 21;
+	Im.Basic.User host = 22;
+	repeated Im.Basic.User participant = 23;
+	int32 maxCount = 24;
+}

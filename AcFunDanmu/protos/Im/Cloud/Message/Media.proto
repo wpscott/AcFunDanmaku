@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "Audio.proto";
+import "Emoticon.proto";
+import "File.proto";
+import "Image.proto";
+import "Video.proto";
+
+message Media {
+	oneof resource {
+		Image image = 1;
+		Audio audio = 2;
+		Video video = 3;
+		File file = 4;
+		Emoticon emoticon = 5;
+	}
+
+	int32 pos = 20;
+	string name = 21;
+}

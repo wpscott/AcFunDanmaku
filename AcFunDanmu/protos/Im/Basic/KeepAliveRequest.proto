@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+import "PushServiceToken.proto";
+import "RegisterRequest.proto";
+
+message KeepAliveRequest {
+	RegisterRequest.PresenceStatus presenceStatus = 1;
+	RegisterRequest.ActiveStatus appActiveStatus = 2;
+	PushServiceToken pushServiceToken = 3;
+	repeated PushServiceToken pushServiceTokenList = 4;
+	int32 keepaliveIntervalSec = 5;
+	bool ipv6Available = 6;
+}

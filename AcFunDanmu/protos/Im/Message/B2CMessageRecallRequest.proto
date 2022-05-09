@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message B2CMessageRecallRequest {
+	string strTargetId = 1;
+	int64 seqId = 2;
+}

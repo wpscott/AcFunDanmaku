@@ -3,10 +3,10 @@ syntax = "proto3";
 package AcFunDanmu.Im.Message;
 
 message ImageTextMessage {
-    string title = 1;
-    string description = 2;
-    string imageUrl = 3;
-    string actionUrl = 4;
-    int32 width = 5;
-    float aspectRatio = 6;
+	string title = 1;
+	string description = 2;
+	string imageUrl = 3;
+	string actionUrl = 4;
+	int32 width = 5;
+	float aspectRatio = 6;
 }

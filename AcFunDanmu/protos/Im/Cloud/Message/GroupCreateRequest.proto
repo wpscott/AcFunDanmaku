@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupLabel.proto";
+import "GroupType.proto";
+import "Location.proto";
+import "User.proto";
+
+message GroupCreateRequest {
+	repeated Im.Basic.User members = 1;
+	string groupName = 2;
+	string groupHeadUrl = 3;
+	Location location = 4;
+	string tag = 5;
+	GroupType groupType = 6;
+	string introduction = 7;
+	string originalTarget = 8;
+	repeated GroupLabel label = 9;
+}

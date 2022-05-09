@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Data.Update;
+
+import "KsImDataUpdateType.proto";
+
+message KsImDataUpdatePushPayload {
+	KsImDataUpdateType type = 1;
+	bytes content = 2;
+	int64 timestamp = 3;
+}

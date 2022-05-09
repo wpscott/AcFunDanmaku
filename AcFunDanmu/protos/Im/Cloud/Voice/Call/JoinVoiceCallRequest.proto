@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+import "CallParam.proto";
+
+message JoinVoiceCallRequest {
+	string roomId = 1;
+	CallParam callParam = 2;
+}

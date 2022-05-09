@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message GroupMemberGetRequest {
+	string groupId = 1;
+	Im.Basic.User user = 2;
+}

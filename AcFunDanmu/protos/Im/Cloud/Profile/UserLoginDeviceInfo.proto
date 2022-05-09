@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Profile;
+
+message UserLoginDeviceInfo {
+	string deviceId = 1;
+	string deviceName = 2;
+	string kpf = 3;
+	int64 lastOnlineTime = 4;
+	int32 bizStatus = 5;
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupBasicInfo.proto";
+import "GroupMembersBriefInfo.proto";
+
+message GroupInfo {
+	GroupBasicInfo basicInfo = 1;
+	GroupMembersBriefInfo groupMembersBriefInfo = 2;
+}

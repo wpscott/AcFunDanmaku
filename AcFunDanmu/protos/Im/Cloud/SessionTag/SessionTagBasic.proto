@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionTag;
+
+import "ChatTarget.proto";
+
+message SessionTagBasic {
+	Im.Message.ChatTarget target = 1;
+	repeated int32 tag = 2;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Data.Update;
+
+message RelationEvent {
+	RelationEventType relationEventType = 1;
+	int64 fromId = 2;
+	int64 targetId = 3;
+
+	enum RelationEventType {
+		UNKNOWN = 0;
+		FOLLOWED = 1;
+		UNFOLLOWED = 2;
+	}
+}

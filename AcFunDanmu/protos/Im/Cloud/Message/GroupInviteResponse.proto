@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupMember.proto";
+
+message GroupInviteResponse {
+	string groupId = 1;
+	InviteStatus inviteStatus = 2;
+	repeated GroupMember members = 3;
+
+	enum InviteStatus {
+		UNKNOWN_STATUS = 0;
+		SUCC = 1;
+		PENDING = 2;
+	}
+}

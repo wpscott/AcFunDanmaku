@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "EnterSession.proto";
+import "LeaveSession.proto";
+
+message SessionEventReportRequest {
+	oneof event {
+		EnterSession enterSession = 1;
+		LeaveSession leaveSession = 2;
+	}
+}

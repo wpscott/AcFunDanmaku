@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "Location.proto";
+
+message GroupSettingBatchUpdate {
+	repeated UpdateField fields = 1;
+	string groupName = 2;
+	string groupHeadUrl = 3;
+	Location location = 4;
+	string tag = 5;
+	string introduction = 6;
+
+	enum UpdateField {
+		UN_KNOWN_FIELD = 0;
+		GROUP_NAME = 1;
+		GROUP_HEAD_URL = 2;
+		LOCATION = 3;
+		TAG = 4;
+		INTRODUCTION = 5;
+	}
+}

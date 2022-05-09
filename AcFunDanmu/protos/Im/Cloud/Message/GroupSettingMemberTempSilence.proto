@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message GroupSettingMemberTempSilence {
+	bool isMute = 1;
+	Im.Basic.User user = 2;
+	int32 slienceSeconds = 3;
+}

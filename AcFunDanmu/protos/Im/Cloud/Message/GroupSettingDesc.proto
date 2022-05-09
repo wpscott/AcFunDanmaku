@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message GroupSettingDesc {
+	string desc = 1;
+	bool needSendDescMsg = 2;
+	bool remindAll = 3;
+}

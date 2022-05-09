@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "Media.proto";
+
+message MultiMediaMessage {
+	string text = 1;
+	repeated Media media = 2;
+	string extra = 3;
+}

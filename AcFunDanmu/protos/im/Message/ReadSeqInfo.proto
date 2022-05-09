@@ -5,6 +5,6 @@ package AcFunDanmu.Im.Message;
 import "ChatTarget.proto";
 
 message ReadSeqInfo {
-    ChatTarget chatTarget = 1;
-    int64 readSeq = 2;
+	ChatTarget chatTarget = 1;
+	int64 readSeq = 2;
 }

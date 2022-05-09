@@ -5,6 +5,6 @@ package AcFunDanmu.Im.Message;
 import "RemindBody.proto";
 
 message Reminder {
-    string originText = 1;
-    repeated RemindBody remindBody = 2;
+	string originText = 1;
+	repeated RemindBody remindBody = 2;
 }

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Config;
+
+import "ClientConfig.proto";
+
+message ClientConfigGetResponse {
+	uint32 version = 1;
+	ClientConfig clientConfig = 2;
+}

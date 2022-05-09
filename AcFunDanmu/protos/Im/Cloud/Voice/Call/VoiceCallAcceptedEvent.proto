@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+message VoiceCallAcceptedEvent {
+	bytes signalData = 1;
+}

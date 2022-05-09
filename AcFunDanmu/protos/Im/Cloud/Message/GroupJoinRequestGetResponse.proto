@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "GroupMember.proto";
+import "JoinRequestStatus.proto";
+import "User.proto";
+
+message GroupJoinRequestGetResponse {
+	string groupId = 1;
+	Im.Basic.User inviter = 2;
+	repeated Im.Basic.User invitees = 3;
+	int32 findWay = 4;
+	string descContent = 5;
+	JoinRequestStatus status = 6;
+	GroupMember.GroupMemberRole inviteeMembersRole = 7;
+}

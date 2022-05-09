@@ -25,13 +25,13 @@ namespace AcFunDanmu.Im.Message {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNOb3RpY2VNZXNzYWdlLnByb3RvEhVBY0Z1bkRhbm11LkltLk1lc3NhZ2Ua",
-            "G1JpY2hUZXh0Tm90aWNlTWVzc2FnZS5wcm90bxoVSTE4bkNvcHlXcml0aW5n",
+            "FUkxOG5Db3B5V3JpdGluZy5wcm90bxobUmljaFRleHROb3RpY2VNZXNzYWdl",
             "LnByb3RvIqEBCg1Ob3RpY2VNZXNzYWdlEkQKDnJpY2hUZXh0Tm90aWNlGAIg",
             "ASgLMiwuQWNGdW5EYW5tdS5JbS5NZXNzYWdlLlJpY2hUZXh0Tm90aWNlTWVz",
             "c2FnZRILCgNtc2cYBSABKAkSPQoPaTE4bkNvcHlXcml0aW5nGAogASgLMiQu",
             "QWNGdW5EYW5tdS5JbS5CYXNpYy5JMThuQ29weVdyaXRpbmdiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Message.RichTextNoticeMessageReflection.Descriptor, global::AcFunDanmu.Im.Basic.I18NCopyWritingReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::AcFunDanmu.Im.Basic.I18NCopyWritingReflection.Descriptor, global::AcFunDanmu.Im.Message.RichTextNoticeMessageReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Message.NoticeMessage), global::AcFunDanmu.Im.Message.NoticeMessage.Parser, new[]{ "RichTextNotice", "Msg", "I18NCopyWriting" }, null, null, null, null)
           }));

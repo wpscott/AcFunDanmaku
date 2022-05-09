@@ -26,13 +26,13 @@ namespace AcFunDanmu.Im.Basic {
           string.Concat(
             "Cg1FbnZJbmZvLnByb3RvEhNBY0Z1bkRhbm11LkltLkJhc2ljIpABCgdFbnZJ",
             "bmZvEj0KC25ldHdvcmtUeXBlGAEgASgOMiguQWNGdW5EYW5tdS5JbS5CYXNp",
-            "Yy5FbnZJbmZvLk5ldHdvcmtUeXBlEg8KB2FwcE5hbWUYAiABKAwiNQoLTmV0",
+            "Yy5FbnZJbmZvLk5ldHdvcmtUeXBlEg8KB2Fwbk5hbWUYAiABKAwiNQoLTmV0",
             "d29ya1R5cGUSDAoIa0ludmFsaWQQABIJCgVrV0lGSRABEg0KCWtDZWxsdWxh",
             "chACYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Basic.EnvInfo), global::AcFunDanmu.Im.Basic.EnvInfo.Parser, new[]{ "NetworkType", "AppName" }, null, new[]{ typeof(global::AcFunDanmu.Im.Basic.EnvInfo.Types.NetworkType) }, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Basic.EnvInfo), global::AcFunDanmu.Im.Basic.EnvInfo.Parser, new[]{ "NetworkType", "ApnName" }, null, new[]{ typeof(global::AcFunDanmu.Im.Basic.EnvInfo.Types.NetworkType) }, null, null)
           }));
     }
     #endregion
@@ -74,7 +74,7 @@ namespace AcFunDanmu.Im.Basic {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public EnvInfo(EnvInfo other) : this() {
       networkType_ = other.networkType_;
-      appName_ = other.appName_;
+      apnName_ = other.apnName_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -96,15 +96,15 @@ namespace AcFunDanmu.Im.Basic {
       }
     }
 
-    /// <summary>Field number for the "appName" field.</summary>
-    public const int AppNameFieldNumber = 2;
-    private pb::ByteString appName_ = pb::ByteString.Empty;
+    /// <summary>Field number for the "apnName" field.</summary>
+    public const int ApnNameFieldNumber = 2;
+    private pb::ByteString apnName_ = pb::ByteString.Empty;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pb::ByteString AppName {
-      get { return appName_; }
+    public pb::ByteString ApnName {
+      get { return apnName_; }
       set {
-        appName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        apnName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -124,7 +124,7 @@ namespace AcFunDanmu.Im.Basic {
         return true;
       }
       if (NetworkType != other.NetworkType) return false;
-      if (AppName != other.AppName) return false;
+      if (ApnName != other.ApnName) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -133,7 +133,7 @@ namespace AcFunDanmu.Im.Basic {
     public override int GetHashCode() {
       int hash = 1;
       if (NetworkType != global::AcFunDanmu.Im.Basic.EnvInfo.Types.NetworkType.KInvalid) hash ^= NetworkType.GetHashCode();
-      if (AppName.Length != 0) hash ^= AppName.GetHashCode();
+      if (ApnName.Length != 0) hash ^= ApnName.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -156,9 +156,9 @@ namespace AcFunDanmu.Im.Basic {
         output.WriteRawTag(8);
         output.WriteEnum((int) NetworkType);
       }
-      if (AppName.Length != 0) {
+      if (ApnName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(AppName);
+        output.WriteBytes(ApnName);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -174,9 +174,9 @@ namespace AcFunDanmu.Im.Basic {
         output.WriteRawTag(8);
         output.WriteEnum((int) NetworkType);
       }
-      if (AppName.Length != 0) {
+      if (ApnName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(AppName);
+        output.WriteBytes(ApnName);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -191,8 +191,8 @@ namespace AcFunDanmu.Im.Basic {
       if (NetworkType != global::AcFunDanmu.Im.Basic.EnvInfo.Types.NetworkType.KInvalid) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) NetworkType);
       }
-      if (AppName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(AppName);
+      if (ApnName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ApnName);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -209,8 +209,8 @@ namespace AcFunDanmu.Im.Basic {
       if (other.NetworkType != global::AcFunDanmu.Im.Basic.EnvInfo.Types.NetworkType.KInvalid) {
         NetworkType = other.NetworkType;
       }
-      if (other.AppName.Length != 0) {
-        AppName = other.AppName;
+      if (other.ApnName.Length != 0) {
+        ApnName = other.ApnName;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -232,7 +232,7 @@ namespace AcFunDanmu.Im.Basic {
             break;
           }
           case 18: {
-            AppName = input.ReadBytes();
+            ApnName = input.ReadBytes();
             break;
           }
         }
@@ -255,7 +255,7 @@ namespace AcFunDanmu.Im.Basic {
             break;
           }
           case 18: {
-            AppName = input.ReadBytes();
+            ApnName = input.ReadBytes();
             break;
           }
         }

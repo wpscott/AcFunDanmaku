@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Channel;
+
+import "ChannelBasicInfo.proto";
+import "UserActionInfo.proto";
+
+message ChannelBasicInfoNotify {
+	UserActionInfo userActionInfo = 1;
+	ChannelBasicInfo basicInfo = 2;
+}

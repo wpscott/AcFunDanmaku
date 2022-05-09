@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message PicUrl {
+	string cdn = 1;
+	string url = 2;
+	string urlPattern = 3;
+	string ip = 4;
+}

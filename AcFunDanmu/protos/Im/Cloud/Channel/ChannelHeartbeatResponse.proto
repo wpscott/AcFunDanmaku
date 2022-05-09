@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Channel;
+
+message ChannelHeartbeatResponse {
+	repeated string notExistChannelId = 1;
+}

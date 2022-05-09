@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message GroupSettingAdminTransfer {
+	Im.Basic.User newAdmin = 1;
+}

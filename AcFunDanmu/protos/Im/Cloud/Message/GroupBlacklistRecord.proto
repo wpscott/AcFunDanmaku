@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "User.proto";
+
+message GroupBlacklistRecord {
+	int64 id = 1;
+	Im.Basic.User operator = 2;
+	Im.Basic.User target = 3;
+	string groupId = 4;
+	int32 subBizId = 5;
+	int64 createTime = 6;
+	int64 updateTime = 7;
+}

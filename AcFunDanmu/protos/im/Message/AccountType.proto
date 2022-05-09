@@ -3,8 +3,8 @@ syntax = "proto3";
 package AcFunDanmu.Im.Message;
 
 enum AccountType {
-    UNKNOWN = 0;
-    OFFICIAL = 1;
-    NORMAL = 2;
-    STRANGER = 3;
+	UNKNOW = 0;
+	OFFICIAL = 1;
+	NORMAL = 2;
+	STRANGER = 3;
 }

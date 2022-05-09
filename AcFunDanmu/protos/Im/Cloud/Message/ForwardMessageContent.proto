@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "Message.proto";
+
+message ForwardMessageContent {
+	repeated Im.Message.Message message = 1;
+	string title = 2;
+}

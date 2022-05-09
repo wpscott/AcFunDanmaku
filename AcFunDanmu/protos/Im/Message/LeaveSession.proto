@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatTarget.proto";
+
+message LeaveSession {
+	ChatTarget chatTarget = 1;
+	string extraInfo = 2;
+	string actionType = 3;
+}

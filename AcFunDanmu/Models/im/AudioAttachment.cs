@@ -26,12 +26,12 @@ namespace AcFunDanmu.Im.Message {
           string.Concat(
             "ChVBdWRpb0F0dGFjaG1lbnQucHJvdG8SFUFjRnVuRGFubXUuSW0uTWVzc2Fn",
             "ZSJdCg9BdWRpb0F0dGFjaG1lbnQSEAoIbWltZVR5cGUYASABKAkSCwoDdXJs",
-            "GAIgASgJEhQKDGR1cmF0aW9uSW5NcxgDIAEoAxIVCg1sZW5ndGhJbkJ5dGVz",
+            "GAIgASgJEhQKDGR1cmF0aW9uSW5NUxgDIAEoAxIVCg1sZW5ndGhJbkJ5dGVz",
             "GAUgASgDYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Message.AudioAttachment), global::AcFunDanmu.Im.Message.AudioAttachment.Parser, new[]{ "MimeType", "Url", "DurationInMs", "LengthInBytes" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Message.AudioAttachment), global::AcFunDanmu.Im.Message.AudioAttachment.Parser, new[]{ "MimeType", "Url", "DurationInMS", "LengthInBytes" }, null, null, null, null)
           }));
     }
     #endregion
@@ -74,7 +74,7 @@ namespace AcFunDanmu.Im.Message {
     public AudioAttachment(AudioAttachment other) : this() {
       mimeType_ = other.mimeType_;
       url_ = other.url_;
-      durationInMs_ = other.durationInMs_;
+      durationInMS_ = other.durationInMS_;
       lengthInBytes_ = other.lengthInBytes_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -109,15 +109,15 @@ namespace AcFunDanmu.Im.Message {
       }
     }
 
-    /// <summary>Field number for the "durationInMs" field.</summary>
-    public const int DurationInMsFieldNumber = 3;
-    private long durationInMs_;
+    /// <summary>Field number for the "durationInMS" field.</summary>
+    public const int DurationInMSFieldNumber = 3;
+    private long durationInMS_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long DurationInMs {
-      get { return durationInMs_; }
+    public long DurationInMS {
+      get { return durationInMS_; }
       set {
-        durationInMs_ = value;
+        durationInMS_ = value;
       }
     }
 
@@ -150,7 +150,7 @@ namespace AcFunDanmu.Im.Message {
       }
       if (MimeType != other.MimeType) return false;
       if (Url != other.Url) return false;
-      if (DurationInMs != other.DurationInMs) return false;
+      if (DurationInMS != other.DurationInMS) return false;
       if (LengthInBytes != other.LengthInBytes) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -161,7 +161,7 @@ namespace AcFunDanmu.Im.Message {
       int hash = 1;
       if (MimeType.Length != 0) hash ^= MimeType.GetHashCode();
       if (Url.Length != 0) hash ^= Url.GetHashCode();
-      if (DurationInMs != 0L) hash ^= DurationInMs.GetHashCode();
+      if (DurationInMS != 0L) hash ^= DurationInMS.GetHashCode();
       if (LengthInBytes != 0L) hash ^= LengthInBytes.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -189,9 +189,9 @@ namespace AcFunDanmu.Im.Message {
         output.WriteRawTag(18);
         output.WriteString(Url);
       }
-      if (DurationInMs != 0L) {
+      if (DurationInMS != 0L) {
         output.WriteRawTag(24);
-        output.WriteInt64(DurationInMs);
+        output.WriteInt64(DurationInMS);
       }
       if (LengthInBytes != 0L) {
         output.WriteRawTag(40);
@@ -215,9 +215,9 @@ namespace AcFunDanmu.Im.Message {
         output.WriteRawTag(18);
         output.WriteString(Url);
       }
-      if (DurationInMs != 0L) {
+      if (DurationInMS != 0L) {
         output.WriteRawTag(24);
-        output.WriteInt64(DurationInMs);
+        output.WriteInt64(DurationInMS);
       }
       if (LengthInBytes != 0L) {
         output.WriteRawTag(40);
@@ -239,8 +239,8 @@ namespace AcFunDanmu.Im.Message {
       if (Url.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
       }
-      if (DurationInMs != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(DurationInMs);
+      if (DurationInMS != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(DurationInMS);
       }
       if (LengthInBytes != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(LengthInBytes);
@@ -263,8 +263,8 @@ namespace AcFunDanmu.Im.Message {
       if (other.Url.Length != 0) {
         Url = other.Url;
       }
-      if (other.DurationInMs != 0L) {
-        DurationInMs = other.DurationInMs;
+      if (other.DurationInMS != 0L) {
+        DurationInMS = other.DurationInMS;
       }
       if (other.LengthInBytes != 0L) {
         LengthInBytes = other.LengthInBytes;
@@ -293,7 +293,7 @@ namespace AcFunDanmu.Im.Message {
             break;
           }
           case 24: {
-            DurationInMs = input.ReadInt64();
+            DurationInMS = input.ReadInt64();
             break;
           }
           case 40: {
@@ -324,7 +324,7 @@ namespace AcFunDanmu.Im.Message {
             break;
           }
           case 24: {
-            DurationInMs = input.ReadInt64();
+            DurationInMS = input.ReadInt64();
             break;
           }
           case 40: {

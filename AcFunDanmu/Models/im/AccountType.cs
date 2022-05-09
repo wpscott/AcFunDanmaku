@@ -24,9 +24,9 @@ namespace AcFunDanmu.Im.Message {
     static AccountTypeReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFBY2NvdW50VHlwZS5wcm90bxIVQWNGdW5EYW5tdS5JbS5NZXNzYWdlKkIK",
-            "C0FjY291bnRUeXBlEgsKB1VOS05PV04QABIMCghPRkZJQ0lBTBABEgoKBk5P",
-            "Uk1BTBACEgwKCFNUUkFOR0VSEANiBnByb3RvMw=="));
+            "ChFBY2NvdW50VHlwZS5wcm90bxIVQWNGdW5EYW5tdS5JbS5NZXNzYWdlKkEK",
+            "C0FjY291bnRUeXBlEgoKBlVOS05PVxAAEgwKCE9GRklDSUFMEAESCgoGTk9S",
+            "TUFMEAISDAoIU1RSQU5HRVIQA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AcFunDanmu.Im.Message.AccountType), }, null, null));
@@ -36,7 +36,7 @@ namespace AcFunDanmu.Im.Message {
   }
   #region Enums
   public enum AccountType {
-    [pbr::OriginalName("UNKNOWN")] Unknown = 0,
+    [pbr::OriginalName("UNKNOW")] Unknow = 0,
     [pbr::OriginalName("OFFICIAL")] Official = 1,
     [pbr::OriginalName("NORMAL")] Normal = 2,
     [pbr::OriginalName("STRANGER")] Stranger = 3,

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+import "TimeFilter.proto";
+
+message SessionSearchRequest {
+	repeated string groupName = 1;
+	repeated string memberName = 2;
+	repeated string query = 3;
+	repeated string fileName = 4;
+	TimeFilter timeFilter = 5;
+	int32 msgCountPerSession = 6;
+	repeated string memberId = 7;
+}

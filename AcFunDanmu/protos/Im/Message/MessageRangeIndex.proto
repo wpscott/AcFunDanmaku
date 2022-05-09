@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message MessageRangeIndex {
+	int64 dayTime = 1;
+	int64 seqIdMin = 2;
+	int64 seqIdMax = 3;
+}

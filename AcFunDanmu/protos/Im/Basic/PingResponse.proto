@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+message PingResponse {
+	sfixed32 serverTimestamp = 1;
+	fixed32 clientIp = 2;
+	fixed32 redirectIp = 3;
+	uint32 redirectPort = 4;
+	bytes clientIpV6 = 5;
+}

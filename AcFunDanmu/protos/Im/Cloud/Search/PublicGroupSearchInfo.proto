@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+import "GroupBasicInfo.proto";
+import "GroupJoinStatus.proto";
+import "PublicGroupHit.proto";
+
+message PublicGroupSearchInfo {
+	Im.Cloud.Message.GroupBasicInfo groupBasicInfo = 1;
+	Im.Cloud.Message.GroupJoinStatus status = 2;
+	PublicGroupHit groupHit = 3;
+}

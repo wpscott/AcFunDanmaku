@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+message PullAroundRequest {
+	string strTargetId = 1;
+	int64 baseSeq = 2;
+	int32 count = 3;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "InvitePermissionType.proto";
+
+message GroupSettingInvitePermission {
+	InvitePermissionType invitePermissionType = 1;
+}

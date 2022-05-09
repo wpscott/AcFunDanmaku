@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message CsQuestionMessageContent {
+	string title = 1;
+	repeated CsQuestion question = 2;
+	bytes bizContent = 3;
+
+	message CsQuestion {
+		int64 questionId = 1;
+		string text = 2;
+		string actionUrl = 3;
+		ActionType actionType = 4;
+
+		enum ActionType {
+			AT_UNKNOWN = 0;
+			REDIRECT = 1;
+			SEND_MESSAGE = 2;
+		}
+	}
+}

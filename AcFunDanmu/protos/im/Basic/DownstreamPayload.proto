@@ -3,12 +3,12 @@ syntax = "proto3";
 package AcFunDanmu.Im.Basic;
 
 message DownstreamPayload {
-    string command = 1;
-    int64 seqId = 2;
-    int32 errorCode = 3;
-    bytes payloadData = 4;
-    string errorMsg = 5;
-    bytes errorData = 6;
-    string subBiz = 7;
-    int64 klinkPushId = 8;
+	string command = 1;
+	int64 seqId = 2;
+	int32 errorCode = 3;
+	bytes payloadData = 4;
+	string errorMsg = 5;
+	bytes errorData = 6;
+	string subBiz = 7;
+	int64 klinkPushId = 8;
 }

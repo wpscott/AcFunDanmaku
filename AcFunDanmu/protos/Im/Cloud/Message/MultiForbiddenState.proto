@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum MultiForbiddenState {
+	UNKNOWN_MULTI_FORBIDDEN_STATE = 0;
+	GROUP_CAN_NOT_PROPAGATE = 1;
+	AUDIT_PUNISHED = 2;
+}

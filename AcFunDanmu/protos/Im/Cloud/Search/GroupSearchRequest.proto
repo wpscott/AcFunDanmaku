@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+import "User.proto";
+
+message GroupSearchRequest {
+	string query = 1;
+	repeated Im.Basic.User groupMember = 2;
+}

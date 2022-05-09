@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Profile;
+
+import "User.proto";
+
+message UserOnlineStatus {
+	Im.Basic.User user = 1;
+	int64 lastOfflineTime = 2;
+	Status status = 3;
+
+	enum Status {
+		UNKNOWN = 0;
+		ONLINE = 1;
+		OFFLINE = 2;
+	}
+}

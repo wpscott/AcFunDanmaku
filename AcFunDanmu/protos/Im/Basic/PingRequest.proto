@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+message PingRequest {
+	PingType pingType = 1;
+	uint32 pingRound = 2;
+
+	enum PingType {
+		kInvalid = 0;
+		kPriorRegister = 1;
+		kPostRegister = 2;
+	}
+}

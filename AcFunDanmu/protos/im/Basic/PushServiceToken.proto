@@ -1,4 +1,4 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package AcFunDanmu.Im.Basic;
 
@@ -12,10 +12,10 @@ message PushServiceToken {
 		kPushTypeAPNS = 1;
 		kPushTypeXmPush = 2;
 		kPushTypeJgPush = 3;
-		kPushTypeGtPUsh = 4;
+		kPushTypeGtPush = 4;
 		kPushTypeOpPush = 5;
-		kPushTYpeVvPush = 6;
+		kPushTypeVvPush = 6;
 		kPushTypeHwPush = 7;
-		kPushTYpeFcm = 8;
+		kPushTypeFcm = 8;
 	}
 }

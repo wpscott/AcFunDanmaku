@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum GroupStatus {
+	UNKNOW_GROUP_STATUS = 0;
+	VALID = 1;
+	INVALID = 2;
+}

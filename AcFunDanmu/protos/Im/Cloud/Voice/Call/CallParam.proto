@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Voice.Call;
+
+message CallParam {
+	bool microOn = 1;
+	bool speakerOn = 2;
+	bool cameraOn = 3;
+	bytes extra = 4;
+}

@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+message GroupInviteNeedUserAgree {
+	bool inviteNeedUserAgree = 1;
+}

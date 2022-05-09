@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+enum NoticeMetaType {
+	UNKNOWN_NOTICE_META_TYPE = 0;
+	COMMON_NOTICE_META_TYPE = 1;
+	CONFIRM_INVITE_INTO_GROUP_META = 2;
+	CONFIRM_JOIN_INTO_GROUP_META = 3;
+	LINKED_PROFILE_META_TYPE = 4;
+}

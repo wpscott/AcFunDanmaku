@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Message;
+
+import "InvitationOperator.proto";
+import "JoinRequestStatus.proto";
+import "User.proto";
+
+message Invitation {
+	int64 reqSeq = 1;
+	string groupId = 2;
+	Im.Basic.User requestUser = 3;
+	string groupName = 4;
+	int32 findType = 5;
+	string descContent = 6;
+	string auditComments = 7;
+	Im.Cloud.Message.JoinRequestStatus status = 8;
+	InvitationOperator operator = 9;
+	string groupNumber = 10;
+	string groupHeadUrl = 11;
+}

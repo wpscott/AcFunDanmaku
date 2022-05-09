@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Search;
+
+import "ImcMessageType.proto";
+import "TimeFilter.proto";
+import "User.proto";
+
+message FlatMessageSearchRequest {
+	repeated string query = 1;
+	repeated Im.Basic.User from = 2;
+	Im.Cloud.Message.ImcMessageType msgType = 3;
+	repeated string groupId = 4;
+	TimeFilter timeFilter = 5;
+	string offset = 6;
+	int32 msgCount = 7;
+	repeated int32 messageType = 8;
+}

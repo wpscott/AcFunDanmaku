@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Channel;
+
+import "User.proto";
+import "UserAction.proto";
+
+message UserActionInfo {
+	Im.Basic.User user = 1;
+	UserAction action = 2;
+	int64 timestamp = 3;
+}

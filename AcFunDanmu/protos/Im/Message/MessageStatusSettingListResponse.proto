@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Message;
+
+import "ChatSession.proto";
+
+message MessageStatusSettingListResponse {
+	repeated ChatSession session = 1;
+	string nextOffset = 2;
+	bool hasMore = 3;
+}

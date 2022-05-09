@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.Data.Update;
+
+import "SessionFolderBasic.proto";
+import "SessionReferenceUpdateItem.proto";
+
+message SessionFolderDataUpdate {
+	repeated Im.Cloud.SessionFolder.SessionFolderBasic sessionFolderBasic = 1;
+	repeated Im.Cloud.SessionFolder.SessionReferenceUpdateItem added = 2;
+	repeated Im.Cloud.SessionFolder.SessionReferenceUpdateItem removed = 3;
+}

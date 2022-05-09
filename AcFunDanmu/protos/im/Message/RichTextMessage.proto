@@ -5,5 +5,5 @@ package AcFunDanmu.Im.Message;
 import "RichTextNoticeMessage.proto";
 
 message RichTextMessage {
-    RichTextNoticeMessage richTextMessage = 1;
+	Im.Message.RichTextNoticeMessage richTextMessage = 1;
 }

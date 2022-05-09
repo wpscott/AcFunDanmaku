@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package AcFunDanmu.Im.Cloud.SessionTag;
+
+import "SessionTagBasic.proto";
+import "SyncCookie.proto";
+
+message SessionTagSyncResponse {
+	Im.Basic.SyncCookie syncCookie = 1;
+	repeated SessionTagBasic sessionTag = 2;
+}
