@@ -1,4 +1,5 @@
-﻿using Google.Protobuf;
+﻿using AcFunDanmu.Im.Basic;
+using Google.Protobuf;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,15 @@ namespace AcFunDanmu
             { "kpf", "WINDOWS_PC" },
             { "subBiz", "mainApp" },
         };
+
         private static string Query => string.Join("&", QueryDict.Select(query => $"{query.Key}={query.Value}"));
 
         private const int HeaderOffset = 12;
         private const int IVLength = 16;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void Copy<T>(in ReadOnlySpan<T> source, in int sourceIndex, in Span<T> target, in int targetIndex, in int length)
+        private static void Copy<T>(in ReadOnlySpan<T> source, in int sourceIndex, in Span<T> target,
+            in int targetIndex, in int length)
         {
             for (var i = 0; i < length; i++)
             {
@@ -68,10 +71,12 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte[] Encode(in PacketHeader header, in ByteString body, in string key) => Encode(header, Encrypt(key, body));
+        public static byte[] Encode(in PacketHeader header, in ByteString body, in string key) =>
+            Encode(header, Encrypt(key, body));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte[] Encode(in PacketHeader header, in ReadOnlySpan<byte> body, in string key) => Encode(header, Encrypt(key, body));
+        public static byte[] Encode(in PacketHeader header, in ReadOnlySpan<byte> body, in string key) =>
+            Encode(header, Encrypt(key, body));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte[] Encode(in PacketHeader header, in ReadOnlySpan<byte> encrypted)
@@ -109,29 +114,25 @@ namespace AcFunDanmu
                 {
                     Console.Write(" ");
                 }
+
                 if ((i & 15) == 15)
                 {
                     Console.WriteLine();
                 }
             }
+
             Console.WriteLine();
         }
 
         [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 4)]
         private unsafe struct Length
         {
-            [FieldOffset(0)]
-            public byte b0;
-            [FieldOffset(1)]
-            public byte b1;
-            [FieldOffset(2)]
-            public byte b2;
-            [FieldOffset(3)]
-            public byte b3;
-            [FieldOffset(0)]
-            public int iLength;
-            [FieldOffset(0)]
-            public fixed byte Data[4];
+            [FieldOffset(0)] public byte b0;
+            [FieldOffset(1)] public byte b1;
+            [FieldOffset(2)] public byte b2;
+            [FieldOffset(3)] public byte b3;
+            [FieldOffset(0)] public int iLength;
+            [FieldOffset(0)] public fixed byte Data[4];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -145,7 +146,9 @@ namespace AcFunDanmu
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte[] Int32ToByte(in Length length)
         {
-            return BitConverter.IsLittleEndian ? new[] { length.b3, length.b2, length.b1, length.b0 } : new[] { length.b0, length.b1, length.b2, length.b3 };
+            return BitConverter.IsLittleEndian
+                ? new[] { length.b3, length.b2, length.b1, length.b0 }
+                : new[] { length.b0, length.b1, length.b2, length.b3 };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -161,7 +164,8 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Decode<T>(in ReadOnlySpan<byte> bytes, in string SecurityKey, in string SessionKey, out PacketHeader header) where T : class, IMessage<T>
+        public static T Decode<T>(in ReadOnlySpan<byte> bytes, in string SecurityKey, in string SessionKey,
+            out PacketHeader header) where T : class, IMessage<T>
         {
             var (headerLength, payloadLength) = DecodeLengths(bytes);
 
@@ -205,7 +209,8 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static object Decode(in Type type, in ReadOnlySpan<byte> bytes, in string SecurityKey, in string SessionKey, out PacketHeader header)
+        public static object Decode(in Type type, in ReadOnlySpan<byte> bytes, in string SecurityKey,
+            in string SessionKey, out PacketHeader header)
         {
             var (headerLength, payloadLength) = DecodeLengths(bytes);
 
@@ -287,7 +292,6 @@ namespace AcFunDanmu
         private static byte[] Encrypt(in string key, in ReadOnlySpan<byte> body)
         {
 #if NET5_0_OR_GREATER
-
             using var aes = Aes.Create();
 
             using var encryptor = aes.CreateEncryptor(Convert.FromBase64String(key), aes.IV);
@@ -421,10 +425,12 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Parse<T>(in ReadOnlySpan<byte> payload) where T : class, IMessage<T> => Parse(typeof(T), new object[] { ByteString.CopyFrom(payload) }) as T;
+        public static T Parse<T>(in ReadOnlySpan<byte> payload) where T : class, IMessage<T> =>
+            Parse(typeof(T), new object[] { ByteString.CopyFrom(payload) }) as T;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static object Parse(in Type type, in ReadOnlySpan<byte> payload) => Parse(type, new object[] { ByteString.CopyFrom(payload) });
+        public static object Parse(in Type type, in ReadOnlySpan<byte> payload) =>
+            Parse(type, new object[] { ByteString.CopyFrom(payload) });
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object Parse(in string typeName, in ByteString payload)
@@ -443,11 +449,13 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string Sign(in string uri, in string key, in Nonce nonce, in SortedList<string, string> extra = null)
+        private static string Sign(in string uri, in string key, in Nonce nonce,
+            in SortedList<string, string> extra = null)
         {
 #if NET5_0_OR_GREATER
             using var hmac = new HMACSHA256(Convert.FromBase64String(key));
-            string query = extra == null ? Query : string.Join('&', QueryDict.Concat(extra).OrderBy(query => query.Key).Select(query => $"{query.Key}={query.Value}"));
+            string query =
+ extra == null ? Query : string.Join('&', QueryDict.Concat(extra).OrderBy(query => query.Key).Select(query => $"{query.Key}={query.Value}"));
 
             var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{uri}&{query}&{nonce.Result}"));
 
@@ -456,7 +464,10 @@ namespace AcFunDanmu
             byte[] hash = null;
             using (var hmac = new HMACSHA256(Convert.FromBase64String(key)))
             {
-                var query = extra == null ? Query : string.Join("&", QueryDict.Concat(extra).OrderBy(item => item.Key).Select(item => $"{item.Key}={item.Value}"));
+                var query = extra == null
+                    ? Query
+                    : string.Join("&",
+                        QueryDict.Concat(extra).OrderBy(item => item.Key).Select(item => $"{item.Key}={item.Value}"));
 
                 hash = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{uri}&{query}&{nonce.Result}"));
             }
@@ -485,6 +496,7 @@ namespace AcFunDanmu
                 sign[6] = nonce.b6;
                 sign[7] = nonce.b7;
             }
+
             for (var i = 0; i < hash.Length; i++)
             {
                 sign[NonceSize + i] = hash[i];
@@ -494,7 +506,8 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe string Sign(in string url, in string key, in long nonce, in SortedList<string, string> extra = null)
+        private static unsafe string Sign(in string url, in string key, in long nonce,
+            in SortedList<string, string> extra = null)
         {
             fixed (long* ptr = &nonce)
             {
@@ -503,34 +516,25 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string Sign(in string url, in string key, in SortedList<string, string> extra = null) => Sign(url, key, Random(), extra);
+        private static string Sign(in string url, in string key, in SortedList<string, string> extra = null) =>
+            Sign(url, key, Random(), extra);
 
         private const int NonceSize = sizeof(long);
+
         [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 8)]
         private unsafe struct Nonce
         {
-            [FieldOffset(0)]
-            public int Random;
-            [FieldOffset(0)]
-            public long Result;
-            [FieldOffset(0)]
-            public fixed byte Data[NonceSize];
-            [FieldOffset(0)]
-            public byte b0;
-            [FieldOffset(1)]
-            public byte b1;
-            [FieldOffset(2)]
-            public byte b2;
-            [FieldOffset(3)]
-            public byte b3;
-            [FieldOffset(4)]
-            public byte b4;
-            [FieldOffset(5)]
-            public byte b5;
-            [FieldOffset(6)]
-            public byte b6;
-            [FieldOffset(7)]
-            public byte b7;
+            [FieldOffset(0)] public int Random;
+            [FieldOffset(0)] public long Result;
+            [FieldOffset(0)] public fixed byte Data[NonceSize];
+            [FieldOffset(0)] public byte b0;
+            [FieldOffset(1)] public byte b1;
+            [FieldOffset(2)] public byte b2;
+            [FieldOffset(3)] public byte b3;
+            [FieldOffset(4)] public byte b4;
+            [FieldOffset(5)] public byte b5;
+            [FieldOffset(6)] public byte b6;
+            [FieldOffset(7)] public byte b7;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

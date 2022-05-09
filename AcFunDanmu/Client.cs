@@ -1,4 +1,5 @@
 ﻿using AcFunDanmu.Enums;
+using AcFunDanmu.Im.Basic;
 using AcFunDanmu.Models.Client;
 using Google.Protobuf;
 using Serilog;
@@ -29,6 +30,7 @@ namespace AcFunDanmu
     public class Client
     {
         #region Constants
+
         private const string ACCEPTED_ENCODING = "gzip, deflate, br";
         private const string VISITOR_ST = "acfun.api.visitor_st";
         private const string MIDGROUND_ST = "acfun.midground.api_st";
@@ -46,24 +48,39 @@ namespace AcFunDanmu
         private static readonly Uri LOGIN_URI = new Uri(LOGIN_URL);
         private const string GET_TOKEN_URL = "https://id.app.acfun.cn/rest/web/token/get";
         private static readonly Uri GET_TOKEN_URI = new Uri(GET_TOKEN_URL);
-        private const string PLAY_URL = "https://api.kuaishouzt.com/rest/zt/live/web/startPlay?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
-        private const string GIFT_URL = "https://api.kuaishouzt.com/rest/zt/live/web/gift/list?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
-        private const string WATCHING_URL = "https://api.kuaishouzt.com/rest/zt/live/web/watchingList?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
 
-        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36";
+        private const string PLAY_URL =
+            "https://api.kuaishouzt.com/rest/zt/live/web/startPlay?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
 
-        private const string SAFETY_ID_CONTENT = "{{\"platform\":5,\"app_version\":\"2.0.32\",\"device_id\":\"null\",\"user_id\":\"{0}\"}}";
-        private static readonly Dictionary<string, string> LOGIN_FORM = new Dictionary<string, string>() { { "sid", "acfun.api.visitor" } };
-        private static readonly Dictionary<string, string> GET_TOKEN_FORM = new Dictionary<string, string>() { { "sid", "acfun.midground.api" } };
+        private const string GIFT_URL =
+            "https://api.kuaishouzt.com/rest/zt/live/web/gift/list?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
+
+        private const string WATCHING_URL =
+            "https://api.kuaishouzt.com/rest/zt/live/web/watchingList?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
+
+        private const string UserAgent =
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36";
+
+        private const string SAFETY_ID_CONTENT =
+            "{{\"platform\":5,\"app_version\":\"2.0.32\",\"device_id\":\"null\",\"user_id\":\"{0}\"}}";
+
+        private static readonly Dictionary<string, string> LOGIN_FORM = new Dictionary<string, string>()
+            { { "sid", "acfun.api.visitor" } };
+
+        private static readonly Dictionary<string, string> GET_TOKEN_FORM = new Dictionary<string, string>()
+            { { "sid", "acfun.midground.api" } };
 
         private const string _WEBSOCKET_HOST = "wss://klink-newproduct-ws2.kwaizt.com/";
         private static readonly Uri WEBSOCKET_HOST = new Uri(_WEBSOCKET_HOST);
+
         #endregion
 
         public SignalHandler Handler { get; set; }
 
         #region Properties and Fields
-        public static readonly ConcurrentDictionary<long, GiftInfo> Gifts = new ConcurrentDictionary<long, GiftInfo>(12, 64);
+
+        public static readonly ConcurrentDictionary<long, GiftInfo> Gifts =
+            new ConcurrentDictionary<long, GiftInfo>(12, 64);
 
         private static readonly CookieContainer CookieContainer = new CookieContainer();
         private static string DeviceId;
@@ -81,9 +98,11 @@ namespace AcFunDanmu
 
         private ClientWebSocket _client;
         private ClientRequestUtils _utils;
+
         #endregion
 
         #region Constructor
+
         public Client()
         {
             Log.Logger = new LoggerConfiguration()
@@ -97,7 +116,8 @@ namespace AcFunDanmu
                 .CreateLogger();
         }
 
-        public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach, string liveId) : this()
+        public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach,
+            string liveId) : this()
         {
             UserId = userId;
             ServiceToken = serviceToken;
@@ -106,6 +126,7 @@ namespace AcFunDanmu
             EnterRoomAttach = enterRoomAttach;
             LiveId = liveId;
         }
+
         #endregion
 
         public async Task<bool> Login(string username, string password)
@@ -178,41 +199,50 @@ namespace AcFunDanmu
 
                         using (var signinContent = new FormUrlEncodedContent(new Dictionary<string, string>
                                {
-                                   {"username", username },
-                                   {"password", password },
-                                   {"key", null },
-                                   {"captcha", null}
+                                   { "username", username },
+                                   { "password", password },
+                                   { "key", null },
+                                   { "captcha", null }
                                }))
                         {
                             using (var signin = await client.PostAsync(ACFUN_SIGN_IN_URI, signinContent))
                             {
                                 if (!signin.IsSuccessStatusCode)
                                 {
-                                    Log.Error("Post sign in error: {Content}", await signin.Content.ReadAsStringAsync());
+                                    Log.Error("Post sign in error: {Content}",
+                                        await signin.Content.ReadAsStringAsync());
                                     return false;
                                 }
-                                var user = JsonConvert.DeserializeObject<SignIn>(await signin.Content.ReadAsStringAsync());
+
+                                var user = JsonConvert.DeserializeObject<SignIn>(
+                                    await signin.Content.ReadAsStringAsync());
                                 if (user == null)
                                 {
                                     Log.Error("Unable to deserialize SignIn");
                                     return false;
                                 }
 
-                                using (var sidContent = new StringContent(string.Format(SAFETY_ID_CONTENT, user.UserId)))
+                                using (var sidContent =
+                                       new StringContent(string.Format(SAFETY_ID_CONTENT, user.UserId)))
                                 {
                                     using (var sid = await client.PostAsync(ACFUN_SAFETY_ID_URI, sidContent))
                                     {
                                         if (!sid.IsSuccessStatusCode)
                                         {
-                                            Log.Error("Post safety id error: {Content}", await sid.Content.ReadAsStringAsync());
+                                            Log.Error("Post safety id error: {Content}",
+                                                await sid.Content.ReadAsStringAsync());
                                             return false;
                                         }
-                                        var safetyid = JsonConvert.DeserializeObject<SafetyId>(await sid.Content.ReadAsStringAsync());
+
+                                        var safetyid =
+                                            JsonConvert.DeserializeObject<SafetyId>(
+                                                await sid.Content.ReadAsStringAsync());
                                         if (safetyid == null)
                                         {
                                             Log.Error("Unable to deserialize SignIn");
                                             return false;
                                         }
+
                                         CookieContainer.Add(new Cookie
                                         {
                                             Domain = ".acfun.cn",
@@ -239,10 +269,12 @@ namespace AcFunDanmu
                 Log.Error(ex, "Login Exception");
                 return await Login(username, password);
             }
+
             return IsSignIn;
         }
 
-        public async Task<PlayData> InitializeWithLogin(string username, string password, string uid, bool refreshGiftList = false)
+        public async Task<PlayData> InitializeWithLogin(string username, string password, string uid,
+            bool refreshGiftList = false)
         {
             await Login(username, password);
             return await Initialize(uid, refreshGiftList);
@@ -275,23 +307,35 @@ namespace AcFunDanmu
                         {
                             Log.Error("Get live info error: {Content}", await index.Content.ReadAsStringAsync());
                         }
+
                         if (string.IsNullOrEmpty(DeviceId))
                         {
                             DeviceId = CookieContainer.GetCookies(ACFUN_HOST)["_did"]?.Value;
                         }
+
                         IsPrepared = true;
                     }
                 }
 #endif
                 return IsPrepared;
             }
-            catch (HttpRequestException) { return await Prepare(); }
-            catch (TaskCanceledException) { return await Prepare(); }
+            catch (HttpRequestException)
+            {
+                return await Prepare();
+            }
+            catch (TaskCanceledException)
+            {
+                return await Prepare();
+            }
         }
 
         public async Task<PlayData> Initialize(string hostId, bool refreshGiftList = false)
         {
-            if (!IsPrepared) { Log.Error("Client not prepared, please call Client.Prepare() first"); return null; }
+            if (!IsPrepared)
+            {
+                Log.Error("Client not prepared, please call Client.Prepare() first");
+                return null;
+            }
 
             if (long.TryParse(hostId, out var HostId))
             {
@@ -306,7 +350,11 @@ namespace AcFunDanmu
 
         public async Task<PlayData> Initialize(long hostId, bool refreshGiftList = false)
         {
-            if (!IsPrepared) { Log.Error("Client not prepared, please call Client.Prepare() first"); return null; }
+            if (!IsPrepared)
+            {
+                Log.Error("Client not prepared, please call Client.Prepare() first");
+                return null;
+            }
 
             HostId = hostId;
             Log.Information("Client initializing");
@@ -324,7 +372,8 @@ namespace AcFunDanmu
                         Log.Error("Get token error: {Content}", await get.Content.ReadAsStringAsync());
                         return null;
                     }
-                    var token = await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
+                    var token =
+ await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
                     if (token == null)
                     {
 
@@ -344,7 +393,8 @@ namespace AcFunDanmu
                         Log.Error("Get token error: {Content}", await login.Content.ReadAsStringAsync());
                         return null;
                     }
-                    var token = await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
+                    var token =
+ await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
                     if (token == null)
                     {
 
@@ -356,8 +406,10 @@ namespace AcFunDanmu
                     SecurityKey = token.SecurityKey;
                 }
 
-                using var form = new FormUrlEncodedContent(new Dictionary<string, string> { { "authorId", $"{hostId}" }, { "pullStreamType", "FLV" } });
-                using var play = await client.PostAsync(string.Format(PLAY_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), form);
+                using var form =
+ new FormUrlEncodedContent(new Dictionary<string, string> { { "authorId", $"{hostId}" }, { "pullStreamType", "FLV" } });
+                using var play =
+ await client.PostAsync(string.Format(PLAY_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), form);
 
                 if (!play.IsSuccessStatusCode)
                 {
@@ -388,7 +440,6 @@ namespace AcFunDanmu
 #elif NETSTANDARD2_0_OR_GREATER
                 using (var client = CreateHttpClient(LIVE_URI))
                 {
-
                     if (IsSignIn)
                     {
                         using (var getcontent = new FormUrlEncodedContent(GET_TOKEN_FORM))
@@ -400,13 +451,15 @@ namespace AcFunDanmu
                                     Log.Error("Get token error: {Content}", await get.Content.ReadAsStringAsync());
                                     return null;
                                 }
-                                var token = JsonConvert.DeserializeObject<MidgroundToken>(await get.Content.ReadAsStringAsync());
+
+                                var token = JsonConvert.DeserializeObject<MidgroundToken>(
+                                    await get.Content.ReadAsStringAsync());
                                 if (token == null)
                                 {
-
                                     Log.Error("Unable to deserialize MidgroundToken");
                                     return null;
                                 }
+
                                 UserId = token.UserId;
                                 ServiceToken = token.ServiceToken;
                                 SecurityKey = token.SecurityKey;
@@ -424,13 +477,15 @@ namespace AcFunDanmu
                                     Log.Error("Get token error: {Content}", await login.Content.ReadAsStringAsync());
                                     return null;
                                 }
-                                var token = JsonConvert.DeserializeObject<VisitorToken>(await login.Content.ReadAsStringAsync());
+
+                                var token = JsonConvert.DeserializeObject<VisitorToken>(
+                                    await login.Content.ReadAsStringAsync());
                                 if (token == null)
                                 {
-
                                     Log.Error("Unable to deserialize VisitorToken");
                                     return null;
                                 }
+
                                 UserId = token.UserId;
                                 ServiceToken = token.ServiceToken;
                                 SecurityKey = token.SecurityKey;
@@ -438,11 +493,13 @@ namespace AcFunDanmu
                         }
                     }
 
-                    using (var form = new FormUrlEncodedContent(new Dictionary<string, string> { { "authorId", $"{hostId}" }, { "pullStreamType", "FLV" } }))
+                    using (var form = new FormUrlEncodedContent(new Dictionary<string, string>
+                               { { "authorId", $"{hostId}" }, { "pullStreamType", "FLV" } }))
                     {
-                        using (var play = await client.PostAsync(string.Format(PLAY_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), form))
+                        using (var play = await client.PostAsync(
+                                   string.Format(PLAY_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST,
+                                       ServiceToken), form))
                         {
-
                             if (!play.IsSuccessStatusCode)
                             {
                                 Log.Error("Get play info error: {Content}", await play.Content.ReadAsStringAsync());
@@ -455,16 +512,21 @@ namespace AcFunDanmu
                                 Log.Error("Unable to deserialize Play");
                                 return null;
                             }
+
                             if (playData.Result > 1)
                             {
                                 Log.Error(playData.ErrorMsg);
                                 return null;
                             }
+
                             Tickets = playData.Data?.AvailableTickets ?? Array.Empty<string>();
                             EnterRoomAttach = playData.Data?.EnterRoomAttach;
                             LiveId = playData.Data?.LiveId;
 
-                            if (refreshGiftList) { UpdateGiftList(); }
+                            if (refreshGiftList)
+                            {
+                                UpdateGiftList();
+                            }
 
                             Log.Information("Client initialized");
 
@@ -490,7 +552,10 @@ namespace AcFunDanmu
         private async void UpdateGiftList()
         {
             if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(LiveId))
-            { return; }
+            {
+                return;
+            }
+
             try
             {
 #if NET5_0_OR_GREATER
@@ -501,10 +566,12 @@ namespace AcFunDanmu
                         {"visitorId", $"{UserId}" },
                         {"liveId", LiveId }
                     });
-                using var gift = await client.PostAsync(string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), giftContent);
+                using var gift =
+ await client.PostAsync(string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), giftContent);
                 if (gift.IsSuccessStatusCode)
                 {
-                    var giftList = await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
+                    var giftList =
+ await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
                     foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
                     {
                         var giftInfo = new GiftInfo
@@ -520,15 +587,18 @@ namespace AcFunDanmu
                 using (var client = CreateHttpClient(LIVE_URI))
                 {
                     using (var giftContent = new FormUrlEncodedContent(new Dictionary<string, string>
+                           {
+                               { "visitorId", $"{UserId}" },
+                               { "liveId", LiveId }
+                           }))
                     {
-                        { "visitorId", $"{UserId}" },
-                        { "liveId", LiveId }
-                    }))
-                    {
-                        using (var gift = await client.PostAsync(string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), giftContent))
+                        using (var gift = await client.PostAsync(
+                                   string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST,
+                                       ServiceToken), giftContent))
                         {
                             if (!gift.IsSuccessStatusCode) return;
-                            var giftList = JsonConvert.DeserializeObject<GiftList>(await gift.Content.ReadAsStringAsync());
+                            var giftList =
+                                JsonConvert.DeserializeObject<GiftList>(await gift.Content.ReadAsStringAsync());
                             foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
                             {
                                 var giftInfo = new GiftInfo
@@ -562,6 +632,7 @@ namespace AcFunDanmu
             {
                 return Array.Empty<WatchingUser>();
             }
+
             try
             {
 #if NET5_0_OR_GREATER
@@ -572,30 +643,36 @@ namespace AcFunDanmu
                     {"visitorId", $"{UserId}" },
                     {"liveId", LiveId }
                 });
-                using var watching = await client.PostAsync(string.Format(WATCHING_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), watchingContent);
+                using var watching =
+ await client.PostAsync(string.Format(WATCHING_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), watchingContent);
                 if (!watching.IsSuccessStatusCode)
                 {
                     return Array.Empty<WatchingUser>();
                 }
-                var watchingList = await JsonSerializer.DeserializeAsync<WatchingList>(await watching.Content.ReadAsStreamAsync());
+                var watchingList =
+ await JsonSerializer.DeserializeAsync<WatchingList>(await watching.Content.ReadAsStreamAsync());
 
                 return watchingList?.Data?.List ?? Array.Empty<WatchingUser>();
 #elif NETSTANDARD2_0_OR_GREATER
                 using (var client = CreateHttpClient(LIVE_URL))
                 {
                     using (var watchingContent = new FormUrlEncodedContent(new Dictionary<string, string>
+                           {
+                               { "visitorId", $"{UserId}" },
+                               { "liveId", LiveId }
+                           }))
                     {
-                        {"visitorId", $"{UserId}" },
-                        {"liveId", LiveId }
-                    }))
-                    {
-                        using (var watching = await client.PostAsync(string.Format(WATCHING_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken), watchingContent))
+                        using (var watching = await client.PostAsync(
+                                   string.Format(WATCHING_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST,
+                                       ServiceToken), watchingContent))
                         {
                             if (!watching.IsSuccessStatusCode)
                             {
                                 return Array.Empty<WatchingUser>();
                             }
-                            var watchingList = JsonConvert.DeserializeObject<WatchingList>(await watching.Content.ReadAsStringAsync());
+
+                            var watchingList =
+                                JsonConvert.DeserializeObject<WatchingList>(await watching.Content.ReadAsStringAsync());
 
                             return watchingList?.Data?.List ?? Array.Empty<WatchingUser>();
                         }
@@ -628,7 +705,8 @@ namespace AcFunDanmu
             using var owner = MemoryPool<byte>.Shared.Rent();
 
             if (_utils != null) { _utils = null; }
-            _utils = new ClientRequestUtils(UserId, DeviceId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach, Tickets);
+            _utils =
+ new ClientRequestUtils(UserId, DeviceId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach, Tickets);
             if (_client != null)
             {
                 _client.Dispose();
@@ -662,7 +740,8 @@ namespace AcFunDanmu
                     {
                         await _client.ReceiveAsync(buffer, default);
 
-                        var stream = Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey, out var header);
+                        var stream =
+ Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey, out var header);
                         if (stream == null) { Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span)); continue; }
                         HandleCommand(header, stream, heartbeatTimer, deathTimer);
                     }
@@ -689,8 +768,9 @@ namespace AcFunDanmu
 #elif NETSTANDARD2_0_OR_GREATER
         public async Task<bool> Start()
         {
-
-            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) || string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null || Tickets.Length == 0)
+            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) ||
+                string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null ||
+                Tickets.Length == 0)
             {
                 Log.Information("Not initialized or live is ended");
                 return false;
@@ -698,17 +778,24 @@ namespace AcFunDanmu
 
             var owner = ArrayPool<byte>.Shared;
 
-            if (_utils != null) { _utils = null; }
-            _utils = new ClientRequestUtils(UserId, DeviceId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach, Tickets);
+            if (_utils != null)
+            {
+                _utils = null;
+            }
+
+            _utils = new ClientRequestUtils(UserId, DeviceId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach,
+                Tickets);
             if (_client != null)
             {
                 _client.Dispose();
                 _client = null;
                 GC.Collect();
             }
+
             _client = CreateWebsocketClient();
 
             #region Timers
+
             using (HeartbeatTimer heartbeatTimer = new HeartbeatTimer(), deathTimer = new HeartbeatTimer())
             {
                 heartbeatTimer.Elapsed += Heartbeat;
@@ -716,6 +803,7 @@ namespace AcFunDanmu
 
                 deathTimer.Interval = TimeSpan.FromSeconds(10).TotalMilliseconds;
                 deathTimer.Elapsed += async (s, e) => { await Stop("dead"); };
+
                 #endregion
 
                 try
@@ -723,10 +811,14 @@ namespace AcFunDanmu
                     await _client.ConnectAsync(WEBSOCKET_HOST, default);
 
                     #region Register
-                    await _client.SendAsync(new ArraySegment<byte>(_utils.RegisterRequest()), WebSocketMessageType.Binary, true, default);
+
+                    await _client.SendAsync(new ArraySegment<byte>(_utils.RegisterRequest()),
+                        WebSocketMessageType.Binary, true, default);
+
                     #endregion
 
                     #region Main loop
+
                     while (_client.State == WebSocketState.Open)
                     {
                         try
@@ -735,8 +827,14 @@ namespace AcFunDanmu
                             var segment = new ArraySegment<byte>(buffer);
                             var result = await _client.ReceiveAsync(segment, default);
 
-                            var stream = Decode<DownstreamPayload>(buffer, SecurityKey, _utils.SessionKey, out var header);
-                            if (stream == null) { Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer)); continue; }
+                            var stream = Decode<DownstreamPayload>(buffer, SecurityKey, _utils.SessionKey,
+                                out var header);
+                            if (stream == null)
+                            {
+                                Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer));
+                                continue;
+                            }
+
                             HandleCommand(header, stream, heartbeatTimer, deathTimer);
 
                             owner.Return(buffer);
@@ -752,6 +850,7 @@ namespace AcFunDanmu
                     Log.Debug("Client status: {State}", _client.State);
                     heartbeatTimer.Stop();
                     deathTimer.Stop();
+
                     #endregion
                 }
                 catch (Exception ex)
@@ -774,8 +873,10 @@ namespace AcFunDanmu
                     await _client.SendAsync(_utils.UserExitRequest(), WebSocketMessageType.Binary, true, default);
                     await _client.SendAsync(_utils.UnregisterRequest(), WebSocketMessageType.Binary, true, default);
 #elif NETSTANDARD2_0_OR_GREATER
-                    await _client.SendAsync(new ArraySegment<byte>(_utils.UserExitRequest()), WebSocketMessageType.Binary, true, default);
-                    await _client.SendAsync(new ArraySegment<byte>(_utils.UnregisterRequest()), WebSocketMessageType.Binary, true, default);
+                    await _client.SendAsync(new ArraySegment<byte>(_utils.UserExitRequest()),
+                        WebSocketMessageType.Binary, true, default);
+                    await _client.SendAsync(new ArraySegment<byte>(_utils.UnregisterRequest()),
+                        WebSocketMessageType.Binary, true, default);
 #endif
                     await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, message, default);
                 }
@@ -786,7 +887,8 @@ namespace AcFunDanmu
             }
         }
 
-        private async void HandleCommand(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer, HeartbeatTimer deathTimer)
+        private async void HandleCommand(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer,
+            HeartbeatTimer deathTimer)
         {
             Log.Debug("--------");
             Log.Debug("Down\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, stream.SeqId, stream.Command);
@@ -822,6 +924,7 @@ namespace AcFunDanmu
                         {
                             await Stop("Log out");
                         }
+
                         Log.Debug("Error Data: {Data}", stream.ErrorData.ToBase64());
                     }
                     else
@@ -829,8 +932,10 @@ namespace AcFunDanmu
                         Log.Information("Unhandled DownstreamPayload Command: {Command}", stream.Command ?? "Empty");
                         Log.Debug("Command Data: {Data}", stream.ToByteString().ToBase64());
                     }
+
                     break;
             }
+
             Log.Debug("--------");
         }
 
@@ -842,7 +947,9 @@ namespace AcFunDanmu
             {
                 case GlobalCommand.ENTER_ROOM_ACK:
                     var enterRoom = ZtLiveCsEnterRoomAck.Parser.ParseFrom(cmd.Payload);
-                    heartbeatTimer.Interval = enterRoom.HeartbeatIntervalMs > 0 ? enterRoom.HeartbeatIntervalMs : TimeSpan.FromSeconds(10).TotalMilliseconds;
+                    heartbeatTimer.Interval = enterRoom.HeartbeatIntervalMs > 0
+                        ? enterRoom.HeartbeatIntervalMs
+                        : TimeSpan.FromSeconds(10).TotalMilliseconds;
                     heartbeatTimer.Start();
                     Log.Debug("\t\t{EnterRoom}", enterRoom);
                     break;
@@ -876,7 +983,8 @@ namespace AcFunDanmu
         private async Task HandleRegister(int appId, DownstreamPayload payload)
         {
             var register = RegisterResponse.Parser.ParseFrom(payload.PayloadData);
-            _utils.Register(appId, register.InstanceId, register.SessKey.ToBase64(), register.SdkOption.Lz4CompressionThresholdBytes);
+            _utils.Register(appId, register.InstanceId, register.SessKey.ToBase64(),
+                register.SdkOption.Lz4CompressionThresholdBytes);
             Log.Debug("\t{Register}", register);
             try
             {
@@ -884,8 +992,10 @@ namespace AcFunDanmu
                 await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
                 await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
 #elif NETSTANDARD2_0_OR_GREATER
-                await _client.SendAsync(new ArraySegment<byte>(_utils.KeepAliveRequest()), WebSocketMessageType.Binary, true, default);
-                await _client.SendAsync(new ArraySegment<byte>(_utils.EnterRoomRequest()), WebSocketMessageType.Binary, true, default);
+                await _client.SendAsync(new ArraySegment<byte>(_utils.KeepAliveRequest()), WebSocketMessageType.Binary,
+                    true, default);
+                await _client.SendAsync(new ArraySegment<byte>(_utils.EnterRoomRequest()), WebSocketMessageType.Binary,
+                    true, default);
 #endif
             }
             catch (Exception ex)
@@ -908,11 +1018,14 @@ namespace AcFunDanmu
             }
         }
 
-        private async Task HandlePushMessage(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer, HeartbeatTimer deathTimer)
+        private async Task HandlePushMessage(PacketHeader header, DownstreamPayload stream,
+            HeartbeatTimer heartbeatTimer, HeartbeatTimer deathTimer)
         {
             var message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
             Log.Debug("\t{message}", message);
-            var payload = message.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip ? Decompress(message.Payload) : message.Payload;
+            var payload = message.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip
+                ? Decompress(message.Payload)
+                : message.Payload;
 
             deathTimer.Stop();
             deathTimer.Start();
@@ -936,12 +1049,14 @@ namespace AcFunDanmu
                     Log.Debug("CsCmdAck Data: {Data}", stream.PayloadData.ToBase64());
                     break;
             }
+
             try
             {
 #if NET5_0_OR_GREATER
                 await _client.SendAsync(_utils.PushMessageResponse(header.SeqId), WebSocketMessageType.Binary, true, default);
 #elif NETSTANDARD2_0_OR_GREATER
-                await _client.SendAsync(new ArraySegment<byte>(_utils.PushMessageResponse(header.SeqId)), WebSocketMessageType.Binary, true, default);
+                await _client.SendAsync(new ArraySegment<byte>(_utils.PushMessageResponse(header.SeqId)),
+                    WebSocketMessageType.Binary, true, default);
 #endif
             }
             catch (Exception ex)
@@ -955,7 +1070,8 @@ namespace AcFunDanmu
         {
             var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);
             Log.Debug("\t\t{StatusChanged}", statusChanged);
-            if (statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveClosed || statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveBanned)
+            if (statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveClosed ||
+                statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveBanned)
             {
                 heartbeatTimer.Stop();
                 await Stop("Live closed");
@@ -972,7 +1088,8 @@ namespace AcFunDanmu
 #if NET5_0_OR_GREATER
                 await _client.SendAsync(_utils.EnterRoomRequest(), WebSocketMessageType.Binary, true, default);
 #elif NETSTANDARD2_0_OR_GREATER
-                await _client.SendAsync(new ArraySegment<byte>(_utils.EnterRoomRequest()), WebSocketMessageType.Binary, true, default);
+                await _client.SendAsync(new ArraySegment<byte>(_utils.EnterRoomRequest()), WebSocketMessageType.Binary,
+                    true, default);
 #endif
             }
             catch (Exception ex)
@@ -1007,7 +1124,7 @@ namespace AcFunDanmu
             var client = new ClientWebSocket();
             client.Options.SetRequestHeader("Origin", _ACFUN_HOST);
             client.Options.SetRequestHeader("User-Agent", UserAgent);
-            client.Options.KeepAliveInterval = TimeSpan.Zero;  // ????WTF????
+            client.Options.KeepAliveInterval = TimeSpan.Zero; // ????WTF????
             client.Options.Cookies = CookieContainer;
 #if NETSTANDARD2_1_OR_GREATER
             client.Options.RemoteCertificateValidationCallback = RemoteCertificateValidationCallback;
@@ -1015,7 +1132,8 @@ namespace AcFunDanmu
             return client;
         }
 
-        private static bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) => true;
+        private static bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate,
+            X509Chain chain, SslPolicyErrors sslPolicyErrors) => true;
 
         private async void Heartbeat(object sender, ElapsedEventArgs e)
         {
@@ -1032,11 +1150,13 @@ namespace AcFunDanmu
                         await _client.SendAsync(_utils.KeepAliveRequest(), WebSocketMessageType.Binary, true, default);
                     }
 #elif NETSTANDARD2_0_OR_GREATER
-                    await _client.SendAsync(new ArraySegment<byte>(_utils.HeartbeatReqeust()), WebSocketMessageType.Binary, true, default);
+                    await _client.SendAsync(new ArraySegment<byte>(_utils.HeartbeatReqeust()),
+                        WebSocketMessageType.Binary, true, default);
 
                     if (_utils.HeartbeatSeqId % 5 == 4)
                     {
-                        await _client.SendAsync(new ArraySegment<byte>(_utils.KeepAliveRequest()), WebSocketMessageType.Binary, true, default);
+                        await _client.SendAsync(new ArraySegment<byte>(_utils.KeepAliveRequest()),
+                            WebSocketMessageType.Binary, true, default);
                     }
 #endif
                 }

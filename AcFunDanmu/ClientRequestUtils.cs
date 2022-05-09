@@ -1,4 +1,5 @@
 ﻿using AcFunDanmu.Enums;
+using AcFunDanmu.Im.Basic;
 using Google.Protobuf;
 using Serilog;
 using System;
@@ -39,7 +40,8 @@ namespace AcFunDanmu
 
         private string Ticket => Tickets[TicketIndex];
 
-        public ClientRequestUtils(long userid, string did, string servicetoken, string securitykey, string liveid, string enterroomattach, string[] tickets)
+        public ClientRequestUtils(long userid, string did, string servicetoken, string securitykey, string liveid,
+            string enterroomattach, string[] tickets)
         {
             UserId = userid;
             Did = did;
@@ -77,8 +79,8 @@ namespace AcFunDanmu
                     PlatformType = DeviceInfo.Types.PlatformType.H5Windows,
                     DeviceModel = "h5",
                 },
-                PresenceStatus = AcFunDanmu.RegisterRequest.Types.PresenceStatus.KPresenceOnline,
-                AppActiveStatus = AcFunDanmu.RegisterRequest.Types.ActiveStatus.KAppInForeground,
+                PresenceStatus = Im.Basic.RegisterRequest.Types.PresenceStatus.KPresenceOnline,
+                AppActiveStatus = Im.Basic.RegisterRequest.Types.ActiveStatus.KAppInForeground,
                 InstanceId = InstanceId,
                 ZtCommonInfo = new ZtCommonInfo
                 {
@@ -116,8 +118,8 @@ namespace AcFunDanmu
         {
             var keepalive = new KeepAliveRequest
             {
-                PresenceStatus = AcFunDanmu.RegisterRequest.Types.PresenceStatus.KPresenceOnline,
-                AppActiveStatus = AcFunDanmu.RegisterRequest.Types.ActiveStatus.KAppInForeground,
+                PresenceStatus = Im.Basic.RegisterRequest.Types.PresenceStatus.KPresenceOnline,
+                AppActiveStatus = Im.Basic.RegisterRequest.Types.ActiveStatus.KAppInForeground,
             };
 
             var payload = GeneratePayload(Command.KEEP_ALIVE, keepalive);
@@ -264,7 +266,7 @@ namespace AcFunDanmu
         {
             var ping = new PingRequest
             {
-                PingType = AcFunDanmu.PingRequest.Types.PingType.KPostRegister,
+                PingType = Im.Basic.PingRequest.Types.PingType.KPostRegister,
             };
 
             var payload = GeneratePayload(Command.PING, ping);
@@ -304,7 +306,9 @@ namespace AcFunDanmu
         };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private PacketHeader GenerateHeader(in ByteString body, in PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
+        private PacketHeader GenerateHeader(in ByteString body,
+            in PacketHeader.Types.EncryptionMode encryptionMode =
+                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
         {
             AppId = AppId,
             Uid = UserId,
@@ -316,7 +320,9 @@ namespace AcFunDanmu
         };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private PacketHeader GenerateHeader(in ReadOnlySpan<byte> body, in PacketHeader.Types.EncryptionMode encryptionMode = PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
+        private PacketHeader GenerateHeader(in ReadOnlySpan<byte> body,
+            in PacketHeader.Types.EncryptionMode encryptionMode =
+                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
         {
             AppId = AppId,
             Uid = UserId,

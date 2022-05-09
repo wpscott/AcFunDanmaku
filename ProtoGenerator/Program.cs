@@ -1,7 +1,11 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 
 HashSet<string> BuiltInTypes = new()
 {
@@ -34,20 +38,13 @@ void Process(in JsonElement json, in ImmutableArray<string> args)
     foreach (var obj in json.EnumerateObject())
     {
         var newArgs = args;
-        if (obj.Name != "Kuaishou")
-        {
-            newArgs = args.Add(obj.Name);
-        }
+        if (obj.Name != "Kuaishou") newArgs = args.Add(obj.Name);
 
         if (!obj.Value.TryGetProperty("nested", out var nested)) continue;
         if (obj.Value.TryGetProperty("options", out _))
-        {
             Generate(nested, newArgs);
-        }
         else
-        {
             Process(nested, newArgs);
-        }
     }
 }
 
@@ -93,24 +90,15 @@ void Generate(in JsonElement json, in ImmutableArray<string> args)
 string ProcessPackage(in JsonProperty message, in SortedSet<string> imports, in int indentation = 0)
 {
     var import = @$"import ""{message.Name}.proto"";";
-    if (imports.Contains(import))
-    {
-        imports.Remove(import);
-    }
+    if (imports.Contains(import)) imports.Remove(import);
 
     var builder = new StringBuilder();
     if (message.Value.TryGetProperty("values", out var values))
-    {
         ProcessEnum(builder, indentation, message, values);
-    }
     else if (message.Value.TryGetProperty("oneofs", out var oneofs))
-    {
         ProcessOneof(builder, imports, indentation, message, oneofs);
-    }
     else if (message.Value.TryGetProperty("fields", out var fields))
-    {
         ProcessMessage(builder, imports, indentation, message, fields);
-    }
 
     return builder.ToString();
 }
@@ -122,13 +110,11 @@ void ProcessEnum(StringBuilder builder, in int indentation, in JsonProperty mess
     builder.Append($"enum {message.Name} {{\r\n");
 
     if (message.Value.TryGetProperty("options", out var options))
-    {
         foreach (var option in options.EnumerateObject())
         {
             Indent(builder, indentation + 1);
             builder.Append($"option {option.Name} = {option.Value.ToString().ToLower()};\r\n");
         }
-    }
 
     foreach (var value in values.EnumerateObject())
     {
@@ -183,10 +169,7 @@ void ProcessOneof(StringBuilder builder, in SortedSet<string> imports, in int in
         }
     }
 
-    if (hasFields)
-    {
-        builder.Append("\r\n");
-    }
+    if (hasFields) builder.Append("\r\n");
 
     Indent(builder, indentation);
     builder.Append("}");
@@ -210,10 +193,7 @@ void ProcessMessage(StringBuilder builder, in SortedSet<string> imports, in int 
         }
         else
         {
-            if (field.Value.TryGetProperty("rule", out var rule))
-            {
-                builder.Append($"{rule} ");
-            }
+            if (field.Value.TryGetProperty("rule", out var rule)) builder.Append($"{rule} ");
 
             builder.Append($"{type} {field.Name} = {id};");
         }
@@ -238,10 +218,7 @@ void ProcessMessage(StringBuilder builder, in SortedSet<string> imports, in int 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 void Indent(in StringBuilder builder, in int indentation)
 {
-    for (var i = 0; i < indentation; i++)
-    {
-        builder.Append('\t');
-    }
+    for (var i = 0; i < indentation; i++) builder.Append('\t');
 }
 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -25,18 +25,18 @@ namespace AcFunDanmu {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChxDb21tb25BY3Rpb25TaWduYWxHaWZ0LnByb3RvEgpBY0Z1bkRhbm11GhRa",
-            "dExpdmVVc2VySW5mby5wcm90bxoUWnREcmF3R2lmdEluZm8ucHJvdG8ijwIK",
-            "FkNvbW1vbkFjdGlvblNpZ25hbEdpZnQSKAoEdXNlchgBIAEoCzIaLkFjRnVu",
-            "RGFubXUuWnRMaXZlVXNlckluZm8SEgoKc2VuZFRpbWVNcxgCIAEoAxIOCgZn",
-            "aWZ0SWQYAyABKAMSDQoFY291bnQYBCABKAUSDQoFY29tYm8YBSABKAUSDQoF",
-            "dmFsdWUYBiABKAMSDwoHY29tYm9JZBgHIAEoCRIdChVzbG90RGlzcGxheUR1",
-            "cmF0aW9uTXMYCCABKAMSGAoQZXhwaXJlRHVyYXRpb25NcxgJIAEoAxIwCgxk",
-            "cmF3R2lmdEluZm8YCiABKAsyGi5BY0Z1bkRhbm11Llp0RHJhd0dpZnRJbmZv",
-            "YgZwcm90bzM="));
+            "dExpdmVVc2VySW5mby5wcm90bxoUWnREcmF3R2lmdEluZm8ucHJvdG8inAIK",
+            "FkNvbW1vbkFjdGlvblNpZ25hbEdpZnQSLAoIdXNlckluZm8YASABKAsyGi5B",
+            "Y0Z1bkRhbm11Llp0TGl2ZVVzZXJJbmZvEhIKCnNlbmRUaW1lTXMYAiABKAMS",
+            "DgoGZ2lmdElkGAMgASgDEhEKCWJhdGNoU2l6ZRgEIAEoBRISCgpjb21ib0Nv",
+            "dW50GAUgASgFEgwKBHJhbmsYBiABKAMSEAoIY29tYm9LZXkYByABKAkSHQoV",
+            "c2xvdERpc3BsYXlEdXJhdGlvbk1zGAggASgDEhgKEGV4cGlyZUR1cmF0aW9u",
+            "TXMYCSABKAMSMAoMZHJhd0dpZnRJbmZvGAogASgLMhouQWNGdW5EYW5tdS5a",
+            "dERyYXdHaWZ0SW5mb2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AcFunDanmu.ZtLiveUserInfoReflection.Descriptor, global::AcFunDanmu.ZtDrawGiftInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalGift), global::AcFunDanmu.CommonActionSignalGift.Parser, new[]{ "User", "SendTimeMs", "GiftId", "Count", "Combo", "Value", "ComboId", "SlotDisplayDurationMs", "ExpireDurationMs", "DrawGiftInfo" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.CommonActionSignalGift), global::AcFunDanmu.CommonActionSignalGift.Parser, new[]{ "UserInfo", "SendTimeMs", "GiftId", "BatchSize", "ComboCount", "Rank", "ComboKey", "SlotDisplayDurationMs", "ExpireDurationMs", "DrawGiftInfo" }, null, null, null, null)
           }));
     }
     #endregion
@@ -77,13 +77,13 @@ namespace AcFunDanmu {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CommonActionSignalGift(CommonActionSignalGift other) : this() {
-      user_ = other.user_ != null ? other.user_.Clone() : null;
+      userInfo_ = other.userInfo_ != null ? other.userInfo_.Clone() : null;
       sendTimeMs_ = other.sendTimeMs_;
       giftId_ = other.giftId_;
-      count_ = other.count_;
-      combo_ = other.combo_;
-      value_ = other.value_;
-      comboId_ = other.comboId_;
+      batchSize_ = other.batchSize_;
+      comboCount_ = other.comboCount_;
+      rank_ = other.rank_;
+      comboKey_ = other.comboKey_;
       slotDisplayDurationMs_ = other.slotDisplayDurationMs_;
       expireDurationMs_ = other.expireDurationMs_;
       drawGiftInfo_ = other.drawGiftInfo_ != null ? other.drawGiftInfo_.Clone() : null;
@@ -96,18 +96,15 @@ namespace AcFunDanmu {
       return new CommonActionSignalGift(this);
     }
 
-    /// <summary>Field number for the "user" field.</summary>
-    public const int UserFieldNumber = 1;
-    private global::AcFunDanmu.ZtLiveUserInfo user_;
-    /// <summary>
-    ///userInfo
-    /// </summary>
+    /// <summary>Field number for the "userInfo" field.</summary>
+    public const int UserInfoFieldNumber = 1;
+    private global::AcFunDanmu.ZtLiveUserInfo userInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::AcFunDanmu.ZtLiveUserInfo User {
-      get { return user_; }
+    public global::AcFunDanmu.ZtLiveUserInfo UserInfo {
+      get { return userInfo_; }
       set {
-        user_ = value;
+        userInfo_ = value;
       }
     }
 
@@ -135,63 +132,51 @@ namespace AcFunDanmu {
       }
     }
 
-    /// <summary>Field number for the "count" field.</summary>
-    public const int CountFieldNumber = 4;
-    private int count_;
-    /// <summary>
-    ///batchSize
-    /// </summary>
+    /// <summary>Field number for the "batchSize" field.</summary>
+    public const int BatchSizeFieldNumber = 4;
+    private int batchSize_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Count {
-      get { return count_; }
+    public int BatchSize {
+      get { return batchSize_; }
       set {
-        count_ = value;
+        batchSize_ = value;
       }
     }
 
-    /// <summary>Field number for the "combo" field.</summary>
-    public const int ComboFieldNumber = 5;
-    private int combo_;
-    /// <summary>
-    ///comboCount
-    /// </summary>
+    /// <summary>Field number for the "comboCount" field.</summary>
+    public const int ComboCountFieldNumber = 5;
+    private int comboCount_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Combo {
-      get { return combo_; }
+    public int ComboCount {
+      get { return comboCount_; }
       set {
-        combo_ = value;
+        comboCount_ = value;
       }
     }
 
-    /// <summary>Field number for the "value" field.</summary>
-    public const int ValueFieldNumber = 6;
-    private long value_;
-    /// <summary>
-    ///rank
-    /// </summary>
+    /// <summary>Field number for the "rank" field.</summary>
+    public const int RankFieldNumber = 6;
+    private long rank_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Value {
-      get { return value_; }
+    public long Rank {
+      get { return rank_; }
       set {
-        value_ = value;
+        rank_ = value;
       }
     }
 
-    /// <summary>Field number for the "comboId" field.</summary>
-    public const int ComboIdFieldNumber = 7;
-    private string comboId_ = "";
-    /// <summary>
-    ///comboKey
-    /// </summary>
+    /// <summary>Field number for the "comboKey" field.</summary>
+    public const int ComboKeyFieldNumber = 7;
+    private string comboKey_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string ComboId {
-      get { return comboId_; }
+    public string ComboKey {
+      get { return comboKey_; }
       set {
-        comboId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        comboKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -246,13 +231,13 @@ namespace AcFunDanmu {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(User, other.User)) return false;
+      if (!object.Equals(UserInfo, other.UserInfo)) return false;
       if (SendTimeMs != other.SendTimeMs) return false;
       if (GiftId != other.GiftId) return false;
-      if (Count != other.Count) return false;
-      if (Combo != other.Combo) return false;
-      if (Value != other.Value) return false;
-      if (ComboId != other.ComboId) return false;
+      if (BatchSize != other.BatchSize) return false;
+      if (ComboCount != other.ComboCount) return false;
+      if (Rank != other.Rank) return false;
+      if (ComboKey != other.ComboKey) return false;
       if (SlotDisplayDurationMs != other.SlotDisplayDurationMs) return false;
       if (ExpireDurationMs != other.ExpireDurationMs) return false;
       if (!object.Equals(DrawGiftInfo, other.DrawGiftInfo)) return false;
@@ -263,13 +248,13 @@ namespace AcFunDanmu {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (user_ != null) hash ^= User.GetHashCode();
+      if (userInfo_ != null) hash ^= UserInfo.GetHashCode();
       if (SendTimeMs != 0L) hash ^= SendTimeMs.GetHashCode();
       if (GiftId != 0L) hash ^= GiftId.GetHashCode();
-      if (Count != 0) hash ^= Count.GetHashCode();
-      if (Combo != 0) hash ^= Combo.GetHashCode();
-      if (Value != 0L) hash ^= Value.GetHashCode();
-      if (ComboId.Length != 0) hash ^= ComboId.GetHashCode();
+      if (BatchSize != 0) hash ^= BatchSize.GetHashCode();
+      if (ComboCount != 0) hash ^= ComboCount.GetHashCode();
+      if (Rank != 0L) hash ^= Rank.GetHashCode();
+      if (ComboKey.Length != 0) hash ^= ComboKey.GetHashCode();
       if (SlotDisplayDurationMs != 0L) hash ^= SlotDisplayDurationMs.GetHashCode();
       if (ExpireDurationMs != 0L) hash ^= ExpireDurationMs.GetHashCode();
       if (drawGiftInfo_ != null) hash ^= DrawGiftInfo.GetHashCode();
@@ -291,9 +276,9 @@ namespace AcFunDanmu {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (user_ != null) {
+      if (userInfo_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(User);
+        output.WriteMessage(UserInfo);
       }
       if (SendTimeMs != 0L) {
         output.WriteRawTag(16);
@@ -303,21 +288,21 @@ namespace AcFunDanmu {
         output.WriteRawTag(24);
         output.WriteInt64(GiftId);
       }
-      if (Count != 0) {
+      if (BatchSize != 0) {
         output.WriteRawTag(32);
-        output.WriteInt32(Count);
+        output.WriteInt32(BatchSize);
       }
-      if (Combo != 0) {
+      if (ComboCount != 0) {
         output.WriteRawTag(40);
-        output.WriteInt32(Combo);
+        output.WriteInt32(ComboCount);
       }
-      if (Value != 0L) {
+      if (Rank != 0L) {
         output.WriteRawTag(48);
-        output.WriteInt64(Value);
+        output.WriteInt64(Rank);
       }
-      if (ComboId.Length != 0) {
+      if (ComboKey.Length != 0) {
         output.WriteRawTag(58);
-        output.WriteString(ComboId);
+        output.WriteString(ComboKey);
       }
       if (SlotDisplayDurationMs != 0L) {
         output.WriteRawTag(64);
@@ -341,9 +326,9 @@ namespace AcFunDanmu {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (user_ != null) {
+      if (userInfo_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(User);
+        output.WriteMessage(UserInfo);
       }
       if (SendTimeMs != 0L) {
         output.WriteRawTag(16);
@@ -353,21 +338,21 @@ namespace AcFunDanmu {
         output.WriteRawTag(24);
         output.WriteInt64(GiftId);
       }
-      if (Count != 0) {
+      if (BatchSize != 0) {
         output.WriteRawTag(32);
-        output.WriteInt32(Count);
+        output.WriteInt32(BatchSize);
       }
-      if (Combo != 0) {
+      if (ComboCount != 0) {
         output.WriteRawTag(40);
-        output.WriteInt32(Combo);
+        output.WriteInt32(ComboCount);
       }
-      if (Value != 0L) {
+      if (Rank != 0L) {
         output.WriteRawTag(48);
-        output.WriteInt64(Value);
+        output.WriteInt64(Rank);
       }
-      if (ComboId.Length != 0) {
+      if (ComboKey.Length != 0) {
         output.WriteRawTag(58);
-        output.WriteString(ComboId);
+        output.WriteString(ComboKey);
       }
       if (SlotDisplayDurationMs != 0L) {
         output.WriteRawTag(64);
@@ -391,8 +376,8 @@ namespace AcFunDanmu {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (user_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(User);
+      if (userInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(UserInfo);
       }
       if (SendTimeMs != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(SendTimeMs);
@@ -400,17 +385,17 @@ namespace AcFunDanmu {
       if (GiftId != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(GiftId);
       }
-      if (Count != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Count);
+      if (BatchSize != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(BatchSize);
       }
-      if (Combo != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Combo);
+      if (ComboCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ComboCount);
       }
-      if (Value != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Value);
+      if (Rank != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Rank);
       }
-      if (ComboId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(ComboId);
+      if (ComboKey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ComboKey);
       }
       if (SlotDisplayDurationMs != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(SlotDisplayDurationMs);
@@ -433,11 +418,11 @@ namespace AcFunDanmu {
       if (other == null) {
         return;
       }
-      if (other.user_ != null) {
-        if (user_ == null) {
-          User = new global::AcFunDanmu.ZtLiveUserInfo();
+      if (other.userInfo_ != null) {
+        if (userInfo_ == null) {
+          UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
         }
-        User.MergeFrom(other.User);
+        UserInfo.MergeFrom(other.UserInfo);
       }
       if (other.SendTimeMs != 0L) {
         SendTimeMs = other.SendTimeMs;
@@ -445,17 +430,17 @@ namespace AcFunDanmu {
       if (other.GiftId != 0L) {
         GiftId = other.GiftId;
       }
-      if (other.Count != 0) {
-        Count = other.Count;
+      if (other.BatchSize != 0) {
+        BatchSize = other.BatchSize;
       }
-      if (other.Combo != 0) {
-        Combo = other.Combo;
+      if (other.ComboCount != 0) {
+        ComboCount = other.ComboCount;
       }
-      if (other.Value != 0L) {
-        Value = other.Value;
+      if (other.Rank != 0L) {
+        Rank = other.Rank;
       }
-      if (other.ComboId.Length != 0) {
-        ComboId = other.ComboId;
+      if (other.ComboKey.Length != 0) {
+        ComboKey = other.ComboKey;
       }
       if (other.SlotDisplayDurationMs != 0L) {
         SlotDisplayDurationMs = other.SlotDisplayDurationMs;
@@ -485,10 +470,10 @@ namespace AcFunDanmu {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (user_ == null) {
-              User = new global::AcFunDanmu.ZtLiveUserInfo();
+            if (userInfo_ == null) {
+              UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
             }
-            input.ReadMessage(User);
+            input.ReadMessage(UserInfo);
             break;
           }
           case 16: {
@@ -500,19 +485,19 @@ namespace AcFunDanmu {
             break;
           }
           case 32: {
-            Count = input.ReadInt32();
+            BatchSize = input.ReadInt32();
             break;
           }
           case 40: {
-            Combo = input.ReadInt32();
+            ComboCount = input.ReadInt32();
             break;
           }
           case 48: {
-            Value = input.ReadInt64();
+            Rank = input.ReadInt64();
             break;
           }
           case 58: {
-            ComboId = input.ReadString();
+            ComboKey = input.ReadString();
             break;
           }
           case 64: {
@@ -546,10 +531,10 @@ namespace AcFunDanmu {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            if (user_ == null) {
-              User = new global::AcFunDanmu.ZtLiveUserInfo();
+            if (userInfo_ == null) {
+              UserInfo = new global::AcFunDanmu.ZtLiveUserInfo();
             }
-            input.ReadMessage(User);
+            input.ReadMessage(UserInfo);
             break;
           }
           case 16: {
@@ -561,19 +546,19 @@ namespace AcFunDanmu {
             break;
           }
           case 32: {
-            Count = input.ReadInt32();
+            BatchSize = input.ReadInt32();
             break;
           }
           case 40: {
-            Combo = input.ReadInt32();
+            ComboCount = input.ReadInt32();
             break;
           }
           case 48: {
-            Value = input.ReadInt64();
+            Rank = input.ReadInt64();
             break;
           }
           case 58: {
-            ComboId = input.ReadString();
+            ComboKey = input.ReadString();
             break;
           }
           case 64: {

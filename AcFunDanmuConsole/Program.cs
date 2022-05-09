@@ -1,311 +1,334 @@
-﻿using AcFunDanmu;
-using AcFunDanmu.Enums;
-using Google.Protobuf;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Timers;
+using AcFunDanmu;
+using AcFunDanmu.Enums;
+using AcFunDanmu.Im.Basic;
+using AcFunDanmu.Im.Cloud.Config;
+using AcFunDanmu.Im.Cloud.Message;
+using AcFunDanmu.Im.Message;
+using Google.Protobuf;
+using Serilog;
 using static AcFunDanmu.ClientUtils;
 
-namespace AcFunDanmuConsole
+namespace AcFunDanmuConsole;
+
+internal class Program
 {
-    class Program
+    private static async Task Main(string[] args)
     {
-        static async Task Main(string[] args)
-        {
-            var retry = 0;
+        var retry = 0;
 
-            await Client.Prepare();
+        await Client.Prepare();
 
-            Client client = new();
+        Client client = new();
 
-            Log.Logger = new LoggerConfiguration()
+        Log.Logger = new LoggerConfiguration()
 #if DEBUG
-                .MinimumLevel.Debug()
+            .MinimumLevel.Debug()
 #else
                 .MinimumLevel.Information()
 #endif
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .CreateLogger();
 
-            if (args.Length == 1)
-            {
-                await client.Initialize(args[0]);  // Visitor/Anonymous mode
-            }
-            else if (args.Length == 3)
-            {
+        switch (args.Length)
+        {
+            case 1:
+                await client.Initialize(args[0]); // Visitor/Anonymous mode
+                break;
+            case 3:
                 await client.InitializeWithLogin(args[0], args[1], args[2]); // User mode
-            }
-            else
-            {
+                break;
+            default:
                 return;
-            }
-
-            client.Handler += HandleSignal; // Use your own signal handler
-
-            var resetTimer = new System.Timers.Timer(31000);
-            resetTimer.Elapsed += (s, e) =>
-            {
-                retry = 0;
-            };
-
-            while (retry == 0 && !await client.Start())
-            {
-                if (retry > 0)
-                {
-                    resetTimer.Stop();
-                }
-                Log.Information("Client closed, retrying");
-                retry++;
-                resetTimer.Start();
-            }
-            Log.Information("Client closed, maybe live is end");
-
-            //DecodeHar(@".\34195163.har");
-            //await LoginToGetGiftList();
         }
 
-        static void HandleSignal(Client sender, string messagetType, ByteString payload)
-        {
-            switch (messagetType)
-            {
-                // Includes comment, gift, enter room, like, follower
-                case PushMessage.ACTION_SIGNAL:
-                    var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
+        client.Handler += HandleSignal; // Use your own signal handler
 
-                    foreach (var item in actionSignal.Item)
+        var resetTimer = new Timer(31000);
+        resetTimer.Elapsed += (_, _) => { retry = 0; };
+
+        while (retry == 0 && !await client.Start())
+        {
+            if (retry > 0) resetTimer.Stop();
+
+            Log.Information("Client closed, retrying");
+            retry++;
+            resetTimer.Start();
+        }
+
+        Log.Information("Client closed, maybe live is end");
+
+        //DecodeHar(@".\34195163.har");
+        //await LoginToGetGiftList();
+    }
+
+    private static void HandleSignal(Client sender, string messagetType, ByteString payload)
+    {
+        switch (messagetType)
+        {
+            // Includes comment, gift, enter room, like, follower
+            case PushMessage.ACTION_SIGNAL:
+                var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
+
+                foreach (var item in actionSignal.Item)
+                    switch (item.SignalType)
                     {
-                        switch (item.SignalType)
-                        {
-                            case PushMessage.ActionSignal.COMMENT:
-                                foreach (var pl in item.Payload)
-                                {
-                                    var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
-                                    Log.Information("{0} - {1}({2}): {3}", comment.SendTimeMs, comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
-                                }
-                                break;
-                            case PushMessage.ActionSignal.LIKE:
-                                foreach (var pl in item.Payload)
-                                {
-                                    var like = CommonActionSignalLike.Parser.ParseFrom(pl);
-                                    Log.Information("{0} - {1}({2}) liked", like.SendTimeMs, like.UserInfo.Nickname, like.UserInfo.UserId);
-                                }
-                                break;
-                            case PushMessage.ActionSignal.ENTER_ROOM:
-                                foreach (var pl in item.Payload)
-                                {
-                                    var enter = CommonActionSignalUserEnterRoom.Parser.ParseFrom(pl);
-                                    Log.Information("{0} - {1}({2}) entered", enter.SendTimeMs, enter.UserInfo.Nickname, enter.UserInfo.UserId);
-                                }
-                                break;
-                            case PushMessage.ActionSignal.FOLLOW:
-                                foreach (var pl in item.Payload)
-                                {
-                                    var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
-                                    Log.Information("{0} - {1}({2}) followed", follower.SendTimeMs, follower.UserInfo.Nickname, follower.UserInfo.UserId);
-                                }
-                                break;
-                            case PushMessage.NotifySignal.KICKED_OUT:
-                            case PushMessage.NotifySignal.VIOLATION_ALERT:
-                            case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
-                                break;
-                            case PushMessage.ActionSignal.THROW_BANANA:
-                                foreach (var pl in item.Payload)
-                                {
-                                    var enter = AcfunActionSignalThrowBanana.Parser.ParseFrom(pl);
-                                    Log.Information("{0} - {1}({2}) throwed {3} banana(s)", enter.SendTimeMs, enter.Visitor.Name, enter.Visitor.UserId, enter.Count);
-                                }
-                                break;
-                            case PushMessage.ActionSignal.GIFT:
-                                foreach (var pl in item.Payload)
-                                {
-                                    /*
-                                     * Item Id
-                                     * 1 - 香蕉
-                                     * 2 - 吃瓜
-                                     * 3 - 
-                                     * 4 - 牛啤
-                                     * 5 - 手柄
-                                     * 6 - 魔法棒
-                                     * 7 - 好人卡
-                                     * 8 - 星蕉雨
-                                     * 9 - 告白
-                                     * 10 - 666
-                                     * 11 - 菜鸡
-                                     * 12 - 打Call
-                                     * 13 - 立FLAG
-                                     * 14 - 窜天猴
-                                     * 15 - AC机娘
-                                     * 16 - 猴岛
-                                     * 17 - 快乐水
-                                     * 18 - 
-                                     * 19 - 
-                                     * 20 - 
-                                     * 21 - 生日快乐
-                                     * 22 - 六一快乐
-                                     * 23 - 
-                                     * 24 - 
-                                     * 25 - 
-                                     * 26 - 
-                                     * 27 - 
-                                     * 28 - 
-                                     * 29 - 大触
-                                     * 30 - 鸽鸽
-                                     * 31 - 金坷垃
-                                     * 32 - 变身腰带
-                                     * 33 - 情书
-                                     * 34 - 狗粮
-                                     * 35 - 氧气瓶
-                                     */
-                                    var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
-                                    if (Client.Gifts.ContainsKey(gift.GiftId))
-                                    {
-                                        var giftInfo = Client.Gifts[gift.GiftId];
-                                        Log.Information("{0} - {1}({2}) sent gift {3} × {4}, Combo: {5}, value: {6}", gift.SendTimeMs, gift.User.Nickname, gift.User.UserId, giftInfo.Name, gift.Count, gift.Combo, gift.Value);
-                                    }
-#if DEBUG
-                                    else
-                                    {
-                                        Log.Information("ItemId: {0}, Value: {1}", gift.GiftId, gift.Value);
-                                    }
-#endif
-                                }
-                                break;
-                            default:
-                                foreach (var p in item.Payload)
-                                {
-                                    var pi = Parse(item.SignalType, p);
-#if DEBUG
-                                    Log.Information("Unhandled action type: {0}, content: {1}", item.SignalType, pi);
-#endif
-                                }
-                                break;
-                        }
-                    }
-                    break;
-                // Includes current banana counts, watching count, like count and top 3 users sent gifts
-                case PushMessage.STATE_SIGNAL:
-                    ZtLiveScStateSignal stateSignal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
+                        case PushMessage.ActionSignal.COMMENT:
+                            foreach (var pl in item.Payload)
+                            {
+                                var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
+                                Log.Information("{0} - {1}({2}): {3}", comment.SendTimeMs,
+                                    comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
+                            }
 
-                    foreach (var item in stateSignal.Item)
+                            break;
+                        case PushMessage.ActionSignal.LIKE:
+                            foreach (var pl in item.Payload)
+                            {
+                                var like = CommonActionSignalLike.Parser.ParseFrom(pl);
+                                Log.Information("{0} - {1}({2}) liked", like.SendTimeMs, like.UserInfo.Nickname,
+                                    like.UserInfo.UserId);
+                            }
+
+                            break;
+                        case PushMessage.ActionSignal.ENTER_ROOM:
+                            foreach (var pl in item.Payload)
+                            {
+                                var enter = CommonActionSignalUserEnterRoom.Parser.ParseFrom(pl);
+                                Log.Information("{0} - {1}({2}) entered", enter.SendTimeMs, enter.UserInfo.Nickname,
+                                    enter.UserInfo.UserId);
+                            }
+
+                            break;
+                        case PushMessage.ActionSignal.FOLLOW:
+                            foreach (var pl in item.Payload)
+                            {
+                                var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
+                                Log.Information("{0} - {1}({2}) followed", follower.SendTimeMs,
+                                    follower.UserInfo.Nickname, follower.UserInfo.UserId);
+                            }
+
+                            break;
+                        case PushMessage.NotifySignal.KICKED_OUT:
+                        case PushMessage.NotifySignal.VIOLATION_ALERT:
+                        case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
+                            break;
+                        case PushMessage.ActionSignal.THROW_BANANA:
+                            foreach (var pl in item.Payload)
+                            {
+                                var enter = AcfunActionSignalThrowBanana.Parser.ParseFrom(pl);
+                                Log.Information("{0} - {1}({2}) throwed {3} banana(s)", enter.SendTimeMs,
+                                    enter.Visitor.Name, enter.Visitor.UserId, enter.Count);
+                            }
+
+                            break;
+                        case PushMessage.ActionSignal.GIFT:
+                            foreach (var pl in item.Payload)
+                            {
+                                /*
+                                 * Item Id
+                                 * 1 - 香蕉
+                                 * 2 - 吃瓜
+                                 * 3 - 
+                                 * 4 - 牛啤
+                                 * 5 - 手柄
+                                 * 6 - 魔法棒
+                                 * 7 - 好人卡
+                                 * 8 - 星蕉雨
+                                 * 9 - 告白
+                                 * 10 - 666
+                                 * 11 - 菜鸡
+                                 * 12 - 打Call
+                                 * 13 - 立FLAG
+                                 * 14 - 窜天猴
+                                 * 15 - AC机娘
+                                 * 16 - 猴岛
+                                 * 17 - 快乐水
+                                 * 18 - 
+                                 * 19 - 
+                                 * 20 - 
+                                 * 21 - 生日快乐
+                                 * 22 - 六一快乐
+                                 * 23 - 
+                                 * 24 - 
+                                 * 25 - 
+                                 * 26 - 
+                                 * 27 - 
+                                 * 28 - 
+                                 * 29 - 大触
+                                 * 30 - 鸽鸽
+                                 * 31 - 金坷垃
+                                 * 32 - 变身腰带
+                                 * 33 - 情书
+                                 * 34 - 狗粮
+                                 * 35 - 氧气瓶
+                                 */
+                                var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
+                                if (Client.Gifts.ContainsKey(gift.GiftId))
+                                {
+                                    var giftInfo = Client.Gifts[gift.GiftId];
+                                    Log.Information("{0} - {1}({2}) sent gift {3} × {4}, Combo: {5}, value: {6}",
+                                        gift.SendTimeMs, gift.UserInfo.Nickname, gift.UserInfo.UserId,
+                                        giftInfo.Name, gift.BatchSize, gift.ComboCount, gift.Rank);
+                                }
+#if DEBUG
+                                else
+                                {
+                                    Log.Information("ItemId: {0}, Value: {1}", gift.GiftId, gift.Rank);
+                                }
+#endif
+                            }
+
+                            break;
+                        default:
+                            foreach (var p in item.Payload)
+                            {
+                                var pi = Parse(item.SignalType, p);
+#if DEBUG
+                                Log.Information("Unhandled action type: {0}, content: {1}", item.SignalType, pi);
+#endif
+                            }
+
+                            break;
+                    }
+
+                break;
+            // Includes current banana counts, watching count, like count and top 3 users sent gifts
+            case PushMessage.STATE_SIGNAL:
+                var stateSignal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
+
+                foreach (var item in stateSignal.Item)
+                    switch (item.SignalType)
                     {
-                        switch (item.SignalType)
-                        {
-                            case PushMessage.StateSignal.ACFUN_DISPLAY_INFO:
-                                var acInfo = AcfunStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
-                                //Log.Information("Current banada count: {0}", acInfo.BananaCount);
-                                break;
-                            case PushMessage.StateSignal.DISPLAY_INFO:
-                                var stateInfo = CommonStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
-                                //Log.Information("{0} watching, {1} likes", stateInfo.WatchingCount, stateInfo.LikeCount);
-                                break;
-                            case PushMessage.StateSignal.TOP_USRES:
-                                var users = CommonStateSignalTopUsers.Parser.ParseFrom(item.Payload);
-                                //Log.Information("Top 3 users: {0}", string.Join(", ", users.User.Select(user => user.Detail.Name)));
-                                break;
-                            case PushMessage.StateSignal.RECENT_COMMENT:
-                                var comments = CommonStateSignalRecentComment.Parser.ParseFrom(item.Payload);
-                                foreach (var comment in comments.Comment)
-                                {
-                                    Log.Information("{0} - {1}({2}): {3}", comment.SendTimeMs, comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
-                                }
-                                break;
-                            case PushMessage.StateSignal.CHAT_CALL:
-                            case PushMessage.StateSignal.CHAT_ACCEPT:
-                            case PushMessage.StateSignal.CHAT_READY:
-                            case PushMessage.StateSignal.CHAT_END:
-                            case PushMessage.StateSignal.CURRENT_RED_PACK_LIST:
-                            case PushMessage.StateSignal.AR_LIVE_TREASURE_BOX_STATE:
-                                break;
-                            default:
-                                var pi = Parse(item.SignalType, item.Payload);
+                        case PushMessage.StateSignal.ACFUN_DISPLAY_INFO:
+                            var acInfo = AcfunStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
+                            //Log.Information("Current banana count: {0}", acInfo.BananaCount);
+                            break;
+                        case PushMessage.StateSignal.DISPLAY_INFO:
+                            var stateInfo = CommonStateSignalDisplayInfo.Parser.ParseFrom(item.Payload);
+                            //Log.Information("{0} watching, {1} likes", stateInfo.WatchingCount, stateInfo.LikeCount);
+                            break;
+                        case PushMessage.StateSignal.TOP_USRES:
+                            var users = CommonStateSignalTopUsers.Parser.ParseFrom(item.Payload);
+                            //Log.Information("Top 3 users: {0}", string.Join(", ", users.User.Select(user => user.Detail.Name)));
+                            break;
+                        case PushMessage.StateSignal.RECENT_COMMENT:
+                            var comments = CommonStateSignalRecentComment.Parser.ParseFrom(item.Payload);
+                            foreach (var comment in comments.Comment)
+                                Log.Information("{0} - {1}({2}): {3}", comment.SendTimeMs,
+                                    comment.UserInfo.Nickname, comment.UserInfo.UserId, comment.Content);
+
+                            break;
+                        case PushMessage.StateSignal.CHAT_CALL:
+                        case PushMessage.StateSignal.CHAT_ACCEPT:
+                        case PushMessage.StateSignal.CHAT_READY:
+                        case PushMessage.StateSignal.CHAT_END:
+                        case PushMessage.StateSignal.CURRENT_RED_PACK_LIST:
+                        case PushMessage.StateSignal.AR_LIVE_TREASURE_BOX_STATE:
+                            break;
+                        default:
+                            var pi = Parse(item.SignalType, item.Payload);
 #if DEBUG
-                                Log.Information("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
+                            Log.Information("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
 #endif
-                                break;
-                        }
+                            break;
                     }
-                    break;
-                case PushMessage.NOTIFY_SIGNAL:
-                    ZtLiveScNotifySignal notifySignal = ZtLiveScNotifySignal.Parser.ParseFrom(payload);
-                    foreach (var item in notifySignal.Item)
+
+                break;
+            case PushMessage.NOTIFY_SIGNAL:
+                var notifySignal = ZtLiveScNotifySignal.Parser.ParseFrom(payload);
+                foreach (var item in notifySignal.Item)
+                    switch (item.SignalType)
                     {
-                        switch (item.SignalType)
-                        {
-                            case PushMessage.NotifySignal.KICKED_OUT:
-                            case PushMessage.NotifySignal.VIOLATION_ALERT:
-                            case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
-                                break;
-                            default:
-                                var pi = Parse(item.SignalType, item.Payload);
+                        case PushMessage.NotifySignal.KICKED_OUT:
+                        case PushMessage.NotifySignal.VIOLATION_ALERT:
+                        case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
+                            break;
+                        default:
+                            var pi = Parse(item.SignalType, item.Payload);
 #if DEBUG
-                                Log.Information("Unhandled notify type: {0}, content: {1}", item.SignalType, pi);
+                            Log.Information("Unhandled notify type: {0}, content: {1}", item.SignalType, pi);
 #endif
-                                break;
-                        }
+                            break;
                     }
-                    break;
-                default:
-                    var unknown = Parse(messagetType, payload);
+
+                break;
+            default:
+                var unknown = Parse(messagetType, payload);
 #if DEBUG
-                    Log.Information("Unhandled message type: {0}, content: {1}", messagetType, unknown);
+                Log.Information("Unhandled message type: {0}, content: {1}", messagetType, unknown);
 #endif
-                    break;
-            }
+                break;
         }
+    }
 
-        #region Others
-        static void DumpCookie(CookieContainer cookiesContainer)
+    #region Others
+
+    private static void DumpCookie(CookieContainer cookiesContainer)
+    {
+        var hs = (Hashtable)cookiesContainer.GetType().InvokeMember("m_domainTable",
+            BindingFlags.NonPublic | BindingFlags.GetField |
+            BindingFlags.Instance, null, cookiesContainer, Array.Empty<object>());
+        Debug.Assert(hs != null, nameof(hs) + " != null");
+        foreach (string key in hs.Keys)
         {
-            Hashtable hs = (Hashtable)cookiesContainer.GetType().InvokeMember("m_domainTable", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Instance, null, cookiesContainer, Array.Empty<object>());
-            foreach (string key in hs.Keys)
+            var uri = new Uri($"http://{key[1..]}/");
+            var collection = cookiesContainer.GetCookies(uri);
+            foreach (Cookie ck in collection) Log.Information($"{ck.Name} - {ck.Value}");
+        }
+    }
+
+    private class Message
+    {
+        [JsonPropertyName("type")] public string Type { get; init; }
+        [JsonPropertyName("data")] public string Data { get; init; }
+    }
+
+    private static void DecodeHar(string filePath)
+    {
+        var sessionKey = string.Empty;
+
+        using var file = new StreamReader(filePath);
+
+        using var json = JsonDocument.Parse(file.ReadToEnd());
+
+        var loginResponse = json.RootElement.GetProperty("log").GetProperty("entries").EnumerateArray()
+            .First(item =>
+                item.GetProperty("request").GetProperty("url").ToString() ==
+                "https://id.app.acfun.cn/rest/app/visitor/login");
+        using var login = JsonDocument.Parse(loginResponse.GetProperty("response").GetProperty("content")
+            .GetProperty("text").ToString());
+        var securityKey = login.RootElement.GetProperty("acSecurity").ToString();
+
+        var ws = json.RootElement.GetProperty("log").GetProperty("entries").EnumerateArray().First(item =>
+            item.GetProperty("request").GetProperty("url").ToString() == "wss://klink-newproduct-ws3.kwaizt.com/");
+
+        var messages = JsonSerializer.Deserialize<Message[]>(ws.GetProperty("_webSocketMessages").ToString());
+
+        using var writer = new StreamWriter(@".\output.txt");
+
+        Debug.Assert(messages != null, nameof(messages) + " != null");
+        foreach (var message in messages)
+            switch (message.Type)
             {
-                var uri = new Uri($"http://{key[1..]}/");
-                var collection = cookiesContainer.GetCookies(uri);
-                foreach (Cookie ck in collection)
-                {
-                    Log.Information($"{ck.Name} - {ck.Value}");
-                }
-            }
-        }
-        class Message
-        {
-            [JsonPropertyName("type")]
-            public string Type { get; set; }
-            [JsonPropertyName("data")]
-            public string Data { get; set; }
-        }
-        static void DecodeHar(string filePath)
-        {
-            string sessionKey = string.Empty;
-
-            using var file = new StreamReader(filePath);
-
-            using var json = JsonDocument.Parse(file.ReadToEnd());
-
-            var loginResponse = json.RootElement.GetProperty("log").GetProperty("entries").EnumerateArray().First(item => item.GetProperty("request").GetProperty("url").ToString() == "https://id.app.acfun.cn/rest/app/visitor/login");
-            using var login = JsonDocument.Parse(loginResponse.GetProperty("response").GetProperty("content").GetProperty("text").ToString());
-            string securityKey = login.RootElement.GetProperty("acSecurity").ToString();
-
-            var ws = json.RootElement.GetProperty("log").GetProperty("entries").EnumerateArray().First(item => item.GetProperty("request").GetProperty("url").ToString() == "wss://klink-newproduct-ws3.kwaizt.com/");
-
-            Message[] messages = JsonSerializer.Deserialize<Message[]>(ws.GetProperty("_webSocketMessages").ToString());
-
-            using var writer = new StreamWriter(@".\output.txt");
-
-            foreach (var message in messages)
-            {
-                if (message.Type == "send")
+                case "send":
                 {
 #if DEBUG
-                    var us = Decode<UpstreamPayload>(Convert.FromBase64String(message.Data), securityKey, sessionKey, out var header);
-                    writer.WriteLine("Up\t\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, us.SeqId, us.Command);
+                    var us = Decode<UpstreamPayload>(Convert.FromBase64String(message.Data), securityKey, sessionKey,
+                        out var header);
+                    writer.WriteLine("Up\t\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, us.SeqId,
+                        us.Command);
                     writer.WriteLine("Header: {0}", header);
                     writer.WriteLine("Payload Base64: {0}", us.ToByteString().ToBase64());
                     writer.WriteLine("Payload: {0}", us);
@@ -324,23 +347,23 @@ namespace AcFunDanmuConsole
                             writer.WriteLine(ping);
                             break;
                         case Command.MESSAGE_SESSION:
-                            var session = AcFunDanmu.Im.ImMessage.Types.SessionListRequest.Parser.ParseFrom(us.PayloadData);
+                            var session = SessionListRequest.Parser.ParseFrom(us.PayloadData);
                             writer.WriteLine(session);
                             break;
                         case Command.MESSAGE_PULL_OLD:
-                            var pullold = AcFunDanmu.Im.ImMessage.Types.PullOldRequest.Parser.ParseFrom(us.PayloadData);
+                            var pullold = PullOldRequest.Parser.ParseFrom(us.PayloadData);
                             writer.WriteLine(pullold);
                             break;
                         case Command.CLIENT_CONFIG_GET:
-                            var configget = AcFunDanmu.Im.Cloud.Types.Config.Types.ClientConfigGetRequest.Parser.ParseFrom(us.PayloadData);
+                            var configget = ClientConfigGetRequest.Parser.ParseFrom(us.PayloadData);
                             writer.WriteLine(configget);
                             break;
                         case Command.GROUP_USER_GROUP_LIST:
-                            var usergrouplist = AcFunDanmu.Im.Cloud.Types.Message.Types.UserGroupListRequest.Parser.ParseFrom(us.PayloadData);
+                            var usergrouplist = UserGroupListRequest.Parser.ParseFrom(us.PayloadData);
                             writer.WriteLine(usergrouplist);
                             break;
                         case Command.GLOBAL_COMMAND:
-                            ZtLiveCsCmd cmd = ZtLiveCsCmd.Parser.ParseFrom(us.PayloadData);
+                            var cmd = ZtLiveCsCmd.Parser.ParseFrom(us.PayloadData);
                             writer.WriteLine("\t{0}: {1}", Command.GLOBAL_COMMAND, cmd);
                             switch (cmd.CmdType)
                             {
@@ -361,6 +384,7 @@ namespace AcFunDanmuConsole
                                     Log.Information(cmd.ToByteString().ToBase64());
                                     break;
                             }
+
                             break;
                         case Command.PUSH_MESSAGE:
                             writer.WriteLine("\tUpstream Push.Message: {0}", us.PayloadData.ToBase64());
@@ -369,13 +393,17 @@ namespace AcFunDanmuConsole
                             writer.WriteLine("Unknown upstream: {0}", us);
                             break;
                     }
+
                     writer.WriteLine("--------------------------------");
 #endif
+                    break;
                 }
-                else if (message.Type == "receive")
+                case "receive":
                 {
-                    var ds = Decode<DownstreamPayload>(Convert.FromBase64String(message.Data), securityKey, sessionKey, out var header);
-                    writer.WriteLine("Down\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, ds.SeqId, ds.Command);
+                    var ds = Decode<DownstreamPayload>(Convert.FromBase64String(message.Data), securityKey, sessionKey,
+                        out var header);
+                    writer.WriteLine("Down\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, ds.SeqId,
+                        ds.Command);
                     writer.WriteLine("Header: {0}", header);
                     writer.WriteLine("Payload Base64: {0}", ds.ToByteString().ToBase64());
                     writer.WriteLine("Payload: {0}", ds);
@@ -395,23 +423,23 @@ namespace AcFunDanmuConsole
                             writer.WriteLine(ping);
                             break;
                         case Command.MESSAGE_SESSION:
-                            var session = AcFunDanmu.Im.ImMessage.Types.SessionListResponse.Parser.ParseFrom(ds.PayloadData);
+                            var session = SessionListResponse.Parser.ParseFrom(ds.PayloadData);
                             writer.WriteLine(session);
                             break;
                         case Command.MESSAGE_PULL_OLD:
-                            var pullold = AcFunDanmu.Im.ImMessage.Types.PullOldResponse.Parser.ParseFrom(ds.PayloadData);
+                            var pullold = PullOldResponse.Parser.ParseFrom(ds.PayloadData);
                             writer.WriteLine(pullold);
                             break;
                         case Command.CLIENT_CONFIG_GET:
-                            var configget = AcFunDanmu.Im.Cloud.Types.Config.Types.ClientConfigGetResponse.Parser.ParseFrom(ds.PayloadData);
+                            var configget = ClientConfigGetResponse.Parser.ParseFrom(ds.PayloadData);
                             writer.WriteLine(configget);
                             break;
                         case Command.GROUP_USER_GROUP_LIST:
-                            var usergrouplist = AcFunDanmu.Im.Cloud.Types.Message.Types.UserGroupListResponse.Parser.ParseFrom(ds.PayloadData);
+                            var usergrouplist = UserGroupListResponse.Parser.ParseFrom(ds.PayloadData);
                             writer.WriteLine(usergrouplist);
                             break;
                         case Command.GLOBAL_COMMAND:
-                            ZtLiveCsCmdAck cmd = ZtLiveCsCmdAck.Parser.ParseFrom(ds.PayloadData);
+                            var cmd = ZtLiveCsCmdAck.Parser.ParseFrom(ds.PayloadData);
                             writer.WriteLine("\t{0}: {1}", Command.GLOBAL_COMMAND, cmd);
                             switch (cmd.CmdAckType)
                             {
@@ -432,11 +460,14 @@ namespace AcFunDanmuConsole
                                     Log.Information(ds.PayloadData.ToBase64());
                                     break;
                             }
+
                             break;
                         case Command.PUSH_MESSAGE:
-                            ZtLiveScMessage scmessage = ZtLiveScMessage.Parser.ParseFrom(ds.PayloadData);
+                            var scmessage = ZtLiveScMessage.Parser.ParseFrom(ds.PayloadData);
                             writer.WriteLine("\t{0}: {1}", Command.PUSH_MESSAGE, scmessage);
-                            var payload = scmessage.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip ? Decompress(scmessage.Payload) : scmessage.Payload;
+                            var payload = scmessage.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip
+                                ? Decompress(scmessage.Payload)
+                                : scmessage.Payload;
 
                             switch (scmessage.MessageType)
                             {
@@ -455,18 +486,22 @@ namespace AcFunDanmuConsole
                                     writer.WriteLine("\t\t{0}", ticketInvalid);
                                     break;
                                 default:
-                                    Log.Information("Unhandled Push.ZtLiveInteractive.Message: {0}", scmessage.MessageType);
+                                    Log.Information("Unhandled Push.ZtLiveInteractive.Message: {0}",
+                                        scmessage.MessageType);
                                     break;
                             }
+
                             break;
                         default:
                             writer.WriteLine("Unkown downstream: {0}", ds);
                             break;
                     }
+
                     writer.WriteLine("--------------------------------");
+                    break;
                 }
             }
-        }
-        #endregion
     }
+
+    #endregion
 }
