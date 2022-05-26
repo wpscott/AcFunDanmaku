@@ -3,6 +3,7 @@ using Google.Protobuf;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -125,31 +126,17 @@ namespace AcFunDanmu
         }
 
         [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 4)]
-        private unsafe struct Length
+        private struct Length
         {
-            [FieldOffset(0)] public byte b0;
-            [FieldOffset(1)] public byte b1;
-            [FieldOffset(2)] public byte b2;
-            [FieldOffset(3)] public byte b3;
-            [FieldOffset(0)] public int iLength;
-            [FieldOffset(0)] public fixed byte Data[4];
+            [FieldOffset(0)] public readonly byte b0;
+            [FieldOffset(1)] public readonly byte b1;
+            [FieldOffset(2)] public readonly byte b2;
+            [FieldOffset(3)] public readonly byte b3;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int ByteToInt32(in Length length)
-        {
-            return BitConverter.IsLittleEndian
-                ? length.iLength
-                : (length.b3 << 24) | (length.b2 << 16) | (length.b1 << 8) | (length.b0 << 0);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static byte[] Int32ToByte(in Length length)
-        {
-            return BitConverter.IsLittleEndian
-                ? new[] { length.b3, length.b2, length.b1, length.b0 }
-                : new[] { length.b0, length.b1, length.b2, length.b3 };
-        }
+        private static int ByteToInt32(in Length length) =>
+            (length.b0 << 24) | (length.b1 << 16) | (length.b2 << 8) | (length.b3 << 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe (int, int) DecodeLengths(in ReadOnlySpan<byte> bytes)
@@ -188,6 +175,7 @@ namespace AcFunDanmu
                 case PacketHeader.Types.EncryptionMode.KEncryptionSessionKey:
                     payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey);
                     break;
+                case PacketHeader.Types.EncryptionMode.KEncryptionNone:
                 default:
                     payload = bytes.Slice(HeaderOffset + headerLength, payloadLength).ToArray();
                     break;
@@ -197,6 +185,7 @@ namespace AcFunDanmu
             //Log.Debug("Payload Base64: {0}", Convert.ToBase64String(payload));
             //Dump(payload);
 
+            Debug.Assert(payload != null, nameof(payload) + " != null");
             if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
             {
                 Log.Error("Payload length does not match");
@@ -209,8 +198,8 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static object Decode(in Type type, in ReadOnlySpan<byte> bytes, in string SecurityKey,
-            in string SessionKey, out PacketHeader header)
+        public static object Decode(in Type type, in ReadOnlySpan<byte> bytes, in string securityKey,
+            in string sessionKey, out PacketHeader header)
         {
             var (headerLength, payloadLength) = DecodeLengths(bytes);
 
@@ -219,8 +208,8 @@ namespace AcFunDanmu
 #if NET5_0_OR_GREATER
             ReadOnlySpan<byte> payload = header.EncryptionMode switch
             {
-                PacketHeader.Types.EncryptionMode.KEncryptionServiceToken => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey),
-                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey),
+                PacketHeader.Types.EncryptionMode.KEncryptionServiceToken => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), securityKey),
+                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey => Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), sessionKey),
                 _ => bytes.Slice(HeaderOffset + headerLength, payloadLength),
             };
 #elif NETSTANDARD2_0_OR_GREATER
@@ -228,10 +217,10 @@ namespace AcFunDanmu
             switch (header.EncryptionMode)
             {
                 case PacketHeader.Types.EncryptionMode.KEncryptionServiceToken:
-                    payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey);
+                    payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), securityKey);
                     break;
                 case PacketHeader.Types.EncryptionMode.KEncryptionSessionKey:
-                    payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey);
+                    payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), sessionKey);
                     break;
                 case PacketHeader.Types.EncryptionMode.KEncryptionNone:
                 default:
@@ -461,7 +450,7 @@ namespace AcFunDanmu
 
             Span<byte> sign = stackalloc byte[NonceSize + hash.Length];
 #elif NETSTANDARD2_0_OR_GREATER
-            byte[] hash = null;
+            byte[] hash;
             using (var hmac = new HMACSHA256(Convert.FromBase64String(key)))
             {
                 var query = extra == null
@@ -476,17 +465,6 @@ namespace AcFunDanmu
 #endif
             if (BitConverter.IsLittleEndian)
             {
-                sign[0] = nonce.b7;
-                sign[1] = nonce.b6;
-                sign[2] = nonce.b5;
-                sign[3] = nonce.b4;
-                sign[4] = nonce.b3;
-                sign[5] = nonce.b2;
-                sign[6] = nonce.b1;
-                sign[7] = nonce.b0;
-            }
-            else
-            {
                 sign[0] = nonce.b0;
                 sign[1] = nonce.b1;
                 sign[2] = nonce.b2;
@@ -495,6 +473,17 @@ namespace AcFunDanmu
                 sign[5] = nonce.b5;
                 sign[6] = nonce.b6;
                 sign[7] = nonce.b7;
+            }
+            else
+            {
+                sign[0] = nonce.b7;
+                sign[1] = nonce.b6;
+                sign[2] = nonce.b5;
+                sign[3] = nonce.b4;
+                sign[4] = nonce.b3;
+                sign[5] = nonce.b2;
+                sign[6] = nonce.b1;
+                sign[7] = nonce.b0;
             }
 
             for (var i = 0; i < hash.Length; i++)
@@ -522,19 +511,18 @@ namespace AcFunDanmu
         private const int NonceSize = sizeof(long);
 
         [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 8)]
-        private unsafe struct Nonce
+        private struct Nonce
         {
             [FieldOffset(0)] public int Random;
             [FieldOffset(0)] public long Result;
-            [FieldOffset(0)] public fixed byte Data[NonceSize];
-            [FieldOffset(0)] public byte b0;
-            [FieldOffset(1)] public byte b1;
-            [FieldOffset(2)] public byte b2;
-            [FieldOffset(3)] public byte b3;
-            [FieldOffset(4)] public byte b4;
-            [FieldOffset(5)] public byte b5;
-            [FieldOffset(6)] public byte b6;
-            [FieldOffset(7)] public byte b7;
+            [FieldOffset(0)] public readonly byte b0;
+            [FieldOffset(1)] public readonly byte b1;
+            [FieldOffset(2)] public readonly byte b2;
+            [FieldOffset(3)] public readonly byte b3;
+            [FieldOffset(4)] public readonly byte b4;
+            [FieldOffset(5)] public readonly byte b5;
+            [FieldOffset(6)] public readonly byte b6;
+            [FieldOffset(7)] public readonly byte b7;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

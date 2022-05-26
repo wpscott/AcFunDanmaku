@@ -9,7 +9,7 @@
 
 		<Product />
 
-		<Version>2.2.1</Version>
+		<Version>2.2.2</Version>
 
 		<Description>AcFun直播弹幕客户端</Description>
 
@@ -44,7 +44,7 @@
 		<PackageReference Include="Google.Protobuf" Version="3.20.1" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
 	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'" >
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'">
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
