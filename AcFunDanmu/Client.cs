@@ -695,8 +695,9 @@ namespace AcFunDanmu
 #if NET5_0_OR_GREATER
         public async Task<bool> Start()
         {
-
-            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) || string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null || Tickets.Length == 0)
+            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) ||
+                string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null ||
+                Tickets.Length == 0)
             {
                 Log.Information("Not initialized or live is ended");
                 return false;
@@ -704,35 +705,45 @@ namespace AcFunDanmu
 
             using var owner = MemoryPool<byte>.Shared.Rent();
 
-            if (_utils != null) { _utils = null; }
+            if (_utils != null)
+            {
+                _utils = null;
+            }
+
             _utils =
- new ClientRequestUtils(UserId, DeviceId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach, Tickets);
+                new ClientRequestUtils(UserId, DeviceId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach, Tickets);
             if (_client != null)
             {
                 _client.Dispose();
                 _client = null;
                 GC.Collect();
             }
+
             _client = CreateWebsocketClient();
 
-        #region Timers
+            #region Timers
+
             using var heartbeatTimer = new HeartbeatTimer();
             heartbeatTimer.Elapsed += Heartbeat;
             heartbeatTimer.AutoReset = true;
             using var deathTimer = new HeartbeatTimer();
             deathTimer.Interval = TimeSpan.FromSeconds(10).TotalMilliseconds;
             deathTimer.Elapsed += async (s, e) => { await Stop("dead"); };
-        #endregion
+
+            #endregion
 
             try
             {
                 await _client.ConnectAsync(WEBSOCKET_HOST, default);
 
-        #region Register
-                await _client.SendAsync(_utils.RegisterRequest(), WebSocketMessageType.Binary, true, default);
-        #endregion
+                #region Register
 
-        #region Main loop
+                await _client.SendAsync(_utils.RegisterRequest(), WebSocketMessageType.Binary, true, default);
+
+                #endregion
+
+                #region Main loop
+
                 while (_client.State == WebSocketState.Open)
                 {
                     var buffer = owner.Memory;
@@ -741,8 +752,13 @@ namespace AcFunDanmu
                         await _client.ReceiveAsync(buffer, default);
 
                         var stream =
- Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey, out var header);
-                        if (stream == null) { Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span)); continue; }
+                            Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey, out var header);
+                        if (stream == null)
+                        {
+                            Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span));
+                            continue;
+                        }
+
                         HandleCommand(header, stream, heartbeatTimer, deathTimer);
                     }
                     catch (Exception ex)
@@ -756,7 +772,8 @@ namespace AcFunDanmu
                 Log.Debug("Client status: {State}", _client.State);
                 heartbeatTimer.Stop();
                 deathTimer.Stop();
-        #endregion
+
+                #endregion
             }
             catch (Exception ex)
             {
