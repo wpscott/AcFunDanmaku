@@ -13,9 +13,10 @@ using System.Threading.Tasks;
 
 namespace AcFunOBS
 {
-    class Program
+    internal static class Program
     {
-        private const string StreamCategory = "https://api-new.acfunchina.com/rest/pc-client/live/type/list?kpf=WINDOWS_PC&appver=1.4.0.145";
+        private const string StreamCategory =
+            "https://api-new.acfunchina.com/rest/pc-client/live/type/list?kpf=WINDOWS_PC&appver=1.4.0.145";
 
         private static readonly SortedList<string, string> QueryDict = new()
         {
@@ -25,6 +26,7 @@ namespace AcFunOBS
             { "kpf", "WINDOWS_PC" },
             { "subBiz", "mainApp" },
         };
+
         private static string Query => string.Join('&', QueryDict.Select(query => $"{query.Key}={query.Value}"));
 
         private const string KuaishouZt = "https://api.kuaishouzt.com";
@@ -38,43 +40,38 @@ namespace AcFunOBS
 
         private static readonly CookieContainer Container = new();
 
-        struct Config
+        private struct Config
         {
-            [JsonPropertyName("acPasstoken")]
-            public string AcPasstoken { get; set; }
-            [JsonPropertyName("uid")]
-            public long Uid { get; set; }
-            [JsonPropertyName("category")]
-            public int Category { get; set; }
-            [JsonPropertyName("type")]
-            public int Type { get; set; }
-            [JsonPropertyName("bitrate")]
-            public int Bitrate { get; set; }
-            [JsonPropertyName("fps")]
-            public int Fps { get; set; }
-            [JsonPropertyName("title")]
-            public string Title { get; set; }
-            [JsonPropertyName("cover")]
-            public string Cover { get; set; }
+            [JsonPropertyName("acPasstoken")] public string AcPasstoken { get; set; }
+            [JsonPropertyName("uid")] public long Uid { get; set; }
+            [JsonPropertyName("category")] public int Category { get; set; }
+            [JsonPropertyName("type")] public int Type { get; set; }
+            [JsonPropertyName("bitrate")] public int Bitrate { get; set; }
+            [JsonPropertyName("fps")] public int Fps { get; set; }
+            [JsonPropertyName("title")] public string Title { get; set; }
+            [JsonPropertyName("cover")] public string Cover { get; set; }
         }
 
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
             var file = @".\config.json";
             if (args.Length == 1)
             {
                 file = args[0];
             }
+
             var fInfo = new FileInfo(file);
             if (!fInfo.Exists)
             {
-                using var writer = new StreamWriter(fInfo.OpenWrite());
-                writer.Write(JsonSerializer.Serialize(new Config(), new JsonSerializerOptions { WriteIndented = true }));
-                Console.WriteLine($"Cannot find {file}, created a defalut one");
+                await using var writer = new StreamWriter(fInfo.OpenWrite());
+                await writer.WriteAsync(JsonSerializer.Serialize(new Config(),
+                    new JsonSerializerOptions { WriteIndented = true }));
+                Console.WriteLine($"Cannot find {file}, created a default one");
                 return;
             }
+
             using var reader = fInfo.OpenText();
-            var config = JsonSerializer.Deserialize<Config>(reader.ReadToEnd());
+            var config = JsonSerializer.Deserialize<Config>(await reader.ReadToEndAsync());
 
             Container.Add(new Cookie("acPasstoken", config.AcPasstoken, "/", ".acfun.cn"));
             Container.Add(new Cookie("auth_key", $"{config.Uid}", "/", ".acfun.cn"));
@@ -86,18 +83,30 @@ namespace AcFunOBS
 
             await PostAuthorAuth(token);
 
-            await PostStartPush(token, config.Title, config.Cover, new StartPushRequest { Category = config.Category, Type = config.Type, Bitrate = config.Bitrate, Fps = config.Fps, Unknown1 = 7, Unknown2 = 1, Unknown3 = 3000 });
+            await PostStartPush(token, config.Title, config.Cover,
+                new StartPushRequest
+                {
+                    Category = config.Category, Type = config.Type, Bitrate = config.Bitrate, Fps = config.Fps,
+                    Unknown1 = 7, Unknown2 = 1, Unknown3 = 3000
+                });
         }
 
-        static void Test(string url, string key, string sign)
+        private static void Test(string url, string key, string sign)
         {
             using var hmac = new HMACSHA256(Convert.FromBase64String(key));
 
             Span<byte> data = FromBase64Url(sign);
             var rnd = data[..8];
-            if (BitConverter.IsLittleEndian) { rnd.Reverse(); }
+            if (BitConverter.IsLittleEndian)
+            {
+                rnd.Reverse();
+            }
+
             var num = BitConverter.ToInt64(rnd);
-            if (BitConverter.IsLittleEndian) { rnd.Reverse(); }
+            if (BitConverter.IsLittleEndian)
+            {
+                rnd.Reverse();
+            }
 
             var test = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{url}&{num}")); // no extra data !!
             Console.WriteLine(num);
@@ -110,34 +119,31 @@ namespace AcFunOBS
         }
 
 
-        static async Task<TokenResult> GetToken()
+        private static async Task<TokenResult> GetToken()
         {
             using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
-            using var form = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("sid", "acfun.midground.api") });
+            using var form = new FormUrlEncodedContent(new[]
+                { new KeyValuePair<string, string>("sid", "acfun.midground.api") });
 
             using var resp = await client.PostAsync($"{AppAcfun}{Token}?{Query}", form);
             var token = await JsonSerializer.DeserializeAsync<TokenResult>(await resp.Content.ReadAsStreamAsync());
             return token;
         }
 
-        struct Auth
+        private struct Auth
         {
-            [JsonPropertyName("result")]
-            public int Result { get; init; }    // 1
-            [JsonPropertyName("data")]
-            public AuthData Data { get; init; }
-            [JsonPropertyName("host")]
-            public string Host { get; init; }
-        }
-        struct AuthData
-        {
-            [JsonPropertyName("authStatus")]
-            public string AuthStatus { get; init; } // "AVAILABLE"
-            [JsonPropertyName("desc")]
-            public string Desc { get; init; }   // "打开"
+            [JsonPropertyName("result")] public int Result { get; init; } // 1
+            [JsonPropertyName("data")] public AuthData Data { get; init; }
+            [JsonPropertyName("host")] public string Host { get; init; }
         }
 
-        static async Task PostAuthorAuth(TokenResult token)
+        private struct AuthData
+        {
+            [JsonPropertyName("authStatus")] public string AuthStatus { get; init; } // "AVAILABLE"
+            [JsonPropertyName("desc")] public string Desc { get; init; } // "打开"
+        }
+
+        private static async Task PostAuthorAuth(TokenResult token)
         {
             using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
 
@@ -149,59 +155,51 @@ namespace AcFunOBS
             Console.WriteLine(content);
         }
 
-        struct Push
+        private struct Push
         {
-            [JsonPropertyName("result")]
-            public int Result { get; init; }    // 1
-            [JsonPropertyName("data")]
-            public PushData Data { get; init; }
-            [JsonPropertyName("host")]
-            public string Host { get; init; }
+            [JsonPropertyName("result")] public int Result { get; init; } // 1
+            [JsonPropertyName("data")] public PushData Data { get; init; }
+            [JsonPropertyName("host")] public string Host { get; init; }
         }
 
-        struct PushData
+        private struct PushData
         {
             [JsonPropertyName("videoPushRes")]
-            public string VideoPushRes { get; init; }  // ?.proto {number, pushAddr, streamName}
-            [JsonPropertyName("liveId")]
-            public string LiveId { get; init; }
-            [JsonPropertyName("enterRoomAttach")]
-            public string EnterRoomAttach { get; init; }
-            [JsonPropertyName("availableTickets")]
-            public string[] AvailableTickets { get; init; }
-            [JsonPropertyName("notices")]
-            public PushNotice[] Notices { get; init; }
-            [JsonPropertyName("ticketRetryCount")]
-            public short TicketRetryCount { get; init; }    // 2
+            public string VideoPushRes { get; init; } // ?.proto {number, pushAddr, streamName}
+
+            [JsonPropertyName("liveId")] public string LiveId { get; init; }
+            [JsonPropertyName("enterRoomAttach")] public string EnterRoomAttach { get; init; }
+            [JsonPropertyName("availableTickets")] public string[] AvailableTickets { get; init; }
+            [JsonPropertyName("notices")] public PushNotice[] Notices { get; init; }
+            [JsonPropertyName("ticketRetryCount")] public short TicketRetryCount { get; init; } // 2
+
             [JsonPropertyName("ticketRetryIntervalMs")]
             public int TicketRetryIntervalMs { get; init; } // 2000
-            [JsonPropertyName("config")]
-            public PushConfig Config { get; init; }
+
+            [JsonPropertyName("config")] public PushConfig Config { get; init; }
         }
 
-        struct PushNotice
+        private struct PushNotice
         {
-            [JsonPropertyName("userId")]
-            public long UserId { get; init; }
-            [JsonPropertyName("userName")]
-            public string UserName { get; init; }
-            [JsonPropertyName("userGender")]
-            public string UserGender { get; init; }
-            [JsonPropertyName("notice")]
-            public string Notice { get; init; }
+            [JsonPropertyName("userId")] public long UserId { get; init; }
+            [JsonPropertyName("userName")] public string UserName { get; init; }
+            [JsonPropertyName("userGender")] public string UserGender { get; init; }
+            [JsonPropertyName("notice")] public string Notice { get; init; }
         }
 
-        struct PushConfig
+        private struct PushConfig
         {
-            [JsonPropertyName("giftSlotSize")]
-            public short GiftSlotSize { get; init; }    // 2
+            [JsonPropertyName("giftSlotSize")] public short GiftSlotSize { get; init; } // 2
         }
 
-        static async Task PostStartPush(TokenResult token, string title, string cover, StartPushRequest startPushRequest)
+        private static async Task PostStartPush(TokenResult token, string title, string cover,
+            StartPushRequest startPushRequest)
         {
             var bizCustomData = $"{{\"typeId\":{startPushRequest.Category}}}";
             var req = Convert.ToBase64String(startPushRequest.ToByteArray());
-            var sign = Sign(StartPush, token.Ssecurity, new SortedList<string, string> { { "bizCustomData", bizCustomData }, { "caption", title }, { "videoPushReq", req } });
+            var sign = Sign(StartPush, token.Ssecurity,
+                new SortedList<string, string>
+                    { { "bizCustomData", bizCustomData }, { "caption", title }, { "videoPushReq", req } });
 
             using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
             client.DefaultRequestHeaders.ExpectContinue = true;
@@ -210,7 +208,7 @@ namespace AcFunOBS
             using var videoPushReq = new ByteArrayContent(Encoding.UTF8.GetBytes(req));
             using var caption = new ByteArrayContent(Encoding.UTF8.GetBytes(title));
             using var biz = new ByteArrayContent(Encoding.UTF8.GetBytes(bizCustomData));
-            using var reader = File.OpenRead(cover);
+            await using var reader = File.OpenRead(cover);
             using var file = new StreamContent(reader);
             form.Add(videoPushReq, "videoPushReq");
             form.Add(caption, "caption");
@@ -222,33 +220,41 @@ namespace AcFunOBS
             Console.WriteLine(content);
         }
 
-        struct TokenResult
+        private struct TokenResult
         {
-            [JsonPropertyName("result")]
-            public int Result { get; set; }
+            [JsonPropertyName("result")] public int Result { get; set; }
+
             [JsonPropertyName("acfun.midground.api_st")]
             public string ST { get; set; }
+
             [JsonPropertyName("acfun.midground.api.at")]
             public string AT { get; set; }
-            [JsonPropertyName("userId")]
-            public long UserId { get; set; }
-            [JsonPropertyName("ssecurity")]
-            public string Ssecurity { get; set; }
+
+            [JsonPropertyName("userId")] public long UserId { get; set; }
+            [JsonPropertyName("ssecurity")] public string Ssecurity { get; set; }
         }
 
-        static string Sign(string uri, string key, long rnd, Span<byte> bytes, SortedList<string, string> extra = null)
+        private static string Sign(string uri, string key, long rnd, Span<byte> bytes,
+            SortedList<string, string> extra = null)
         {
             using var hmac = new HMACSHA256(Convert.FromBase64String(key));
-            string query = extra == null ? Query : string.Join('&', QueryDict.Concat(extra).OrderBy(query => query.Key).Select(query => $"{query.Key}={query.Value}"));
+            var query = extra == null
+                ? Query
+                : string.Join('&',
+                    QueryDict.Concat(extra).OrderBy(query => query.Key).Select(query => $"{query.Key}={query.Value}"));
 
             var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes($"POST&{uri}&{query}&{rnd}"));
             Span<byte> sign = stackalloc byte[bytes.Length + hash.Length];
-            if (BitConverter.IsLittleEndian) { bytes.Reverse(); }
+            if (BitConverter.IsLittleEndian)
+            {
+                bytes.Reverse();
+            }
 
             for (var i = 0; i < bytes.Length; i++)
             {
                 sign[i] = bytes[i];
             }
+
             for (var i = 0; i < hash.Length; i++)
             {
                 sign[bytes.Length + i] = hash[i];
@@ -257,13 +263,15 @@ namespace AcFunOBS
             return ToBase64Url(sign);
         }
 
-        static string Sign(string url, string key, long rnd, SortedList<string, string> extra = null) => Sign(url, key, rnd, BitConverter.GetBytes(rnd), extra);
+        private static string Sign(string url, string key, long rnd, SortedList<string, string> extra = null) =>
+            Sign(url, key, rnd, BitConverter.GetBytes(rnd), extra);
 
 
-        static string Sign(string url, string key = DefaultKey, SortedList<string, string> extra = null) => Sign(url, key, Random(), extra);
+        private static string Sign(string url, string key = DefaultKey, SortedList<string, string> extra = null) =>
+            Sign(url, key, Random(), extra);
 
 
-        static long Random()
+        private static long Random()
         {
             long result = BitConverter.ToInt32(RandomNumberGenerator.GetBytes(4));
             result <<= 0x20;
@@ -271,20 +279,14 @@ namespace AcFunOBS
             return result;
         }
 
-        static byte[] FromBase64Url(string text)
+        private static byte[] FromBase64Url(string text)
         {
             var temp = text.Replace('-', '+').Replace('_', '/');
             var rem = 4 - (temp.Length & 3);
-            if (rem == 4)
-            {
-                return Convert.FromBase64String(temp);
-            }
-            else
-            {
-                return Convert.FromBase64String(temp.PadRight(temp.Length + rem, '='));
-            }
+            return Convert.FromBase64String(rem == 4 ? temp : temp.PadRight(temp.Length + rem, '='));
         }
 
-        static string ToBase64Url(ReadOnlySpan<byte> data) => Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
+        private static string ToBase64Url(ReadOnlySpan<byte> data) =>
+            Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
     }
 }
