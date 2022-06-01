@@ -3,22 +3,48 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AcFunDGJ"
+        xmlns:local="clr-namespace:AcFunDGJ" 
+        xmlns:viewmodels="clr-namespace:AcFunDGJ.ViewModels" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:DGJViewModel}"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowStyle="None"
         ShowInTaskbar="True"
         AllowsTransparency="False"
-        ResizeMode="CanResize"
-        Title="AcFun点歌姬" MinHeight="112" MinWidth="236" Height="112" Width="236" KeyDown="Window_KeyDown" MouseDown="Window_MouseDown">
-    <StackPanel>
-        <MediaElement x:Name="Player" LoadedBehavior="Manual" UnloadedBehavior="Stop" MediaEnded="MediaEnded"/>
-        <TextBlock x:Name="Song" FontSize="20"/>
-        <TextBlock x:Name="Album" FontSize="20"/>
-        <TextBlock x:Name="Duration" FontSize="20"/>
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        Title="AcFun点歌姬" d:DesignHeight="118" MinHeight="118" d:DesignWidth="242" MinWidth="242" KeyDown="Window_KeyDown" MouseLeftButtonDown="Window_MouseDown">
+    <Window.DataContext>
+        <viewmodels:DGJViewModel />
+    </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding NextCommand}" Key="N" />
+        <KeyBinding Command="{Binding NextCommand}" Key="MediaNextTrack" />
+        <KeyBinding Command="{Binding PlayCommand}" Key="Space" />
+        <KeyBinding Command="{Binding PlayCommand}" Key="MediaPlayPause" />
+        <KeyBinding Command="{Binding MuteCommand}" Key="M" />
+        <KeyBinding Command="{Binding MuteCommand}" Key="VolumeMute" />
+        <KeyBinding Command="{Binding LyricsCommand}" Key="L" />
+    </Window.InputBindings>
+    <StackPanel Margin="3">
+        <MediaElement x:Name="Player" Source="{Binding Source}" IsMuted="{Binding IsMuted, Mode=TwoWay}" LoadedBehavior="Manual" UnloadedBehavior="Stop">
+            <behaviors:Interaction.Triggers>
+                <behaviors:EventTrigger EventName="MediaEnded">
+                    <behaviors:InvokeCommandAction Command="{Binding NextCommand}" />
+                </behaviors:EventTrigger>
+            </behaviors:Interaction.Triggers>
+        </MediaElement>
+        <TextBlock Text="{Binding Title}" FontSize="20"/>
         <StackPanel Orientation="Horizontal">
-            <Button x:Name="PlayBtn" Focusable="False" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE769;" Click="Play" />
-            <Button Margin="64,0,64,0" Focusable="False" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE893;" Click="Next" />
-            <Button x:Name="MuteBtn" Focusable="False" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE767;" Click="Mute" />
+            <TextBlock Text="专辑：" FontSize="20" Visibility="{Binding ShowAlbumCaption, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}" />
+            <TextBlock Text="{Binding Album}" FontSize="20"/>
         </StackPanel>
+        <TextBlock Text="{Binding Duration}" FontSize="20"/>
+        <Grid>
+            <Button HorizontalAlignment="Left" Focusable="False" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="{Binding PlayBtnTxt}" Command="{Binding PlayCommand}" />
+            <Button HorizontalAlignment="Center" Focusable="False" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE893;" Command="{Binding NextCommand}" />
+            <Button HorizontalAlignment="Right" Focusable="False" FontFamily="Segoe MDL2 Assets" FontSize="32" Content="{Binding MuteBtnTxt}" Command="{Binding MuteCommand}" />
+        </Grid>
     </StackPanel>
 </Window>

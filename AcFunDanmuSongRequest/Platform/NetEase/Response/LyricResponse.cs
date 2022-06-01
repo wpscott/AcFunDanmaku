@@ -2,20 +2,12 @@
 
 namespace AcFunDanmuSongRequest.Platform.NetEase.Response
 {
-    struct LyricResponse
+    internal readonly record struct LyricResponse(int Code, LyricResponse.LyricDetail Lrc, bool Qft, bool Sfy, bool Sgx,
+        LyricResponse.LyricDetail Tlyric)
     {
-        public static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-        public int Code { get; set; }
-        public LyricDetail Lrc { get; set; }
-        public bool Qfy { get; set; }
-        public bool Sfy { get; set; }
-        public bool Sgx { get; set; }
-        public LyricDetail Tlyric { get; set; }
+        public static readonly JsonSerializerOptions Options = new()
+            { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-        public struct LyricDetail
-        {
-            public string Lyric { get; set; }
-            public int Version { get; set; }
-        }
+        public readonly record struct LyricDetail(string Lyric, int Version);
     }
 }

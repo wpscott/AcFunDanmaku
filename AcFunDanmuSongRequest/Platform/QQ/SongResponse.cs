@@ -4,45 +4,47 @@ using System.Text.Json.Serialization;
 
 namespace AcFunDanmuSongRequest.Platform.QQ
 {
-    struct SongResponse
+    internal struct SongResponse
     {
-        public static readonly JsonSerializerOptions Options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
+            { PropertyNameCaseInsensitive = true };
+
         static SongResponse()
         {
             Options.Converters.Add(new DateTimeOffsetConverter());
             Options.Converters.Add(new TimeSpanConverver());
         }
+
         public int Code { get; set; }
         public DateTimeOffset TS { get; set; }
-        [JsonPropertyName("start_ts")]
-        public DateTimeOffset StartTs { get; set; }
-        [JsonPropertyName("req_0")]
-        public Req Data { get; set; }
+        [JsonPropertyName("start_ts")] public DateTimeOffset StartTs { get; set; }
+        [JsonPropertyName("req_0")] public Req Data { get; set; }
 
         public struct Req
         {
             public int Code { get; set; }
             public SongData Data { get; set; }
+
             public struct SongData
             {
                 public TimeSpan Expiration { get; set; }
-                [JsonPropertyName("login_key")]
-                public string LoginKey { get; set; }
+                [JsonPropertyName("login_key")] public string LoginKey { get; set; }
                 public string Msg { get; set; }
                 public int RetCode { get; set; }
                 public string ServerCheck { get; set; }
                 public string TestFile2G { get; set; }
                 public string TestFileWifi { get; set; }
                 public string Uin { get; set; }
-                [JsonPropertyName("verify_type")]
-                public int VerifyType { get; set; }
+                [JsonPropertyName("verify_type")] public int VerifyType { get; set; }
                 public MidInfo[] MidUrlInfo { get; set; }
                 public string[] SIP { get; set; }
                 public string[] ThirdIp { get; set; }
+
                 public struct MidInfo
                 {
                     [JsonPropertyName("common_downfromtag")]
                     public int CommonDownFromTag { get; set; }
+
                     public string ErrType { get; set; }
                     public string FileName { get; set; }
                     public string FlowFromTag { get; set; }
@@ -70,8 +72,7 @@ namespace AcFunDanmuSongRequest.Platform.QQ
                     public string SongMid { get; set; }
                     public string Tips { get; set; }
                     public int UIAlert { get; set; }
-                    [JsonPropertyName("vip_downfromtag")]
-                    public int VIPDownFromTag { get; set; }
+                    [JsonPropertyName("vip_downfromtag")] public int VIPDownFromTag { get; set; }
                     public string VKey { get; set; }
                     public string WifiFromTag { get; set; }
                     public string WifiUrl { get; set; }
@@ -79,23 +80,27 @@ namespace AcFunDanmuSongRequest.Platform.QQ
             }
         }
 
-        class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
+        private class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
         {
-            public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert,
+                JsonSerializerOptions options)
             {
                 return DateTimeOffset.FromUnixTimeMilliseconds(reader.GetInt64());
             }
+
             public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
             {
                 writer.WriteNumberValue(value.ToUnixTimeMilliseconds());
             }
         }
-        class TimeSpanConverver : JsonConverter<TimeSpan>
+
+        private class TimeSpanConverver : JsonConverter<TimeSpan>
         {
             public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             {
                 return TimeSpan.FromSeconds(reader.GetInt32());
             }
+
             public override void Write(Utf8JsonWriter writer, TimeSpan value, JsonSerializerOptions options)
             {
                 writer.WriteNumberValue(value.TotalSeconds);

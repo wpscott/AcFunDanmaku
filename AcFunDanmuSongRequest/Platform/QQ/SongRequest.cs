@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace AcFunDanmuSongRequest.Platform.QQ
 {
-    struct SongRequest : IGetRequest
+    internal struct SongRequest : IGetRequest
     {
         public string Host => $"https://u.y.qq.com/cgi-bin/musicu.fcg?data={JsonSerializer.Serialize(Data)}";
 
@@ -28,46 +28,35 @@ namespace AcFunDanmuSongRequest.Platform.QQ
             };
         }
 
-        [JsonPropertyName("data")]
-        MusicuData Data { get; set; }
+        [JsonPropertyName("data")] private MusicuData Data { get; set; }
 
-        struct MusicuData
+        private struct MusicuData
         {
-            [JsonPropertyName("req_0")]
-            public Request Req0 { get; set; }
+            [JsonPropertyName("req_0")] public Request Req0 { get; set; }
 
             public struct Request
             {
-                [JsonPropertyName("module")]
-                public static string Module => "vkey.GetVkeyServer";
-                [JsonPropertyName("method")]
-                public static string Method => "CgiGetVkey";
-                [JsonPropertyName("param")]
-                public RequestParams Param { get; set; }
+                [JsonPropertyName("module")] public static string Module => "vkey.GetVkeyServer";
+                [JsonPropertyName("method")] public static string Method => "CgiGetVkey";
+
+                [JsonPropertyName("param")] public RequestParams Param { get; set; }
+
                 //public CommonParams comm { get; set; }
                 public struct RequestParams
                 {
-                    [JsonPropertyName("guid")]
-                    public string Guid { get; set; }
-                    [JsonPropertyName("songmid")]
-                    public string[] Songmid { get; set; }
-                    [JsonPropertyName("songtype")]
-                    public static int[] Songtype => new int[] { 0 };
-                    [JsonPropertyName("uin")]
-                    public string Uin { get; set; }
-                    [JsonPropertyName("platform")]
-                    public static int Platform => 20;
+                    [JsonPropertyName("guid")] public string Guid { get; set; }
+                    [JsonPropertyName("songmid")] public string[] Songmid { get; set; }
+                    [JsonPropertyName("songtype")] public static int[] Songtype => new int[] { 0 };
+                    [JsonPropertyName("uin")] public string Uin { get; set; }
+                    [JsonPropertyName("platform")] public static int Platform => 20;
                 }
+
                 public struct CommonParams
                 {
-                    [JsonPropertyName("uin")]
-                    public int Uin { get; set; }
-                    [JsonPropertyName("format")]
-                    public static string Format => "json";
-                    [JsonPropertyName("ct")]
-                    public static int Ct => 20;
-                    [JsonPropertyName("cv")]
-                    public static int Cv => 0;
+                    [JsonPropertyName("uin")] public int Uin { get; set; }
+                    [JsonPropertyName("format")] public static string Format => "json";
+                    [JsonPropertyName("ct")] public static int Ct => 20;
+                    [JsonPropertyName("cv")] public static int Cv => 0;
                 }
             }
         }

@@ -2,12 +2,8 @@
 
 namespace AcFunDanmuSongRequest.Platform.NetEase.Response
 {
-    struct EncodedResponse : IEncodedResponse
+    internal readonly record struct EncodedResponse(bool Abroad, int Code, string Result) : IEncodedResponse
     {
-        public bool Abroad { get; set; }
-        public int Code { get; set; }
-        public string Result { get; set; }
-
         public string Decode() => NetEasePlatform.NetEaseDecodeUtil.Decode(Result);
     }
 }

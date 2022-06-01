@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace AcFunDanmuSongRequest.Platform
 {
-    abstract class BasePlatform : IPlatform
+    internal abstract class BasePlatform : IPlatform
     {
-        protected Config Config { get; }
+        private Config Config { get; }
         protected Queue<ISong> Songs { get; }
-        public BasePlatform(Config config)
+
+        protected BasePlatform(Config config)
         {
             Config = config;
             Songs = new Queue<ISong>();
@@ -22,21 +23,19 @@ namespace AcFunDanmuSongRequest.Platform
         public abstract ValueTask<ISong> AddSong(string keyword);
         public ISong Peek() => Songs.Peek();
         public abstract ValueTask<ISong> NextSong();
+        public abstract ValueTask<Lyrics> GetLyrics(ISong song);
 
         public static IPlatform CreatePlatform(Config config)
         {
-            switch (config.Platform)
+            return config.Platform switch
             {
-                case Config.MusicPlatform.网易云音乐:
-                    return new NetEasePlatform(config);
-                case Config.MusicPlatform.QQ音乐:
-                    return new QQPlatform(config);
-                default:
-                    return null;
-            }
+                Config.MusicPlatform.网易云音乐 => new NetEasePlatform(config),
+                Config.MusicPlatform.QQ音乐 => new QQPlatform(config),
+                _ => null
+            };
         }
 
-        protected static HttpClient CreateClient()
+        private static HttpClient CreateClient()
         {
             var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
             client.DefaultRequestHeaders.AcceptEncoding.ParseAdd("gzip, deflate, br");
@@ -52,13 +51,16 @@ namespace AcFunDanmuSongRequest.Platform
             return json;
         }
 
-        protected static async ValueTask<TResult> GetAsync<TResult, TEncodedResponse>(IGetRequest request, JsonSerializerOptions options) where TEncodedResponse : IEncodedResponse
+        protected static async ValueTask<TResult> GetAsync<TResult, TEncodedResponse>(IGetRequest request,
+            JsonSerializerOptions options) where TEncodedResponse : IEncodedResponse
         {
             using var client = CreateClient();
 
             using var resp = await client.GetAsync(request.Host);
             var content = await resp.Content.ReadAsStringAsync();
-            var json = await JsonSerializer.DeserializeAsync<TEncodedResponse>(await resp.Content.ReadAsStreamAsync(), IEncodedResponse.Options);
+            var json = await JsonSerializer.DeserializeAsync<TEncodedResponse>(await resp.Content.ReadAsStreamAsync(),
+                IEncodedResponse.Options);
+            if (json == null) return default;
             var result = JsonSerializer.Deserialize<TResult>(json.Decode(), options);
             return result;
         }
@@ -70,37 +72,27 @@ namespace AcFunDanmuSongRequest.Platform
             using var content = request.IsJson ? request.ToJson() : request.ToForm();
 
             using var resp = await client.PostAsync(request.Host, content);
-            using var stream = await resp.Content.ReadAsStreamAsync();
-            if (stream.Length > 0)
-            {
-                var json = await JsonSerializer.DeserializeAsync<T>(stream, options);
-                return json;
-            }
-            else
-            {
-                return default;
-            }
+            await using var stream = await resp.Content.ReadAsStreamAsync();
+            if (stream.Length <= 0) return default;
+            var json = await JsonSerializer.DeserializeAsync<T>(stream, options);
+            return json;
         }
 
-        protected static async ValueTask<TResult> PostAsync<TResult, TEncodeResponse>(IPostRequest request, JsonSerializerOptions options) where TEncodeResponse : IEncodedResponse
+        protected static async ValueTask<TResult> PostAsync<TResult, TEncodeResponse>(IPostRequest request,
+            JsonSerializerOptions options) where TEncodeResponse : IEncodedResponse
         {
             using var client = CreateClient();
 
             using var content = request.IsJson ? request.ToJson() : request.ToForm();
 
             using var resp = await client.PostAsync(request.Host, content);
-            using var stream = await resp.Content.ReadAsStreamAsync();
-            if (stream.Length > 0)
-            {
-                var json = await JsonSerializer.DeserializeAsync<TEncodeResponse>(await resp.Content.ReadAsStreamAsync());
-                var result = JsonSerializer.Deserialize<TResult>(json.Decode(), options);
-                return result;
-            }
-            else
-            {
-                return default;
-            }
+            await using var stream = await resp.Content.ReadAsStreamAsync();
+            if (stream.Length <= 0) return default;
+            var json = await JsonSerializer.DeserializeAsync<TEncodeResponse>(
+                await resp.Content.ReadAsStreamAsync());
+            if (json == null) return default;
+            var result = JsonSerializer.Deserialize<TResult>(json.Decode(), options);
+            return result;
         }
-
     }
 }

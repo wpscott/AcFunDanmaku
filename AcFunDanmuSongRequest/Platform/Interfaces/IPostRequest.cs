@@ -3,7 +3,7 @@ using System.Text;
 
 namespace AcFunDanmuSongRequest.Platform.Interfaces
 {
-    interface IPostRequest : IGetRequest
+    internal interface IPostRequest : IGetRequest
     {
         public static readonly Encoding Encoding = Encoding.UTF8;
         public bool IsJson { get; }

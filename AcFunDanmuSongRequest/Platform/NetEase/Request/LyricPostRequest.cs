@@ -3,12 +3,10 @@ using System.Net.Http;
 
 namespace AcFunDanmuSongRequest.Platform.NetEase.Request
 {
-    class LyricPostRequest : IPostRequest
+    internal readonly record struct LyricPostRequest(long Id) : IPostRequest
     {
         public string Host => $"http://music.163.com/weapi/song/lyric?csrf_token=";
         public bool IsJson => false;
-
-        public long Id { get; set; }
 
         public override string ToString()
         {

@@ -1,0 +1,31 @@
+﻿<Window x:Class="AcFunDGJ.LyricWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AcFunDGJ" 
+        xmlns:viewmodels="clr-namespace:AcFunDGJ.ViewModels" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:LyricsViewModel}"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        ShowInTaskbar="False"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterOwner"
+        Focusable="False"
+        Background="{x:Null}"
+        Topmost="True"
+        SizeToContent="WidthAndHeight"
+        Cursor="SizeAll"
+        Title="歌词" d:DesignHeight="50" d:DesignWidth="1000" MouseLeftButtonDown="LyricWindow_OnMouseDown">
+    <StackPanel>
+        <!--<ListView IsEnabled="False" ItemsSource="{Binding Lyrics.Lines}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Content}" FontSize="20"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>-->
+        <TextBlock FontSize="60" Foreground="#66CCFF" Text="{Binding Lyrics.Line1}" Background="{x:Null}" />
+        <TextBlock FontSize="60" Foreground="#66CCFF" Text="{Binding Lyrics.Line2}" Background="{x:Null}" />
+    </StackPanel>
+</Window>

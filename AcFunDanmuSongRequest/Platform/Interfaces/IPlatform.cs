@@ -2,10 +2,11 @@
 
 namespace AcFunDanmuSongRequest.Platform.Interfaces
 {
-    interface IPlatform
+    internal interface IPlatform
     {
         public ValueTask<ISong> AddSong(string keyword);
         public ISong Peek();
         public ValueTask<ISong> NextSong();
+        public ValueTask<Lyrics> GetLyrics(ISong song);
     }
 }

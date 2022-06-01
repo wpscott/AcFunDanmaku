@@ -2,9 +2,11 @@
 
 namespace AcFunDanmuSongRequest.Platform.Interfaces
 {
-    interface IEncodedResponse
+    internal interface IEncodedResponse
     {
-        public static readonly JsonSerializerOptions Options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+        public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
+            { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
         public string Decode();
     }
 }

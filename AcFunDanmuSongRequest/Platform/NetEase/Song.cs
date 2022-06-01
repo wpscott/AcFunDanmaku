@@ -3,7 +3,7 @@ using System;
 
 namespace AcFunDanmuSongRequest.Platform.NetEase
 {
-    struct Song : ISong
+    internal struct Song : ISong
     {
         public long Id { get; set; }
         public string Name { get; set; }

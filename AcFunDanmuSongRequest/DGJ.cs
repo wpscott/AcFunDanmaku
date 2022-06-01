@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
+using Google.Protobuf.WellKnownTypes;
 
 namespace AcFunDanmuSongRequest
 {
     public delegate void DGJConnectEvent();
+
     public delegate void DGJExitEvent();
+
     public delegate void DGJAddSongEvent(ISong song);
+
     public static class DGJ
     {
         static DGJ()
@@ -20,9 +24,9 @@ namespace AcFunDanmuSongRequest
             IsRunning = false;
         }
 
-        private static Regex Pattern;
-        private static Config Config;
-        private static IPlatform platform = null;
+        private static Regex _pattern;
+        private static Config _config;
+        private static IPlatform _platform;
 
         public static bool IsRunning { get; private set; }
         public static DGJConnectEvent OnConnect { get; set; }
@@ -31,17 +35,17 @@ namespace AcFunDanmuSongRequest
 
         public static async Task<bool> Initialize()
         {
-            Config = await Config.LoadConfig();
-            Pattern = new Regex(Config.Format, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            platform = BasePlatform.CreatePlatform(Config);
-            if (Config.Standalone && Config.UserId > 0)
+            _config = await Config.LoadConfig();
+            _pattern = new Regex(_config.Format, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            _platform = BasePlatform.CreatePlatform(_config);
+            if (_config.Standalone && _config.UserId > 0)
             {
                 Connect();
             }
 #if DEBUG
             IsRunning = true;
 #endif
-            return platform == null;
+            return _platform == null;
         }
 
         private static async void Connect()
@@ -51,7 +55,7 @@ namespace AcFunDanmuSongRequest
                 Handler = HandleSignal
             };
 
-            await client.Initialize(Config.UserId.ToString());
+            await client.Initialize(_config.UserId.ToString());
 
             var retry = 0;
             var resetTimer = new Timer(10000);
@@ -61,17 +65,22 @@ namespace AcFunDanmuSongRequest
             OnConnect?.Invoke();
             while (!await client.Start() && retry < 3)
             {
-                if (retry > 0) { resetTimer.Stop(); }
+                if (retry > 0)
+                {
+                    resetTimer.Stop();
+                }
+
                 retry++;
                 resetTimer.Start();
             }
+
             IsRunning = false;
             OnExit?.Invoke();
         }
 
-        public static async Task AddSong(string keyword)
+        public static async ValueTask AddSong(string keyword)
         {
-            var song = await platform.AddSong(keyword);
+            var song = await _platform.AddSong(keyword);
             if (song != null)
             {
                 OnAddSong?.Invoke(song);
@@ -80,30 +89,31 @@ namespace AcFunDanmuSongRequest
 
         public static ISong Peek()
         {
-            return platform.Peek();
+            return _platform.Peek();
         }
 
-        public static async Task<ISong> NextSong()
+        public static async ValueTask<ISong> NextSong()
         {
-            return await platform.NextSong();
+            return await _platform.NextSong();
         }
 
-        public static async void HandleSignal(Client sender, string messagetType, ByteString payload)
+        public static bool ShowLyrics => _config.ShowLyrics;
+        public static async ValueTask<Lyrics> GetLyrics(ISong song) => await _platform.GetLyrics(song);
+
+        private static async void HandleSignal(Client sender, string messageType, ByteString payload)
         {
-            if (messagetType == PushMessage.ACTION_SIGNAL)
-            {
-                var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
-                foreach (var match in actionSignal.Item
-                    .Where(item => item.SignalType == PushMessage.ActionSignal.COMMENT)
-                    .Select(item =>
-                        item.Payload.Select(CommonActionSignalComment.Parser.ParseFrom)
-                        .Select(comment => Pattern.Match(comment.Content))
-                        .Where(match => match.Success)
-                    ).SelectMany(match => match)
+            if (messageType != PushMessage.ACTION_SIGNAL) return;
+            var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
+            foreach (var match in actionSignal.Item
+                         .Where(item => item.SignalType == PushMessage.ActionSignal.COMMENT)
+                         .Select(item =>
+                             item.Payload.Select(CommonActionSignalComment.Parser.ParseFrom)
+                                 .Select(comment => _pattern.Match(comment.Content))
+                                 .Where(match => match.Success)
+                         ).SelectMany(match => match)
                     )
-                {
-                    await AddSong(match.Groups[0].Value);
-                }
+            {
+                await AddSong(match.Groups[0].Value);
             }
         }
     }

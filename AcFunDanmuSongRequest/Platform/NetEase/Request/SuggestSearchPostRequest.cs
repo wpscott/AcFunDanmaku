@@ -3,20 +3,18 @@ using System.Net.Http;
 
 namespace AcFunDanmuSongRequest.Platform.NetEase.Request
 {
-    struct SuggestSearchPostRequest : IPostRequest
+    internal readonly record struct SuggestSearchPostRequest(string Keyword, int Offset, int Limit) : IPostRequest
     {
         public string Host => "https://music.163.com/weapi/search/suggest/web?csrf_token=";
         public bool IsJson => true;
 
-        public string Keyword { get; set; }
-        public int Offset { get; set; }
-        public int Limit { get; set; }
-        public int Type => 1;
-        public string CsrfToken => string.Empty;
+        private static int Type => 1;
+        private static string CsrfToken => string.Empty;
 
         public override string ToString()
         {
-            return $"{{\"s\":\"{Keyword}\",\"offset\":{Offset},\"limit\":{Limit},\"type\":{Type},\"csrf_token\":\"{CsrfToken}\"}}";
+            return
+                $"{{\"s\":\"{Keyword}\",\"offset\":{Offset},\"limit\":{Limit},\"type\":{Type},\"csrf_token\":\"{CsrfToken}\"}}";
         }
 
         public HttpContent ToJson()

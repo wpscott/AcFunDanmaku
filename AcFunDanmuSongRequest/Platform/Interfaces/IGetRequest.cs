@@ -1,8 +1,7 @@
 ﻿namespace AcFunDanmuSongRequest.Platform.Interfaces
 {
-    interface IGetRequest
+    internal interface IGetRequest
     {
         public string Host { get; }
-
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace AcFunDanmuSongRequest.Platform.QQ
 {
-    struct Song : ISong
+    internal struct Song : ISong
     {
         public string SongMid { get; set; }
         public string Name { get; set; }
