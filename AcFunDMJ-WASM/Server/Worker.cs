@@ -28,21 +28,20 @@ namespace AcFunDMJ_WASM.Server
     {
         public const string Url = "https://live.acfun.cn/api/channel/list";
 
-        [JsonPropertyName("liveList")]
-        public Live[] LiveList { get; set; }
+        [JsonPropertyName("liveList")] public Live[] LiveList { get; set; }
 
         public struct Live
         {
-            [JsonPropertyName("authorId")]
-            public long AuthorId { get; set; }
-            [JsonPropertyName("title")]
-            public string Title { get; set; }
+            [JsonPropertyName("authorId")] public long AuthorId { get; set; }
+            [JsonPropertyName("title")] public string Title { get; set; }
         }
     }
 
     public class Worker : IHostedService, IDisposable
     {
-        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36";
+        private const string UserAgent =
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36";
+
         private const string AcceptEncoding = "gzip, deflate, br";
 
         private readonly ILogger<Worker> _logger;
@@ -76,6 +75,7 @@ namespace AcFunDMJ_WASM.Server
             {
                 _ = client.Value.Stop("dispose");
             }
+
             Monitoring.Clear();
             return Task.CompletedTask;
         }
@@ -98,13 +98,15 @@ namespace AcFunDMJ_WASM.Server
         private async void StartMonitor(object state)
         {
             _logger.LogInformation("Fech live list");
-            using var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All });
+            using var client = new HttpClient(new HttpClientHandler
+                { AutomaticDecompression = System.Net.DecompressionMethods.All });
             client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent);
             client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(AcceptEncoding);
 
             using var resp = await client.GetAsync(Channel.Url);
             var list = await JsonSerializer.DeserializeAsync<Channel>(await resp.Content.ReadAsStreamAsync());
-            var available = list.LiveList.Where(live => MonitorIds.Contains(live.AuthorId) && !Monitoring.ContainsKey(live.AuthorId));
+            var available = list.LiveList.Where(live =>
+                MonitorIds.Contains(live.AuthorId) && !Monitoring.ContainsKey(live.AuthorId));
             _logger.LogInformation("Found {Count} up(s)", available.Count());
             foreach (var live in available)
             {
@@ -142,33 +144,41 @@ namespace AcFunDMJ_WASM.Server
                                 foreach (var pl in item.Payload)
                                 {
                                     var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(sender.Host).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    _hub.Clients.Group(sender.Host).SendComment(new Comment
+                                        { Name = comment.UserInfo.Nickname, Content = comment.Content });
                                     _logger.LogDebug("{Data}", comment.ToString());
                                 }
+
                                 break;
                             case PushMessage.ActionSignal.LIKE:
                                 foreach (var pl in item.Payload)
                                 {
                                     var like = CommonActionSignalLike.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(sender.Host).SendLike(new Like { Name = like.UserInfo.Nickname });
+                                    _hub.Clients.Group(sender.Host)
+                                        .SendLike(new Like { Name = like.UserInfo.Nickname });
                                     _logger.LogDebug("{Data}", like.ToString());
                                 }
+
                                 break;
                             case PushMessage.ActionSignal.ENTER_ROOM:
                                 foreach (var pl in item.Payload)
                                 {
                                     var enter = CommonActionSignalUserEnterRoom.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(sender.Host).SendEnter(new Enter { Name = enter.UserInfo.Nickname });
+                                    _hub.Clients.Group(sender.Host)
+                                        .SendEnter(new Enter { Name = enter.UserInfo.Nickname });
                                     _logger.LogDebug("{Data}", enter.ToString());
                                 }
+
                                 break;
                             case PushMessage.ActionSignal.FOLLOW:
                                 foreach (var pl in item.Payload)
                                 {
                                     var follower = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
-                                    _hub.Clients.Group(sender.Host).SendFollow(new Follow { Name = follower.UserInfo.Nickname });
+                                    _hub.Clients.Group(sender.Host).SendFollow(new Follow
+                                        { Name = follower.UserInfo.Nickname });
                                     _logger.LogDebug("{Data}", follower.ToString());
                                 }
+
                                 break;
                             case PushMessage.ActionSignal.THROW_BANANA:
                                 //foreach (var pl in item.Payload)
@@ -182,14 +192,20 @@ namespace AcFunDMJ_WASM.Server
                                 {
                                     var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
                                     var info = AcFunDanmu.Client.Gifts[gift.GiftId];
-                                    _hub.Clients.Group(sender.Host).SendGift(new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, Detail = new Gift.GiftInfo { Name = info.Name, Pic = info.Pic } });
+                                    _hub.Clients.Group(sender.Host).SendGift(new Gift
+                                    {
+                                        Name = gift.UserInfo.Nickname, ComboId = gift.ComboKey, Count = gift.BatchSize,
+                                        Detail = new Gift.GiftInfo { Name = info.Name, Pic = info.Pic }
+                                    });
                                     _logger.LogDebug("{Data}", gift.ToString());
                                 }
+
                                 break;
                             default:
                                 break;
                         }
                     }
+
                     break;
                 //Includes current banana counts, watching count, like count and top 3 users sent gifts
                 case PushMessage.STATE_SIGNAL:
@@ -215,9 +231,11 @@ namespace AcFunDMJ_WASM.Server
                                 var comments = CommonStateSignalRecentComment.Parser.ParseFrom(item.Payload);
                                 foreach (var comment in comments.Comment)
                                 {
-                                    _hub.Clients.Group(sender.Host).SendComment(new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    _hub.Clients.Group(sender.Host).SendComment(new Comment
+                                        { Name = comment.UserInfo.Nickname, Content = comment.Content });
                                     _logger.LogDebug("{Data}", comment.ToString());
                                 }
+
                                 break;
                             default:
                                 //                            var pi = Parse(item.SignalType, item.Payload);
@@ -227,6 +245,7 @@ namespace AcFunDMJ_WASM.Server
                                 break;
                         }
                     }
+
                     break;
             }
         }

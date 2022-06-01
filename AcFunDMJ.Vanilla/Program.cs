@@ -15,7 +15,9 @@ namespace AcFunDMJ.Vanilla
     class Program
     {
         private static readonly Encoding Encoding = Encoding.UTF8;
-        private static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+        private static readonly JsonSerializerOptions Options = new()
+            { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         private static WebSocket ws;
         private static Client danmaku;
@@ -47,6 +49,7 @@ namespace AcFunDMJ.Vanilla
                         {
                             StaticFile(ctx.Response, "index.html", "text/html; charset=utf-8");
                         }
+
                         break;
                     case string css when path.EndsWith(".css"):
                         StaticFile(ctx.Response, css, "text/css");
@@ -75,12 +78,12 @@ namespace AcFunDMJ.Vanilla
                 response.ContentType = contentType;
                 response.ContentEncoding = Encoding;
                 await stream.CopyToAsync(response.OutputStream);
-
             }
             else
             {
                 response.StatusCode = 404;
             }
+
             response.Close();
         }
 
@@ -94,6 +97,7 @@ namespace AcFunDMJ.Vanilla
                 ws.Dispose();
                 ws = null;
             }
+
             ws = websocket;
             danmaku = new Client();
             SendMessage(MessageType.Text, $"正在连接到直播间：{uid}");
@@ -144,8 +148,10 @@ namespace AcFunDMJ.Vanilla
                                 foreach (var pl in item.Payload)
                                 {
                                     var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
-                                    SendMessage(MessageType.Comment, new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    SendMessage(MessageType.Comment,
+                                        new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
                                 }
+
                                 break;
                             case PushMessage.ActionSignal.LIKE:
                                 if (config.ShowLike)
@@ -156,6 +162,7 @@ namespace AcFunDMJ.Vanilla
                                         SendMessage(MessageType.Like, new Like { Name = like.UserInfo.Nickname });
                                     }
                                 }
+
                                 break;
                             case PushMessage.ActionSignal.ENTER_ROOM:
                                 if (config.ShowEnter)
@@ -166,6 +173,7 @@ namespace AcFunDMJ.Vanilla
                                         SendMessage(MessageType.Enter, new Enter { Name = enter.UserInfo.Nickname });
                                     }
                                 }
+
                                 break;
                             case PushMessage.ActionSignal.FOLLOW:
                                 if (config.ShowFollow)
@@ -176,6 +184,7 @@ namespace AcFunDMJ.Vanilla
                                         SendMessage(MessageType.Follow, new Follow { Name = follow.UserInfo.Nickname });
                                     }
                                 }
+
                                 break;
                             case PushMessage.ActionSignal.THROW_BANANA:
                                 //foreach (var pl in item.Payload)
@@ -191,14 +200,22 @@ namespace AcFunDMJ.Vanilla
                                     if (!config.GiftList.Contains(gift.GiftId))
                                     {
                                         var info = Client.Gifts[gift.GiftId];
-                                        SendMessage(MessageType.Gift, new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Count, Value = gift.Value, Combo = gift.Combo, Detail = info });
+                                        SendMessage(MessageType.Gift,
+                                            new Gift
+                                            {
+                                                Name = gift.UserInfo.Nickname, ComboId = gift.ComboKey,
+                                                Count = gift.BatchSize, Value = gift.Rank, Combo = gift.ComboCount,
+                                                Detail = info
+                                            });
                                     }
                                 }
+
                                 break;
                             default:
                                 break;
                         }
                     }
+
                     break;
                 //Includes current banana counts, watching count, like count and top 3 users sent gifts
                 case PushMessage.STATE_SIGNAL:
@@ -224,8 +241,10 @@ namespace AcFunDMJ.Vanilla
                                 var comments = CommonStateSignalRecentComment.Parser.ParseFrom(item.Payload);
                                 foreach (var comment in comments.Comment)
                                 {
-                                    SendMessage(MessageType.Comment, new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    SendMessage(MessageType.Comment,
+                                        new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
                                 }
+
                                 break;
                             default:
                                 //                            var pi = Parse(item.SignalType, item.Payload);
@@ -235,6 +254,7 @@ namespace AcFunDMJ.Vanilla
                                 break;
                         }
                     }
+
                     break;
             }
         }
@@ -244,14 +264,28 @@ namespace AcFunDMJ.Vanilla
             public string Name { get; set; }
             public string Content { get; set; }
         }
-        struct Like { public string Name { get; set; } }
-        struct Enter { public string Name { get; set; } }
-        struct Follow { public string Name { get; set; } }
+
+        struct Like
+        {
+            public string Name { get; set; }
+        }
+
+        struct Enter
+        {
+            public string Name { get; set; }
+        }
+
+        struct Follow
+        {
+            public string Name { get; set; }
+        }
+
         struct Banana
         {
             public string Name { get; set; }
             public int Count { get; set; }
         }
+
         struct Gift
         {
             public string Name { get; set; }
