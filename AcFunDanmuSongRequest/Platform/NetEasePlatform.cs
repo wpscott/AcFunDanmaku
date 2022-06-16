@@ -4,10 +4,13 @@ using AcFunDanmuSongRequest.Platform.NetEase.Response;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,20 +79,35 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
                 107, 126, 35, 36, 37, 94, 38, 42, 40, 52, 53, 56, 102, 117, 99, 107
             };
 
-            private static readonly int[] Code =
+            //private static readonly int[] Code =
+            //{
+            //    82, 9, 106, -43, 48, 54, -91, 56, -65, 64, -93, -98, -127, -13, -41, -5, 124, -29, 57, -126, -101, 47,
+            //    -1, -121, 52, -114, 67, 68, -60, -34, -23, -53, 84, 123, -108, 50, -90, -62, 35, 61, -18, 76, -107, 11,
+            //    66, -6, -61, 78, 8, 46, -95, 102, 40, -39, 36, -78, 118, 91, -94, 73, 109, -117, -47, 37, 114, -8, -10,
+            //    100, -122, 104, -104, 22, -44, -92, 92, -52, 93, 101, -74, -110, 108, 112, 72, 80, -3, -19, -71, -38,
+            //    94, 21, 70, 87, -89, -115, -99, -124, -112, -40, -85, 0, -116, -68, -45, 10, -9, -28, 88, 5, -72, -77,
+            //    69, 6, -48, 44, 30, -113, -54, 63, 15, 2, -63, -81, -67, 3, 1, 19, -118, 107, 58, -111, 17, 65, 79, 103,
+            //    -36, -22, -105, -14, -49, -50, -16, -76, -26, 115, -106, -84, 116, 34, -25, -83, 53, -123, -30, -7, 55,
+            //    -24, 28, 117, -33, 110, 71, -15, 26, 113, 29, 41, -59, -119, 111, -73, 98, 14, -86, 24, -66, 27, -4, 86,
+            //    62, 75, -58, -46, 121, 32, -102, -37, -64, -2, 120, -51, 90, -12, 31, -35, -88, 51, -120, 7, -57, 49,
+            //    -79, 18, 16, 89, 39, -128, -20, 95, 96, 81, 127, -87, 25, -75, 74, 13, 45, -27, 122, -97, -109, -55,
+            //    -100, -17, -96, -32, 59, 77, -82, 42, -11, -80, -56, -21, -69, 60, -125, 83, -103, 97, 23, 43, 4, 126,
+            //    -70, 119, -42, 38, -31, 105, 20, 99, 85, 33, 12, 125
+            //};
+            private static readonly byte[] Code =
             {
-                82, 9, 106, -43, 48, 54, -91, 56, -65, 64, -93, -98, -127, -13, -41, -5, 124, -29, 57, -126, -101, 47,
-                -1, -121, 52, -114, 67, 68, -60, -34, -23, -53, 84, 123, -108, 50, -90, -62, 35, 61, -18, 76, -107, 11,
-                66, -6, -61, 78, 8, 46, -95, 102, 40, -39, 36, -78, 118, 91, -94, 73, 109, -117, -47, 37, 114, -8, -10,
-                100, -122, 104, -104, 22, -44, -92, 92, -52, 93, 101, -74, -110, 108, 112, 72, 80, -3, -19, -71, -38,
-                94, 21, 70, 87, -89, -115, -99, -124, -112, -40, -85, 0, -116, -68, -45, 10, -9, -28, 88, 5, -72, -77,
-                69, 6, -48, 44, 30, -113, -54, 63, 15, 2, -63, -81, -67, 3, 1, 19, -118, 107, 58, -111, 17, 65, 79, 103,
-                -36, -22, -105, -14, -49, -50, -16, -76, -26, 115, -106, -84, 116, 34, -25, -83, 53, -123, -30, -7, 55,
-                -24, 28, 117, -33, 110, 71, -15, 26, 113, 29, 41, -59, -119, 111, -73, 98, 14, -86, 24, -66, 27, -4, 86,
-                62, 75, -58, -46, 121, 32, -102, -37, -64, -2, 120, -51, 90, -12, 31, -35, -88, 51, -120, 7, -57, 49,
-                -79, 18, 16, 89, 39, -128, -20, 95, 96, 81, 127, -87, 25, -75, 74, 13, 45, -27, 122, -97, -109, -55,
-                -100, -17, -96, -32, 59, 77, -82, 42, -11, -80, -56, -21, -69, 60, -125, 83, -103, 97, 23, 43, 4, 126,
-                -70, 119, -42, 38, -31, 105, 20, 99, 85, 33, 12, 125
+                82, 9, 106, 213, 48, 54, 165, 56, 191, 64, 163, 158, 129, 243, 215, 251, 124, 227, 57, 130, 155, 47,
+                255, 135, 52, 142, 67, 68, 196, 222, 233, 203, 84, 123, 148, 50, 166, 194, 35, 61, 238, 76, 149, 11, 66,
+                250, 195, 78, 8, 46, 161, 102, 40, 217, 36, 178, 118, 91, 162, 73, 109, 139, 209, 37, 114, 248, 246,
+                100, 134, 104, 152, 22, 212, 164, 92, 204, 93, 101, 182, 146, 108, 112, 72, 80, 253, 237, 185, 218, 94,
+                21, 70, 87, 167, 141, 157, 132, 144, 216, 171, 0, 140, 188, 211, 10, 247, 228, 88, 5, 184, 179, 69, 6,
+                208, 44, 30, 143, 202, 63, 15, 2, 193, 175, 189, 3, 1, 19, 138, 107, 58, 145, 17, 65, 79, 103, 220, 234,
+                151, 242, 207, 206, 240, 180, 230, 115, 150, 172, 116, 34, 231, 173, 53, 133, 226, 249, 55, 232, 28,
+                117, 223, 110, 71, 241, 26, 113, 29, 41, 197, 137, 111, 183, 98, 14, 170, 24, 190, 27, 252, 86, 62, 75,
+                198, 210, 121, 32, 154, 219, 192, 254, 120, 205, 90, 244, 31, 221, 168, 51, 136, 7, 199, 49, 177, 18,
+                16, 89, 39, 128, 236, 95, 96, 81, 127, 169, 25, 181, 74, 13, 45, 229, 122, 159, 147, 201, 156, 239, 160,
+                224, 59, 77, 174, 42, 245, 176, 200, 235, 187, 60, 131, 83, 153, 97, 23, 43, 4, 126, 186, 119, 214, 38,
+                225, 105, 20, 99, 85, 33, 12, 125
             };
 
             //private static readonly char[] Char = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -145,7 +163,7 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
 
             #endregion
 
-            public static string Decode(string data)
+            public static unsafe string Decode(in string data)
             {
                 if (string.IsNullOrEmpty(data))
                 {
@@ -159,18 +177,82 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
                 }
 
                 var dataSpan = data.AsSpan();
-                Span<byte> decodedData = stackalloc byte[dataLength];
+
+                Span<byte> decodedData = stackalloc byte[BLOCK_SIZE + dataLength];
+                Span<byte> decryptedData = stackalloc byte[dataLength];
+
                 for (var i = 0; i < dataLength; i++)
                 {
-                    decodedData[i] = byte.Parse(dataSpan.Slice(i << 1, 2), NumberStyles.HexNumber);
+                    var decoded = byte.Parse(dataSpan.Slice(i << 1, 2), NumberStyles.HexNumber);
+                    decodedData[i + BLOCK_SIZE] = decoded;
+                    decryptedData[i] = Code[Code[decoded]];
                 }
 
-                Span<byte> decryptedData = stackalloc byte[dataLength];
-                for (var offset = 0; offset < dataLength; offset++)
+                fixed (byte* pDecrypted = decryptedData, pDecoded = decodedData, pKey = FullKey)
                 {
-                    var key = offset < BLOCK_SIZE ? FullKey[offset] : decodedData[offset - BLOCK_SIZE];
-                    decryptedData[offset] = (byte)((((byte)Code[(byte)Code[decodedData[offset]]] ^ key) - key) ^
-                                                   FullKey[offset & 63]);
+                    if (Avx2.IsSupported)
+                    {
+                        Trace.WriteLine("Using Avx2");
+                        var temp = (Vector256<byte>*)pDecoded;
+                        *temp = Avx.LoadVector256(pKey);
+                        temp = (Vector256<byte>*)(pDecoded + 32);
+                        *temp = Avx.LoadVector256(pKey + 32);
+
+                        for (var i = 0; i < dataLength; i += 32)
+                        {
+                            var decrypt = (Vector256<byte>*)(pDecrypted + i);
+                            var decoded = (Vector256<byte>*)(pDecoded + i);
+                            var key = (Vector256<byte>*)(pKey + (i & 63));
+
+                            *decrypt = Avx2.Xor(*decrypt, *decoded);
+                            *decrypt = Avx2.Subtract(*decrypt, *decoded);
+                            *decrypt = Avx2.Xor(*decrypt, *key);
+                        }
+                    }
+                    else if (Sse2.IsSupported)
+                    {
+                        Trace.WriteLine("Using Sse2");
+                        var temp = (Vector128<byte>*)pDecoded;
+                        *temp = Sse2.LoadVector128(pKey);
+                        temp = (Vector128<byte>*)(pDecoded + 16);
+                        *temp = Sse2.LoadVector128(pKey + 16);
+                        temp = (Vector128<byte>*)(pDecoded + 32);
+                        *temp = Sse2.LoadVector128(pKey + 32);
+                        temp = (Vector128<byte>*)(pDecoded + 48);
+                        *temp = Sse2.LoadVector128(pKey + 48);
+
+                        for (var i = 0; i < dataLength; i += 16)
+                        {
+                            var decrypt = (Vector128<byte>*)(pDecrypted + i);
+                            var decoded = (Vector128<byte>*)(pDecoded + i);
+                            var key = (Vector128<byte>*)(pKey + (i & 63));
+
+                            *decrypt = Sse2.Xor(*decrypt, *decoded);
+                            *decrypt = Sse2.Subtract(*decrypt, *decoded);
+                            *decrypt = Sse2.Xor(*decrypt, *key);
+                        }
+                    }
+                    else
+                    {
+                        Trace.WriteLine("SIMD not supported");
+                        for (var i = 0; i < BLOCK_SIZE; i += 8)
+                        {
+                            decodedData[i + 0] = FullKey[i + 0];
+                            decodedData[i + 1] = FullKey[i + 1];
+                            decodedData[i + 2] = FullKey[i + 2];
+                            decodedData[i + 3] = FullKey[i + 3];
+                            decodedData[i + 4] = FullKey[i + 4];
+                            decodedData[i + 5] = FullKey[i + 5];
+                            decodedData[i + 6] = FullKey[i + 6];
+                            decodedData[i + 7] = FullKey[i + 7];
+                        }
+
+                        for (var i = 0; i < dataLength; i++)
+                        {
+                            decryptedData[i] = (byte)(((decryptedData[i] ^ decodedData[i]) - decodedData[i]) ^
+                                                      FullKey[i & 63]);
+                        }
+                    }
                 }
 
                 var lenData = decryptedData.Slice(dataLength - LENGTH_OFFSET, LENGTH_OFFSET);
