@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+message HansshakeResponse {
+	fixed32 unknown1 = 1;
+	fixed32 unknown2 = 2;
+}

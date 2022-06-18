@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+
+package AcFunDanmu.Im.Basic;
+
+message HandshakeRequest {
+	int32 unknown1 = 1;
+	int32 unknown2 = 2;
+}
