@@ -72,6 +72,7 @@ namespace AcFunDanmu
 
         private const string _WEBSOCKET_HOST = "wss://klink-newproduct-ws2.kwaizt.com/";
         private static readonly Uri WEBSOCKET_HOST = new Uri(_WEBSOCKET_HOST);
+        private const string SLINK_HOST = "tcp://slink.gifshow.com:14000"; // TCP Directly
 
         #endregion
 
