@@ -53,6 +53,10 @@ internal class Program
                     }
 
                     break;
+                case { } when path.EndsWith(".htm"):
+                case { } when path.EndsWith(".html"):
+                    StaticFile(ctx.Response, path, "text/html; charset=utf-8");
+                    break;
                 case { } when path.EndsWith(".css"):
                     StaticFile(ctx.Response, path, "text/css; charset=utf-8");
                     break;
@@ -79,18 +83,17 @@ internal class Program
                     StaticFile(ctx.Response, path, "image/gif");
                     break;
                 default:
-                    ctx.Response.StatusCode = 404;
-                    ctx.Response.Close();
+                    StaticFile(ctx.Response, Path.Combine(path, "index.html"), "text/html; charset=utf-8");
                     break;
             }
         }
     }
 
-    private static async void StaticFile(HttpListenerResponse response, string file, string contentType)
+    private static async void StaticFile(HttpListenerResponse response, string path, string contentType)
     {
-        if (File.Exists($@".\{file}"))
+        if (File.Exists(path))
         {
-            await using var stream = File.Open($@".\{file}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            await using var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             response.StatusCode = 200;
             response.ContentType = contentType;
@@ -135,6 +138,7 @@ internal class Program
         await _danmaku.Initialize(uid);
         SendMessage(MessageType.Text, "正在启动弹幕姬");
         await _danmaku.Start();
+        SendMessage(MessageType.Text, "直播已结束或连接已断开");
     }
 
     private static async void SendMessage(MessageType type, object obj)
