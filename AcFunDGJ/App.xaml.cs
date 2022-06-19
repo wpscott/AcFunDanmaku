@@ -1,11 +1,8 @@
-﻿using System.Windows;
+﻿namespace AcFunDGJ;
 
-namespace AcFunDGJ
+/// <summary>
+///     Interaction logic for App.xaml
+/// </summary>
+public partial class App
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App
-    {
-    }
 }
