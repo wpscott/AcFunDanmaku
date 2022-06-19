@@ -338,9 +338,9 @@ namespace AcFunDanmu
                 throw new ClientNotPreparedException();
             }
 
-            if (long.TryParse(hostId, out var HostId))
+            if (long.TryParse(hostId, out var id))
             {
-                return await Initialize(HostId, refreshGiftList);
+                return await Initialize(id, refreshGiftList);
             }
             else
             {
