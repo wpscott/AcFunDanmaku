@@ -233,7 +233,7 @@
                             foreach (var pl in item.Payload)
                             {
                                 var gift = CommonActionSignalGift.Parser.ParseFrom(pl);
-                                var sGift = new Gift { Name = gift.User.Nickname, ComboId = gift.ComboId, Count = gift.Combo, Detail = Client.Gifts[gift.GiftId] };
+                                var sGift = new Gift { Name = gift.UserInfo.Nickname, ComboId = gift.ComboKey, Count = gift.BatchSize, Detail = Client.Gifts[gift.GiftId] };
                                 UpdateGifts(sGift);
                             }
                             break;
