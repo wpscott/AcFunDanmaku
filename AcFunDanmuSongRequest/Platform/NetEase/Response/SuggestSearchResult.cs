@@ -1,8 +1,7 @@
-﻿namespace AcFunDanmuSongRequest.Platform.NetEase.Response
+﻿namespace AcFunDanmuSongRequest.Platform.NetEase.Response;
+
+internal struct SuggestSearchResult
 {
-    internal struct SuggestSearchResult
-    {
-        public int Code { get; set; }
-        public SearchResult Result { get; set; }
-    }
+    public int Code { get; set; }
+    public SearchResult Result { get; set; }
 }

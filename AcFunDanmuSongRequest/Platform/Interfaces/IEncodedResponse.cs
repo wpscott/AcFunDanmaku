@@ -1,12 +1,10 @@
 ﻿using System.Text.Json;
 
-namespace AcFunDanmuSongRequest.Platform.Interfaces
-{
-    internal interface IEncodedResponse
-    {
-        public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
-            { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+namespace AcFunDanmuSongRequest.Platform.Interfaces;
 
-        public string Decode();
-    }
+internal interface IEncodedResponse
+{
+    public static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+    public string Decode();
 }

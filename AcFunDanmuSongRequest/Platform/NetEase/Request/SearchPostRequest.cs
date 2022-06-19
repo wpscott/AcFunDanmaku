@@ -1,29 +1,28 @@
-﻿using AcFunDanmuSongRequest.Platform.Interfaces;
-using System.Net.Http;
+﻿using System.Net.Http;
+using AcFunDanmuSongRequest.Platform.Interfaces;
 
-namespace AcFunDanmuSongRequest.Platform.NetEase.Request
+namespace AcFunDanmuSongRequest.Platform.NetEase.Request;
+
+internal readonly record struct SearchPostRequest(string Keyword, int Offset, int Limit) : IPostRequest
 {
-    internal readonly record struct SearchPostRequest(string Keyword, int Offset, int Limit) : IPostRequest
+    private static int Type => 1;
+    private static string CsrfToken => string.Empty;
+    public string Host => "https://music.163.com/weapi/search/get/web?csrf_token=";
+    public bool IsJson => false;
+
+    public HttpContent ToJson()
     {
-        public string Host => $"https://music.163.com/weapi/search/get/web?csrf_token=";
-        public bool IsJson => false;
-        private static int Type => 1;
-        private static string CsrfToken => string.Empty;
+        return new StringContent(ToString(), IPostRequest.Encoding, "application/json");
+    }
 
-        public override string ToString()
-        {
-            return
-                $"{{\"s\":\"{Keyword}\",\"offset\":{Offset},\"limit\":{Limit},\"type\":{Type},\"csrf_token\":\"{CsrfToken}\"}}";
-        }
+    public HttpContent ToForm()
+    {
+        return new FormUrlEncodedContent(NetEasePlatform.NetEaseEncryptionUtil.GenerateParams(ToString()));
+    }
 
-        public HttpContent ToJson()
-        {
-            return new StringContent(ToString(), IPostRequest.Encoding, "application/json");
-        }
-
-        public HttpContent ToForm()
-        {
-            return new FormUrlEncodedContent(NetEasePlatform.NetEaseEncryptionUtil.GenerateParams(ToString()));
-        }
+    public override string ToString()
+    {
+        return
+            $"{{\"s\":\"{Keyword}\",\"offset\":{Offset},\"limit\":{Limit},\"type\":{Type},\"csrf_token\":\"{CsrfToken}\"}}";
     }
 }

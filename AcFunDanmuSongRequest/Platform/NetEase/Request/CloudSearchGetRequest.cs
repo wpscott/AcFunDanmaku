@@ -1,13 +1,12 @@
-﻿using AcFunDanmuSongRequest.Platform.Interfaces;
-using System.Web;
+﻿using System.Web;
+using AcFunDanmuSongRequest.Platform.Interfaces;
 
-namespace AcFunDanmuSongRequest.Platform.NetEase.Request
+namespace AcFunDanmuSongRequest.Platform.NetEase.Request;
+
+internal readonly record struct CloudSearchGetRequest(string Keyword, int Offset, int Limit) : IGetRequest
 {
-    internal readonly record struct CloudSearchGetRequest(string Keyword, int Offset, int Limit) : IGetRequest
-    {
-        public string Host =>
-            $"https://music.163.com/api/cloudsearch/get/web?csrf_token=&s={HttpUtility.UrlEncode(Keyword)}&type={Type}&limit={Limit}&offset={Offset}";
+    private static int Type => 1;
 
-        private static int Type => 1;
-    }
+    public string Host =>
+        $"https://music.163.com/api/cloudsearch/get/web?csrf_token=&s={HttpUtility.UrlEncode(Keyword)}&type={Type}&limit={Limit}&offset={Offset}";
 }
