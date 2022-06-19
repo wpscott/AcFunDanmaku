@@ -335,7 +335,7 @@ namespace AcFunDanmu
             if (!IsPrepared)
             {
                 Log.Error("Client not prepared, please call Client.Prepare() first");
-                return null;
+                throw new ClientNotPreparedException();
             }
 
             if (long.TryParse(hostId, out var HostId))
@@ -1190,6 +1190,13 @@ namespace AcFunDanmu
             {
                 (sender as HeartbeatTimer)?.Stop();
             }
+        }
+    }
+
+    public class ClientNotPreparedException : Exception
+    {
+        public ClientNotPreparedException() : base("Client not prepared, please call Client.Prepare() first")
+        {
         }
     }
 }
