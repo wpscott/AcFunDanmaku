@@ -12,6 +12,7 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterOwner"
         Focusable="False"
+        ShowActivated="False"
         Background="{x:Null}"
         Topmost="True"
         SizeToContent="WidthAndHeight"

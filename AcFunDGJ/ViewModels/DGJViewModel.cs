@@ -115,10 +115,13 @@ namespace AcFunDGJ.ViewModels
         }
 
         private readonly LyricsViewModel Lyrics;
+        private readonly ListViewModel List;
 
         public DGJViewModel()
         {
             Lyrics = new();
+            List = new();
+
             DGJ.OnConnect += () =>
             {
                 Title = "没有歌曲";
@@ -272,10 +275,45 @@ namespace AcFunDGJ.ViewModels
                 };
                 _lyric.Show();
             }
-            else
+
+            switch (_lyric.Visibility)
             {
-                _lyric.Close();
-                _lyric = null;
+                case Visibility.Visible:
+                    _lyric.Hide();
+                    break;
+                case Visibility.Hidden:
+                case Visibility.Collapsed:
+                default:
+                    _lyric.Show();
+                    break;
+            }
+        }
+
+        private ICommand _listCommand;
+        public ICommand ListCommand => _listCommand ??= new CommandHandler(ShowList, true);
+        private ListWindow _list;
+
+        private void ShowList()
+        {
+            if (_list == null)
+            {
+                _list = new ListWindow
+                {
+                    DataContext = List
+                };
+                _list.Show();
+            }
+
+            switch (_list.Visibility)
+            {
+                case Visibility.Visible:
+                    _list.Hide();
+                    break;
+                case Visibility.Hidden:
+                case Visibility.Collapsed:
+                default:
+                    _list.Show();
+                    break;
             }
         }
 

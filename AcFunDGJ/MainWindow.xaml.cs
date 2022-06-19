@@ -24,6 +24,8 @@ namespace AcFunDGJ
                 {
                     (DataContext as DGJViewModel)!.LyricsCommand.Execute(null);
                 }
+
+                (DataContext as DGJViewModel)!.ListCommand.Execute(null);
             };
         }
 

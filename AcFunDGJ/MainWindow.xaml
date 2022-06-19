@@ -26,6 +26,7 @@
         <KeyBinding Command="{Binding MuteCommand}" Key="M" />
         <KeyBinding Command="{Binding MuteCommand}" Key="VolumeMute" />
         <KeyBinding Command="{Binding LyricsCommand}" Key="L" />
+        <KeyBinding Command="{Binding ListCommand}" Key="K"/>
     </Window.InputBindings>
     <StackPanel Margin="3">
         <MediaElement x:Name="Player" Source="{Binding Source}" IsMuted="{Binding IsMuted, Mode=TwoWay}" LoadedBehavior="Manual" UnloadedBehavior="Stop">
