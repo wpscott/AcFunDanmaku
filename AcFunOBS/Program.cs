@@ -48,12 +48,11 @@ internal static class Program
     private static readonly CookieContainer Container = new();
 
     private static Config _config;
-    private static FileInfo _configFile;
 
     private static readonly AcFunApi Api = new();
 
     private static readonly char[] BlockElements =
-        { '█', '▛', '▜', '▀', '▙', '▌', '▚', '▘', '▟', '▞', '▐', '▝', '▄', '▖', '▗', ' ' };
+        { ' ', '▗', '▖', '▄', '▝', '▐', '▞', '▟', '▘', '▚', '▌', '▙', '▀', '▜', '▛', '█' };
 
     private static string Query => string.Join('&', QueryDict.Select(query => $"{query.Key}={query.Value}"));
 
@@ -61,31 +60,11 @@ internal static class Program
     {
         Console.OutputEncoding = Encoding.UTF8;
 
-        var file = @".\config.json";
-        if (args.Length == 1) file = args[0];
-
-        _configFile = new FileInfo(file);
-
-        if (!_configFile.Exists)
+        _config = await Config.Load(args.Length > 0 ? args[0] : null);
+        if (_config == null)
         {
-            _config = new Config
-            {
-                Type = QualityType.BLUE_RAY,
-                BitRate = 8000,
-                Fps = 60
-            };
-
-            Console.WriteLine($"Cannot find {file}, created a default one");
-            await using var stream = _configFile.Open(FileMode.Open, FileAccess.Write, FileShare.Read);
-            await using var writer = new StreamWriter(stream);
-            await writer.WriteAsync(JsonSerializer.Serialize(_config,
-                new JsonSerializerOptions { WriteIndented = true }));
-        }
-        else
-        {
-            await using var stream = _configFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var reader = new StreamReader(stream);
-            _config = JsonSerializer.Deserialize<Config>(await reader.ReadToEndAsync());
+            Console.WriteLine("Load config failed");
+            return;
         }
 
         if (!string.IsNullOrEmpty(_config.AcPasstoken))
@@ -125,6 +104,10 @@ internal static class Program
             return;
         }
 
+        _config.StreamAddress = obs.StreamAddress;
+        _config.StreamKey = obs.StreamKey;
+        _config.Save();
+
         Console.WriteLine(obs);
         Console.WriteLine("请按任意键开始直播");
         Console.ReadKey();
@@ -146,6 +129,9 @@ internal static class Program
             return;
         }
 
+        _config.LiveId = push.Data.LiveId;
+        _config.Save();
+
         Console.WriteLine($"直播已开始，直播ID为：{push.Data.LiveId}");
         Console.WriteLine("请按Ctrl+C结束直播");
         var evt = new ManualResetEvent(false);
@@ -155,8 +141,15 @@ internal static class Program
             evt.Set();
         };
         evt.WaitOne();
+
         if (token.Result == 0 && push.Result == 1)
+        {
             await PostStopPush(token, push.Data.LiveId);
+
+            _config.LiveId = string.Empty;
+        }
+
+        _config.Save();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -188,10 +181,7 @@ internal static class Program
         _config.AcPasstoken = user.Passtoken;
         _config.Uid = user.Id;
 
-        await using var stream = _configFile.Open(FileMode.Open, FileAccess.Write, FileShare.Read);
-        await using var writer = new StreamWriter(stream);
-        await writer.WriteAsync(JsonSerializer.Serialize(_config,
-            new JsonSerializerOptions { WriteIndented = true }));
+        _config.Save();
 
         Container.Add(new Cookie("acPasstoken", _config.AcPasstoken, "/", ".acfun.cn"));
         Container.Add(new Cookie("auth_key", $"{_config.Uid}", "/", ".acfun.cn"));
@@ -274,7 +264,7 @@ internal static class Program
         using var videoPushReq = new ByteArrayContent(Encoding.UTF8.GetBytes(req));
         using var caption = new ByteArrayContent(Encoding.UTF8.GetBytes(config.Title));
         using var biz = new ByteArrayContent(Encoding.UTF8.GetBytes(bizCustomData));
-        await using var reader = File.OpenRead(config.Cover);
+        await using var reader = config.LoadCover();
         using var file = new StreamContent(reader);
         form.Add(videoPushReq, "videoPushReq");
         form.Add(caption, "caption");
@@ -331,14 +321,28 @@ internal static class Program
 
         fixed (byte* pData = nonce.Data)
         {
-            sign[0] = *(pData + 7);
-            sign[1] = *(pData + 6);
-            sign[2] = *(pData + 5);
-            sign[3] = *(pData + 4);
-            sign[4] = *(pData + 3);
-            sign[5] = *(pData + 2);
-            sign[6] = *(pData + 1);
-            sign[7] = *(pData + 0);
+            if (BitConverter.IsLittleEndian)
+            {
+                sign[0] = *(pData + 7);
+                sign[1] = *(pData + 6);
+                sign[2] = *(pData + 5);
+                sign[3] = *(pData + 4);
+                sign[4] = *(pData + 3);
+                sign[5] = *(pData + 2);
+                sign[6] = *(pData + 1);
+                sign[7] = *(pData + 0);
+            }
+            else
+            {
+                sign[0] = *(pData + 0);
+                sign[1] = *(pData + 1);
+                sign[2] = *(pData + 2);
+                sign[3] = *(pData + 3);
+                sign[4] = *(pData + 4);
+                sign[5] = *(pData + 5);
+                sign[6] = *(pData + 6);
+                sign[7] = *(pData + 7);
+            }
         }
 
         for (var i = 0; i < HMAC_SHA256_SIZE; i += 8)
@@ -433,13 +437,11 @@ internal static class Program
 
                             for (var x = 8; x < row0.Length - 9; x += 2)
                             {
-                                var idx = (Convert.ToByte(row0[x].PackedValue == 0) << 3) |
-                                          (Convert.ToByte(row0[x + 1].PackedValue == 0) << 2) |
-                                          (Convert.ToByte(row1[x].PackedValue == 0) << 1) |
-                                          (Convert.ToByte(row1[x + 1].PackedValue == 0) << 0);
-                                if (y + 2 >= accessor.Height - 8) idx |= 0b0011;
+                                var idx = (row0[x].PackedValue & 0b1000) | (row0[x + 1].PackedValue & 0b0100) |
+                                          (row1[x].PackedValue & 0b0010) | (row1[x + 1].PackedValue & 0b0001);
+                                if (y + 2 >= accessor.Height - 8) idx &= 0b1100;
 
-                                if (x + 1 >= row0.Length - 8) idx |= 0b0101;
+                                if (x + 1 >= row0.Length - 9) idx &= 0b1010;
 
                                 Console.Write(BlockElements[idx]);
                             }
@@ -511,8 +513,13 @@ internal static class Program
         UHD_4K = 300
     }
 
-    private record struct Config
+    private class Config
     {
+        public const string DefaultName = "config.json";
+
+        [JsonIgnore] private string Directory { get; set; }
+        [JsonIgnore] private string FileName { get; set; }
+
         [JsonPropertyName("acPasstoken")] public string AcPasstoken { get; set; }
         [JsonPropertyName("uid")] public long Uid { get; set; }
         [JsonPropertyName("category")] public int Category { get; set; }
@@ -521,9 +528,71 @@ internal static class Program
         [JsonPropertyName("fps")] public int Fps { get; set; }
         [JsonPropertyName("title")] public string Title { get; set; }
         [JsonPropertyName("cover")] public string Cover { get; set; }
+        [JsonPropertyName("liveId")] public string LiveId { get; set; }
+        [JsonPropertyName("streamAddress")] public string StreamAddress { get; set; }
+        [JsonPropertyName("streamKey")] public string StreamKey { get; set; }
+
+        public static async Task<Config> Load(string path = null)
+        {
+            Config config;
+
+            if (string.IsNullOrEmpty(path)) path = DefaultName;
+
+            try
+            {
+                if (File.Exists(Path.Combine(path, DefaultName)))
+                {
+                    path = Path.Combine(path, DefaultName);
+                    await using var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    config = await JsonSerializer.DeserializeAsync<Config>(stream);
+                }
+                else if (File.Exists(path))
+                {
+                    await using var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    config = await JsonSerializer.DeserializeAsync<Config>(stream);
+                }
+                else
+                {
+                    Console.WriteLine($"File not found: {path}");
+                    config = new Config
+                    {
+                        Type = QualityType.BLUE_RAY,
+                        BitRate = 8000,
+                        Fps = 60
+                    };
+                }
+            }
+            catch (JsonException)
+            {
+                return null;
+            }
+
+            if (config == null) return null;
+
+            var info = new FileInfo(path);
+            config.Directory = info.DirectoryName;
+            config.FileName = info.FullName;
+
+            return config;
+        }
+
+        public async void Save()
+        {
+            await using var stream = File.Open(FileName, FileMode.Create, FileAccess.Write, FileShare.Read);
+            await JsonSerializer.SerializeAsync(stream, this);
+        }
+
+        public Stream LoadCover()
+        {
+            return File.Exists(Path.Combine(Directory, Cover))
+                ? File.Open(Path.Combine(Directory, Cover), FileMode.Open, FileAccess.Read, FileShare.Read)
+                : File.Exists(Cover)
+                    ? File.Open(Cover, FileMode.Open, FileAccess.Read, FileShare.Read)
+                    : null;
+        }
     }
 
-    private readonly record struct Auth
+    private readonly struct Auth
     {
         [JsonPropertyName("result")] public int Result { get; init; } // 1
         [JsonPropertyName("data")] public AuthData Data { get; init; }
@@ -536,7 +605,7 @@ internal static class Program
         }
     }
 
-    private readonly record struct AuthData
+    private readonly struct AuthData
     {
         [JsonPropertyName("authStatus")] public string AuthStatus { get; init; } // "AVAILABLE"
         [JsonPropertyName("desc")] public string Desc { get; init; } // "打开"
@@ -554,11 +623,12 @@ internal static class Program
         [JsonPropertyName("host")] public string Host { get; init; }
         [JsonPropertyName("error_msg")] public string ErrorMsg { get; init; }
 
+        public string StreamAddress => Data.StreamPushAddress[0][..Data.StreamPushAddress[0].LastIndexOf('/')];
+        public string StreamKey => Data.StreamPushAddress[0][(Data.StreamPushAddress[0].LastIndexOf('/') + 1)..];
+
         public override string ToString()
         {
-            var idx = Data.StreamPushAddress[0].LastIndexOf('/');
-            return
-                $"RTMP Server: {Data.StreamPushAddress[0][..idx]}\r\nStream Key: kszt_{Data.StreamPushAddress[0][(idx + 1)..]}";
+            return $"RTMP Server: {StreamAddress}\r\nStream Key: kszt_{StreamKey}";
         }
     }
 
@@ -575,7 +645,7 @@ internal static class Program
         public string[] StreamPushAddress { get; init; }
     }
 
-    private readonly record struct StartPush
+    private readonly struct StartPush
     {
         [JsonPropertyName("result")] public int Result { get; init; } // 1
         [JsonPropertyName("data")] public StartPushData Data { get; init; }
@@ -583,7 +653,7 @@ internal static class Program
         [JsonPropertyName("error_msg")] public string ErrorMsg { get; init; }
     }
 
-    private readonly record struct StartPushData
+    private readonly struct StartPushData
     {
         [JsonPropertyName("videoPushRes")]
         public string VideoPushRes { get; init; } // ?.proto {number, pushAddr, streamName}
@@ -605,7 +675,7 @@ internal static class Program
         }
     }
 
-    private readonly record struct PushNotice
+    private readonly struct PushNotice
     {
         [JsonPropertyName("userId")] public long UserId { get; init; }
         [JsonPropertyName("userName")] public string UserName { get; init; }
@@ -613,25 +683,25 @@ internal static class Program
         [JsonPropertyName("notice")] public string Notice { get; init; }
     }
 
-    private readonly record struct PushConfig
+    private readonly struct PushConfig
     {
         [JsonPropertyName("giftSlotSize")] public short GiftSlotSize { get; init; } // 2
     }
 
-    private readonly record struct StopPush
+    private readonly struct StopPush
     {
         [JsonPropertyName("result")] public int Result { get; init; }
         [JsonPropertyName("data")] public StopPushData Data { get; init; }
         [JsonPropertyName("host")] public string Host { get; init; }
     }
 
-    private readonly record struct StopPushData
+    private readonly struct StopPushData
     {
         [JsonPropertyName("durationMs")] public long DurationMs { get; init; }
         [JsonPropertyName("endReason")] public string EndReason { get; init; }
     }
 
-    private readonly record struct TokenResult
+    private readonly struct TokenResult
     {
         [JsonPropertyName("result")] public int Result { get; init; }
 
