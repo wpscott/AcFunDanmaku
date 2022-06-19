@@ -58,21 +58,21 @@ namespace AcFunDanmu
         private const string WATCHING_URL =
             "https://api.kuaishouzt.com/rest/zt/live/web/watchingList?subBiz=mainApp&kpn=ACFUN_APP&kpf=PC_WEB&userId={0}&did={1}&{2}={3}";
 
-        private const string UserAgent =
+        private const string USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36";
 
         private const string SAFETY_ID_CONTENT =
             "{{\"platform\":5,\"app_version\":\"2.0.32\",\"device_id\":\"null\",\"user_id\":\"{0}\"}}";
 
-        private static readonly Dictionary<string, string> LOGIN_FORM = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> LoginForm = new Dictionary<string, string>()
             { { "sid", "acfun.api.visitor" } };
 
-        private static readonly Dictionary<string, string> GET_TOKEN_FORM = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> GetTokenForm = new Dictionary<string, string>()
             { { "sid", "acfun.midground.api" } };
 
-        private const string _WEBSOCKET_HOST = "wss://klink-newproduct-ws2.kwaizt.com/";
-        private static readonly Uri WEBSOCKET_HOST = new Uri(_WEBSOCKET_HOST);
+        private const string WEBSOCKET_HOST = "wss://klink-newproduct-ws2.kwaizt.com/";
         private const string SLINK_HOST = "tcp://slink.gifshow.com:14000"; // TCP Directly
+        private static readonly Uri WebsocketHost = new Uri(WEBSOCKET_HOST);
 
         #endregion
 
@@ -366,7 +366,7 @@ namespace AcFunDanmu
 
                 if (IsSignIn)
                 {
-                    using var getcontent = new FormUrlEncodedContent(GET_TOKEN_FORM);
+                    using var getcontent = new FormUrlEncodedContent(GetTokenForm);
                     using var get = await client.PostAsync(GET_TOKEN_URI, getcontent);
                     if (!get.IsSuccessStatusCode)
                     {
@@ -387,7 +387,7 @@ namespace AcFunDanmu
                 }
                 else
                 {
-                    using var loginContent = new FormUrlEncodedContent(LOGIN_FORM);
+                    using var loginContent = new FormUrlEncodedContent(LoginForm);
                     using var login = await client.PostAsync(LOGIN_URI, loginContent);
                     if (!login.IsSuccessStatusCode)
                     {
@@ -443,7 +443,7 @@ namespace AcFunDanmu
                 {
                     if (IsSignIn)
                     {
-                        using (var getcontent = new FormUrlEncodedContent(GET_TOKEN_FORM))
+                        using (var getcontent = new FormUrlEncodedContent(GetTokenForm))
                         {
                             using (var get = await client.PostAsync(GET_TOKEN_URI, getcontent))
                             {
@@ -469,7 +469,7 @@ namespace AcFunDanmu
                     }
                     else
                     {
-                        using (var loginContent = new FormUrlEncodedContent(LOGIN_FORM))
+                        using (var loginContent = new FormUrlEncodedContent(LoginForm))
                         {
                             using (var login = await client.PostAsync(LOGIN_URI, loginContent))
                             {
@@ -735,7 +735,7 @@ namespace AcFunDanmu
 
             try
             {
-                await _client.ConnectAsync(WEBSOCKET_HOST, default);
+                await _client.ConnectAsync(WebsocketHost, default);
 
                 #region Register
 
@@ -826,7 +826,7 @@ namespace AcFunDanmu
 
                 try
                 {
-                    await _client.ConnectAsync(WEBSOCKET_HOST, default);
+                    await _client.ConnectAsync(WebsocketHost, default);
 
                     #region Register
 
@@ -885,18 +885,20 @@ namespace AcFunDanmu
         {
             try
             {
-                if (_client != null && _client.State == WebSocketState.Open)
-                {
 #if NET5_0_OR_GREATER
+                if (_client is { State: WebSocketState.Open })
+                {
                     await _client.SendAsync(_utils.UserExitRequest(), WebSocketMessageType.Binary, true, default);
                     await _client.SendAsync(_utils.UnregisterRequest(), WebSocketMessageType.Binary, true, default);
 #elif NETSTANDARD2_0_OR_GREATER
+                if (_client != null && _client.State == WebSocketState.Open)
+                {
                     await _client.SendAsync(new ArraySegment<byte>(_utils.UserExitRequest()),
                         WebSocketMessageType.Binary, true, default);
                     await _client.SendAsync(new ArraySegment<byte>(_utils.UnregisterRequest()),
                         WebSocketMessageType.Binary, true, default);
 #endif
-                    await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, message, default);
+                    //await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, message, default);
                 }
             }
             catch (Exception ex)
@@ -1131,7 +1133,7 @@ namespace AcFunDanmu
                     UseCookies = true,
                     CookieContainer = CookieContainer
                 });
-            client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent);
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(USER_AGENT);
             client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(ACCEPTED_ENCODING);
             client.DefaultRequestHeaders.Referrer = referer;
             return client;
@@ -1141,7 +1143,7 @@ namespace AcFunDanmu
         {
             var client = new ClientWebSocket();
             client.Options.SetRequestHeader("Origin", _ACFUN_HOST);
-            client.Options.SetRequestHeader("User-Agent", UserAgent);
+            client.Options.SetRequestHeader("User-Agent", USER_AGENT);
             client.Options.KeepAliveInterval = TimeSpan.Zero; // ????WTF????
             client.Options.Cookies = CookieContainer;
 #if NETSTANDARD2_1_OR_GREATER

@@ -429,12 +429,10 @@ namespace AcFunDanmu
             {
                 return Parse(type, new object[] { payload });
             }
-            else
-            {
-                Log.Warning("Unhandled type: {Type}", typeName);
-                Log.Debug("Payload Data: {Data}", payload.ToBase64());
-                return null;
-            }
+
+            Log.Warning("Unhandled type: {Type}", typeName);
+            Log.Debug("Payload Data: {Data}", payload.ToBase64());
+            return null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
