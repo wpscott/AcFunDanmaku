@@ -67,7 +67,7 @@ internal static class Program
             return;
         }
 
-        if (!string.IsNullOrEmpty(_config.AcPasstoken))
+        if (string.IsNullOrEmpty(_config.AcPasstoken))
         {
             await Login();
         }
@@ -520,17 +520,17 @@ internal static class Program
         [JsonIgnore] private string Directory { get; set; }
         [JsonIgnore] private string FileName { get; set; }
 
-        [JsonPropertyName("acPasstoken")] public string AcPasstoken { get; set; }
+        [JsonPropertyName("acPasstoken")] public string AcPasstoken { get; set; } = string.Empty;
         [JsonPropertyName("uid")] public long Uid { get; set; }
         [JsonPropertyName("category")] public int Category { get; set; }
         [JsonPropertyName("type")] public QualityType Type { get; set; }
         [JsonPropertyName("bitrate")] public int BitRate { get; set; }
         [JsonPropertyName("fps")] public int Fps { get; set; }
-        [JsonPropertyName("title")] public string Title { get; set; }
+        [JsonPropertyName("title")] public string Title { get; set; } = string.Empty;
         [JsonPropertyName("cover")] public string Cover { get; set; }
-        [JsonPropertyName("liveId")] public string LiveId { get; set; }
-        [JsonPropertyName("streamAddress")] public string StreamAddress { get; set; }
-        [JsonPropertyName("streamKey")] public string StreamKey { get; set; }
+        [JsonPropertyName("liveId")] public string LiveId { get; set; } = string.Empty;
+        [JsonPropertyName("streamAddress")] public string StreamAddress { get; set; } = string.Empty;
+        [JsonPropertyName("streamKey")] public string StreamKey { get; set; } = string.Empty;
 
         public static async Task<Config> Load(string path = null)
         {
@@ -556,6 +556,7 @@ internal static class Program
                     Console.WriteLine($"File not found: {path}");
                     config = new Config
                     {
+                        Cover = "cover.jpg",
                         Type = QualityType.BLUE_RAY,
                         BitRate = 8000,
                         Fps = 60
