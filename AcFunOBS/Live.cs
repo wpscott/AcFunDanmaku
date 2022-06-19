@@ -38,23 +38,31 @@ namespace AcFunOBS {
 
   }
   #region Messages
-  public sealed partial class StartPushRequest : pb::IMessage<StartPushRequest> {
+  public sealed partial class StartPushRequest : pb::IMessage<StartPushRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
     private static readonly pb::MessageParser<StartPushRequest> _parser = new pb::MessageParser<StartPushRequest>(() => new StartPushRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<StartPushRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
       get { return global::AcFunOBS.LiveReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     pbr::MessageDescriptor pb::IMessage.Descriptor {
       get { return Descriptor; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public StartPushRequest() {
       OnConstruction();
     }
@@ -62,6 +70,7 @@ namespace AcFunOBS {
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public StartPushRequest(StartPushRequest other) : this() {
       category_ = other.category_;
       type_ = other.type_;
@@ -74,6 +83,7 @@ namespace AcFunOBS {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public StartPushRequest Clone() {
       return new StartPushRequest(this);
     }
@@ -82,6 +92,7 @@ namespace AcFunOBS {
     public const int CategoryFieldNumber = 1;
     private int category_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int Category {
       get { return category_; }
       set {
@@ -93,6 +104,7 @@ namespace AcFunOBS {
     public const int TypeFieldNumber = 2;
     private int type_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int Type {
       get { return type_; }
       set {
@@ -104,6 +116,7 @@ namespace AcFunOBS {
     public const int BitrateFieldNumber = 3;
     private int bitrate_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int Bitrate {
       get { return bitrate_; }
       set {
@@ -115,6 +128,7 @@ namespace AcFunOBS {
     public const int FpsFieldNumber = 4;
     private int fps_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int Fps {
       get { return fps_; }
       set {
@@ -126,6 +140,7 @@ namespace AcFunOBS {
     public const int Unknown1FieldNumber = 5;
     private int unknown1_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int Unknown1 {
       get { return unknown1_; }
       set {
@@ -137,6 +152,7 @@ namespace AcFunOBS {
     public const int Unknown2FieldNumber = 6;
     private int unknown2_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int Unknown2 {
       get { return unknown2_; }
       set {
@@ -148,6 +164,7 @@ namespace AcFunOBS {
     public const int Unknown3FieldNumber = 7;
     private int unknown3_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int Unknown3 {
       get { return unknown3_; }
       set {
@@ -156,11 +173,13 @@ namespace AcFunOBS {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
       return Equals(other as StartPushRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Equals(StartPushRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
@@ -179,6 +198,7 @@ namespace AcFunOBS {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
       if (Category != 0) hash ^= Category.GetHashCode();
@@ -195,12 +215,17 @@ namespace AcFunOBS {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override string ToString() {
       return pb::JsonFormatter.ToDiagnosticString(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
       if (Category != 0) {
         output.WriteRawTag(8);
         output.WriteInt32(Category);
@@ -232,9 +257,49 @@ namespace AcFunOBS {
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
+    #endif
     }
 
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Category != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Category);
+      }
+      if (Type != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Type);
+      }
+      if (Bitrate != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Bitrate);
+      }
+      if (Fps != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Fps);
+      }
+      if (Unknown1 != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Unknown1);
+      }
+      if (Unknown2 != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(Unknown2);
+      }
+      if (Unknown3 != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(Unknown3);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
       if (Category != 0) {
@@ -265,6 +330,7 @@ namespace AcFunOBS {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(StartPushRequest other) {
       if (other == null) {
         return;
@@ -294,7 +360,11 @@ namespace AcFunOBS {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
         switch(tag) {
@@ -331,7 +401,51 @@ namespace AcFunOBS {
           }
         }
       }
+    #endif
     }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Category = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Type = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            Bitrate = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            Fps = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            Unknown1 = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            Unknown2 = input.ReadInt32();
+            break;
+          }
+          case 56: {
+            Unknown3 = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
 
   }
 

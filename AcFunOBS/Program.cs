@@ -25,7 +25,8 @@ internal static class Program
 
     private const string KUAISHOU_ZT = "https://api.kuaishouzt.com";
     private const string AUTHOR_AUTH = "/rest/zt/live/authorAuth";
-    private const string OBS_CONFIG = "/rest/zt/live/web/obs/config";
+    private const string LIVE_CONFIG = "/rest/zt/live/web/obs/config";
+    private const string LIVE_STATUS = "/rest/zt/live/web/obs/status";
     private const string START_PUSH = "/rest/zt/live/startPush";
     private const string STOP_PUSH = "/rest/zt/live/stopPush";
 
@@ -67,15 +68,15 @@ internal static class Program
             return;
         }
 
-        if (string.IsNullOrEmpty(_config.AcPasstoken))
+        if (_config.User.Expires <= DateTime.UtcNow)
         {
             await Login();
         }
         else
         {
-            Container.Add(new Cookie("acPasstoken", _config.AcPasstoken, "/", ".acfun.cn"));
-            Container.Add(new Cookie("auth_key", $"{_config.Uid}", "/", ".acfun.cn"));
-            Container.Add(new Cookie("userId", $"{_config.Uid}", "/", ".kuaishouzt.com"));
+            Container.Add(new Cookie("acPasstoken", _config.User.Passtoken, "/", User.CookieAcFunDomain));
+            Container.Add(new Cookie("auth_key", $"{_config.User.Id}", "/", User.CookieAcFunDomain));
+            Container.Add(new Cookie("userId", $"{_config.User.Id}", "/", User.CookieKuaishouDomain));
         }
 
         var token = await GetToken();
@@ -88,7 +89,7 @@ internal static class Program
             token = await GetToken();
         }
 
-        Container.Add(new Cookie("acfun.midground.api_st", token.ST, "/", ".kuaishouzt.com"));
+        Container.Add(new Cookie("acfun.midground.api_st", token.SToken, "/", User.CookieKuaishouDomain));
 
         var auth = await PostAuthorAuth(token);
         if (auth.Result != 1)
@@ -97,32 +98,25 @@ internal static class Program
             return;
         }
 
-        var obs = await PostObsConfig(token);
-        if (obs.Result != 1)
+        var status = await PostStreamStatus(token);
+        if (status.Result != 1) Console.WriteLine(status.ErrorMsg);
+
+        var config = await PostStreamConfig(token);
+        if (config.Result != 1)
         {
-            Console.WriteLine(obs.ErrorMsg);
+            Console.WriteLine(config.ErrorMsg);
             return;
         }
 
-        _config.StreamAddress = obs.StreamAddress;
-        _config.StreamKey = obs.StreamKey;
+        _config.StreamAddress = config.StreamAddress;
+        _config.StreamKey = config.StreamKey;
         _config.Save();
 
-        Console.WriteLine(obs);
+        Console.WriteLine(config);
         Console.WriteLine("请按任意键开始直播");
         Console.ReadKey();
 
-        var push = await PostStartPush(token, _config,
-            new StartPushRequest
-            {
-                Category = _config.Category,
-                Type = (int)_config.Type,
-                Bitrate = _config.BitRate,
-                Fps = _config.Fps,
-                Unknown1 = 7,
-                Unknown2 = 1,
-                Unknown3 = 3000
-            });
+        var push = await PostStartPush(token, _config);
         if (push.Result != 1)
         {
             Console.WriteLine(push.ErrorMsg);
@@ -177,19 +171,17 @@ internal static class Program
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static async Task Login()
     {
-        var user = await QrLogin();
-        _config.AcPasstoken = user.Passtoken;
-        _config.Uid = user.Id;
+        _config.User = await QrLogin();
 
         _config.Save();
 
-        Container.Add(new Cookie("acPasstoken", _config.AcPasstoken, "/", ".acfun.cn"));
-        Container.Add(new Cookie("auth_key", $"{_config.Uid}", "/", ".acfun.cn"));
-        Container.Add(new Cookie("userId", $"{_config.Uid}", "/", ".kuaishouzt.com"));
+        Container.Add(new Cookie("acPasstoken", _config.User.Passtoken, "/", User.CookieAcFunDomain));
+        Container.Add(new Cookie("auth_key", $"{_config.User.Id}", "/", User.CookieAcFunDomain));
+        Container.Add(new Cookie("userId", $"{_config.User.Id}", "/", User.CookieKuaishouDomain));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static async Task<TokenResult> GetToken()
+    private static async Task<Token> GetToken()
     {
         using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
         using var form = new FormUrlEncodedContent(new[]
@@ -201,12 +193,12 @@ internal static class Program
 # endif
         if (!resp.IsSuccessStatusCode) return default;
 
-        var token = await JsonSerializer.DeserializeAsync<TokenResult>(await resp.Content.ReadAsStreamAsync());
+        var token = await JsonSerializer.DeserializeAsync<Token>(await resp.Content.ReadAsStreamAsync());
         return token;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static async Task<Auth> PostAuthorAuth(TokenResult token)
+    private static async Task<Auth> PostAuthorAuth(Token token)
     {
         using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
 
@@ -223,42 +215,65 @@ internal static class Program
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static async Task<ObsConfig> PostObsConfig(TokenResult token)
+    private static async Task<StreamConfig> PostStreamConfig(Token token)
     {
         using var client = new HttpClient();
         client.DefaultRequestHeaders.Referrer = new Uri("https://member.acfun.cn/");
 
-        using var form = new FormUrlEncodedContent(new[]
+        using var form = new FormUrlEncodedContent(new Dictionary<string, string>
         {
-            new KeyValuePair<string, string>("kpf", "PC_WEB"),
-            new KeyValuePair<string, string>("kpn", "ACFUN_APP"),
-            new KeyValuePair<string, string>("subBiz", "mainApp"),
-            new KeyValuePair<string, string>("userId", $"{token.UserId}"),
-            new KeyValuePair<string, string>("acfun.midground.api_st", token.ST)
+            { "kpf", "PC_WEB" },
+            { "kpn", "ACFUN_APP" },
+            { "subBiz", "mainApp" },
+            { "userId", $"{token.UserId}" },
+            { Token.ST, token.SToken }
         });
 
-        using var resp = await client.PostAsync($"{KUAISHOU_ZT}{OBS_CONFIG}", form);
+        using var resp = await client.PostAsync($"{KUAISHOU_ZT}{LIVE_CONFIG}", form);
 #if DEBUG
         Console.WriteLine(await resp.Content.ReadAsStringAsync());
 # endif
         if (!resp.IsSuccessStatusCode) return default;
 
-        var content = await JsonSerializer.DeserializeAsync<ObsConfig>(await resp.Content.ReadAsStreamAsync());
+        var content = await JsonSerializer.DeserializeAsync<StreamConfig>(await resp.Content.ReadAsStreamAsync());
         return content;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static async Task<StartPush> PostStartPush(TokenResult token, Config config,
-        StartPushRequest startPushRequest)
+    private static async Task<StreamStatus> PostStreamStatus(Token token)
     {
-        var bizCustomData = $"{{\"typeId\":{startPushRequest.Category}}}";
-        var req = Convert.ToBase64String(startPushRequest.ToByteArray());
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Referrer = new Uri("https://member.acfun.cn/");
+
+        using var form = new FormUrlEncodedContent(new Dictionary<string, string>
+        {
+            { "kpf", "PC_WEB" },
+            { "kpn", "ACFUN_APP" },
+            { "subBiz", "mainApp" },
+            { "userId", $"{token.UserId}" },
+            { Token.ST, token.SToken }
+        });
+
+        using var resp = await client.PostAsync($"{KUAISHOU_ZT}{LIVE_STATUS}", form);
+#if DEBUG
+        Console.WriteLine(await resp.Content.ReadAsStringAsync());
+# endif
+        if (!resp.IsSuccessStatusCode) return default;
+
+        var content = await JsonSerializer.DeserializeAsync<StreamStatus>(await resp.Content.ReadAsStreamAsync());
+        return content;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static async Task<StartPush> PostStartPush(Token token, Config config)
+    {
+        var bizCustomData = $"{{\"typeId\":{config.Category}}}";
+        var req = Convert.ToBase64String(config.Request.ToByteArray());
         var sign = Sign(START_PUSH, token.Ssecurity,
-            new SortedList<string, string>
+            new Dictionary<string, string>
                 { { "bizCustomData", bizCustomData }, { "caption", config.Title }, { "videoPushReq", req } });
 
         using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
-        client.DefaultRequestHeaders.ExpectContinue = true;
 
         using var form = new MultipartFormDataContent();
         using var videoPushReq = new ByteArrayContent(Encoding.UTF8.GetBytes(req));
@@ -282,12 +297,11 @@ internal static class Program
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static async Task<StopPush> PostStopPush(TokenResult token, string liveId)
+    private static async Task<StopPush> PostStopPush(Token token, string liveId)
     {
-        var sign = Sign(STOP_PUSH, token.Ssecurity, new SortedList<string, string> { { "liveId", liveId } });
+        var sign = Sign(STOP_PUSH, token.Ssecurity, new Dictionary<string, string> { { "liveId", liveId } });
 
         using var client = new HttpClient(new HttpClientHandler { UseCookies = true, CookieContainer = Container });
-        client.DefaultRequestHeaders.ExpectContinue = true;
 
         using var form = new MultipartFormDataContent();
         using var formContent = new ByteArrayContent(Encoding.UTF8.GetBytes(liveId));
@@ -305,7 +319,7 @@ internal static class Program
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static unsafe string Sign(in string uri, in string key, in Nonce nonce,
-        in SortedList<string, string> extra = null)
+        in IEnumerable<KeyValuePair<string, string>> extra = null)
     {
         using var hmac = new HMACSHA256(Convert.FromBase64String(key));
         var query =
@@ -362,7 +376,7 @@ internal static class Program
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static unsafe string Sign(in string url, in string key, in long nonce,
-        in SortedList<string, string> extra = null)
+        in IEnumerable<KeyValuePair<string, string>> extra = null)
     {
         fixed (long* ptr = &nonce)
         {
@@ -371,7 +385,7 @@ internal static class Program
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string Sign(in string url, in string key, in SortedList<string, string> extra = null)
+    private static string Sign(in string url, in string key, in IEnumerable<KeyValuePair<string, string>> extra = null)
     {
         return Sign(url, key, Random(), extra);
     }
@@ -516,12 +530,12 @@ internal static class Program
     private class Config
     {
         public const string DefaultName = "config.json";
+        private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
 
         [JsonIgnore] private string Directory { get; set; }
         [JsonIgnore] private string FileName { get; set; }
 
-        [JsonPropertyName("acPasstoken")] public string AcPasstoken { get; set; } = string.Empty;
-        [JsonPropertyName("uid")] public long Uid { get; set; }
+        [JsonPropertyName("user")] public User User { get; set; }
         [JsonPropertyName("category")] public int Category { get; set; }
         [JsonPropertyName("type")] public QualityType Type { get; set; }
         [JsonPropertyName("bitrate")] public int BitRate { get; set; }
@@ -531,6 +545,18 @@ internal static class Program
         [JsonPropertyName("liveId")] public string LiveId { get; set; } = string.Empty;
         [JsonPropertyName("streamAddress")] public string StreamAddress { get; set; } = string.Empty;
         [JsonPropertyName("streamKey")] public string StreamKey { get; set; } = string.Empty;
+
+        [JsonIgnore]
+        public StartPushRequest Request => new()
+        {
+            Category = Category,
+            Type = (int)Type,
+            Bitrate = BitRate,
+            Fps = Fps,
+            Unknown1 = 7,
+            Unknown2 = 1,
+            Unknown3 = 3000
+        };
 
         public static async Task<Config> Load(string path = null)
         {
@@ -580,7 +606,7 @@ internal static class Program
         public async void Save()
         {
             await using var stream = File.Open(FileName, FileMode.Create, FileAccess.Write, FileShare.Read);
-            await JsonSerializer.SerializeAsync(stream, this);
+            await JsonSerializer.SerializeAsync(stream, this, Options);
         }
 
         public Stream LoadCover()
@@ -617,7 +643,7 @@ internal static class Program
         }
     }
 
-    private readonly struct ObsConfig
+    private readonly struct StreamConfig
     {
         [JsonPropertyName("result")] public int Result { get; init; }
         [JsonPropertyName("data")] public ConfigData Data { get; init; }
@@ -629,8 +655,15 @@ internal static class Program
 
         public override string ToString()
         {
-            return $"RTMP Server: {StreamAddress}\r\nStream Key: kszt_{StreamKey}";
+            return $"RTMP Server: {StreamAddress}\r\nStream Key: {StreamKey}";
         }
+    }
+
+    private readonly struct StreamStatus
+    {
+        [JsonPropertyName("result")] public int Result { get; init; }
+        [JsonPropertyName("host")] public string Host { get; init; }
+        [JsonPropertyName("error_msg")] public string ErrorMsg { get; init; }
     }
 
     private readonly struct ConfigData
@@ -702,15 +735,16 @@ internal static class Program
         [JsonPropertyName("endReason")] public string EndReason { get; init; }
     }
 
-    private readonly struct TokenResult
+    private readonly struct Token
     {
+        public const string ST = "acfun.midground.api_st";
+        public const string AT = "acfun.midground.api.at";
+
         [JsonPropertyName("result")] public int Result { get; init; }
 
-        [JsonPropertyName("acfun.midground.api_st")]
-        public string ST { get; init; }
+        [JsonPropertyName(ST)] public string SToken { get; init; }
 
-        [JsonPropertyName("acfun.midground.api.at")]
-        public string AT { get; init; }
+        [JsonPropertyName(AT)] public string AToken { get; init; }
 
         [JsonPropertyName("userId")] public long UserId { get; init; }
         [JsonPropertyName("ssecurity")] public string Ssecurity { get; init; }
@@ -720,7 +754,7 @@ internal static class Program
 
         public override string ToString()
         {
-            return $"{{ \"st\": {ST}, \"ssecurity\": {Ssecurity} }}";
+            return $"{{ \"st\": {SToken}, \"ssecurity\": {Ssecurity} }}";
         }
     }
 
