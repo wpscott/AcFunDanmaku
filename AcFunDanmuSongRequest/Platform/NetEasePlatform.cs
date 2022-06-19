@@ -9,12 +9,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Aes = System.Security.Cryptography.Aes;
 
 namespace AcFunDanmuSongRequest.Platform.NetEase
 {
@@ -41,14 +43,20 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
                 Album = item.Al.Name,
                 Duration = item.Dt
             };
-            Songs.Enqueue(song);
+            //_songs.Enqueue(song);
+            _songs.Add(song);
+
             return song;
         }
 
         public override async ValueTask<ISong> NextSong()
         {
-            if (Songs.Count <= 0) return null;
-            var song = (Song)Songs.Dequeue();
+            //if (_songs.Count <= 0) return null;
+            //var song = (Song)_songs.Dequeue();
+            if (_songs.Count == 0) return null;
+            var song = (Song)_songs[0];
+            _songs.RemoveAt(0);
+
             //var source = await GetAsync<PlayResponse>(new PlayerV1GetRequest { Id = song.Id }, PlayResponse.Options);
             var source = await GetAsync<PlayResponse>(new PlayGetRequest { Id = song.Id, BitRate = 320000 },
                 PlayResponse.Options);
@@ -277,6 +285,9 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
             private const string IV = "0102030405060708";
             private static readonly byte[] Iv = Encoding.UTF8.GetBytes(IV);
 
+            private const string PubKey =
+                "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDgtQn2JZ34ZC28NWYpAUd98iZ37BUrX/aKzmFbt7clFSs6sXqHauqKWqdtLkF2KexO40H1YTX8z2lSgBBOAxLsvaklV8k4cBFK9snQXE9/DDaFt6Rr7iVZMldczhC0JNgTz+SHXT6CBHuX3e9SdB1Ua44oncaTWz7OBGLbCiK45wIDAQAB\n-----END PUBLIC KEY-----";
+
             private const int MAX_ENCRYPT_BLOCK = 1024;
             private const string EXPONENT = "010001";
             private static readonly BigInteger Exponent = BigInteger.Parse(EXPONENT, NumberStyles.HexNumber);
@@ -292,7 +303,7 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
             {
                 var random = GenerateRandom();
                 var p = EncodeParams(data, AesKey, random);
-                var k = EncryptKey(Exponent, Modulus, random);
+                var k = EncryptKey(random.Reverse().ToArray());
 
                 return new ReadOnlyDictionary<string, string>(
                     new Dictionary<string, string>
@@ -303,26 +314,34 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
                 );
             }
 
-            private static string EncryptKey(BigInteger exponent, BigInteger modulus, ReadOnlySpan<byte> random)
+            private static string EncryptKey(in ReadOnlySpan<byte> random)
             {
-                var data = Encoding.UTF8.GetBytes(Encoding.UTF8.GetString(random).Reverse().ToArray());
+                using var rsa = RSA.Create();
+                rsa.ImportFromPem(PubKey);
 
-                var bData = new BigInteger(data.Reverse().Concat(new byte[] { 0 }).ToArray());
+                Span<byte> data = stackalloc byte[128];
+                data.Fill(0);
+                for (var i = 0; i < random.Length; i++)
+                {
+                    data[128 - random.Length + i] = random[i];
+                }
 
-                var encrypted = BigInteger.ModPow(bData, exponent, modulus).ToByteArray().Reverse().ToArray();
+                var encrypted = rsa.Encrypt(data.ToArray(), RSAEncryptionPadding.Pkcs1);
+
+                //var bData = new BigInteger(data);
+
+                //var encrypted = BigInteger.ModPow(bData, exponent, modulus).ToByteArray();
 
                 var hex = BitConverter.ToString(encrypted).Replace("-", string.Empty).ToLower();
 
                 return hex;
             }
 
-            private static string EncodeParams(string data, ReadOnlySpan<byte> aeskey, ReadOnlySpan<byte> random)
-            {
-                return EncodeParams(Encoding.UTF8.GetBytes(data), aeskey, random);
-            }
+            private static string EncodeParams(in string data, in ReadOnlySpan<byte> aeskey,
+                in ReadOnlySpan<byte> random) => EncodeParams(Encoding.UTF8.GetBytes(data), aeskey, random);
 
-            private static string EncodeParams(ReadOnlySpan<byte> data, ReadOnlySpan<byte> aeskey,
-                ReadOnlySpan<byte> random)
+            private static string EncodeParams(in ReadOnlySpan<byte> data, in ReadOnlySpan<byte> aeskey,
+                in ReadOnlySpan<byte> random)
             {
                 var pass1 = AesEncrypt(aeskey, Iv, data);
 
@@ -331,7 +350,8 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
                 return Convert.ToBase64String(pass2);
             }
 
-            private static byte[] AesEncrypt(ReadOnlySpan<byte> key, ReadOnlySpan<byte> iv, ReadOnlySpan<byte> text)
+            private static byte[] AesEncrypt(in ReadOnlySpan<byte> key, in ReadOnlySpan<byte> iv,
+                in ReadOnlySpan<byte> text)
             {
                 using var aes = Aes.Create();
                 aes.Mode = CipherMode.CBC;
@@ -348,11 +368,11 @@ namespace AcFunDanmuSongRequest.Platform.NetEase
 
             private const int RANDOM_SIZE = 16;
 
-            private static readonly char[] Chars =
-                "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".ToCharArray();
+            private static readonly byte[] Chars =
+                "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".Select(ch => (byte)ch).ToArray();
 
-            private static byte[] GenerateRandom() => Encoding.UTF8
-                .GetBytes(RandomNumberGenerator.GetBytes(RANDOM_SIZE).Select(b => Chars[b & 63]).ToArray()).ToArray();
+            private static byte[] GenerateRandom() =>
+                RandomNumberGenerator.GetBytes(RANDOM_SIZE).Select(b => Chars[b & 61]).ToArray();
         }
     }
 }

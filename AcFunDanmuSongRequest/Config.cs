@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using AcFunDanmuSongRequest.Platform.Interfaces;
 
 namespace AcFunDanmuSongRequest
 {
@@ -17,7 +20,8 @@ namespace AcFunDanmuSongRequest
         [JsonPropertyName("独立运行")] public bool Standalone { get; set; }
         [JsonPropertyName("音乐平台")] public MusicPlatform Platform { get; set; }
         [JsonPropertyName("主播ID")] public long UserId { get; set; }
-        [JsonPropertyName("播放列表")] public string DefaultList { get; set; }
+        [JsonPropertyName("播放列表")] public List<ISong> List { get; set; }
+        [JsonPropertyName("关键词黑名单")] public string[] BlackList { get; set; }
         [JsonPropertyName("点歌格式")] public string Format { get; set; }
         [JsonPropertyName("显示歌词")] public bool ShowLyrics { get; set; }
 
@@ -50,7 +54,8 @@ namespace AcFunDanmuSongRequest
                 {
                     Version = CURRENT_VERSION,
                     Platform = MusicPlatform.网易云音乐,
-                    DefaultList = string.Empty,
+                    List = new List<ISong>(),
+                    BlackList = Array.Empty<string>(),
                     Format = "^点歌 (.*?)$",
                     ShowLyrics = false
                 };

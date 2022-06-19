@@ -33,14 +33,19 @@ namespace AcFunDanmuSongRequest.Platform.QQ
                 Name = item.Songname,
                 Duration = item.Interval
             };
-            Songs.Enqueue(song);
+            //_songs.Enqueue(song);
+            _songs.Add(song);
+
             return song;
         }
 
         public override async ValueTask<ISong> NextSong()
         {
-            if (Songs.Count <= 0) return null;
-            var song = (Song)Songs.Dequeue();
+            //if (_songs.Count <= 0) return null;
+            //var song = (Song)_songs.Dequeue();
+            if (_songs.Count == 0) return null;
+            var song = (Song)_songs[0];
+            _songs.RemoveAt(0);
 
             var resp = await GetAsync<SongResponse>(new SongRequest(Uin, Guid, song.SongMid), SongResponse.Options);
 

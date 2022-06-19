@@ -4,10 +4,10 @@ namespace AcFunDanmuSongRequest.Platform.Interfaces
 {
     public interface ISong
     {
-        public string Name { get; set; }
-        public string Artist { get; set; }
-        public string Album { get; set; }
-        public TimeSpan Duration { get; set; }
-        public string Source { get; set; }
+        public string Name { get; }
+        public string Artist { get; }
+        public string Album { get; }
+        public TimeSpan Duration { get; }
+        public string Source { get; }
     }
 }

@@ -2,6 +2,7 @@
 using AcFunDanmuSongRequest.Platform.NetEase;
 using AcFunDanmuSongRequest.Platform.QQ;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -11,29 +12,26 @@ namespace AcFunDanmuSongRequest.Platform
 {
     internal abstract class BasePlatform : IPlatform
     {
-        private Config Config { get; }
-        protected Queue<ISong> Songs { get; }
+        private readonly Config Config;
+        protected readonly ObservableCollection<ISong> _songs = new();
+        public ReadOnlyObservableCollection<ISong> Songs => new(_songs);
 
         protected BasePlatform(Config config)
         {
             Config = config;
-            Songs = new Queue<ISong>();
         }
 
         public abstract ValueTask<ISong> AddSong(string keyword);
-        public ISong Peek() => Songs.Peek();
         public abstract ValueTask<ISong> NextSong();
         public abstract ValueTask<Lyrics> GetLyrics(ISong song);
 
-        public static IPlatform CreatePlatform(Config config)
-        {
-            return config.Platform switch
+        public static IPlatform CreatePlatform(Config config) =>
+            config.Platform switch
             {
                 Config.MusicPlatform.网易云音乐 => new NetEasePlatform(config),
                 Config.MusicPlatform.QQ音乐 => new QQPlatform(config),
                 _ => null
             };
-        }
 
         private static HttpClient CreateClient()
         {

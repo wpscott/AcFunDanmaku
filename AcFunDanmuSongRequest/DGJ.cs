@@ -1,4 +1,5 @@
-﻿using AcFunDanmu;
+﻿using System.Collections.ObjectModel;
+using AcFunDanmu;
 using AcFunDanmu.Enums;
 using AcFunDanmuSongRequest.Platform;
 using AcFunDanmuSongRequest.Platform.Interfaces;
@@ -83,19 +84,19 @@ namespace AcFunDanmuSongRequest
             var song = await _platform.AddSong(keyword);
             if (song != null)
             {
+                _config.List.Add(song);
                 OnAddSong?.Invoke(song);
             }
         }
 
-        public static ISong Peek()
-        {
-            return _platform.Peek();
-        }
-
         public static async ValueTask<ISong> NextSong()
         {
-            return await _platform.NextSong();
+            var song = await _platform.NextSong();
+            _config.List.Remove(song);
+            return song;
         }
+
+        public static ReadOnlyObservableCollection<ISong> Songs => _platform.Songs;
 
         public static bool ShowLyrics => _config.ShowLyrics;
         public static async ValueTask<Lyrics> GetLyrics(ISong song) => await _platform.GetLyrics(song);
@@ -110,10 +111,12 @@ namespace AcFunDanmuSongRequest
                              item.Payload.Select(CommonActionSignalComment.Parser.ParseFrom)
                                  .Select(comment => _pattern.Match(comment.Content))
                                  .Where(match => match.Success)
+                                 .Select(match => match.Groups[0].Value)
                          ).SelectMany(match => match)
                     )
             {
-                await AddSong(match.Groups[0].Value);
+                if (_config.BlackList.Any(word => match.Contains(word))) continue;
+                await AddSong(match);
             }
         }
     }
