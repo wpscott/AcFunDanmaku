@@ -321,6 +321,7 @@ namespace AcFunDGJ.ViewModels
         {
             _timer?.Stop();
             _lyric?.Close();
+            _list?.Close();
         }, true);
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
