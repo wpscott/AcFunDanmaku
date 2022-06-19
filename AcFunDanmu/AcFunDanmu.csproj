@@ -1,34 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-
 		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
-
 		<Authors>wpscott</Authors>
-
 		<Product />
-
 		<Version>2.2.3</Version>
-
 		<Description>AcFun直播弹幕客户端</Description>
-
 		<PackageProjectUrl>https://github.com/wpscott/AcFunDanmaku</PackageProjectUrl>
-
 		<Company />
-
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-
 		<RepositoryUrl>https://github.com/wpscott/AcFunDanmaku/tree/master/AcFunDanmu</RepositoryUrl>
-
 		<RepositoryType>git</RepositoryType>
-
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-
 		<DebugType>embedded</DebugType>
-
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
@@ -57,5 +42,4 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
-
 </Project>
