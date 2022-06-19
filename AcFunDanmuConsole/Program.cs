@@ -25,6 +25,14 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
+        await Start(args);
+
+        //DecodeHar(@".\34195163.har");
+        //await LoginToGetGiftList();
+    }
+
+    private static async Task Start(string[] args)
+    {
         var retry = 0;
 
         await Client.Prepare();
@@ -68,9 +76,6 @@ internal class Program
         }
 
         Log.Information("Client closed, maybe live is end");
-
-        //DecodeHar(@".\34195163.har");
-        //await LoginToGetGiftList();
     }
 
     private static void HandleSignal(Client sender, string messagetType, ByteString payload)
