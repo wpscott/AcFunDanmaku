@@ -13,7 +13,7 @@ using Google.Protobuf;
 
 namespace AcFunDMJ.Vanilla;
 
-internal class Program
+internal static class Program
 {
     private static readonly Encoding Encoding = Encoding.UTF8;
 
@@ -135,7 +135,7 @@ internal class Program
         SendMessage(MessageType.Text, $"正在连接到直播间：{uid}");
         _danmaku.Handler += HandleSignal;
         SendMessage(MessageType.Text, "正在初始化弹幕姬");
-        await _danmaku.Initialize(uid);
+        await _danmaku.Initialize(uid, true);
         SendMessage(MessageType.Text, "正在启动弹幕姬");
         await _danmaku.Start();
         SendMessage(MessageType.Text, "直播已结束或连接已断开");
@@ -143,15 +143,21 @@ internal class Program
 
     private static async void SendMessage(MessageType type, object obj)
     {
-        if (_ws is { State: WebSocketState.Open })
+        try
         {
-            var text = JsonSerializer.Serialize(new { Type = type, Obj = obj }, Options);
-            await _ws.SendAsync(Encoding.GetBytes(text), WebSocketMessageType.Text, true, default);
+            if (_ws is { State: WebSocketState.Open })
+            {
+                var text = JsonSerializer.Serialize(new { Type = type, Obj = obj }, Options);
+                await _ws.SendAsync(Encoding.GetBytes(text), WebSocketMessageType.Text, true, default);
+            }
+            else
+            {
+                await _danmaku.Stop("Disconnect");
+            }
         }
-        //else
-        //{
-        //    await _danmaku.Stop("Disconnect");
-        //}
+        catch (WebSocketException)
+        {
+        }
     }
 
     private static void HandleSignal(Client sender, string messageType, ByteString payload)
@@ -169,7 +175,14 @@ internal class Program
                             {
                                 var comment = CommonActionSignalComment.Parser.ParseFrom(pl);
                                 SendMessage(MessageType.Comment,
-                                    new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    new Comment
+                                    {
+                                        Id = comment.UserInfo.UserId,
+                                        Name = comment.UserInfo.Nickname,
+                                        Avatar = comment.UserInfo.Avatar[0].Url,
+                                        Content = comment.Content,
+                                        Timestamp = comment.SendTimeMs
+                                    });
                             }
 
                             break;
@@ -178,7 +191,14 @@ internal class Program
                                 foreach (var pl in item.Payload)
                                 {
                                     var like = CommonActionSignalLike.Parser.ParseFrom(pl);
-                                    SendMessage(MessageType.Like, new Like { Name = like.UserInfo.Nickname });
+                                    SendMessage(MessageType.Like,
+                                        new Like
+                                        {
+                                            Id = like.UserInfo.UserId,
+                                            Name = like.UserInfo.Nickname,
+                                            Avatar = like.UserInfo.Avatar[0].Url,
+                                            Timestamp = like.SendTimeMs,
+                                        });
                                 }
 
                             break;
@@ -187,7 +207,14 @@ internal class Program
                                 foreach (var pl in item.Payload)
                                 {
                                     var enter = CommonActionSignalUserEnterRoom.Parser.ParseFrom(pl);
-                                    SendMessage(MessageType.Enter, new Enter { Name = enter.UserInfo.Nickname });
+                                    SendMessage(MessageType.Enter,
+                                        new Enter
+                                        {
+                                            Id = enter.UserInfo.UserId,
+                                            Name = enter.UserInfo.Nickname,
+                                            Avatar = enter.UserInfo.Avatar[0].Url,
+                                            Timestamp = enter.SendTimeMs,
+                                        });
                                 }
 
                             break;
@@ -196,7 +223,14 @@ internal class Program
                                 foreach (var pl in item.Payload)
                                 {
                                     var follow = CommonActionSignalUserFollowAuthor.Parser.ParseFrom(pl);
-                                    SendMessage(MessageType.Follow, new Follow { Name = follow.UserInfo.Nickname });
+                                    SendMessage(MessageType.Follow,
+                                        new Follow
+                                        {
+                                            Id = follow.UserInfo.UserId,
+                                            Name = follow.UserInfo.Nickname,
+                                            Avatar = follow.UserInfo.Avatar[0].Url,
+                                            Timestamp = follow.SendTimeMs,
+                                        });
                                 }
 
                             break;
@@ -204,7 +238,7 @@ internal class Program
                             //foreach (var pl in item.Payload)
                             //{
                             //    var banana = AcfunActionSignalThrowBanana.Parser.ParseFrom(pl);
-                            //    UpdateDanmaku(new Banana { Name = banana.Visitor.Name, Count = banana.Count });
+                            //    SendMessage(new Banana { Name = banana.Visitor.Name, Avatar = banana.UserInfo.Avatar[0].Url, Count = banana.Count });
                             //}
                             break;
                         case PushMessage.ActionSignal.GIFT:
@@ -216,7 +250,10 @@ internal class Program
                                 SendMessage(MessageType.Gift,
                                     new Gift
                                     {
+                                        Id = gift.UserInfo.UserId,
                                         Name = gift.UserInfo.Nickname,
+                                        Avatar = gift.UserInfo.Avatar[0].Url,
+                                        Timestamp = gift.SendTimeMs,
                                         ComboId = gift.ComboKey,
                                         Count = gift.BatchSize,
                                         Value = gift.Rank,
@@ -252,7 +289,14 @@ internal class Program
                             var comments = CommonStateSignalRecentComment.Parser.ParseFrom(item.Payload);
                             foreach (var comment in comments.Comment)
                                 SendMessage(MessageType.Comment,
-                                    new Comment { Name = comment.UserInfo.Nickname, Content = comment.Content });
+                                    new Comment
+                                    {
+                                        Id = comment.UserInfo.UserId,
+                                        Name = comment.UserInfo.Nickname,
+                                        Avatar = comment.UserInfo.Avatar[0].Url,
+                                        Content = comment.Content,
+                                        Timestamp = comment.SendTimeMs
+                                    });
 
                             break;
                     }
@@ -272,36 +316,62 @@ internal class Program
         Text = 99
     }
 
-    private struct Comment
+    private interface IMessage
     {
+        public long Id { get; init; }
         public string Name { get; init; }
+        public string Avatar { get; init; }
+        public long Timestamp { get; init; }
+    }
+
+    private struct Comment : IMessage
+    {
+        public long Id { get; init; }
+        public string Name { get; init; }
+        public string Avatar { get; init; }
+        public long Timestamp { get; init; }
         public string Content { get; init; }
     }
 
-    private struct Like
+    private struct Like : IMessage
     {
+        public long Id { get; init; }
         public string Name { get; init; }
+        public string Avatar { get; init; }
+        public long Timestamp { get; init; }
     }
 
-    private struct Enter
+    private struct Enter : IMessage
     {
+        public long Id { get; init; }
         public string Name { get; init; }
+        public string Avatar { get; init; }
+        public long Timestamp { get; init; }
     }
 
-    private struct Follow
+    private struct Follow : IMessage
     {
+        public long Id { get; init; }
         public string Name { get; init; }
+        public string Avatar { get; init; }
+        public long Timestamp { get; init; }
     }
 
-    private struct Banana
+    private struct Banana : IMessage
     {
+        public long Id { get; init; }
         public string Name { get; init; }
+        public string Avatar { get; init; }
+        public long Timestamp { get; init; }
         public int Count { get; init; }
     }
 
-    private struct Gift
+    private struct Gift : IMessage
     {
+        public long Id { get; init; }
         public string Name { get; init; }
+        public string Avatar { get; init; }
+        public long Timestamp { get; init; }
         public string ComboId { get; init; }
         public int Count { get; init; }
         public int Combo { get; init; }
