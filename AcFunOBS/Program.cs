@@ -99,7 +99,20 @@ internal static class Program
         }
 
         var status = await PostStreamStatus(token);
-        if (status.Result != 1) Console.WriteLine(status.ErrorMsg);
+        if (status.Result == 1)
+        {
+            Console.WriteLine("正在直播，是否停止？(Y/N)");
+            var key = Console.ReadKey();
+            if (key.Key == ConsoleKey.Y)
+            {
+                await PostStopPush(token, status.Data.LiveId);
+                _config.LiveId = string.Empty;
+            }
+        }
+        else
+        {
+            Console.WriteLine(status.ErrorMsg);
+        }
 
         var config = await PostStreamConfig(token);
         if (config.Result != 1)
@@ -503,7 +516,7 @@ internal static class Program
                 if (result)
                 {
                     Console.Clear();
-                    Console.Write($"\r成功登录，欢迎回来 {user.Username}");
+                    Console.WriteLine($"\r成功登录，欢迎回来 {user.Username}");
                     return user;
                 }
 
@@ -662,8 +675,30 @@ internal static class Program
     private readonly struct StreamStatus
     {
         [JsonPropertyName("result")] public int Result { get; init; }
+        [JsonPropertyName("data")] public StatusData Data { get; init; }
         [JsonPropertyName("host")] public string Host { get; init; }
         [JsonPropertyName("error_msg")] public string ErrorMsg { get; init; }
+    }
+
+    private readonly struct StatusData
+    {
+        [JsonPropertyName("bizCustomData")]
+        public string CustomData { get; init; } // JSON typeId: number, liveCutStatus: number
+
+        [JsonPropertyName("bizUnit")] public string Unit { get; init; } // acfun
+        [JsonPropertyName("caption")] public string Caption { get; init; }
+        [JsonPropertyName("liveId")] public string LiveId { get; init; }
+        [JsonPropertyName("panoramic")] public bool Panoramic { get; init; }
+        [JsonPropertyName("streamName")] public string StreamName { get; init; }
+        [JsonPropertyName("cover")] public Cover[] Cover { get; init; }
+    }
+
+    private readonly struct Cover
+    {
+        [JsonPropertyName("cdn")] public string Cdn { get; init; }
+        [JsonPropertyName("url")] public string Url { get; init; }
+        [JsonPropertyName("urlPattern")] public string UrlPattern { get; init; }
+        [JsonPropertyName("freeTraffic")] public bool FreeTraffic { get; init; }
     }
 
     private readonly struct ConfigData
