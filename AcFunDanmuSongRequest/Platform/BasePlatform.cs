@@ -58,7 +58,6 @@ internal abstract class BasePlatform : IPlatform
         using var client = CreateClient();
 
         using var resp = await client.GetAsync(request.Host);
-        var content = await resp.Content.ReadAsStringAsync();
         var json = await JsonSerializer.DeserializeAsync<TEncodedResponse>(await resp.Content.ReadAsStreamAsync(),
             IEncodedResponse.Options);
         if (json == null) return default;
