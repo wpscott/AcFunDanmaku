@@ -31,36 +31,42 @@ internal sealed class NetEasePlatform : BasePlatform
         //await Request<SearchGetResponse, EncodedResponse>(new SearchGetRequest { Keyword = keyword, Offset = 0, Limit = 1 }, SearchResult.Options);
 
         var result = await GetAsync<CloudSearchResponse, EncodedResponse>(
-            new CloudSearchGetRequest { Keyword = keyword, Offset = 0, Limit = 1 }, SearchResult.Options);
-        if (result.Songs.Length <= 0) return null;
-        var item = result.Songs[0];
-        var song = new Song
-        {
-            Id = item.Id,
-            Name = item.Name,
-            Artist = item.Ar[0].Name,
-            Album = item.Al.Name,
-            Duration = item.Dt
-        };
-        //_songs.Enqueue(song);
-        _songs.Add(song);
+            new CloudSearchGetRequest { Keyword = keyword, Offset = 0, Limit = 10 }, SearchResult.Options);
+        if (result.Songs.Length == 0) return null;
 
-        return song;
+        foreach (var item in result.Songs)
+        {
+            var source = await GetAsync<PlayResponse>(new PlayGetRequest { Id = item.Id, BitRate = 320000 },
+                PlayResponse.Options);
+
+            if (source.Data.Length == 0 || string.IsNullOrEmpty(source.Data[0].Url))
+            {
+                continue;
+            }
+
+            var song = new Song
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Artist = item.Ar[0].Name,
+                Album = item.Al.Name,
+                Duration = item.Dt,
+                Source = source.Data[0].Url
+            };
+            _songs.Add(song);
+            return song;
+        }
+
+        return null;
     }
 
-    public override async ValueTask<ISong> NextSong()
+    public override ValueTask<ISong> NextSong()
     {
-        //if (_songs.Count <= 0) return null;
-        //var song = (Song)_songs.Dequeue();
-        if (_songs.Count == 0) return null;
-        var song = (Song)_songs[0];
+        if (_songs.Count == 0) return ValueTask.FromResult<ISong>(null);
+        var song = _songs[0];
         _songs.RemoveAt(0);
 
-        //var source = await GetAsync<PlayResponse>(new PlayerV1GetRequest { Id = song.Id }, PlayResponse.Options);
-        var source = await GetAsync<PlayResponse>(new PlayGetRequest { Id = song.Id, BitRate = 320000 },
-            PlayResponse.Options);
-        song.Source = source.Data[0].Url;
-        return song;
+        return ValueTask.FromResult(song);
     }
 
     public override async ValueTask<Lyrics> GetLyrics(ISong song)

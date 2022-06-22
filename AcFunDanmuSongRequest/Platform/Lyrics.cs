@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -84,8 +83,6 @@ public sealed class Lyrics : INotifyPropertyChanged
         {
             var matched = Regex.Match(line);
             if (!matched.Success || matched.Groups["content"].Length == 0) continue;
-
-            Trace.WriteLine(matched.Groups["content"].Value);
 
             if (hasTimeSpan)
             {
