@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -29,6 +30,17 @@ internal class Program
 
         //DecodeHar(@".\34195163.har");
         //await LoginToGetGiftList();
+    }
+
+    private static byte[] StreamConvert(in string stream)
+    {
+        Span<byte> data = stackalloc byte[stream.Length >> 1];
+        for (var i = 0; i < stream.Length >> 1; i++)
+        {
+            data[i] = byte.Parse(stream.AsSpan(i << 1, 2), NumberStyles.HexNumber);
+        }
+
+        return data.ToArray();
     }
 
     private static async Task Start(string[] args)
