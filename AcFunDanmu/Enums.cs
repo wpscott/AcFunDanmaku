@@ -2,7 +2,7 @@
 {
     public static class Command
     {
-        public const string HANDSHAKE = "Basic.Hanshake";
+        public const string HANDSHAKE = "Basic.Handshake";
         public const string REGISTER = "Basic.Register";
         public const string UNREGISTER = "Basic.Unregister";
         public const string KEEP_ALIVE = "Basic.KeepAlive";
