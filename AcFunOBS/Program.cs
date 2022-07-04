@@ -29,6 +29,7 @@ internal static class Program
     private const string LIVE_STATUS = "/rest/zt/live/web/obs/status";
     private const string START_PUSH = "/rest/zt/live/startPush";
     private const string STOP_PUSH = "/rest/zt/live/stopPush";
+    private const string GIFT_ALL = "/rest/zt/live/gift/all";
 
     private const string APP_ACFUN = "https://id.app.acfun.cn";
     private const string TOKEN = "/rest/app/token/get";
