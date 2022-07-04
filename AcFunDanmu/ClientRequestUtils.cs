@@ -1,10 +1,11 @@
-﻿using AcFunDanmu.Enums;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
+using AcFunDanmu.Enums;
 using AcFunDanmu.Im.Basic;
 using Google.Protobuf;
 using Serilog;
-using System;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using static AcFunDanmu.ClientUtils;
 
 namespace AcFunDanmu
@@ -12,45 +13,45 @@ namespace AcFunDanmu
     internal class ClientRequestUtils
     {
         private const string AppName = "link-sdk";
-        private const string SdkVersion = "1.2.1";
-        private const string KPN = "ACFUN_APP";
-        private const string KPF = "PC_WEB";
+        private const string SdkVersion = "1.4.0.145";
+        private const string KPN = "ACFUN_APP.LIVE_MATE";
+        private const string KPF = "WINDOWS_PC";
         private const string SubBiz = "mainApp";
         private const string ClientLiveSdkVersion = "kwai-acfun-live-link";
         private const string LinkVersion = "2.13.8";
-
-        private readonly long UserId;
+        private const uint RetryCount = 1;
         private readonly string Did;
-        private readonly string ServiceToken;
-        private readonly string SecurityKey;
-        private readonly string LiveId;
         private readonly string EnterRoomAttach;
+        private readonly string LiveId;
+        private readonly string SecurityKey;
+        private readonly string ServiceToken;
         private readonly string[] Tickets;
 
-        private int AppId = 0;
-        private long InstanceId = 0;
-        public string SessionKey { get; private set; }
+        private readonly long UserId;
+
+        private int AppId;
+        private long InstanceId;
         private long Lz4CompressionThreshold;
 
         private long SeqId = 1;
-        private long _HeartbeatSeqId = 0;
-        public long HeartbeatSeqId => _HeartbeatSeqId;
-        private const uint RetryCount = 1;
-        private int TicketIndex = 0;
-
-        private string Ticket => Tickets[TicketIndex];
+        private int TicketIndex;
 
         public ClientRequestUtils(long userid, string did, string servicetoken, string securitykey, string liveid,
             string enterroomattach, string[] tickets)
         {
             UserId = userid;
             Did = did;
-            ServiceToken = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(servicetoken));
+            ServiceToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(servicetoken));
             SecurityKey = securitykey;
             LiveId = liveid;
             EnterRoomAttach = enterroomattach;
             Tickets = tickets;
         }
+
+        public string SessionKey { get; private set; }
+        public long HeartbeatSeqId { get; private set; }
+
+        private string Ticket => Tickets[TicketIndex];
 
         public void Register(int appId, long instanceId, string sessionKey, long lz4compressionthreshold)
         {
@@ -65,6 +66,36 @@ namespace AcFunDanmu
             TicketIndex = TicketIndex++ % Tickets.Length;
         }
 
+        public byte[] HandshakeRequest()
+        {
+            var handshake = new HandshakeRequest
+            {
+                Unknown1 = 1,
+                Unknown2 = 1
+            };
+
+            var payload = GeneratePayload(Command.HANDSHAKE, handshake);
+
+            var body = payload.ToByteArray();
+
+            var header = GenerateHeader(body, PacketHeader.Types.EncryptionMode.KEncryptionServiceToken);
+            header.TokenInfo = new TokenInfo
+            {
+                TokenType = TokenInfo.Types.TokenType.KServiceToken,
+                Token = ByteString.FromBase64(ServiceToken)
+            };
+
+            Log.Debug("--------");
+            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
+            Log.Debug("Header: {Header}", header);
+            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Log.Debug("Payload: {Payload}", payload);
+            Log.Debug("\t{Handshake}", handshake);
+            Log.Debug("--------");
+
+            return Encode(header, body, SecurityKey);
+        }
+
         public byte[] RegisterRequest()
         {
             var register = new RegisterRequest
@@ -72,12 +103,12 @@ namespace AcFunDanmu
                 AppInfo = new AppInfo
                 {
                     SdkVersion = ClientLiveSdkVersion,
-                    LinkVersion = LinkVersion,
+                    LinkVersion = LinkVersion
                 },
                 DeviceInfo = new DeviceInfo
                 {
                     PlatformType = DeviceInfo.Types.PlatformType.H5Windows,
-                    DeviceModel = "h5",
+                    DeviceModel = "h5"
                 },
                 PresenceStatus = Im.Basic.RegisterRequest.Types.PresenceStatus.KPresenceOnline,
                 AppActiveStatus = Im.Basic.RegisterRequest.Types.ActiveStatus.KAppInForeground,
@@ -86,7 +117,7 @@ namespace AcFunDanmu
                 {
                     Kpn = KPN,
                     Kpf = KPF,
-                    Uid = UserId,
+                    Uid = UserId
                 }
             };
 
@@ -98,7 +129,7 @@ namespace AcFunDanmu
             header.TokenInfo = new TokenInfo
             {
                 TokenType = TokenInfo.Types.TokenType.KServiceToken,
-                Token = ByteString.FromBase64(ServiceToken),
+                Token = ByteString.FromBase64(ServiceToken)
             };
 
             Interlocked.Increment(ref SeqId);
@@ -119,7 +150,7 @@ namespace AcFunDanmu
             var keepalive = new KeepAliveRequest
             {
                 PresenceStatus = Im.Basic.RegisterRequest.Types.PresenceStatus.KPresenceOnline,
-                AppActiveStatus = Im.Basic.RegisterRequest.Types.ActiveStatus.KAppInForeground,
+                AppActiveStatus = Im.Basic.RegisterRequest.Types.ActiveStatus.KAppInForeground
             };
 
             var payload = GeneratePayload(Command.KEEP_ALIVE, keepalive);
@@ -184,7 +215,7 @@ namespace AcFunDanmu
             Log.Debug("Header: {Header}", header);
             Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{PushMessage}");
+            Log.Debug("\t{PushMessage}", "Empty");
 
             return Encode(header, body, SessionKey);
         }
@@ -194,7 +225,7 @@ namespace AcFunDanmu
             var heartbeat = new ZtLiveCsHeartbeat
             {
                 ClientTimestampMs = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
-                Sequence = _HeartbeatSeqId,
+                Sequence = HeartbeatSeqId
             };
 
             var cmd = GenerateCommand(GlobalCommand.HEARTBEAT, heartbeat);
@@ -205,7 +236,7 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
-            _HeartbeatSeqId++;
+            HeartbeatSeqId++;
             Interlocked.Increment(ref SeqId);
 
             Log.Debug("--------");
@@ -256,7 +287,7 @@ namespace AcFunDanmu
             Log.Debug("Header: {Header}", header);
             Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
             Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{Unregister}");
+            Log.Debug("\t{Unregister}", "Empty");
             Log.Debug("--------");
 
             return Encode(header, body, SessionKey);
@@ -266,7 +297,7 @@ namespace AcFunDanmu
         {
             var ping = new PingRequest
             {
-                PingType = Im.Basic.PingRequest.Types.PingType.KPostRegister,
+                PingType = Im.Basic.PingRequest.Types.PingType.KPostRegister
             };
 
             var payload = GeneratePayload(Command.PING, ping);
@@ -287,50 +318,62 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private ZtLiveCsCmd GenerateCommand(in string command, in IMessage msg = null) => new ZtLiveCsCmd()
+        private ZtLiveCsCmd GenerateCommand(in string command, in IMessage msg = null)
         {
-            CmdType = command,
-            Ticket = Ticket,
-            LiveId = LiveId,
-            Payload = msg?.ToByteString() ?? ByteString.Empty,
-        };
+            return new ZtLiveCsCmd
+            {
+                CmdType = command,
+                Ticket = Ticket,
+                LiveId = LiveId,
+                Payload = msg?.ToByteString() ?? ByteString.Empty
+            };
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private UpstreamPayload GeneratePayload(in string command, in IMessage msg = null) => new UpstreamPayload()
+        private UpstreamPayload GeneratePayload(in string command, in IMessage msg = null)
         {
-            Command = command,
-            RetryCount = RetryCount,
-            SeqId = SeqId,
-            SubBiz = SubBiz,
-            PayloadData = msg?.ToByteString() ?? ByteString.Empty,
-        };
+            return new UpstreamPayload
+            {
+                Command = command,
+                RetryCount = RetryCount,
+                SeqId = SeqId,
+                SubBiz = SubBiz,
+                PayloadData = msg?.ToByteString() ?? ByteString.Empty
+            };
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private PacketHeader GenerateHeader(in ByteString body,
             in PacketHeader.Types.EncryptionMode encryptionMode =
-                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
+                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey)
         {
-            AppId = AppId,
-            Uid = UserId,
-            InstanceId = InstanceId,
-            DecodedPayloadLen = Convert.ToUInt32(body.Length),
-            EncryptionMode = encryptionMode,
-            SeqId = SeqId,
-            Kpn = KPN
-        };
+            return new PacketHeader
+            {
+                AppId = AppId,
+                Uid = UserId,
+                InstanceId = InstanceId,
+                DecodedPayloadLen = Convert.ToUInt32(body.Length),
+                EncryptionMode = encryptionMode,
+                SeqId = SeqId,
+                Kpn = KPN
+            };
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private PacketHeader GenerateHeader(in ReadOnlySpan<byte> body,
             in PacketHeader.Types.EncryptionMode encryptionMode =
-                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) => new PacketHeader()
+                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey)
         {
-            AppId = AppId,
-            Uid = UserId,
-            InstanceId = InstanceId,
-            DecodedPayloadLen = Convert.ToUInt32(body.Length),
-            EncryptionMode = encryptionMode,
-            SeqId = SeqId,
-            Kpn = KPN
-        };
+            return new PacketHeader
+            {
+                AppId = AppId,
+                Uid = UserId,
+                InstanceId = InstanceId,
+                DecodedPayloadLen = Convert.ToUInt32(body.Length),
+                EncryptionMode = encryptionMode,
+                SeqId = SeqId,
+                Kpn = KPN
+            };
+        }
     }
 }
