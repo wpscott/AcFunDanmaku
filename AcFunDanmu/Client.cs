@@ -59,8 +59,6 @@ namespace AcFunDanmu
         private const string WATCHING_URL =
             "https://api.kuaishouzt.com/rest/zt/live/app/watchingList?subBiz=mainApp&kpn=ACFUN_APP.LIVE_MATE&kpf=WINDOWS_PC&userId={0}&did={1}&{2}={3}";
 
-        //private const string USER_AGENT =
-        //    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36";
         private const string USER_AGENT = "kuaishou 1.9.0.200";
 
         private const string SAFETY_ID_CONTENT =
@@ -559,66 +557,52 @@ namespace AcFunDanmu
             }
         }
 
-
         private async void UpdateGiftList()
         {
-            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(LiveId)) return;
+            if (string.IsNullOrEmpty(SecurityKey)) return;
 
             try
             {
 #if NET5_0_OR_GREATER
                 using var client = CreateHttpClient(LIVE_URI);
 
-                using var giftContent = new FormUrlEncodedContent(new Dictionary<string, string>
+                var sign = Sign(GIFT_ALL, SecurityKey);
+
+                using var gift = await client.PostAsync($"{KUAISHOU_ZT}{GIFT_ALL}?{Query}&__clientSign={sign}", null);
+
+                if (!gift.IsSuccessStatusCode) return;
+                var giftList =
+                    await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
+                foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
                 {
-                    { "visitorId", $"{UserId}" },
-                    { "liveId", LiveId }
-                });
-                using var gift =
-                    await client.PostAsync(
-                        string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST, ServiceToken),
-                        giftContent);
-                if (gift.IsSuccessStatusCode)
-                {
-                    var giftList =
-                        await JsonSerializer.DeserializeAsync<GiftList>(await gift.Content.ReadAsStreamAsync());
-                    foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
+                    var giftInfo = new GiftInfo
                     {
-                        var giftInfo = new GiftInfo
-                        {
-                            Name = item.GiftName,
-                            Value = item.GiftPrice,
-                            Pic = new Uri(item.WebpPicList[0].Url)
-                        };
-                        Gifts[item.GiftId] = giftInfo;
-                    }
+                        Name = item.GiftName,
+                        Value = item.GiftPrice,
+                        Pic = new Uri(item.WebpPicList[0].Url)
+                    };
+                    Gifts[item.GiftId] = giftInfo;
                 }
 #elif NETSTANDARD2_0_OR_GREATER
                 using (var client = CreateHttpClient(LIVE_URI))
                 {
-                    using (var giftContent = new FormUrlEncodedContent(new Dictionary<string, string>
-                           {
-                               { "visitorId", $"{UserId}" },
-                               { "liveId", LiveId }
-                           }))
+                    var sign = Sign(GIFT_ALL, SecurityKey);
+
+                    using (var gift = await client.PostAsync($"{KUAISHOU_ZT}{GIFT_ALL}?{Query}&__clientSign={sign}",
+                               null))
                     {
-                        using (var gift = await client.PostAsync(
-                                   string.Format(GIFT_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST,
-                                       ServiceToken), giftContent))
+                        if (!gift.IsSuccessStatusCode) return;
+                        var giftList =
+                            JsonConvert.DeserializeObject<GiftList>(await gift.Content.ReadAsStringAsync());
+                        foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
                         {
-                            if (!gift.IsSuccessStatusCode) return;
-                            var giftList =
-                                JsonConvert.DeserializeObject<GiftList>(await gift.Content.ReadAsStringAsync());
-                            foreach (var item in giftList?.Data?.GiftList ?? Array.Empty<Gift>())
+                            var giftInfo = new GiftInfo
                             {
-                                var giftInfo = new GiftInfo
-                                {
-                                    Name = item.GiftName,
-                                    Value = item.GiftPrice,
-                                    Pic = new Uri(item.WebpPicList[0].Url)
-                                };
-                                Gifts[item.GiftId] = giftInfo;
-                            }
+                                Name = item.GiftName,
+                                Value = item.GiftPrice,
+                                Pic = new Uri(item.WebpPicList[0].Url)
+                            };
+                            Gifts[item.GiftId] = giftInfo;
                         }
                     }
                 }
@@ -744,17 +728,9 @@ namespace AcFunDanmu
 
             try
             {
-                //await _client.ConnectAsync(WebsocketHost, default);
                 _tcpStream = _tcpClient.GetStream();
 
-                #region Register
-
                 await _tcpStream.WriteAsync(_utils.HandshakeRequest());
-
-                //await _client.SendAsync(_utils.RegisterRequest(), WebSocketMessageType.Binary, true, default);
-                await _tcpStream.WriteAsync(_utils.RegisterRequest());
-
-                #endregion
 
                 #region Main loop
 
@@ -764,7 +740,7 @@ namespace AcFunDanmu
 
                     try
                     {
-                        var read = await _tcpStream.ReadAsync(buffer);
+                        var _ = await _tcpStream.ReadAsync(buffer);
                         var downstream = Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey,
                             out var header);
 
@@ -897,8 +873,6 @@ namespace AcFunDanmu
 #if NET5_0_OR_GREATER
                 if (_tcpClient.Connected)
                 {
-                    //await _client.SendAsync(_utils.UserExitRequest(), WebSocketMessageType.Binary, true, default);
-                    //await _client.SendAsync(_utils.UnregisterRequest(), WebSocketMessageType.Binary, true, default);
                     await _tcpStream.WriteAsync(_utils.UserExitRequest());
                     await _tcpStream.WriteAsync(_utils.UnregisterRequest());
 #elif NETSTANDARD2_0_OR_GREATER
@@ -909,7 +883,6 @@ namespace AcFunDanmu
                     await _client.SendAsync(new ArraySegment<byte>(_utils.UnregisterRequest()),
                         WebSocketMessageType.Binary, true, default);
 #endif
-                    //await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, message, default);
                 }
             }
             catch (Exception ex)
@@ -937,6 +910,9 @@ namespace AcFunDanmu
                     HandlePing(stream);
                     break;
                 case Command.HANDSHAKE:
+#if NET5_0_OR_GREATER
+                    await _tcpStream.WriteAsync(_utils.RegisterRequest());
+#endif
                     break;
                 case Command.REGISTER:
                     await HandleRegister(header.AppId, stream);
