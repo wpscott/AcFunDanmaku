@@ -29,7 +29,6 @@ internal class Program
         await Start(args);
 
         //DecodeHar(@".\34195163.har");
-        //await LoginToGetGiftList();
     }
 
     private static byte[] StreamConvert(in string stream)
@@ -55,7 +54,7 @@ internal class Program
 #if DEBUG
             .MinimumLevel.Debug()
 #else
-                .MinimumLevel.Information()
+            .MinimumLevel.Information()
 #endif
             .Enrich.FromLogContext()
             .WriteTo.Console()
