@@ -6,6 +6,8 @@
 
 *[Im.proto](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Im.proto)为主站WebSocket，主要负责私信、推送之类的。*
 
+**此项目已切换至TCP连接方式**，如需参考WebSocket连接方式，请查看[2.2.3版本](https://github.com/wpscott/AcFunDanmaku/releases/tag/2.2.3)
+
 ## AcFun直播WebSocket/TCP数据结构
 
 | 起始位置，偏移量  |  结构 |  说明 |
