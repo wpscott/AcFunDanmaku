@@ -770,6 +770,7 @@ namespace AcFunDanmu
                             var _ = await _tcpStream.ReadAsync(buffer, 0, 1024 * 1024);
                             var downstream = Decode<DownstreamPayload>(buffer, SecurityKey, _utils.SessionKey,
                                 out var header);
+                            owner.Return(buffer);
 
                             if (downstream == null)
                             {
@@ -785,8 +786,6 @@ namespace AcFunDanmu
                             heartbeatTimer.Stop();
                             break;
                         }
-
-                        owner.Return(buffer);
                     }
 
                     Logger.LogDebug("Client disconnected");
@@ -821,6 +820,17 @@ namespace AcFunDanmu
                     await _tcpStream.WriteAsync(exit, 0, exit.Length);
                     await _tcpStream.WriteAsync(unregister, 0, unregister.Length);
 #endif
+                    _tcpStream.Close();
+#if NET5_0_OR_GREATER
+                    await _tcpStream.DisposeAsync();
+#elif NETSTANDARD2_0_OR_GREATER
+                    _tcpStream.Dispose();
+#endif
+                    _tcpStream = null;
+                    _tcpClient.Close();
+                    _tcpClient.Dispose();
+                    _tcpClient = null;
+                    GC.Collect();
                 }
             }
             catch (Exception ex)
