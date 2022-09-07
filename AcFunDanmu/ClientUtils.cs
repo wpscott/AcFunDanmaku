@@ -162,7 +162,7 @@ namespace AcFunDanmu
             switch (header.EncryptionMode)
             {
                 case PacketHeader.Types.EncryptionMode.KEncryptionServiceToken:
-                    Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey);
+                    payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SecurityKey);
                     break;
                 case PacketHeader.Types.EncryptionMode.KEncryptionSessionKey:
                     payload = Decrypt(bytes.Slice(HeaderOffset + headerLength, payloadLength), SessionKey);
