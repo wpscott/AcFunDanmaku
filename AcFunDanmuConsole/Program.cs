@@ -46,8 +46,6 @@ internal class Program
     {
         var retry = 0;
 
-        await Client.Prepare();
-
         Client client = new();
 
         Log.Logger = new LoggerConfiguration()
