@@ -43,8 +43,6 @@ public static class DGJ
         _pattern = new Regex(_config.Format, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         _platform = BasePlatform.CreatePlatform(_config);
 
-        await Client.Prepare();
-
         if (_config.Standalone && _config.UserId > 0) Connect();
 #if DEBUG
         IsRunning = true;
