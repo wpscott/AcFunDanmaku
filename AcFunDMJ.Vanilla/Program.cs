@@ -27,7 +27,6 @@ internal static class Program
 
     private static async Task Main(string[] args)
     {
-        await Client.Prepare();
         _config = await Config.LoadConfig();
         var address = $"http://localhost:{_config.Port}/";
         using var server = new HttpListener();
