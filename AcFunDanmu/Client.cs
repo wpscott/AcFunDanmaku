@@ -805,8 +805,9 @@ namespace AcFunDanmu
         }
 #endif
 
-        public async Task Stop(string message)
+        public async Task Stop(string reason)
         {
+            Logger.LogInformation("Stopping client, reason: {Reason}", reason);
             try
             {
                 if (_tcpClient != null && _tcpClient.Connected)
@@ -952,7 +953,6 @@ namespace AcFunDanmu
             }
         }
 
-
         private void HandleUnregister(DownstreamPayload payload)
         {
             var unregister = UnregisterResponse.Parser.ParseFrom(payload.PayloadData);
@@ -1015,7 +1015,6 @@ namespace AcFunDanmu
                 Logger.LogDebug(ex, "Push message response");
             }
         }
-
 
         private async Task HandleStatusChanged(ByteString payload, HeartbeatTimer heartbeatTimer)
         {
