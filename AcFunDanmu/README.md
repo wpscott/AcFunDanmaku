@@ -2,24 +2,24 @@
 
 # AcfunDanmu AcFun直播弹幕工具
 
-[Source](https://ali-imgs.acfun.cn/kos/nlav10360/static/js/0.e611a833.js)
+[Source](https://ali-imgs.acfun.cn/kos/nlav10360/static/js/3.867c7c46.js)
 
-*[Im.proto](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Im.proto)为主站websocket，主要负责私信、推送之类的。*
+*[Im.proto](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Im.proto)为主站WebSocket，主要负责私信、推送之类的。*
 
-## AcFun直播websocket数据结构
+## AcFun直播WebSocket/TCP数据结构
 
 | 起始位置，偏移量  |  结构 |  说明 |
 |---|---|---|
-|  0, 12 |  ABCD 0001 FFFF FFFF FFFF FFFF |  ABCD 0001为Magic Number， 第一组FFFF FFFF为头数据长度，第二组FFFF FFFF为AES IV长度（通常为16） + AES加密后的数据长度 |
+|  0, 12 |  ABCD 0001 FFFF FFFF FFFF FFFF |  ABCD 0001为Magic Number， 第一组FFFF FFFF为头数据长度，第二组FFFF FFFF为AES IV长度（固定为16）+ AES加密后的数据长度 |
 |  12, 头数据长度 | [PacketHeader](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/PacketHeader.proto) |  具体数据结构请查看[PacketHeader](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/PacketHeader.proto) |
 |  12 + 头数据长度, 16 |  FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF |  AES IV，加解密用 |
 |  28 + 头数据长度, 具体数据长度 - 16 | AES加密的[UpstreamPayload](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/UpstreamPayload.proto)或[DownstreamPayload](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/DownstreamPayload.proto) | 密钥为SecurityKey或SessionKey（由[PacketHeader](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/PacketHeader.proto)中的`encryptionMode`指定） |
 
-## AcFun直播websocket流程
+## AcFun直播WebSocket/TCP流程
 <details>
   <summary><b>前置流程</b></summary>
 
- 1. 请求`https://live.acfun.cn`获取`_did`Cookies
+ 1. 请求`https://live.acfun.cn`获取`_did`Cookies（可用随机字符串如UUID替代）
  2. 获取`userId`、`acSecurity`和`acfun.api.visitor_st`
     * 未登录/匿名用户发送
     POST application/x-www-form-urlencoded请求`https://id.app.acfun.cn/rest/app/visitor/login`，表单数据为`sid=acfun.api.visitor`
@@ -43,9 +43,12 @@
 </details>
 
 ### 正式流程
-1. 建立websocket链接`[wss://klink-newproduct-ws1.kwaizt.com, wss://klink-newproduct-ws2.kwaizt.com, wss://klink-newproduct-ws3.kwaizt.com]`
-2. 发送[RegisterRequest](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Register.proto#L13)（SeqId加1），`encryptionMode`为`KEncryptionServiceToken`，加密密钥为`acSecurity`
-3. 接收[DownStreamPayload](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/DownstreamPayload.proto#L5)，根据[Command](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/DownstreamPayload.proto#L6)进行对应的处理
+1. 建立连接
+    * WebSocket`[wss://klink-newproduct-ws1.kwaizt.com, wss://klink-newproduct-ws2.kwaizt.com, wss://klink-newproduct-ws3.kwaizt.com]`
+    * TCP`slink.gifshow.com:14000`
+2. （仅限TCP连接）发送[HandshakeRequest](https://github.com/wpscott/AcFunDanmaku/blob/a1da4da4f0c84e3c1b5ce50fac299b831c889685/AcFunDanmu/protos/Im/Basic/HandshakeRequest.proto#L5)，接收[HandshakeResponse](https://github.com/wpscott/AcFunDanmaku/blob/a1da4da4f0c84e3c1b5ce50fac299b831c889685/AcFunDanmu/protos/Im/Basic/HandshakeResponse.proto#L5)
+3. 发送[RegisterRequest](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Register.proto#L13)（SeqId加1），`encryptionMode`为`KEncryptionServiceToken`，加密密钥为`acSecurity`
+4. 接收[DownStreamPayload](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/DownstreamPayload.proto#L5)，根据[Command](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/DownstreamPayload.proto#L6)进行对应的处理
 	- [Basic.Register](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Register.proto#L38)
       1. 保存[instanceId](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Register.proto#L41)及[sessKey](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/Register.proto#L40)，后续所有发送的`encryptionMode`为`KEncryptionSessionKey`，加密密钥为`sessKey`
       2. 发送[KeepAliveRequest](https://github.com/wpscott/AcFunDanmaku/blob/e8aaeea0598210ec641bfc0b31ce808a582dacf6/AcFunDanmu/protos/im.basic/KeepAlive.proto#L9)
