@@ -667,7 +667,7 @@ namespace AcFunDanmu
 
                 #region Main loop
 
-                while (_tcpClient.Connected)
+                while (_tcpClient is { Connected: true } && _tcpStream != null)
                 {
                     var buffer = owner.Memory;
 
@@ -748,6 +748,7 @@ namespace AcFunDanmu
                 heartbeatTimer.AutoReset = true;
 
                 deathTimer.Interval = TimeSpan.FromSeconds(10).TotalMilliseconds;
+                deathTimer.AutoReset = false;
                 deathTimer.Elapsed += async (s, e) => { await Stop("dead"); };
 
                 #endregion
@@ -761,7 +762,7 @@ namespace AcFunDanmu
 
                     #region Main loop
 
-                    while (_tcpClient.Connected)
+                    while (_tcpClient != null && _tcpClient.Connected && _tcpStream != null)
                     {
                         var buffer = owner.Rent(1024 * 1024);
 
@@ -809,7 +810,7 @@ namespace AcFunDanmu
             Logger.LogInformation("Stopping client, reason: {Reason}", reason);
             try
             {
-                if (_tcpClient != null && _tcpClient.Connected)
+                if (_tcpClient != null && _tcpClient.Connected && _tcpStream != null)
                 {
 #if NET5_0_OR_GREATER
                     await _tcpStream.WriteAsync(_utils.UserExitRequest());
@@ -1089,7 +1090,7 @@ namespace AcFunDanmu
 
         private async void Heartbeat(object sender, ElapsedEventArgs e)
         {
-            if (_tcpClient.Connected)
+            if (_tcpClient != null && _tcpClient.Connected)
             {
                 Logger.LogDebug("HEARTBEAT");
                 try
