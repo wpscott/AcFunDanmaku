@@ -5,7 +5,7 @@ using System.Threading;
 using AcFunDanmu.Enums;
 using AcFunDanmu.Im.Basic;
 using Google.Protobuf;
-using Serilog;
+using Microsoft.Extensions.Logging;
 using static AcFunDanmu.ClientUtils;
 
 namespace AcFunDanmu
@@ -85,13 +85,14 @@ namespace AcFunDanmu
                 Token = ByteString.FromBase64(ServiceToken)
             };
 
-            Log.Debug("--------");
-            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
-            Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{Handshake}", handshake);
-            Log.Debug("--------");
+            Client.Logger.LogDebug("--------");
+            Client.Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+                payload.Command);
+            Client.Logger.LogDebug("Header: {Header}", header);
+            Client.Logger.LogDebug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Client.Logger.LogDebug("Payload: {Payload}", payload);
+            Client.Logger.LogDebug("\t{Handshake}", handshake);
+            Client.Logger.LogDebug("--------");
 
             return Encode(header, body, SecurityKey);
         }
@@ -134,13 +135,14 @@ namespace AcFunDanmu
 
             Interlocked.Increment(ref SeqId);
 
-            Log.Debug("--------");
-            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
-            Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{Register}", register);
-            Log.Debug("--------");
+            Client.Logger.LogDebug("--------");
+            Client.Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+                payload.Command);
+            Client.Logger.LogDebug("Header: {Header}", header);
+            Client.Logger.LogDebug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Client.Logger.LogDebug("Payload: {Payload}", payload);
+            Client.Logger.LogDebug("\t{Register}", register);
+            Client.Logger.LogDebug("--------");
 
             return Encode(header, body, SecurityKey);
         }
@@ -161,13 +163,14 @@ namespace AcFunDanmu
 
             Interlocked.Increment(ref SeqId);
 
-            Log.Debug("--------");
-            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
-            Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{KeepAlive}", keepalive);
-            Log.Debug("--------");
+            Client.Logger.LogDebug("--------");
+            Client.Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+                payload.Command);
+            Client.Logger.LogDebug("Header: {Header}", header);
+            Client.Logger.LogDebug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Client.Logger.LogDebug("Payload: {Payload}", payload);
+            Client.Logger.LogDebug("\t{KeepAlive}", keepalive);
+            Client.Logger.LogDebug("--------");
 
             return Encode(header, body, SessionKey);
         }
@@ -190,14 +193,15 @@ namespace AcFunDanmu
 
             Interlocked.Increment(ref SeqId);
 
-            Log.Debug("--------");
-            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
-            Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{Command}", cmd);
-            Log.Debug("\t\t{EnterRoom}", enterroom);
-            Log.Debug("--------");
+            Client.Logger.LogDebug("--------");
+            Client.Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+                payload.Command);
+            Client.Logger.LogDebug("Header: {Header}", header);
+            Client.Logger.LogDebug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Client.Logger.LogDebug("Payload: {Payload}", payload);
+            Client.Logger.LogDebug("\t{Command}", cmd);
+            Client.Logger.LogDebug("\t\t{EnterRoom}", enterroom);
+            Client.Logger.LogDebug("--------");
 
             return Encode(header, body, SessionKey);
         }
@@ -211,11 +215,12 @@ namespace AcFunDanmu
             var header = GenerateHeader(body);
             header.SeqId = HeaderSeqId;
 
-            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
-            Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{PushMessage}", "Empty");
+            Client.Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+                payload.Command);
+            Client.Logger.LogDebug("Header: {Header}", header);
+            Client.Logger.LogDebug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Client.Logger.LogDebug("Payload: {Payload}", payload);
+            Client.Logger.LogDebug("\t{PushMessage}", "Empty");
 
             return Encode(header, body, SessionKey);
         }
@@ -239,14 +244,15 @@ namespace AcFunDanmu
             HeartbeatSeqId++;
             Interlocked.Increment(ref SeqId);
 
-            Log.Debug("--------");
-            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
-            Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{Command}", cmd);
-            Log.Debug("\t\t{Heartbeat}", heartbeat);
-            Log.Debug("--------");
+            Client.Logger.LogDebug("--------");
+            Client.Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+                payload.Command);
+            Client.Logger.LogDebug("Header: {Header}", header);
+            Client.Logger.LogDebug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Client.Logger.LogDebug("Payload: {Payload}", payload);
+            Client.Logger.LogDebug("\t{Command}", cmd);
+            Client.Logger.LogDebug("\t\t{Heartbeat}", heartbeat);
+            Client.Logger.LogDebug("--------");
 
             return Encode(header, body, SessionKey);
         }
@@ -263,13 +269,14 @@ namespace AcFunDanmu
 
             Interlocked.Increment(ref SeqId);
 
-            Log.Debug("--------");
-            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
-            Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{UserExit}", userexit);
-            Log.Debug("--------");
+            Client.Logger.LogDebug("--------");
+            Client.Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+                payload.Command);
+            Client.Logger.LogDebug("Header: {Header}", header);
+            Client.Logger.LogDebug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Client.Logger.LogDebug("Payload: {Payload}", payload);
+            Client.Logger.LogDebug("\t{UserExit}", userexit);
+            Client.Logger.LogDebug("--------");
 
             return Encode(header, body, SessionKey);
         }
@@ -282,13 +289,14 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
-            Log.Debug("--------");
-            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
-            Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{Unregister}", "Empty");
-            Log.Debug("--------");
+            Client.Logger.LogDebug("--------");
+            Client.Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+                payload.Command);
+            Client.Logger.LogDebug("Header: {Header}", header);
+            Client.Logger.LogDebug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Client.Logger.LogDebug("Payload: {Payload}", payload);
+            Client.Logger.LogDebug("\t{Unregister}", "Empty");
+            Client.Logger.LogDebug("--------");
 
             return Encode(header, body, SessionKey);
         }
@@ -306,13 +314,14 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(body);
 
-            Log.Debug("--------");
-            Log.Debug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId, payload.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload Base64: {Payload}", Convert.ToBase64String(body));
-            Log.Debug("Payload: {Payload}", payload);
-            Log.Debug("\t{Ping}", ping);
-            Log.Debug("--------");
+            Client.Logger.LogDebug("--------");
+            Client.Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+                payload.Command);
+            Client.Logger.LogDebug("Header: {Header}", header);
+            Client.Logger.LogDebug("Payload Base64: {Payload}", Convert.ToBase64String(body));
+            Client.Logger.LogDebug("Payload: {Payload}", payload);
+            Client.Logger.LogDebug("\t{Ping}", ping);
+            Client.Logger.LogDebug("--------");
 
             return Encode(header, body, SessionKey);
         }

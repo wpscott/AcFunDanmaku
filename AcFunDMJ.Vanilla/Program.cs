@@ -134,7 +134,7 @@ internal static class Program
         SendMessage(MessageType.Text, $"正在连接到直播间：{uid}");
         _danmaku.Handler += HandleSignal;
         SendMessage(MessageType.Text, "正在初始化弹幕姬");
-        await _danmaku.Initialize(uid, true);
+        await _danmaku.Initialize(uid);
         SendMessage(MessageType.Text, "正在启动弹幕姬");
         await _danmaku.Start();
         SendMessage(MessageType.Text, "直播已结束或连接已断开");

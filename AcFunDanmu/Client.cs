@@ -17,7 +17,8 @@ using AcFunDanmu.Enums;
 using AcFunDanmu.Im.Basic;
 using AcFunDanmu.Models.Client;
 using Google.Protobuf;
-using Serilog;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using static AcFunDanmu.ClientUtils;
 using HeartbeatTimer = System.Timers.Timer;
 
@@ -76,6 +77,8 @@ namespace AcFunDanmu
 
         #region Properties and Fields
 
+        internal static ILogger<Client> Logger { get; private set; }
+
         public static readonly ConcurrentDictionary<long, GiftInfo> Gifts =
             new ConcurrentDictionary<long, GiftInfo>(12, 64);
 
@@ -106,21 +109,13 @@ namespace AcFunDanmu
             CookieContainer.Add(new Cookie("_did", DeviceId, "/", ".acfun.cn"));
         }
 
-        public Client()
+        public Client(ILogger<Client> logger = null)
         {
-            Log.Logger = new LoggerConfiguration()
-#if DEBUG
-                .MinimumLevel.Debug()
-#else
-                .MinimumLevel.Information()
-#endif
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
+            Logger = logger ?? new NullLogger<Client>();
         }
 
         public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach,
-            string liveId) : this()
+            string liveId, ILogger<Client> logger = null) : this(logger)
         {
             UserId = userId;
             ServiceToken = serviceToken;
@@ -135,7 +130,7 @@ namespace AcFunDanmu
         public async Task<bool> Login(string username, string password)
         {
             if (IsSignIn) return IsSignIn;
-            Log.Information("Client signing in");
+            Logger.LogInformation("Client signing in");
             try
             {
 #if NET5_0_OR_GREATER
@@ -144,7 +139,7 @@ namespace AcFunDanmu
                 using var login = await client.GetAsync(ACFUN_LOGIN_URI);
                 if (!login.IsSuccessStatusCode)
                 {
-                    Log.Error("Get login error: {Content}", await login.Content.ReadAsStringAsync());
+                    Logger.LogError("Get login error: {Content}", await login.Content.ReadAsStringAsync());
                     return false;
                 }
 
@@ -158,14 +153,14 @@ namespace AcFunDanmu
                 using var signin = await client.PostAsync(ACFUN_SIGN_IN_URI, signinContent);
                 if (!signin.IsSuccessStatusCode)
                 {
-                    Log.Error("Post sign in error: {Content}", await signin.Content.ReadAsStringAsync());
+                    Logger.LogError("Post sign in error: {Content}", await signin.Content.ReadAsStringAsync());
                     return false;
                 }
 
                 var user = await JsonSerializer.DeserializeAsync<SignIn>(await signin.Content.ReadAsStreamAsync());
                 if (user == null)
                 {
-                    Log.Error("Unable to deserialize SignIn");
+                    Logger.LogError("Unable to deserialize SignIn");
                     return false;
                 }
 
@@ -173,14 +168,14 @@ namespace AcFunDanmu
                 using var sid = await client.PostAsync(ACFUN_SAFETY_ID_URI, sidContent);
                 if (!sid.IsSuccessStatusCode)
                 {
-                    Log.Error("Post safety id error: {Content}", await sid.Content.ReadAsStringAsync());
+                    Logger.LogError("Post safety id error: {Content}", await sid.Content.ReadAsStringAsync());
                     return false;
                 }
 
                 var safetyId = await JsonSerializer.DeserializeAsync<SafetyId>(await sid.Content.ReadAsStreamAsync());
                 if (safetyId == null)
                 {
-                    Log.Error("Unable to deserialize SignIn");
+                    Logger.LogError("Unable to deserialize SignIn");
                     return false;
                 }
 
@@ -199,7 +194,7 @@ namespace AcFunDanmu
                     {
                         if (!login.IsSuccessStatusCode)
                         {
-                            Log.Error("Get login error: {Content}", await login.Content.ReadAsStringAsync());
+                            Logger.LogError("Get login error: {Content}", await login.Content.ReadAsStringAsync());
                             return false;
                         }
 
@@ -215,7 +210,7 @@ namespace AcFunDanmu
                             {
                                 if (!signin.IsSuccessStatusCode)
                                 {
-                                    Log.Error("Post sign in error: {Content}",
+                                    Logger.LogError("Post sign in error: {Content}",
                                         await signin.Content.ReadAsStringAsync());
                                     return false;
                                 }
@@ -224,7 +219,7 @@ namespace AcFunDanmu
                                     await signin.Content.ReadAsStringAsync());
                                 if (user == null)
                                 {
-                                    Log.Error("Unable to deserialize SignIn");
+                                    Logger.LogError("Unable to deserialize SignIn");
                                     return false;
                                 }
 
@@ -235,7 +230,7 @@ namespace AcFunDanmu
                                     {
                                         if (!sid.IsSuccessStatusCode)
                                         {
-                                            Log.Error("Post safety id error: {Content}",
+                                            Logger.LogError("Post safety id error: {Content}",
                                                 await sid.Content.ReadAsStringAsync());
                                             return false;
                                         }
@@ -245,7 +240,7 @@ namespace AcFunDanmu
                                                 await sid.Content.ReadAsStringAsync());
                                         if (safetyId == null)
                                         {
-                                            Log.Error("Unable to deserialize SignIn");
+                                            Logger.LogError("Unable to deserialize SignIn");
                                             return false;
                                         }
 
@@ -267,12 +262,12 @@ namespace AcFunDanmu
             }
             catch (HttpRequestException ex)
             {
-                Log.Error(ex, "Login Exception");
+                Logger.LogError(ex, "Login Exception");
                 return await Login(username, password);
             }
             catch (TaskCanceledException ex)
             {
-                Log.Error(ex, "Login Exception");
+                Logger.LogError(ex, "Login Exception");
                 return await Login(username, password);
             }
 
@@ -290,14 +285,14 @@ namespace AcFunDanmu
         {
             if (long.TryParse(hostId, out var id)) return await Initialize(id, refreshGiftList);
 
-            Log.Error($"Invalid user id: {hostId}");
+            Logger.LogError($"Invalid user id: {hostId}");
             return null;
         }
 
         public async Task<PlayData> Initialize(long hostId, bool refreshGiftList = false)
         {
             HostId = hostId;
-            Log.Information("Client initializing");
+            Logger.LogInformation("Client initializing");
             try
             {
 #if NET5_0_OR_GREATER
@@ -309,7 +304,7 @@ namespace AcFunDanmu
                     using var get = await client.PostAsync(GET_TOKEN_URI, getContent);
                     if (!get.IsSuccessStatusCode)
                     {
-                        Log.Error("Get token error: {Content}", await get.Content.ReadAsStringAsync());
+                        Logger.LogError("Get token error: {Content}", await get.Content.ReadAsStringAsync());
                         return null;
                     }
 
@@ -317,11 +312,11 @@ namespace AcFunDanmu
                         await JsonSerializer.DeserializeAsync<MidgroundToken>(await get.Content.ReadAsStreamAsync());
                     if (token == null)
                     {
-                        Log.Error("Unable to deserialize MidgroundToken");
+                        Logger.LogError("Unable to deserialize MidgroundToken");
                         return null;
                     }
 
-                    if (token.Result != 1) Log.Error("Get token error: {Message}", token.ErrorMsg);
+                    if (token.Result != 1) Logger.LogError("Get token error: {Message}", token.ErrorMsg);
 
                     UserId = token.UserId;
                     ServiceToken = token.ServiceToken;
@@ -333,7 +328,7 @@ namespace AcFunDanmu
                     using var login = await client.PostAsync(LOGIN_URI, loginContent);
                     if (!login.IsSuccessStatusCode)
                     {
-                        Log.Error("Get token error: {Content}", await login.Content.ReadAsStringAsync());
+                        Logger.LogError("Get token error: {Content}", await login.Content.ReadAsStringAsync());
                         return null;
                     }
 
@@ -341,11 +336,11 @@ namespace AcFunDanmu
                         await JsonSerializer.DeserializeAsync<VisitorToken>(await login.Content.ReadAsStreamAsync());
                     if (token == null)
                     {
-                        Log.Error("Unable to deserialize VisitorToken");
+                        Logger.LogError("Unable to deserialize VisitorToken");
                         return null;
                     }
 
-                    if (token.Result != 0) Log.Error("Get token error: {Message}", token.ErrorMsg);
+                    if (token.Result != 0) Logger.LogError("Get token error: {Message}", token.ErrorMsg);
 
                     UserId = token.UserId;
                     ServiceToken = token.ServiceToken;
@@ -362,20 +357,20 @@ namespace AcFunDanmu
 
                 if (!play.IsSuccessStatusCode)
                 {
-                    Log.Error("Get play info error: {Content}", await play.Content.ReadAsStringAsync());
+                    Logger.LogError("Get play info error: {Content}", await play.Content.ReadAsStringAsync());
                     return null;
                 }
 
                 var playData = await JsonSerializer.DeserializeAsync<Play>(await play.Content.ReadAsStreamAsync());
                 if (playData == null)
                 {
-                    Log.Error("Unable to deserialize Play");
+                    Logger.LogError("Unable to deserialize Play");
                     return null;
                 }
 
                 if (playData.Result > 1)
                 {
-                    Log.Error(playData.ErrorMsg);
+                    Logger.LogError(playData.ErrorMsg);
                     return null;
                 }
 
@@ -383,9 +378,9 @@ namespace AcFunDanmu
                 EnterRoomAttach = playData.Data?.EnterRoomAttach;
                 LiveId = playData.Data?.LiveId;
 
-                if (refreshGiftList) UpdateGiftList();
+                if (Gifts.Count == 0 || refreshGiftList) UpdateGiftList();
 
-                Log.Information("Client initialized");
+                Logger.LogInformation("Client initialized");
 
                 return playData.Data;
 #elif NETSTANDARD2_0_OR_GREATER
@@ -398,7 +393,8 @@ namespace AcFunDanmu
                             {
                                 if (!get.IsSuccessStatusCode)
                                 {
-                                    Log.Error("Get token error: {Content}", await get.Content.ReadAsStringAsync());
+                                    Logger.LogError("Get token error: {Content}",
+                                        await get.Content.ReadAsStringAsync());
                                     return null;
                                 }
 
@@ -406,7 +402,7 @@ namespace AcFunDanmu
                                     await get.Content.ReadAsStringAsync());
                                 if (token == null)
                                 {
-                                    Log.Error("Unable to deserialize MidgroundToken");
+                                    Logger.LogError("Unable to deserialize MidgroundToken");
                                     return null;
                                 }
 
@@ -422,7 +418,8 @@ namespace AcFunDanmu
                             {
                                 if (!login.IsSuccessStatusCode)
                                 {
-                                    Log.Error("Get token error: {Content}", await login.Content.ReadAsStringAsync());
+                                    Logger.LogError("Get token error: {Content}",
+                                        await login.Content.ReadAsStringAsync());
                                     return null;
                                 }
 
@@ -430,7 +427,7 @@ namespace AcFunDanmu
                                     await login.Content.ReadAsStringAsync());
                                 if (token == null)
                                 {
-                                    Log.Error("Unable to deserialize VisitorToken");
+                                    Logger.LogError("Unable to deserialize VisitorToken");
                                     return null;
                                 }
 
@@ -449,20 +446,21 @@ namespace AcFunDanmu
                         {
                             if (!play.IsSuccessStatusCode)
                             {
-                                Log.Error("Get play info error: {Content}", await play.Content.ReadAsStringAsync());
+                                Logger.LogError("Get play info error: {Content}",
+                                    await play.Content.ReadAsStringAsync());
                                 return null;
                             }
 
                             var playData = JsonConvert.DeserializeObject<Play>(await play.Content.ReadAsStringAsync());
                             if (playData == null)
                             {
-                                Log.Error("Unable to deserialize Play");
+                                Logger.LogError("Unable to deserialize Play");
                                 return null;
                             }
 
                             if (playData.Result > 1)
                             {
-                                Log.Error(playData.ErrorMsg);
+                                Logger.LogError(playData.ErrorMsg);
                                 return null;
                             }
 
@@ -470,9 +468,9 @@ namespace AcFunDanmu
                             EnterRoomAttach = playData.Data?.EnterRoomAttach;
                             LiveId = playData.Data?.LiveId;
 
-                            if (refreshGiftList) UpdateGiftList();
+                            if (Gifts.Count == 0 || refreshGiftList) UpdateGiftList();
 
-                            Log.Information("Client initialized");
+                            Logger.LogInformation("Client initialized");
 
                             return playData.Data;
                         }
@@ -482,12 +480,12 @@ namespace AcFunDanmu
             }
             catch (HttpRequestException ex)
             {
-                Log.Error(ex, "Initialize exception");
+                Logger.LogError(ex, "Initialize exception");
                 return await Initialize(hostId);
             }
             catch (TaskCanceledException ex)
             {
-                Log.Error(ex, "Initialize exception");
+                Logger.LogError(ex, "Initialize exception");
                 return await Initialize(hostId);
             }
         }
@@ -545,12 +543,12 @@ namespace AcFunDanmu
             }
             catch (HttpRequestException ex)
             {
-                Log.Error(ex, "Update gift list exception");
+                Logger.LogError(ex, "Update gift list exception");
                 UpdateGiftList();
             }
             catch (TaskCanceledException ex)
             {
-                Log.Error(ex, "Update gift list exception");
+                Logger.LogError(ex, "Update gift list exception");
                 UpdateGiftList();
             }
         }
@@ -606,12 +604,12 @@ namespace AcFunDanmu
             }
             catch (HttpRequestException ex)
             {
-                Log.Error(ex, "Watching list exception");
+                Logger.LogError(ex, "Watching list exception");
                 return await WatchingList();
             }
             catch (TaskCanceledException ex)
             {
-                Log.Error(ex, "Watching list exception");
+                Logger.LogError(ex, "Watching list exception");
                 return await WatchingList();
             }
         }
@@ -623,7 +621,7 @@ namespace AcFunDanmu
                 string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null ||
                 Tickets.Length == 0)
             {
-                Log.Information("Not initialized or live is ended");
+                Logger.LogInformation("Not initialized or live is ended");
                 return false;
             }
 
@@ -681,7 +679,7 @@ namespace AcFunDanmu
 
                         if (downstream == null)
                         {
-                            Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span));
+                            Logger.LogError("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span));
                             continue;
                         }
 
@@ -689,13 +687,13 @@ namespace AcFunDanmu
                     }
                     catch (Exception ex)
                     {
-                        Log.Debug(ex, "Main");
+                        Logger.LogDebug(ex, "Main");
                         heartbeatTimer.Stop();
                         break;
                     }
                 }
 
-                Log.Debug("Client disconnected");
+                Logger.LogDebug("Client disconnected");
                 heartbeatTimer.Stop();
                 deathTimer.Stop();
 
@@ -703,7 +701,7 @@ namespace AcFunDanmu
             }
             catch (Exception ex)
             {
-                Log.Debug(ex, "Start");
+                Logger.LogDebug(ex, "Start");
             }
 
             return true;
@@ -715,7 +713,7 @@ namespace AcFunDanmu
                 string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null ||
                 Tickets.Length == 0)
             {
-                Log.Information("Not initialized or live is ended");
+                Logger.LogInformation("Not initialized or live is ended");
                 return false;
             }
 
@@ -775,7 +773,7 @@ namespace AcFunDanmu
 
                             if (downstream == null)
                             {
-                                Log.Error("Downstream is null: {Content}", Convert.ToBase64String(buffer));
+                                Logger.LogError("Downstream is null: {Content}", Convert.ToBase64String(buffer));
                                 continue;
                             }
 
@@ -783,7 +781,7 @@ namespace AcFunDanmu
                         }
                         catch (Exception ex)
                         {
-                            Log.Debug(ex, "Main");
+                            Logger.LogDebug(ex, "Main");
                             heartbeatTimer.Stop();
                             break;
                         }
@@ -791,7 +789,7 @@ namespace AcFunDanmu
                         owner.Return(buffer);
                     }
 
-                    Log.Debug("Client disconnected");
+                    Logger.LogDebug("Client disconnected");
                     heartbeatTimer.Stop();
                     deathTimer.Stop();
 
@@ -799,7 +797,7 @@ namespace AcFunDanmu
                 }
                 catch (Exception ex)
                 {
-                    Log.Debug(ex, "Start");
+                    Logger.LogDebug(ex, "Start");
                 }
 
                 return true;
@@ -826,17 +824,17 @@ namespace AcFunDanmu
             }
             catch (Exception ex)
             {
-                Log.Debug(ex, "Stop");
+                Logger.LogDebug(ex, "Stop");
             }
         }
 
         private async void HandleCommand(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer,
             HeartbeatTimer deathTimer)
         {
-            Log.Debug("--------");
-            Log.Debug("Down\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, stream.SeqId, stream.Command);
-            Log.Debug("Header: {Header}", header);
-            Log.Debug("Payload: {Payload}", stream);
+            Logger.LogDebug("--------");
+            Logger.LogDebug("Down\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, stream.SeqId, stream.Command);
+            Logger.LogDebug("Header: {Header}", header);
+            Logger.LogDebug("Payload: {Payload}", stream);
             switch (stream.Command)
             {
                 case Command.GLOBAL_COMMAND:
@@ -870,27 +868,28 @@ namespace AcFunDanmu
                 default:
                     if (stream.ErrorCode > 0)
                     {
-                        Log.Warning("Error： {ErrorCode} - {ErrorMsg}", stream.ErrorCode, stream.ErrorMsg);
+                        Logger.LogWarning("Error： {ErrorCode} - {ErrorMsg}", stream.ErrorCode, stream.ErrorMsg);
                         if (stream.ErrorCode == 10018) await Stop("Log out");
 
-                        Log.Debug("Error Data: {Data}", stream.ErrorData.ToBase64());
+                        Logger.LogDebug("Error Data: {Data}", stream.ErrorData.ToBase64());
                     }
                     else
                     {
-                        Log.Information("Unhandled DownstreamPayload Command: {Command}", stream.Command ?? "Empty");
-                        Log.Debug("Command Data: {Data}", stream.ToByteString().ToBase64());
+                        Logger.LogInformation("Unhandled DownstreamPayload Command: {Command}",
+                            stream.Command ?? "Empty");
+                        Logger.LogDebug("Command Data: {Data}", stream.ToByteString().ToBase64());
                     }
 
                     break;
             }
 
-            Log.Debug("--------");
+            Logger.LogDebug("--------");
         }
 
         private static void HandleGlobalCommand(DownstreamPayload payload, HeartbeatTimer heartbeatTimer)
         {
             var cmd = ZtLiveCsCmdAck.Parser.ParseFrom(payload.PayloadData);
-            Log.Debug("\t{Command}", cmd);
+            Logger.LogDebug("\t{Command}", cmd);
             switch (cmd.CmdAckType)
             {
                 case GlobalCommand.ENTER_ROOM_ACK:
@@ -899,19 +898,20 @@ namespace AcFunDanmu
                         ? enterRoom.HeartbeatIntervalMs
                         : TimeSpan.FromSeconds(10).TotalMilliseconds;
                     heartbeatTimer.Start();
-                    Log.Debug("\t\t{EnterRoom}", enterRoom);
+                    Logger.LogDebug("\t\t{EnterRoom}", enterRoom);
                     break;
                 case GlobalCommand.HEARTBEAT_ACK:
                     var heartbeat = ZtLiveCsHeartbeatAck.Parser.ParseFrom(cmd.Payload);
-                    Log.Debug("\t\t{Heartbeat}", heartbeat);
+                    Logger.LogDebug("\t\t{Heartbeat}", heartbeat);
                     break;
                 case GlobalCommand.USER_EXIT_ACK:
                     var userexit = ZtLiveCsUserExitAck.Parser.ParseFrom(cmd.Payload);
-                    Log.Debug("\t\t{UserExit}", userexit);
+                    Logger.LogDebug("\t\t{UserExit}", userexit);
                     break;
                 default:
-                    Log.Information("Unhandled Global.ZtLiveInteractive.CsCmdAck: {Type}", cmd.CmdAckType ?? "Empty");
-                    Log.Debug("CsCmdAck Data: {Data}", payload.PayloadData.ToBase64());
+                    Logger.LogInformation("Unhandled Global.ZtLiveInteractive.CsCmdAck: {Type}",
+                        cmd.CmdAckType ?? "Empty");
+                    Logger.LogDebug("CsCmdAck Data: {Data}", payload.PayloadData.ToBase64());
                     break;
             }
         }
@@ -919,13 +919,13 @@ namespace AcFunDanmu
         private static void HandleKeepAlive(DownstreamPayload payload)
         {
             var keepalive = KeepAliveResponse.Parser.ParseFrom(payload.PayloadData);
-            Log.Debug("\t{KeepAlive}", keepalive);
+            Logger.LogDebug("\t{KeepAlive}", keepalive);
         }
 
         private static void HandlePing(DownstreamPayload payload)
         {
             var ping = PingResponse.Parser.ParseFrom(payload.PayloadData);
-            Log.Debug("\t{Ping}", ping);
+            Logger.LogDebug("\t{Ping}", ping);
         }
 
         private async Task HandleRegister(int appId, DownstreamPayload payload)
@@ -933,7 +933,7 @@ namespace AcFunDanmu
             var register = RegisterResponse.Parser.ParseFrom(payload.PayloadData);
             _utils.Register(appId, register.InstanceId, register.SessKey.ToBase64(),
                 register.SdkOption.Lz4CompressionThresholdBytes);
-            Log.Debug("\t{Register}", register);
+            Logger.LogDebug("\t{Register}", register);
             try
             {
 #if NET5_0_OR_GREATER
@@ -948,7 +948,7 @@ namespace AcFunDanmu
             }
             catch (Exception ex)
             {
-                Log.Debug(ex, "Register response");
+                Logger.LogDebug(ex, "Register response");
             }
         }
 
@@ -956,7 +956,7 @@ namespace AcFunDanmu
         private void HandleUnregister(DownstreamPayload payload)
         {
             var unregister = UnregisterResponse.Parser.ParseFrom(payload.PayloadData);
-            Log.Debug("\t{Unregister}", unregister);
+            Logger.LogDebug("\t{Unregister}", unregister);
             try
             {
                 _tcpStream.Close();
@@ -964,7 +964,7 @@ namespace AcFunDanmu
             }
             catch (Exception ex)
             {
-                Log.Debug(ex, "Unregister response");
+                Logger.LogDebug(ex, "Unregister response");
             }
         }
 
@@ -972,7 +972,7 @@ namespace AcFunDanmu
             HeartbeatTimer heartbeatTimer, HeartbeatTimer deathTimer)
         {
             var message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
-            Log.Debug("\t{message}", message);
+            Logger.LogDebug("\t{message}", message);
             var payload = message.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip
                 ? Decompress(message.Payload)
                 : message.Payload;
@@ -995,8 +995,9 @@ namespace AcFunDanmu
                     await HandleTicketInvalid(payload);
                     break;
                 default:
-                    Log.Information("Unhandled Push.ZtLiveInteractive.Message: {Type}", message.MessageType ?? "Empty");
-                    Log.Debug("CsCmdAck Data: {Data}", stream.PayloadData.ToBase64());
+                    Logger.LogInformation("Unhandled Push.ZtLiveInteractive.Message: {Type}",
+                        message.MessageType ?? "Empty");
+                    Logger.LogDebug("CsCmdAck Data: {Data}", stream.PayloadData.ToBase64());
                     break;
             }
 
@@ -1011,7 +1012,7 @@ namespace AcFunDanmu
             }
             catch (Exception ex)
             {
-                Log.Debug(ex, "Push message response");
+                Logger.LogDebug(ex, "Push message response");
             }
         }
 
@@ -1019,7 +1020,7 @@ namespace AcFunDanmu
         private async Task HandleStatusChanged(ByteString payload, HeartbeatTimer heartbeatTimer)
         {
             var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);
-            Log.Debug("\t\t{StatusChanged}", statusChanged);
+            Logger.LogDebug("\t\t{StatusChanged}", statusChanged);
             if (statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveClosed ||
                 statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveBanned)
             {
@@ -1031,7 +1032,7 @@ namespace AcFunDanmu
         private async Task HandleTicketInvalid(ByteString payload)
         {
             var ticketInvalid = ZtLiveScTicketInvalid.Parser.ParseFrom(payload);
-            Log.Debug("\t\t{TicketInvalid}", ticketInvalid);
+            Logger.LogDebug("\t\t{TicketInvalid}", ticketInvalid);
             _utils.NextTicket();
             try
             {
@@ -1044,7 +1045,7 @@ namespace AcFunDanmu
             }
             catch (Exception ex)
             {
-                Log.Debug(ex, "Ticket invalid request");
+                Logger.LogDebug(ex, "Ticket invalid request");
             }
         }
 
@@ -1081,7 +1082,7 @@ namespace AcFunDanmu
         {
             if (_tcpClient.Connected)
             {
-                Log.Debug("HEARTBEAT");
+                Logger.LogDebug("HEARTBEAT");
                 try
                 {
 #if NET5_0_OR_GREATER
@@ -1101,7 +1102,7 @@ namespace AcFunDanmu
                 }
                 catch (Exception ex)
                 {
-                    Log.Debug(ex, "Heartbeat");
+                    Logger.LogDebug(ex, "Heartbeat");
                     (sender as HeartbeatTimer)?.Stop();
                 }
             }

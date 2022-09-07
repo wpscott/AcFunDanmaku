@@ -17,7 +17,9 @@ using AcFunDanmu.Im.Cloud.Config;
 using AcFunDanmu.Im.Cloud.Message;
 using AcFunDanmu.Im.Message;
 using Google.Protobuf;
+using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Extensions.Logging;
 using static AcFunDanmu.ClientUtils;
 
 namespace AcFunDanmuConsole;
@@ -46,17 +48,19 @@ internal class Program
     {
         var retry = 0;
 
-        Client client = new();
 
         Log.Logger = new LoggerConfiguration()
 #if DEBUG
-            .MinimumLevel.Debug()
+            .MinimumLevel.Information()
 #else
             .MinimumLevel.Information()
 #endif
             .Enrich.FromLogContext()
             .WriteTo.Console()
+            .WriteTo.Debug()
             .CreateLogger();
+
+        Client client = new(new LoggerFactory().AddSerilog().CreateLogger<Client>());
 
         switch (args.Length)
         {
@@ -72,10 +76,10 @@ internal class Program
 
         client.Handler += HandleSignal; // Use your own signal handler
 
-        var resetTimer = new Timer(31000);
+        var resetTimer = new Timer(30000);
         resetTimer.Elapsed += (_, _) => { retry = 0; };
 
-        while (retry == 0 && !await client.Start())
+        while (retry < 3 && !await client.Start())
         {
             if (retry > 0) resetTimer.Stop();
 
@@ -87,9 +91,9 @@ internal class Program
         Log.Information("Client closed, maybe live is end");
     }
 
-    private static void HandleSignal(Client sender, string messagetType, ByteString payload)
+    private static void HandleSignal(Client sender, string messageType, ByteString payload)
     {
-        switch (messagetType)
+        switch (messageType)
         {
             // Includes comment, gift, enter room, like, follower
             case PushMessage.ACTION_SIGNAL:
@@ -279,9 +283,9 @@ internal class Program
 
                 break;
             default:
-                var unknown = Parse(messagetType, payload);
+                var unknown = Parse(messageType, payload);
 #if DEBUG
-                Log.Information("Unhandled message type: {0}, content: {1}", messagetType, unknown);
+                Log.Information("Unhandled message type: {0}, content: {1}", messageType, unknown);
 #endif
                 break;
         }
@@ -507,7 +511,7 @@ internal class Program
 
                             break;
                         default:
-                            writer.WriteLine("Unkown downstream: {0}", ds);
+                            writer.WriteLine("Unknown downstream: {0}", ds);
                             break;
                     }
 

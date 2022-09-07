@@ -18,7 +18,6 @@ AcFun直播弹幕解析工具。**开发中**
 ```
 Using AcFunDanmu;
 ...
-await Client.Prepare();
 三选一
 1. var client = new Client(用户ID, ServiceToken, SecurityKey, Tickets, EnteryRoomAttach, LiveId);
 2. var client = new Client(); await client.Initialize(主播ID);

@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using AcFunDanmu.Im.Basic;
 using Google.Protobuf;
-using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace AcFunDanmu
 {
@@ -173,15 +173,15 @@ namespace AcFunDanmu
                     break;
             }
 #endif
-            //Log.Debug("Payload length: {0} | DecodedPayloadLen: {1}", payload.Length, header.DecodedPayloadLen);
-            //Log.Debug("Payload Base64: {0}", Convert.ToBase64String(payload));
+            //Client.Logger.LogDebug("Payload length: {0} | DecodedPayloadLen: {1}", payload.Length, header.DecodedPayloadLen);
+            //Client.Logger.LogDebug("Payload Base64: {0}", Convert.ToBase64String(payload));
             //Dump(payload);
 
             Debug.Assert(payload != null, nameof(payload) + " != null");
             if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
             {
-                Log.Error("Payload length does not match");
-                Log.Debug("Payload Data: {Data}", Convert.ToBase64String(payload));
+                Client.Logger.LogError("Payload length does not match");
+                Client.Logger.LogDebug("Payload Data: {Data}", Convert.ToBase64String(payload));
                 return null;
             }
 
@@ -225,8 +225,8 @@ namespace AcFunDanmu
 
             if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
             {
-                Log.Error("Payload length does not match");
-                Log.Debug("Payload Data: {Data}", Convert.ToBase64String(payload));
+                Client.Logger.LogError("Payload length does not match");
+                Client.Logger.LogDebug("Payload Data: {Data}", Convert.ToBase64String(payload));
                 return null;
             }
 
@@ -431,8 +431,8 @@ namespace AcFunDanmu
             var type = Type.GetType($"AcFunDanmu.{typeName}");
             if (type != null) return Parse(type, new object[] { payload });
 
-            Log.Warning("Unhandled type: {Type}", typeName);
-            Log.Debug("Payload Data: {Data}", payload.ToBase64());
+            Client.Logger.LogWarning("Unhandled type: {Type}", typeName);
+            Client.Logger.LogDebug("Payload Data: {Data}", payload.ToBase64());
             return null;
         }
 
