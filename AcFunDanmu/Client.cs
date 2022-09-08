@@ -26,106 +26,18 @@ namespace AcFunDanmu
 {
     public delegate void SignalHandler(Client sender, string messageType, ByteString payload);
 
+    public delegate void Initialize();
+
+    public delegate void Start();
+
+    public delegate void End();
+
     public class Client
     {
-        #region Constants
-
-        private const string ACCEPTED_ENCODING = "gzip, deflate, br";
-        private const string VISITOR_ST = "acfun.api.visitor_st";
-        private const string MIDGROUND_ST = "acfun.midground.api_st";
-        private const string _ACFUN_HOST = "https://live.acfun.cn";
-        private static readonly Uri ACFUN_HOST = new Uri(_ACFUN_HOST);
-        private const string ACFUN_LOGIN_URL = "https://www.acfun.cn/login";
-        private static readonly Uri ACFUN_LOGIN_URI = new Uri(ACFUN_LOGIN_URL);
-        private const string ACFUN_SIGN_IN_URL = "https://id.app.acfun.cn/rest/app/login/signin";
-        private static readonly Uri ACFUN_SIGN_IN_URI = new Uri(ACFUN_SIGN_IN_URL);
-        private const string ACFUN_SAFETY_ID_URL = "https://sec-cdn.gifshow.com/safetyid";
-        private static readonly Uri ACFUN_SAFETY_ID_URI = new Uri(ACFUN_SAFETY_ID_URL);
-        private const string LIVE_URL = "https://live.acfun.cn/live";
-        private static readonly Uri LIVE_URI = new Uri(LIVE_URL);
-        private const string LOGIN_URL = "https://id.app.acfun.cn/rest/app/visitor/login";
-        private static readonly Uri LOGIN_URI = new Uri(LOGIN_URL);
-        private const string GET_TOKEN_URL = "https://id.app.acfun.cn/rest/app/token/get";
-        private static readonly Uri GET_TOKEN_URI = new Uri(GET_TOKEN_URL);
-
-        private const string PLAY_URL =
-            "https://api.kuaishouzt.com/rest/zt/live/web/startPlay?subBiz=mainApp&kpn=ACFUN_APP.LIVE_MATE&kpf=WINDOWS_PC&userId={0}&did={1}&{2}={3}";
-
-        private const string GIFT_URL =
-            "https://api.kuaishouzt.com/rest/zt/live/app/gift/list?subBiz=mainApp&kpn=ACFUN_APP.LIVE_MATE&kpf=WINDOWS_PC&userId={0}&did={1}&{2}={3}";
-
-        private const string WATCHING_URL =
-            "https://api.kuaishouzt.com/rest/zt/live/app/watchingList?subBiz=mainApp&kpn=ACFUN_APP.LIVE_MATE&kpf=WINDOWS_PC&userId={0}&did={1}&{2}={3}";
-
-        private const string USER_AGENT = "kuaishou 1.9.0.200";
-
-        private const string SAFETY_ID_CONTENT =
-            "{{\"platform\":5,\"app_version\":\"2.0.32\",\"device_id\":\"null\",\"user_id\":\"{0}\"}}";
-
-        private static readonly Dictionary<string, string> LoginForm = new Dictionary<string, string>
-            { { "sid", "acfun.api.visitor" } };
-
-        private static readonly Dictionary<string, string> GetTokenForm = new Dictionary<string, string>
-            { { "sid", "acfun.midground.api" } };
-
-        private const string SLINK_HOST = "slink.gifshow.com"; // TCP Directly
-        private const int SLINK_PORT = 14000;
-
-        #endregion
-
-        public SignalHandler Handler { get; set; }
-
-        #region Properties and Fields
-
-        internal static ILogger<Client> Logger { get; private set; }
-
-        public static readonly ConcurrentDictionary<long, GiftInfo> Gifts =
-            new ConcurrentDictionary<long, GiftInfo>(12, 64);
-
-        private static readonly CookieContainer CookieContainer = new CookieContainer();
-        private static string DeviceId = new Guid().ToString("D");
-        private static bool IsSignIn;
-
-        private long UserId = -1;
-        public long HostId { get; private set; }
-        public string LiveId { get; private set; }
-        public string Host => $"{HostId}";
-        private string ServiceToken;
-        private string SecurityKey;
-        private string EnterRoomAttach;
-        private string[] Tickets;
-
-        private ClientRequestUtils _utils;
-
-        private TcpClient _tcpClient;
-        private NetworkStream _tcpStream;
-
-        #endregion
-
-        #region Constructor
-
-        static Client()
-        {
-            CookieContainer.Add(new Cookie("_did", DeviceId, "/", ".acfun.cn"));
-        }
-
-        public Client(ILogger<Client> logger = null)
-        {
-            Logger = logger ?? new NullLogger<Client>();
-        }
-
-        public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach,
-            string liveId, ILogger<Client> logger = null) : this(logger)
-        {
-            UserId = userId;
-            ServiceToken = serviceToken;
-            SecurityKey = securityKey;
-            Tickets = tickets;
-            EnterRoomAttach = enterRoomAttach;
-            LiveId = liveId;
-        }
-
-        #endregion
+        public event SignalHandler Handler;
+        public event Initialize OnInitialize;
+        public event Start OnStart;
+        public event End OnEnd;
 
         public async Task<bool> Login(string username, string password)
         {
@@ -274,23 +186,23 @@ namespace AcFunDanmu
             return IsSignIn;
         }
 
-        public async Task<PlayData> InitializeWithLogin(string username, string password, string uid,
-            bool refreshGiftList = false)
+        public async Task<PlayData> InitializeWithLogin(string username, string password, string uid)
         {
             await Login(username, password);
-            return await Initialize(uid, refreshGiftList);
+            return await Initialize(uid);
         }
 
-        public async Task<PlayData> Initialize(string hostId, bool refreshGiftList = false)
+        private async Task<PlayData> Initialize(string hostId)
         {
-            if (long.TryParse(hostId, out var id)) return await Initialize(id, refreshGiftList);
+            if (long.TryParse(hostId, out var id)) return await Initialize(id);
 
             Logger.LogError($"Invalid user id: {hostId}");
             return null;
         }
 
-        public async Task<PlayData> Initialize(long hostId, bool refreshGiftList = false)
+        private async Task<PlayData> Initialize(long hostId)
         {
+            OnInitialize?.Invoke();
             HostId = hostId;
             Logger.LogInformation("Client initializing");
             try
@@ -378,7 +290,7 @@ namespace AcFunDanmu
                 EnterRoomAttach = playData.Data?.EnterRoomAttach;
                 LiveId = playData.Data?.LiveId;
 
-                if (Gifts.Count == 0 || refreshGiftList) UpdateGiftList();
+                if (Gifts.Count == 0) UpdateGiftList();
 
                 Logger.LogInformation("Client initialized");
 
@@ -468,7 +380,7 @@ namespace AcFunDanmu
                             EnterRoomAttach = playData.Data?.EnterRoomAttach;
                             LiveId = playData.Data?.LiveId;
 
-                            if (Gifts.Count == 0 || refreshGiftList) UpdateGiftList();
+                            if (Gifts.Count == 0) UpdateGiftList();
 
                             Logger.LogInformation("Client initialized");
 
@@ -566,7 +478,7 @@ namespace AcFunDanmu
                 using var watchingContent = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
                     { "visitorId", $"{UserId}" },
-                    { "liveId", LiveId }
+                    { "uperId", LiveId }
                 });
                 using var watching =
                     await client.PostAsync(
@@ -584,7 +496,7 @@ namespace AcFunDanmu
                     using (var watchingContent = new FormUrlEncodedContent(new Dictionary<string, string>
                            {
                                { "visitorId", $"{UserId}" },
-                               { "liveId", LiveId }
+                               { "uperId", LiveId }
                            }))
                     {
                         using (var watching = await client.PostAsync(
@@ -614,110 +526,37 @@ namespace AcFunDanmu
             }
         }
 
-#if NET5_0_OR_GREATER
-        public async Task<bool> Start()
+        public void Start(string hostId)
         {
-            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) ||
-                string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null ||
-                Tickets.Length == 0)
+            if (string.IsNullOrEmpty(hostId) || !long.TryParse(hostId, out var id))
             {
-                Logger.LogInformation("Not initialized or live is ended");
-                return false;
+                Logger.LogError("Invalid host id");
+                return;
             }
 
-            using var owner = MemoryPool<byte>.Shared.Rent();
-
-            if (_utils != null) _utils = null;
-
-            _utils =
-                new ClientRequestUtils(UserId, DeviceId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach, Tickets);
-            if (_tcpClient != null)
-            {
-                if (_tcpStream != null)
-                {
-                    _tcpStream.Close();
-                    await _tcpStream.DisposeAsync();
-                    _tcpStream = null;
-                }
-
-                _tcpClient.Close();
-                _tcpClient.Dispose();
-                _tcpClient = null;
-                GC.Collect();
-            }
-
-            _tcpClient = CreateTcpClient();
-
-            #region Timers
-
-            using var heartbeatTimer = new HeartbeatTimer();
-            heartbeatTimer.Elapsed += Heartbeat;
-            heartbeatTimer.AutoReset = true;
-            using var deathTimer = new HeartbeatTimer();
-            deathTimer.Interval = TimeSpan.FromSeconds(10).TotalMilliseconds;
-            deathTimer.Elapsed += async (s, e) => { await Stop("dead"); };
-
-            #endregion
-
-            try
-            {
-                _tcpStream = _tcpClient.GetStream();
-
-                await _tcpStream.WriteAsync(_utils.HandshakeRequest());
-
-                #region Main loop
-
-                while (_tcpClient is { Connected: true } && _tcpStream != null)
-                {
-                    var buffer = owner.Memory;
-
-                    try
-                    {
-                        var _ = await _tcpStream.ReadAsync(buffer);
-                        var downstream = Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey,
-                            out var header);
-
-                        if (downstream == null)
-                        {
-                            Logger.LogError("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span));
-                            continue;
-                        }
-
-                        HandleCommand(header, downstream, heartbeatTimer, deathTimer);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogDebug(ex, "Main");
-                        heartbeatTimer.Stop();
-                        break;
-                    }
-                }
-
-                Logger.LogDebug("Client disconnected");
-                heartbeatTimer.Stop();
-                deathTimer.Stop();
-
-                #endregion
-            }
-            catch (Exception ex)
-            {
-                Logger.LogDebug(ex, "Start");
-            }
-
-            return true;
+            Start(id);
         }
-#elif NETSTANDARD2_0_OR_GREATER
-        public async Task<bool> Start()
+
+        public async void Start(long hostId)
         {
             if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) ||
-                string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null ||
-                Tickets.Length == 0)
+                string.IsNullOrEmpty(LiveId) ||
+                string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null ||
+                Tickets.Length == 0 || HostId != hostId)
             {
-                Logger.LogInformation("Not initialized or live is ended");
-                return false;
+                var data = await Initialize(hostId);
+                if (data == null)
+                {
+                    Logger.LogInformation("Client initialize failed, maybe live is end");
+                    return;
+                }
             }
 
+#if NET5_0_OR_GREATER
+            using var owner = MemoryPool<byte>.Shared.Rent();
+#elif NETSTANDARD2_0_OR_GREATER
             var owner = ArrayPool<byte>.Shared;
+#endif
 
             if (_utils != null) _utils = null;
 
@@ -728,7 +567,11 @@ namespace AcFunDanmu
                 if (_tcpStream != null)
                 {
                     _tcpStream.Close();
+#if NET5_0_OR_GREATER
+                    await _tcpStream.DisposeAsync();
+#elif NETSTANDARD2_0_OR_GREATER
                     _tcpStream.Dispose();
+#endif
                     _tcpStream = null;
                 }
 
@@ -742,19 +585,27 @@ namespace AcFunDanmu
 
             #region Timers
 
+#if NET5_0_OR_GREATER
+            using var heartbeatTimer = new HeartbeatTimer();
+            using var deathTimer = new HeartbeatTimer();
+#elif NETSTANDARD2_0_OR_GREATER
             using (HeartbeatTimer heartbeatTimer = new HeartbeatTimer(), deathTimer = new HeartbeatTimer())
             {
+#endif
                 heartbeatTimer.Elapsed += Heartbeat;
                 heartbeatTimer.AutoReset = true;
 
                 deathTimer.Interval = TimeSpan.FromSeconds(10).TotalMilliseconds;
                 deathTimer.AutoReset = false;
-                deathTimer.Elapsed += async (s, e) => { await Stop("dead"); };
+                deathTimer.Elapsed += (s, e) => { Stop("dead"); };
 
                 #endregion
 
                 try
                 {
+                    Running = true;
+                    OnStart?.Invoke();
+
                     _tcpStream = _tcpClient.GetStream();
 
                     var handshake = _utils.HandshakeRequest();
@@ -764,18 +615,32 @@ namespace AcFunDanmu
 
                     while (_tcpClient != null && _tcpClient.Connected && _tcpStream != null)
                     {
+#if NET5_0_OR_GREATER
+                    var buffer = owner.Memory;
+#elif NETSTANDARD2_0_OR_GREATER
                         var buffer = owner.Rent(1024 * 1024);
+#endif
 
                         try
                         {
+#if NET5_0_OR_GREATER
+                        var _ = await _tcpStream.ReadAsync(buffer);
+                        var downstream = Decode<DownstreamPayload>(buffer.Span, SecurityKey, _utils.SessionKey,
+                            out var header);
+#elif NETSTANDARD2_0_OR_GREATER
                             var _ = await _tcpStream.ReadAsync(buffer, 0, 1024 * 1024);
                             var downstream = Decode<DownstreamPayload>(buffer, SecurityKey, _utils.SessionKey,
                                 out var header);
                             owner.Return(buffer);
+#endif
 
                             if (downstream == null)
                             {
+#if NET5_0_OR_GREATER
+                            Logger.LogError("Downstream is null: {Content}", Convert.ToBase64String(buffer.Span));
+#elif NETSTANDARD2_0_OR_GREATER
                                 Logger.LogError("Downstream is null: {Content}", Convert.ToBase64String(buffer));
+#endif
                                 continue;
                             }
 
@@ -799,13 +664,17 @@ namespace AcFunDanmu
                 {
                     Logger.LogDebug(ex, "Start");
                 }
-
-                return true;
+                finally
+                {
+                    Running = false;
+                    OnEnd?.Invoke();
+                }
+#if NETSTANDARD2_0_OR_GREATER
             }
-        }
 #endif
+        }
 
-        public async Task Stop(string reason)
+        public async void Stop(string reason)
         {
             Logger.LogInformation("Stopping client, reason: {Reason}", reason);
             try
@@ -827,16 +696,21 @@ namespace AcFunDanmu
 #elif NETSTANDARD2_0_OR_GREATER
                     _tcpStream.Dispose();
 #endif
-                    _tcpStream = null;
                     _tcpClient.Close();
                     _tcpClient.Dispose();
-                    _tcpClient = null;
-                    GC.Collect();
                 }
             }
             catch (Exception ex)
             {
                 Logger.LogDebug(ex, "Stop");
+            }
+            finally
+            {
+                _tcpStream = null;
+                _tcpClient = null;
+                GC.Collect();
+
+                Running = false;
             }
         }
 
@@ -881,7 +755,7 @@ namespace AcFunDanmu
                     if (stream.ErrorCode > 0)
                     {
                         Logger.LogWarning("Error： {ErrorCode} - {ErrorMsg}", stream.ErrorCode, stream.ErrorMsg);
-                        if (stream.ErrorCode == 10018) await Stop("Log out");
+                        if (stream.ErrorCode == 10018) Stop("Log out");
 
                         Logger.LogDebug("Error Data: {Data}", stream.ErrorData.ToBase64());
                     }
@@ -1000,7 +874,7 @@ namespace AcFunDanmu
                     Handler?.Invoke(this, message.MessageType, payload);
                     break;
                 case PushMessage.STATUS_CHANGED:
-                    await HandleStatusChanged(payload, heartbeatTimer);
+                    HandleStatusChanged(payload, heartbeatTimer);
                     break;
                 case PushMessage.TICKET_INVALID:
                     await HandleTicketInvalid(payload);
@@ -1027,16 +901,14 @@ namespace AcFunDanmu
             }
         }
 
-        private async Task HandleStatusChanged(ByteString payload, HeartbeatTimer heartbeatTimer)
+        private void HandleStatusChanged(ByteString payload, HeartbeatTimer heartbeatTimer)
         {
             var statusChanged = ZtLiveScStatusChanged.Parser.ParseFrom(payload);
             Logger.LogDebug("\t\t{StatusChanged}", statusChanged);
-            if (statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveClosed ||
-                statusChanged.Type == ZtLiveScStatusChanged.Types.Type.LiveBanned)
-            {
-                heartbeatTimer.Stop();
-                await Stop("Live closed");
-            }
+            if (statusChanged.Type != ZtLiveScStatusChanged.Types.Type.LiveClosed &&
+                statusChanged.Type != ZtLiveScStatusChanged.Types.Type.LiveBanned) return;
+            heartbeatTimer.Stop();
+            Stop("Live closed");
         }
 
         private async Task HandleTicketInvalid(ByteString payload)
@@ -1121,5 +993,103 @@ namespace AcFunDanmu
                 (sender as HeartbeatTimer)?.Stop();
             }
         }
+
+        #region Constants
+
+        private const string ACCEPTED_ENCODING = "gzip, deflate, br";
+        private const string VISITOR_ST = "acfun.api.visitor_st";
+        private const string MIDGROUND_ST = "acfun.midground.api_st";
+        private const string _ACFUN_HOST = "https://live.acfun.cn";
+        private static readonly Uri ACFUN_HOST = new Uri(_ACFUN_HOST);
+        private const string ACFUN_LOGIN_URL = "https://www.acfun.cn/login";
+        private static readonly Uri ACFUN_LOGIN_URI = new Uri(ACFUN_LOGIN_URL);
+        private const string ACFUN_SIGN_IN_URL = "https://id.app.acfun.cn/rest/app/login/signin";
+        private static readonly Uri ACFUN_SIGN_IN_URI = new Uri(ACFUN_SIGN_IN_URL);
+        private const string ACFUN_SAFETY_ID_URL = "https://sec-cdn.gifshow.com/safetyid";
+        private static readonly Uri ACFUN_SAFETY_ID_URI = new Uri(ACFUN_SAFETY_ID_URL);
+        private const string LIVE_URL = "https://live.acfun.cn/live";
+        private static readonly Uri LIVE_URI = new Uri(LIVE_URL);
+        private const string LOGIN_URL = "https://id.app.acfun.cn/rest/app/visitor/login";
+        private static readonly Uri LOGIN_URI = new Uri(LOGIN_URL);
+        private const string GET_TOKEN_URL = "https://id.app.acfun.cn/rest/app/token/get";
+        private static readonly Uri GET_TOKEN_URI = new Uri(GET_TOKEN_URL);
+
+        private const string PLAY_URL =
+            "https://api.kuaishouzt.com/rest/zt/live/web/startPlay?subBiz=mainApp&kpn=ACFUN_APP.LIVE_MATE&kpf=WINDOWS_PC&userId={0}&did={1}&{2}={3}";
+
+        private const string GIFT_URL =
+            "https://api.kuaishouzt.com/rest/zt/live/app/gift/list?subBiz=mainApp&kpn=ACFUN_APP.LIVE_MATE&kpf=WINDOWS_PC&userId={0}&did={1}&{2}={3}";
+
+        private const string WATCHING_URL =
+            "https://api.kuaishouzt.com/rest/zt/live/app/watchingList?subBiz=mainApp&kpn=ACFUN_APP.LIVE_MATE&kpf=WINDOWS_PC&userId={0}&did={1}&{2}={3}";
+
+        private const string USER_AGENT = "kuaishou 1.9.0.200";
+
+        private const string SAFETY_ID_CONTENT =
+            "{{\"platform\":5,\"app_version\":\"2.0.32\",\"device_id\":\"null\",\"user_id\":\"{0}\"}}";
+
+        private static readonly Dictionary<string, string> LoginForm = new Dictionary<string, string>
+            { { "sid", "acfun.api.visitor" } };
+
+        private static readonly Dictionary<string, string> GetTokenForm = new Dictionary<string, string>
+            { { "sid", "acfun.midground.api" } };
+
+        private const string SLINK_HOST = "slink.gifshow.com"; // TCP Directly
+        private const int SLINK_PORT = 14000;
+
+        #endregion
+
+        #region Properties and Fields
+
+        internal static ILogger<Client> Logger { get; private set; }
+
+        public static readonly ConcurrentDictionary<long, GiftInfo> Gifts =
+            new ConcurrentDictionary<long, GiftInfo>(12, 64);
+
+        private static readonly CookieContainer CookieContainer = new CookieContainer();
+        private static readonly string DeviceId = new Guid().ToString("D");
+        private static bool IsSignIn;
+
+        private long UserId = -1;
+        public long HostId { get; private set; }
+        public string LiveId { get; private set; }
+        public string Host => $"{HostId}";
+        public bool Running { get; private set; }
+        private string ServiceToken;
+        private string SecurityKey;
+        private string EnterRoomAttach;
+        private string[] Tickets;
+
+        private ClientRequestUtils _utils;
+
+        private TcpClient _tcpClient;
+        private NetworkStream _tcpStream;
+
+        #endregion
+
+        #region Constructor
+
+        static Client()
+        {
+            CookieContainer.Add(new Cookie("_did", DeviceId, "/", ".acfun.cn"));
+        }
+
+        public Client(ILogger<Client> logger = null)
+        {
+            Logger = logger ?? new NullLogger<Client>();
+        }
+
+        public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach,
+            string liveId, ILogger<Client> logger = null) : this(logger)
+        {
+            UserId = userId;
+            ServiceToken = serviceToken;
+            SecurityKey = securityKey;
+            Tickets = tickets;
+            EnterRoomAttach = enterRoomAttach;
+            LiveId = liveId;
+        }
+
+        #endregion
     }
 }
