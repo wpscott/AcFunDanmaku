@@ -17,35 +17,85 @@ namespace AcFunBlackBoxGuess.Models
 {
     class Game : INotifyPropertyChanged
     {
-        private static readonly Regex Pattern = new(@"^[\[【]+(.*?)[\]】]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private const int MaxGuess = 100;
-        private const int MaxTry = 2;
+        private static readonly Regex Pattern = new(@"^[\[【]+(.*?)[\]】]+$",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private const int MAX_GUESS = 100;
+        private const int MAX_TRY = 2;
 
         private long _userId = -1;
-        public long UserId { get { return _userId; } set { _userId = value; CanConnect = UserId > 0; } }
 
-        private bool _canConnect = false;
-        public bool CanConnect { get { return _canConnect; } set { _canConnect = value; OnPropertyChanged(nameof(CanConnect)); } }
+        public long UserId
+        {
+            get => _userId;
+            set
+            {
+                _userId = value;
+                CanConnect = UserId > 0;
+            }
+        }
 
-        public bool Connected { get; private set; } = false;
+        private bool _canConnect;
+
+        public bool CanConnect
+        {
+            get => _canConnect;
+            set
+            {
+                _canConnect = value;
+                OnPropertyChanged(nameof(CanConnect));
+            }
+        }
+
+        public bool Connected { get; private set; }
         public string ConnectBtnContent => Connected ? "断开" : "连接";
 
 
         private string _danmuStatus;
-        public string DanmuStatus { get { return _danmuStatus; } set { _danmuStatus = value; OnPropertyChanged(nameof(DanmuStatus)); } }
+
+        public string DanmuStatus
+        {
+            get => _danmuStatus;
+            set
+            {
+                _danmuStatus = value;
+                OnPropertyChanged(nameof(DanmuStatus));
+            }
+        }
 
         private string _answer;
-        public string Answer { get { return _answer; } set { _answer = value.Trim(); OnPropertyChanged(nameof(Answer)); OnPropertyChanged(nameof(CanStart)); OnPropertyChanged(nameof(GuessResult)); } }
+
+        public string Answer
+        {
+            get => _answer;
+            set
+            {
+                _answer = value.Trim();
+                OnPropertyChanged(nameof(Answer));
+                OnPropertyChanged(nameof(CanStart));
+                OnPropertyChanged(nameof(GuessResult));
+            }
+        }
 
         private bool _showAnswer = true;
-        public bool ShowAnswer { get { return _showAnswer; } set { _showAnswer = value; OnPropertyChanged(nameof(ShowAnswer)); } }
+
+        public bool ShowAnswer
+        {
+            get => _showAnswer;
+            set
+            {
+                _showAnswer = value;
+                OnPropertyChanged(nameof(ShowAnswer));
+            }
+        }
 
         public bool CanStart => Connected && !string.IsNullOrEmpty(_answer) && !GameStart;
 
-        public bool GameStart { get; private set; } = false;
+        public bool GameStart { get; private set; }
         public string StartBtnContent => GameStart ? "结束" : "开始";
 
-        public string GuessResult => GameStart ? $"已回答{_result.Where(danmu => !danmu.Failed).Count()}/{MaxGuess}条弹幕" : string.Empty;
+        public string GuessResult =>
+            GameStart ? $"已回答{_result.Count(danmu => !danmu.Failed)}/{MAX_GUESS}条弹幕" : string.Empty;
 
         private readonly ObservableCollection<Danmu> _pendingDanmu = new();
         public ReadOnlyObservableCollection<Danmu> PendingDanmu => new(_pendingDanmu);
@@ -63,53 +113,64 @@ namespace AcFunBlackBoxGuess.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Client client;
+        private Client _client;
 
-        public async void Connect()
+        public void Connect()
         {
-            if (UserId > 0)
+            if (UserId <= 0) return;
+            DanmuStatus = "连接中";
+            CanConnect = false;
+
+            var retry = 0;
+            var resetTimer = new Timer(5000);
+            resetTimer.Elapsed += (s, e) => retry = 0;
+
+            if (_client == null)
             {
-                DanmuStatus = "连接中";
-                CanConnect = false;
+                _client = new Client();
 
-                client = new Client
+                _client.Handler += HandleSignal;
+                _client.OnInitialize += () =>
                 {
-                    Handler = HandleSignal
+                    DanmuStatus = "已连接";
+                    _pendingDanmu.Clear();
+                    Connected = true;
+                    OnPropertyChanged(nameof(ConnectBtnContent));
+                    OnPropertyChanged(nameof(CanStart));
+
+                    CanConnect = true;
                 };
-
-                await client.Initialize(UserId.ToString());
-
-                var retry = 0;
-                var resetTimer = new Timer(5000);
-                resetTimer.Elapsed += (s, e) => retry = 0;
-
-                DanmuStatus = "已连接";
-                _pendingDanmu.Clear();
-                Connected = true;
-                OnPropertyChanged(nameof(ConnectBtnContent));
-                OnPropertyChanged(nameof(CanStart));
-
-                CanConnect = true;
-                while (Connected && !await client.Start() && retry < 5)
+                _client.OnEnd += () =>
                 {
+                    if (!Connected || retry >= 5)
+                    {
+                        DanmuStatus = retry > 0 ? "连接已断开" : "直播已结束";
+                        Connected = false;
+
+                        OnPropertyChanged(nameof(ConnectBtnContent));
+                        OnPropertyChanged(nameof(CanStart));
+
+                        return;
+                    }
+
                     DanmuStatus = "断线重连中";
-                    if (retry > 0) { resetTimer.Stop(); }
+                    if (retry > 0)
+                    {
+                        resetTimer.Stop();
+                    }
+
                     retry++;
                     resetTimer.Start();
-                }
-                if (retry > 0)
-                {
-                    DanmuStatus = "连接已断开";
-                }
-                else
-                {
-                    DanmuStatus = "直播已结束";
-                }
-                Connected = false;
 
-                OnPropertyChanged(nameof(ConnectBtnContent));
-                OnPropertyChanged(nameof(CanStart));
+                    _client.Start(UserId);
+                };
             }
+            else if (_client.IsRunning)
+            {
+                _client.Stop("stop");
+            }
+
+            _client.Start(UserId);
         }
 
         public void Start()
@@ -142,17 +203,15 @@ namespace AcFunBlackBoxGuess.Models
 
         public void SetYes(Danmu danmu)
         {
-            if (GameStart)
-            {
-                _pendingDanmu.Remove(danmu);
-                danmu.True = true;
-                danmu.IsBingo = false;
-                _result.Add(danmu);
+            if (!GameStart) return;
+            _pendingDanmu.Remove(danmu);
+            danmu.True = true;
+            danmu.IsBingo = false;
+            _result.Add(danmu);
 
-                OnPropertyChanged(nameof(PendingDanmu));
-                OnPropertyChanged(nameof(Result));
-                OnPropertyChanged(nameof(GuessResult));
-            }
+            OnPropertyChanged(nameof(PendingDanmu));
+            OnPropertyChanged(nameof(Result));
+            OnPropertyChanged(nameof(GuessResult));
         }
 
         public void SetNo(Danmu danmu)
@@ -172,87 +231,97 @@ namespace AcFunBlackBoxGuess.Models
 
         public void Bingo(Danmu danmu)
         {
-            if (GameStart)
+            if (!GameStart) return;
+            _pendingDanmu.Remove(danmu);
+            if (_bingo.ContainsKey(danmu.UserId))
             {
-                _pendingDanmu.Remove(danmu);
-                if (_bingo.ContainsKey(danmu.UserId))
+                if (++_bingo[danmu.UserId] > MAX_TRY)
                 {
-                    if (++_bingo[danmu.UserId] > MaxTry) { danmu.Failed = true; }
+                    danmu.Failed = true;
                 }
-                else
-                {
-                    _bingo[danmu.UserId] = 1;
-                }
-                danmu.Correct = danmu.Content.Contains(Answer, StringComparison.OrdinalIgnoreCase);
-                danmu.IsBingo = true;
-                _result.Add(danmu);
-
-                if (_result.Count > MaxGuess || danmu.Correct)
-                {
-                    Stop();
-                }
-
-                OnPropertyChanged(nameof(PendingDanmu));
-                OnPropertyChanged(nameof(Result));
-                OnPropertyChanged(nameof(GuessResult));
             }
+            else
+            {
+                _bingo[danmu.UserId] = 1;
+            }
+
+            danmu.Correct = danmu.Content.Contains(Answer, StringComparison.OrdinalIgnoreCase);
+            danmu.IsBingo = true;
+            _result.Add(danmu);
+
+            if (_result.Count > MAX_GUESS || danmu.Correct)
+            {
+                Stop();
+            }
+
+            OnPropertyChanged(nameof(PendingDanmu));
+            OnPropertyChanged(nameof(Result));
+            OnPropertyChanged(nameof(GuessResult));
         }
 
         public void Remove(Danmu danmu)
         {
-            if (GameStart)
-            {
-                _pendingDanmu.Remove(danmu);
-                OnPropertyChanged(nameof(PendingDanmu));
-            }
+            if (!GameStart) return;
+            _pendingDanmu.Remove(danmu);
+            OnPropertyChanged(nameof(PendingDanmu));
         }
 
-        public async void Disconnect()
+        public void Disconnect()
         {
             Connected = false;
             OnPropertyChanged(nameof(ConnectBtnContent));
-            await client.Stop("Disconnect");
+            _client.Stop("Disconnect");
         }
 
         public void AddDanmu(CommonActionSignalComment comment)
         {
             var match = Pattern.Match(HttpUtility.HtmlDecode(comment.Content));
-            if (GameStart && match.Success)
+            if (!GameStart || !match.Success) return;
+            _pendingDanmu.Add(new Danmu
             {
-                _pendingDanmu.Add(new Danmu { Timestamp = comment.SendTimeMs, UserId = comment.UserInfo.UserId, Nickname = comment.UserInfo.Nickname, Content = match.Groups[1].Value });
-                OnPropertyChanged(nameof(PendingDanmu));
-            }
+                Timestamp = comment.SendTimeMs, UserId = comment.UserInfo.UserId,
+                Nickname = comment.UserInfo.Nickname, Content = match.Groups[1].Value
+            });
+            OnPropertyChanged(nameof(PendingDanmu));
         }
 
         private void HandleSignal(Client sender, string messagetType, ByteString payload)
         {
-            if (messagetType == PushMessage.ACTION_SIGNAL)
+            switch (messagetType)
             {
-                var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
-                foreach (var danmu in actionSignal.Item
-                    .Where(item => item.SignalType == PushMessage.ActionSignal.COMMENT)
-                    .Select(item =>
-                        item.Payload.Select(CommonActionSignalComment.Parser.ParseFrom)
-                    ).SelectMany(danmu => danmu)
-                    )
+                case PushMessage.ACTION_SIGNAL:
                 {
-                    AddDanmu(danmu);
+                    var actionSignal = ZtLiveScActionSignal.Parser.ParseFrom(payload);
+                    foreach (var danmu in actionSignal.Item
+                                 .Where(item => item.SignalType == PushMessage.ActionSignal.COMMENT)
+                                 .Select(item =>
+                                     item.Payload.Select(CommonActionSignalComment.Parser.ParseFrom)
+                                 ).SelectMany(danmu => danmu)
+                            )
+                    {
+                        AddDanmu(danmu);
+                    }
+
+                    break;
                 }
-            }
-            else if (messagetType == PushMessage.STATE_SIGNAL)
-            {
-                var stateSignal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
-                foreach (var displayInfo in stateSignal.Item
-                    .Where(item => item.SignalType == PushMessage.StateSignal.DISPLAY_INFO)
-                    .Select(item => CommonStateSignalDisplayInfo.Parser.ParseFrom(item.Payload))
-                    )
+                case PushMessage.STATE_SIGNAL:
                 {
-                    DanmuStatus = $"观众数: {displayInfo.WatchingCount} | 点赞数: {displayInfo.LikeCount}";
+                    var stateSignal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
+                    foreach (var displayInfo in stateSignal.Item
+                                 .Where(item => item.SignalType == PushMessage.StateSignal.DISPLAY_INFO)
+                                 .Select(item => CommonStateSignalDisplayInfo.Parser.ParseFrom(item.Payload))
+                            )
+                    {
+                        DanmuStatus = $"观众数: {displayInfo.WatchingCount} | 点赞数: {displayInfo.LikeCount}";
+                    }
+
+                    break;
                 }
             }
         }
 
-        private const string Salt = "ACACACFunACAC娘";
+        private const string SALT = "ACACACFunACAC娘";
+
         private static byte[] Hash(string text)
         {
             using var hash = SHA256.Create();
@@ -264,8 +333,9 @@ namespace AcFunBlackBoxGuess.Models
             var now = DateTimeOffset.Now;
             var timestamp = now.ToUnixTimeMilliseconds();
             using var writer = new StreamWriter(@$".\{UserId}-{now:yyyy-MM-dd HH_mm_ss}.txt");
-            var toHash = $"{timestamp}{UserId}{Answer}{Salt}";
-            writer.Write($"本次游戏加密结果\r\n时间戳:\t{timestamp}\r\n主播ID:\t{UserId}\r\n答案:\t{Answer}\r\nHash:\t{BitConverter.ToString(Hash(toHash)).Replace("-", string.Empty)}");
+            var toHash = $"{timestamp}{UserId}{Answer}{SALT}";
+            writer.Write(
+                $"本次游戏加密结果\r\n时间戳:\t{timestamp}\r\n主播ID:\t{UserId}\r\n答案:\t{Answer}\r\nHash:\t{BitConverter.ToString(Hash(toHash)).Replace("-", string.Empty)}");
             writer.Flush();
             writer.Close();
         }

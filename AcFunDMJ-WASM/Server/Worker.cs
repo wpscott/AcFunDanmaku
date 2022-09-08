@@ -39,16 +39,16 @@ namespace AcFunDMJ_WASM.Server
 
     public class Worker : IHostedService, IDisposable
     {
-        private const string UserAgent =
+        private const string USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36";
 
-        private const string AcceptEncoding = "gzip, deflate, br";
+        private const string ACCEPT_ENCODING = "gzip, deflate, br";
 
         private readonly ILogger<Worker> _logger;
         private readonly IHubContext<DanmakuHub, IDanmaku> _hub;
         private readonly IConfiguration _configuration;
-        private readonly HashSet<long> MonitorIds = new();
-        private readonly Dictionary<long, AcFunDanmu.Client> Monitoring = new();
+        private readonly HashSet<long> _monitorIds = new();
+        private readonly Dictionary<long, AcFunDanmu.Client> _monitoring = new();
         private Timer _timer;
 
         public Worker(ILogger<Worker> logger, IConfiguration configuration, IHubContext<DanmakuHub, IDanmaku> hub)
@@ -58,7 +58,7 @@ namespace AcFunDMJ_WASM.Server
             _hub = hub;
             foreach (var avup in _configuration.GetSection("AVUP").GetChildren())
             {
-                MonitorIds.Add(avup.GetValue<long>("Id"));
+                _monitorIds.Add(avup.GetValue<long>("Id"));
             }
         }
 
@@ -71,12 +71,12 @@ namespace AcFunDMJ_WASM.Server
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _timer?.Change(Timeout.Infinite, 0);
-            foreach (var client in Monitoring)
+            foreach (var client in _monitoring)
             {
-                _ = client.Value.Stop("dispose");
+                client.Value.Stop("dispose");
             }
 
-            Monitoring.Clear();
+            _monitoring.Clear();
             return Task.CompletedTask;
         }
 
@@ -88,25 +88,23 @@ namespace AcFunDMJ_WASM.Server
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                _timer?.Dispose();
-                _timer = null;
-            }
+            if (!disposing) return;
+            _timer?.Dispose();
+            _timer = null;
         }
 
         private async void StartMonitor(object state)
         {
-            _logger.LogInformation("Fech live list");
+            _logger.LogInformation("Fetch live list");
             using var client = new HttpClient(new HttpClientHandler
                 { AutomaticDecompression = System.Net.DecompressionMethods.All });
-            client.DefaultRequestHeaders.UserAgent.ParseAdd(UserAgent);
-            client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(AcceptEncoding);
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(USER_AGENT);
+            client.DefaultRequestHeaders.AcceptEncoding.ParseAdd(ACCEPT_ENCODING);
 
             using var resp = await client.GetAsync(Channel.Url);
             var list = await JsonSerializer.DeserializeAsync<Channel>(await resp.Content.ReadAsStreamAsync());
             var available = list.LiveList.Where(live =>
-                MonitorIds.Contains(live.AuthorId) && !Monitoring.ContainsKey(live.AuthorId));
+                _monitorIds.Contains(live.AuthorId) && !_monitoring.ContainsKey(live.AuthorId)).ToArray();
             _logger.LogInformation("Found {Count} up(s)", available.Count());
             foreach (var live in available)
             {
@@ -114,18 +112,30 @@ namespace AcFunDMJ_WASM.Server
             }
         }
 
-        private async void Monitor(long Id)
+        private void Monitor(long id)
         {
-            _logger.LogInformation("Connect to {Id}", Id);
-            var client = new AcFunDanmu.Client();
-            client.Handler += HandleSignal;
+            Task.Run(() =>
+            {
+                using EventWaitHandle ewh = new(false, EventResetMode.ManualReset);
 
-            await client.Initialize($"{Id}");
-            Monitoring.Add(Id, client);
-            _logger.LogInformation("Start monitoring {Id}", Id);
-            await client.Start();
-            _logger.LogInformation("End monitoring {Id}", Id);
-            Monitoring.Remove(Id);
+                _logger.LogInformation("Connect to {Id}", id);
+                var client = new AcFunDanmu.Client();
+                client.Handler += HandleSignal;
+                client.OnInitialize += () =>
+                {
+                    _monitoring.Add(id, client);
+                    _logger.LogInformation("Start monitoring {Id}", id);
+                };
+                client.OnEnd += () =>
+                {
+                    _logger.LogInformation("End monitoring {Id}", id);
+                    _monitoring.Remove(id);
+                    ewh.Set();
+                };
+                client.Start(id);
+
+                ewh.WaitOne();
+            });
         }
 
         private void HandleSignal(AcFunDanmu.Client sender, string messagetType, ByteString payload)

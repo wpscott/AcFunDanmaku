@@ -16,18 +16,58 @@ namespace AcFunVideoDanmuLottery.Models
     class Lottery : INotifyPropertyChanged
     {
         private string _danmuStatus;
-        public string DanmuStatus { get { return _danmuStatus; } set { _danmuStatus = value; OnPropertyChanged(nameof(DanmuStatus)); } }
+
+        public string DanmuStatus
+        {
+            get => _danmuStatus;
+            set
+            {
+                _danmuStatus = value;
+                OnPropertyChanged(nameof(DanmuStatus));
+            }
+        }
+
         public long ACId { get; set; } = -1;
 
         private bool _canFetch = true;
-        public bool CanFetch { get { return _canFetch; } set { _canFetch = value; OnPropertyChanged(nameof(CanFetch)); } }
+
+        public bool CanFetch
+        {
+            get => _canFetch;
+            set
+            {
+                _canFetch = value;
+                OnPropertyChanged(nameof(CanFetch));
+            }
+        }
 
         private string _pattern;
-        public string Pattern { get { return _pattern; } set { _pattern = value.Trim(); OnPropertyChanged(nameof(Pattern)); OnPropertyChanged(nameof(CanFilter)); } }
+
+        public string Pattern
+        {
+            get => _pattern;
+            set
+            {
+                _pattern = value.Trim();
+                OnPropertyChanged(nameof(Pattern));
+                OnPropertyChanged(nameof(CanFilter));
+            }
+        }
+
         public bool CanFilter => !string.IsNullOrEmpty(_pattern);
 
-        private bool _filtered = false;
-        public bool Filtered { get { return _filtered; } set { _filtered = value; OnPropertyChanged(nameof(FilterBtnContent)); } }
+        private bool _filtered;
+
+        public bool Filtered
+        {
+            get => _filtered;
+            set
+            {
+                _filtered = value;
+                OnPropertyChanged(nameof(FilterBtnContent));
+            }
+        }
+
         public string FilterBtnContent => _filtered ? "还原" : "筛选";
 
         public string FilterResult => _filtered ? $"已找到{Danmus.Count}条弹幕" : string.Empty;
@@ -39,7 +79,17 @@ namespace AcFunVideoDanmuLottery.Models
         public bool Ready => Danmus.Count > 0 && Amount < Danmus.Count;
 
         private int _amount = 1;
-        public int Amount { get { return _amount; } set { _amount = value; OnPropertyChanged(nameof(Amount)); OnPropertyChanged(nameof(Ready)); } }
+
+        public int Amount
+        {
+            get => _amount;
+            set
+            {
+                _amount = value;
+                OnPropertyChanged(nameof(Amount));
+                OnPropertyChanged(nameof(Ready));
+            }
+        }
 
         private readonly ObservableCollection<Danmu> _result = new();
         public ReadOnlyObservableCollection<Danmu> Result => new(_result);
@@ -66,6 +116,7 @@ namespace AcFunVideoDanmuLottery.Models
             {
                 _danmus.Add(danmu);
             }
+
             CanFetch = true;
             DanmuStatus = $"已获取{_danmus.Count}条弹幕";
 
@@ -83,13 +134,16 @@ namespace AcFunVideoDanmuLottery.Models
         }
 
         private static readonly Regex VideoIdReg = new("currentVideoId\":(\\d+)", RegexOptions.Compiled);
+
         private async Task<Danmu[]> FetchDanmu()
         {
             var container = new CookieContainer();
 
-            container.Add(new Cookie { Domain = ".acfun.cn", Path = "/", Name = "_did", Value = $"web_{GetRandomString()}" });
+            container.Add(new Cookie
+                { Domain = ".acfun.cn", Path = "/", Name = "_did", Value = $"web_{GetRandomString()}" });
 
-            using var client = new HttpClient(new HttpClientHandler { UseCookies = true, AutomaticDecompression = DecompressionMethods.All, CookieContainer = container });
+            using var client = new HttpClient(new HttpClientHandler
+                { UseCookies = true, AutomaticDecompression = DecompressionMethods.All, CookieContainer = container });
             client.DefaultRequestHeaders.AcceptEncoding.ParseAdd("gzip, deflate, br");
 
             using var videoResp = await client.GetAsync($"https://www.acfun.cn/v/ac{ACId}");
@@ -97,7 +151,8 @@ namespace AcFunVideoDanmuLottery.Models
             var match = VideoIdReg.Match(html, html.IndexOf("currentVideoId"), 32);
             var vid = match.Groups[1].Value;
 
-            using var form = new FormUrlEncodedContent(new Dictionary<string, string> { { "videoId", vid }, { "lastFetchTime", "0" } });
+            using var form = new FormUrlEncodedContent(new Dictionary<string, string>
+                { { "videoId", vid }, { "lastFetchTime", "0" } });
             using var resp = await client.PostAsync("https://www.acfun.cn/rest/pc-direct/new-danmaku/poll", form);
 
             var text = await resp.Content.ReadAsStringAsync();
@@ -110,7 +165,8 @@ namespace AcFunVideoDanmuLottery.Models
         {
             Filtered = true;
 
-            _filteredDanmu = new ObservableCollection<Danmu>(_danmus.Where(comment => comment.body.Contains(_pattern, StringComparison.OrdinalIgnoreCase)));
+            _filteredDanmu = new ObservableCollection<Danmu>(_danmus.Where(comment =>
+                comment.body.Contains(_pattern, StringComparison.OrdinalIgnoreCase)));
 
             OnPropertyChanged(nameof(Danmus));
             OnPropertyChanged(nameof(FilterResult));
@@ -138,10 +194,12 @@ namespace AcFunVideoDanmuLottery.Models
                 var randInt = BitConverter.ToUInt32(RandomNumberGenerator.GetBytes(4));
                 indexes.Add((int)(randInt % (uint)Danmus.Count));
             }
+
             foreach (var index in indexes)
             {
                 _result.Add(Danmus[index]);
             }
+
             OnPropertyChanged(nameof(Result));
 
             using var writer = new StreamWriter(@$".\{ACId}-{DateTime.Now:yyyy-MM-dd HH_mm_ss}.txt");

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -8,8 +9,8 @@ using System.Net;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using AcFunDanmu;
 using AcFunDanmu.Enums;
 using AcFunDanmu.Im.Basic;
@@ -21,6 +22,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Extensions.Logging;
 using static AcFunDanmu.ClientUtils;
+using Timer = System.Timers.Timer;
 
 namespace AcFunDanmuConsole;
 
@@ -28,6 +30,17 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
+        Log.Logger = new LoggerConfiguration()
+#if DEBUG
+            .MinimumLevel.Debug()
+#else
+            .MinimumLevel.Information()
+#endif
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.Debug()
+            .CreateLogger();
+
         await Start(args);
 
         //DecodeHar(@".\34195163.har");
@@ -44,51 +57,46 @@ internal class Program
         return data.ToArray();
     }
 
-    private static async Task Start(string[] args)
+    private static Task Start(IReadOnlyList<string> args)
     {
+        if (args.Count != 1 || !long.TryParse(args[0], out var id)) return Task.CompletedTask;
+
+        using EventWaitHandle ewh = new(false, EventResetMode.ManualReset);
+
         var retry = 0;
-
-
-        Log.Logger = new LoggerConfiguration()
-#if DEBUG
-            .MinimumLevel.Debug()
-#else
-            .MinimumLevel.Information()
-#endif
-            .Enrich.FromLogContext()
-            .WriteTo.Console()
-            .WriteTo.Debug()
-            .CreateLogger();
-
-        Client client = new(new LoggerFactory().AddSerilog().CreateLogger<Client>());
-
-        switch (args.Length)
-        {
-            case 1:
-                await client.Initialize(args[0]); // Visitor/Anonymous mode
-                break;
-            case 3:
-                await client.InitializeWithLogin(args[0], args[1], args[2]); // User mode
-                break;
-            default:
-                return;
-        }
-
-        client.Handler += HandleSignal; // Use your own signal handler
-
         var resetTimer = new Timer(30000);
         resetTimer.Elapsed += (_, _) => { retry = 0; };
 
-        while (retry < 3 && !await client.Start())
+        Client client = new(new LoggerFactory().AddSerilog().CreateLogger<Client>());
+
+        client.Handler += HandleSignal; // Use your own signal handler
+        client.OnEnd += () =>
         {
-            if (retry > 0) resetTimer.Stop();
+            if (retry < 3)
+            {
+                if (retry > 0)
+                {
+                    resetTimer.Stop();
+                }
 
-            Log.Information("Client closed, retrying");
-            retry++;
-            resetTimer.Start();
-        }
+                Log.Information("Client closed, retrying");
+                retry++;
+                resetTimer.Start();
 
-        Log.Information("Client closed, maybe live is end");
+                client.Start(id);
+            }
+            else
+            {
+                Log.Information("Client closed, maybe live is end");
+                ewh.Set();
+            }
+        };
+
+        client.Start(id);
+
+        ewh.WaitOne();
+
+        return Task.CompletedTask;
     }
 
     private static void HandleSignal(Client sender, string messageType, ByteString payload)

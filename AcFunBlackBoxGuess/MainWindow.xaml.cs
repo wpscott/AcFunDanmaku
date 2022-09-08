@@ -9,65 +9,66 @@ namespace AcFunBlackBoxGuess
 {
     public partial class MainWindow : Window
     {
-        private readonly Game game;
+        private readonly Game _game;
 
         public MainWindow()
         {
             InitializeComponent();
-            game = new Game { };
+            _game = new Game { };
 
-            DataContext = game;
+            DataContext = _game;
         }
 
         private void Connect(object sender, RoutedEventArgs e)
         {
-            if (!game.Connected)
+            if (!_game.Connected)
             {
-                game.Connect();
+                _game.Connect();
             }
             else
             {
-                game.Stop();
+                _game.Stop();
             }
         }
 
         private void Start(object sender, RoutedEventArgs e)
         {
-            if (game.GameStart)
+            if (_game.GameStart)
             {
-                game.Stop();
+                _game.Stop();
             }
             else
             {
-                game.Start();
+                _game.Start();
             }
         }
 
         private void Yes(object sender, RoutedEventArgs e)
         {
             var danmu = (Danmu)(sender as Button).DataContext;
-            game.SetYes(danmu);
+            _game.SetYes(danmu);
         }
 
         private void No(object sender, RoutedEventArgs e)
         {
             var danmu = (Danmu)(sender as Button).DataContext;
-            game.SetNo(danmu);
+            _game.SetNo(danmu);
         }
 
         private void Bingo(object sender, RoutedEventArgs e)
         {
             var danmu = (Danmu)(sender as Button).DataContext;
-            game.Bingo(danmu);
+            _game.Bingo(danmu);
         }
 
         private void Remove(object sender, RoutedEventArgs e)
         {
             var danmu = (Danmu)(sender as Button).DataContext;
-            game.Remove(danmu);
+            _game.Remove(danmu);
         }
 
         private static readonly Regex NumberOnly = new(@"^[\d]+$", RegexOptions.Compiled);
+
         private void CheckInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !NumberOnly.IsMatch(e.Text);
@@ -76,7 +77,8 @@ namespace AcFunBlackBoxGuess
         private void ShowUser(object sender, MouseButtonEventArgs e)
         {
             var comment = (Danmu)(sender as ListBox).SelectedItem;
-            Process.Start(new ProcessStartInfo { FileName = $"https://www.acfun.cn/u/{comment.UserId}", UseShellExecute = true });
+            Process.Start(new ProcessStartInfo
+                { FileName = $"https://www.acfun.cn/u/{comment.UserId}", UseShellExecute = true });
         }
     }
 }

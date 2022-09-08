@@ -50,31 +50,38 @@ public static class DGJ
         return _platform == null;
     }
 
-    private static async void Connect()
+    private static void Connect()
     {
-        var client = new Client
-        {
-            Handler = HandleSignal
-        };
-
-        await client.Initialize(_config.UserId.ToString());
-
         var retry = 0;
         var resetTimer = new Timer(10000);
         resetTimer.Elapsed += (s, e) => retry = 0;
 
-        IsRunning = true;
-        OnConnect?.Invoke();
-        while (!await client.Start() && retry < 3)
+        var client = new Client();
+        client.Handler += HandleSignal;
+        client.OnInitialize += () =>
         {
-            if (retry > 0) resetTimer.Stop();
+            IsRunning = true;
+            OnConnect?.Invoke();
+        };
+        client.OnEnd += () =>
+        {
+            switch (retry)
+            {
+                case >= 3:
+                    IsRunning = false;
+                    OnExit?.Invoke();
+                    return;
+                case > 0:
+                    resetTimer.Stop();
+                    break;
+            }
 
             retry++;
             resetTimer.Start();
-        }
 
-        IsRunning = false;
-        OnExit?.Invoke();
+            client.Start(_config.UserId);
+        };
+        client.Start(_config.UserId);
     }
 
     public static async ValueTask AddSong(string keyword)

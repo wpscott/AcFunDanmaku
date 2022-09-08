@@ -12,18 +12,58 @@ namespace AcFunCommentLottery.Models
     class Lottery : INotifyPropertyChanged
     {
         private string _commentStatus;
-        public string CommentStatus { get { return _commentStatus; } set { _commentStatus = value; OnPropertyChanged(nameof(CommentStatus)); } }
+
+        public string CommentStatus
+        {
+            get => _commentStatus;
+            set
+            {
+                _commentStatus = value;
+                OnPropertyChanged(nameof(CommentStatus));
+            }
+        }
+
         public long ACId { get; set; } = -1;
 
         private bool _canFetch = true;
-        public bool CanFetch { get { return _canFetch; } set { _canFetch = value; OnPropertyChanged(nameof(CanFetch)); } }
+
+        public bool CanFetch
+        {
+            get => _canFetch;
+            set
+            {
+                _canFetch = value;
+                OnPropertyChanged(nameof(CanFetch));
+            }
+        }
 
         private string _pattern;
-        public string Pattern { get { return _pattern; } set { _pattern = value.Trim(); OnPropertyChanged(nameof(Pattern)); OnPropertyChanged(nameof(CanFilter)); } }
+
+        public string Pattern
+        {
+            get => _pattern;
+            set
+            {
+                _pattern = value.Trim();
+                OnPropertyChanged(nameof(Pattern));
+                OnPropertyChanged(nameof(CanFilter));
+            }
+        }
+
         public bool CanFilter => !string.IsNullOrEmpty(_pattern);
 
-        private bool _filtered = false;
-        public bool Filtered { get { return _filtered; } set { _filtered = value; OnPropertyChanged(nameof(FilterBtnContent)); } }
+        private bool _filtered;
+
+        public bool Filtered
+        {
+            get => _filtered;
+            set
+            {
+                _filtered = value;
+                OnPropertyChanged(nameof(FilterBtnContent));
+            }
+        }
+
         public string FilterBtnContent => _filtered ? "还原" : "筛选";
 
         public string FilterResult => _filtered ? $"已找到{Comments.Count}条评论" : string.Empty;
@@ -35,7 +75,17 @@ namespace AcFunCommentLottery.Models
         public bool Ready => Comments.Count > 0 && Amount < Comments.Count;
 
         private int _amount = 1;
-        public int Amount { get { return _amount; } set { _amount = value; OnPropertyChanged(nameof(Amount)); OnPropertyChanged(nameof(Ready)); } }
+
+        public int Amount
+        {
+            get => _amount;
+            set
+            {
+                _amount = value;
+                OnPropertyChanged(nameof(Amount));
+                OnPropertyChanged(nameof(Ready));
+            }
+        }
 
         private readonly ObservableCollection<Comment> _result = new();
         public ReadOnlyObservableCollection<Comment> Result => new(_result);
@@ -62,6 +112,7 @@ namespace AcFunCommentLottery.Models
             {
                 _comments.Add(comment);
             }
+
             CanFetch = true;
             CommentStatus = $"已获取{_comments.Count}条评论";
 
@@ -74,7 +125,8 @@ namespace AcFunCommentLottery.Models
         {
             Filtered = true;
 
-            _filteredComment = new ObservableCollection<Comment>(_comments.Where(comment => comment.content.Contains(_pattern, StringComparison.OrdinalIgnoreCase)));
+            _filteredComment = new ObservableCollection<Comment>(_comments.Where(comment =>
+                comment.content.Contains(_pattern, StringComparison.OrdinalIgnoreCase)));
 
             OnPropertyChanged(nameof(Comments));
             OnPropertyChanged(nameof(FilterResult));
@@ -102,10 +154,12 @@ namespace AcFunCommentLottery.Models
                 var randInt = BitConverter.ToUInt32(RandomNumberGenerator.GetBytes(4));
                 indexes.Add((int)(randInt % (uint)Comments.Count));
             }
+
             foreach (var index in indexes)
             {
                 _result.Add(Comments[index]);
             }
+
             OnPropertyChanged(nameof(Result));
 
             using var writer = new StreamWriter(@$".\{ACId}-{DateTime.Now:yyyy-MM-dd HH_mm_ss}.txt");

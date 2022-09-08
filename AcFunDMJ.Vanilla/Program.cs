@@ -109,10 +109,18 @@ internal static class Program
 
     private static async void Start(WebSocket websocket, string uid)
     {
-        if (_danmaku != null)
+        switch (_danmaku)
         {
-            await _danmaku.Stop("Disconnect");
-            _danmaku = null;
+            case null:
+                _danmaku = new Client();
+                _danmaku.Handler += HandleSignal;
+                _danmaku.OnInitialize += () => { SendMessage(MessageType.Text, "正在初始化弹幕姬"); };
+                _danmaku.OnStart += () => { SendMessage(MessageType.Text, "正在启动弹幕姬"); };
+                _danmaku.OnEnd += () => { SendMessage(MessageType.Text, "直播已结束或连接已断开"); };
+                break;
+            case { IsRunning: true }:
+                _danmaku.Stop("Disconnect");
+                break;
         }
 
         if (_ws != null)
@@ -130,14 +138,8 @@ internal static class Program
             }
 
         _ws = websocket;
-        _danmaku = new Client();
         SendMessage(MessageType.Text, $"正在连接到直播间：{uid}");
-        _danmaku.Handler += HandleSignal;
-        SendMessage(MessageType.Text, "正在初始化弹幕姬");
-        await _danmaku.Initialize(uid);
-        SendMessage(MessageType.Text, "正在启动弹幕姬");
-        await _danmaku.Start();
-        SendMessage(MessageType.Text, "直播已结束或连接已断开");
+        _danmaku.Start(uid);
     }
 
     private static async void SendMessage(MessageType type, object obj)
@@ -151,7 +153,7 @@ internal static class Program
             }
             else
             {
-                await _danmaku.Stop("Disconnect");
+                _danmaku.Stop("Disconnect");
             }
         }
         catch (WebSocketException)

@@ -19,7 +19,7 @@
                 <p @key="gift.ComboId" class="gift">@gift.Detail.Name × @gift.Count</p>
             }
         </div>
-        <div class="danmaku" @ref="danmaku">
+        <div class="danmaku" @ref="_danmaku">
             @foreach (var dm in Danmakus)
             {
                 switch (dm)
@@ -50,6 +50,8 @@
             }
         </div>
         break;
+    default:
+        break;
 }
 
 @code {
@@ -61,7 +63,7 @@
     private bool ShowFollow { get; set; }
     private bool ShowGift { get; set; }
 
-    private string Visotors { get; set; }
+    private string Visitors { get; set; }
     private string Likes { get; set; }
     private string Bananas { get; set; }
 
@@ -69,7 +71,7 @@
 
     enum Status { Initializing, Running, Stopped }
 
-    private Client _client = null;
+    private Client _client;
 
     protected override void OnInitialized()
     {
@@ -77,41 +79,46 @@
         Initialize();
     }
 
-    public async void Dispose()
+    public void Dispose()
     {
-        await _client.Stop("disconnect");
+        _client.Stop("disconnect");
     }
 
 
 
-    private async void Initialize()
+    private void Initialize()
     {
         _client = new AcFunDanmu.Client();
         _client.Handler += HandleSignal;
-        await _client.Initialize(UserId);
-        await InvokeAsync(() =>
+        _client.OnInitialize += async () =>
         {
-            CurrentStatus = Status.Running;
-            StateHasChanged();
-        });
-        await _client.Start();
-        await InvokeAsync(() =>
+            await InvokeAsync(() =>
+            {
+                CurrentStatus = Status.Running;
+                StateHasChanged();
+            });
+        };
+        _client.OnEnd += async () =>
         {
-            CurrentStatus = Status.Stopped;
-            StateHasChanged();
-        });
+            await InvokeAsync(() =>
+            {
+                CurrentStatus = Status.Stopped;
+                StateHasChanged();
+            });
 
-        foreach (var timer in GiftTimers.Values)
-        {
-            timer.Stop();
-        }
-        GiftTimers.Clear();
-        Gifts.Clear();
-        Danmakus.Clear();
-        GC.Collect();
+            foreach (var timer in GiftTimers.Values)
+            {
+                timer.Stop();
+            }
+            GiftTimers.Clear();
+            Gifts.Clear();
+            Danmakus.Clear();
+            GC.Collect();
+        };
+        _client.Start(UserId);
     }
 
-    ElementReference danmaku;
+    ElementReference _danmaku;
 
     struct Comment
     {
@@ -144,7 +151,7 @@
         {
             Danmakus.Add(obj);
             StateHasChanged();
-            await JSRuntime.InvokeVoidAsync("scrollToEnd", danmaku);
+            await JSRuntime.InvokeVoidAsync("scrollToEnd", _danmaku);
         });
     }
 
@@ -178,7 +185,7 @@
             GiftTimers[gift.ComboId].Start();
 
             StateHasChanged();
-            await JSRuntime.InvokeVoidAsync("scrollToEnd", danmaku);
+            await JSRuntime.InvokeVoidAsync("scrollToEnd", _danmaku);
         });
     }
 
@@ -244,7 +251,7 @@
                 break;
             //Includes current banana counts, watching count, like count and top 3 users sent gifts
             case PushMessage.STATE_SIGNAL:
-                ZtLiveScStateSignal signal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
+                var signal = ZtLiveScStateSignal.Parser.ParseFrom(payload);
 
                 foreach (var item in signal.Item)
                 {

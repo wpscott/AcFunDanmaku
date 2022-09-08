@@ -603,7 +603,7 @@ namespace AcFunDanmu
 
                 try
                 {
-                    Running = true;
+                    IsRunning = true;
                     OnStart?.Invoke();
 
                     _tcpStream = _tcpClient.GetStream();
@@ -666,7 +666,7 @@ namespace AcFunDanmu
                 }
                 finally
                 {
-                    Running = false;
+                    IsRunning = false;
                     OnEnd?.Invoke();
                 }
 #if NETSTANDARD2_0_OR_GREATER
@@ -710,7 +710,7 @@ namespace AcFunDanmu
                 _tcpClient = null;
                 GC.Collect();
 
-                Running = false;
+                IsRunning = false;
             }
         }
 
@@ -1054,7 +1054,7 @@ namespace AcFunDanmu
         public long HostId { get; private set; }
         public string LiveId { get; private set; }
         public string Host => $"{HostId}";
-        public bool Running { get; private set; }
+        public bool IsRunning { get; private set; }
         private string ServiceToken;
         private string SecurityKey;
         private string EnterRoomAttach;
