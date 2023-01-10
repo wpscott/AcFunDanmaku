@@ -2,7 +2,7 @@
 
 package AcFunDanmu.Im.Basic;
 
-message HansshakeResponse {
+message HandshakeResponse {
 	fixed32 unknown1 = 1;
 	fixed32 unknown2 = 2;
 }

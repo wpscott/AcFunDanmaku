@@ -25,28 +25,28 @@ namespace AcFunDanmu.Im.Basic {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChdIYW5kc2hha2VSZXNwb25zZS5wcm90bxITQWNGdW5EYW5tdS5JbS5CYXNp",
-            "YyI3ChFIYW5zc2hha2VSZXNwb25zZRIQCgh1bmtub3duMRgBIAEoBxIQCgh1",
+            "YyI3ChFIYW5kc2hha2VSZXNwb25zZRIQCgh1bmtub3duMRgBIAEoBxIQCgh1",
             "bmtub3duMhgCIAEoB2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Basic.HansshakeResponse), global::AcFunDanmu.Im.Basic.HansshakeResponse.Parser, new[]{ "Unknown1", "Unknown2" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AcFunDanmu.Im.Basic.HandshakeResponse), global::AcFunDanmu.Im.Basic.HandshakeResponse.Parser, new[]{ "Unknown1", "Unknown2" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class HansshakeResponse : pb::IMessage<HansshakeResponse>
+  public sealed partial class HandshakeResponse : pb::IMessage<HandshakeResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<HansshakeResponse> _parser = new pb::MessageParser<HansshakeResponse>(() => new HansshakeResponse());
+    private static readonly pb::MessageParser<HandshakeResponse> _parser = new pb::MessageParser<HandshakeResponse>(() => new HandshakeResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<HansshakeResponse> Parser { get { return _parser; } }
+    public static pb::MessageParser<HandshakeResponse> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -62,7 +62,7 @@ namespace AcFunDanmu.Im.Basic {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HansshakeResponse() {
+    public HandshakeResponse() {
       OnConstruction();
     }
 
@@ -70,7 +70,7 @@ namespace AcFunDanmu.Im.Basic {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HansshakeResponse(HansshakeResponse other) : this() {
+    public HandshakeResponse(HandshakeResponse other) : this() {
       unknown1_ = other.unknown1_;
       unknown2_ = other.unknown2_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -78,8 +78,8 @@ namespace AcFunDanmu.Im.Basic {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public HansshakeResponse Clone() {
-      return new HansshakeResponse(this);
+    public HandshakeResponse Clone() {
+      return new HandshakeResponse(this);
     }
 
     /// <summary>Field number for the "unknown1" field.</summary>
@@ -109,12 +109,12 @@ namespace AcFunDanmu.Im.Basic {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as HansshakeResponse);
+      return Equals(other as HandshakeResponse);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(HansshakeResponse other) {
+    public bool Equals(HandshakeResponse other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -200,7 +200,7 @@ namespace AcFunDanmu.Im.Basic {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(HansshakeResponse other) {
+    public void MergeFrom(HandshakeResponse other) {
       if (other == null) {
         return;
       }
