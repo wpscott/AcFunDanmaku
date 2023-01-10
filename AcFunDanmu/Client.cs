@@ -733,12 +733,7 @@ namespace AcFunDanmu
                     HandlePing(stream);
                     break;
                 case Command.HANDSHAKE:
-#if NET5_0_OR_GREATER
-                    await _tcpStream.WriteAsync(_utils.RegisterRequest());
-#elif NETSTANDARD2_0_OR_GREATER
-                    var register = _utils.RegisterRequest();
-                    await _tcpStream.WriteAsync(register, 0, register.Length);
-#endif
+                    await HandleHandshake(stream);
                     break;
                 case Command.REGISTER:
                     await HandleRegister(header.AppId, stream);
@@ -802,6 +797,18 @@ namespace AcFunDanmu
             }
         }
 
+        private async Task HandleHandshake(DownstreamPayload payload)
+        {
+            var handshake = HandshakeResponse.Parser.ParseFrom(payload.PayloadData);
+            Logger.LogDebug("\t{HandShake}", handshake);
+#if NET5_0_OR_GREATER
+            await _tcpStream.WriteAsync(_utils.RegisterRequest());
+#elif NETSTANDARD2_0_OR_GREATER
+            var register = _utils.RegisterRequest();
+            await _tcpStream.WriteAsync(register, 0, register.Length);
+#endif
+        }
+
         private static void HandleKeepAlive(DownstreamPayload payload)
         {
             var keepalive = KeepAliveResponse.Parser.ParseFrom(payload.PayloadData);
@@ -827,8 +834,9 @@ namespace AcFunDanmu
                 await _tcpStream.WriteAsync(_utils.EnterRoomRequest());
 #elif NETSTANDARD2_0_OR_GREATER
                 var keepAlive = _utils.KeepAliveRequest();
-                var enterRoom = _utils.EnterRoomRequest();
                 await _tcpStream.WriteAsync(keepAlive, 0, keepAlive.Length);
+
+                var enterRoom = _utils.EnterRoomRequest();
                 await _tcpStream.WriteAsync(enterRoom, 0, enterRoom.Length);
 #endif
             }
@@ -995,6 +1003,8 @@ namespace AcFunDanmu
         }
 
         #region Constants
+
+        private const int BUFFER_SIZE = 1024 * 1024;
 
         private const string ACCEPTED_ENCODING = "gzip, deflate, br";
         private const string VISITOR_ST = "acfun.api.visitor_st";
