@@ -10,11 +10,11 @@ namespace AcFunDanmu.Models.Client
 #if NET5_0_OR_GREATER
     public sealed record SafetyId
     {
-        [JsonPropertyName("code")] public int Code { get; init; }
+        [JsonPropertyName("code")] public int Code { get; set; }
 
-        [JsonPropertyName("msg")] public string Msg { get; init; }
+        [JsonPropertyName("msg")] public string Msg { get; set; }
 
-        [JsonPropertyName("safety_id")] public string Id { get; init; }
+        [JsonPropertyName("safety_id")] public string Id { get; set; }
     }
 #elif NETSTANDARD2_0_OR_GREATER
     public sealed class SafetyId

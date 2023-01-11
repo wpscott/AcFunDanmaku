@@ -10,14 +10,14 @@ namespace AcFunDanmu.Models.Client
 #if NET5_0_OR_GREATER
     public sealed record MidgroundToken
     {
-        [JsonPropertyName("result")] public int Result { get; init; }
+        [JsonPropertyName("result")] public int Result { get; set; }
 
         [JsonPropertyName("acfun.midground.api_st")]
-        public string ServiceToken { get; init; }
+        public string ServiceToken { get; set; }
 
-        [JsonPropertyName("ssecurity")] public string SecurityKey { get; init; }
-        [JsonPropertyName("userId")] public long UserId { get; init; }
-        [JsonPropertyName("error_msg")] public string ErrorMsg { get; init; }
+        [JsonPropertyName("ssecurity")] public string SecurityKey { get; set; }
+        [JsonPropertyName("userId")] public long UserId { get; set; }
+        [JsonPropertyName("error_msg")] public string ErrorMsg { get; set; }
     }
 #elif NETSTANDARD2_0_OR_GREATER
     public sealed class MidgroundToken
@@ -28,7 +28,6 @@ namespace AcFunDanmu.Models.Client
         public string ServiceToken { get; set; }
 
         [JsonProperty("ssecurity")] public string SecurityKey { get; set; }
-
         [JsonProperty("userId")] public long UserId { get; set; }
     }
 #endif
