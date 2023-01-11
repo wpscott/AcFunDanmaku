@@ -220,9 +220,9 @@ internal class Program
                         default:
                             foreach (var p in item.Payload)
                             {
-                                var pi = Parse(item.SignalType, p);
 #if DEBUG
-                                Log.Information("Unhandled action type: {0}, content: {1}", item.SignalType, pi);
+                                Log.Information("Unhandled action type: {0}, content: {1}", item.SignalType,
+                                    item.Payload);
 #endif
                             }
 
@@ -264,9 +264,8 @@ internal class Program
                         case PushMessage.StateSignal.AR_LIVE_TREASURE_BOX_STATE:
                             break;
                         default:
-                            var pi = Parse(item.SignalType, item.Payload);
 #if DEBUG
-                            Log.Information("Unhandled state type: {0}, content: {1}", item.SignalType, pi);
+                            Log.Information("Unhandled state type: {0}, content: {1}", item.SignalType, item.Payload);
 #endif
                             break;
                     }
@@ -282,18 +281,16 @@ internal class Program
                         case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
                             break;
                         default:
-                            var pi = Parse(item.SignalType, item.Payload);
 #if DEBUG
-                            Log.Information("Unhandled notify type: {0}, content: {1}", item.SignalType, pi);
+                            Log.Information("Unhandled notify type: {0}, content: {1}", item.SignalType, item.Payload);
 #endif
                             break;
                     }
 
                 break;
             default:
-                var unknown = Parse(messageType, payload);
 #if DEBUG
-                Log.Information("Unhandled message type: {0}, content: {1}", messageType, unknown);
+                Log.Information("Unhandled message type: {0}, content: {1}", messageType, payload);
 #endif
                 break;
         }
@@ -351,7 +348,8 @@ internal class Program
                 case "send":
                 {
 #if DEBUG
-                    var us = Decode<UpstreamPayload>(Convert.FromBase64String(message.Data), securityKey, sessionKey,
+                    var us = Decode(UpstreamPayload.Parser, Convert.FromBase64String(message.Data), securityKey,
+                        sessionKey,
                         out var header);
                     writer.WriteLine("Up\t\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, us.SeqId,
                         us.Command);
@@ -426,7 +424,8 @@ internal class Program
                 }
                 case "receive":
                 {
-                    var ds = Decode<DownstreamPayload>(Convert.FromBase64String(message.Data), securityKey, sessionKey,
+                    var ds = Decode(DownstreamPayload.Parser, Convert.FromBase64String(message.Data), securityKey,
+                        sessionKey,
                         out var header);
                     writer.WriteLine("Down\tHeaderSeqId {0}, SeqId {1}, Command: {2}", header.SeqId, ds.SeqId,
                         ds.Command);
