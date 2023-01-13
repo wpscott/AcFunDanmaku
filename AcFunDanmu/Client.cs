@@ -26,38 +26,18 @@ namespace AcFunDanmu
 
     public partial class Client
     {
-        public event SignalHandler Handler;
-        public event Initialize OnInitialize;
-        public event Start OnStart;
-        public event End OnEnd;
-
-        public async Task<PlayData> InitializeWithLogin(string username, string password, string uid)
-        {
-            await Login(username, password);
-            return await Initialize(uid);
-        }
-
-        private async Task<PlayData> Initialize(string hostId)
-        {
-            if (long.TryParse(hostId, out var id)) return await Initialize(id);
-
-            Logger.LogError("Invalid user id: {HostId}", hostId);
-            return null;
-        }
-
         public void Start(string hostId)
         {
             if (string.IsNullOrEmpty(hostId) || !long.TryParse(hostId, out var id))
             {
-                Logger.LogError("Invalid Host id", hostId);
+                Logger.LogError("Invalid Host id: {HostId}", hostId);
                 return;
             }
 
             Start(id);
         }
 
-        private void HandleCommand(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer,
-            HeartbeatTimer deathTimer)
+        private void HandleCommand(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer)
         {
             Logger.LogDebug("--------");
             Logger.LogDebug("Down\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, stream.SeqId, stream.Command);
@@ -84,7 +64,7 @@ namespace AcFunDanmu
                     HandleUnRegister(stream);
                     break;
                 case Command.PUSH_MESSAGE:
-                    HandlePushMessage(header, stream, heartbeatTimer, deathTimer);
+                    HandlePushMessage(header, stream, heartbeatTimer);
                     break;
                 case ImEnums.PUSH_MESSAGE:
                     break;
@@ -151,8 +131,8 @@ namespace AcFunDanmu
             Logger.LogDebug("\t{UnRegister}", unRegister);
             try
             {
-                _tcpStream.Close();
-                _tcpClient.Close();
+                _tcpStream?.Close();
+                _tcpClient?.Close();
             }
             catch (Exception ex)
             {
@@ -160,17 +140,13 @@ namespace AcFunDanmu
             }
         }
 
-        private void HandlePushMessage(PacketHeader header, DownstreamPayload stream,
-            HeartbeatTimer heartbeatTimer, HeartbeatTimer deathTimer)
+        private void HandlePushMessage(PacketHeader header, DownstreamPayload stream, HeartbeatTimer heartbeatTimer)
         {
             var message = ZtLiveScMessage.Parser.ParseFrom(stream.PayloadData);
             Logger.LogDebug("\t{message}", message);
             var payload = message.CompressionType == ZtLiveScMessage.Types.CompressionType.Gzip
                 ? Decompress(message.Payload)
                 : message.Payload;
-
-            deathTimer.Stop();
-            deathTimer.Start();
 
             switch (message.MessageType)
             {
@@ -265,29 +241,17 @@ namespace AcFunDanmu
 
         #region Properties and Fields
 
-        internal static ILogger<Client> Logger { get; private set; }
-
         public static readonly Dictionary<long, GiftInfo>
             Gifts = new Dictionary<long, GiftInfo>(128);
 
         private static readonly CookieContainer CookieContainer = new CookieContainer();
         private static readonly string DeviceId = new Guid().ToString("D");
-        private static bool IsSignIn;
+        private static bool _isSignIn;
 
-        private long UserId = -1;
+        private long _userId = -1;
         public long HostId { get; private set; }
-        public string LiveId { get; private set; }
         public string Host => $"{HostId}";
         public bool IsRunning { get; private set; }
-        private string ServiceToken;
-        private string SecurityKey;
-        private string EnterRoomAttach;
-        private string[] Tickets;
-
-        private ClientRequestUtils _utils;
-
-        private TcpClient _tcpClient;
-        private NetworkStream _tcpStream;
 
         #endregion
 
@@ -296,22 +260,6 @@ namespace AcFunDanmu
         static Client()
         {
             CookieContainer.Add(new Cookie("_did", DeviceId, "/", ".acfun.cn"));
-        }
-
-        public Client(ILogger<Client> logger = null)
-        {
-            Logger = logger ?? new NullLogger<Client>();
-        }
-
-        public Client(long userId, string serviceToken, string securityKey, string[] tickets, string enterRoomAttach,
-            string liveId, ILogger<Client> logger = null) : this(logger)
-        {
-            UserId = userId;
-            ServiceToken = serviceToken;
-            SecurityKey = securityKey;
-            Tickets = tickets;
-            EnterRoomAttach = enterRoomAttach;
-            LiveId = liveId;
         }
 
         #endregion

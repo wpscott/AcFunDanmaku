@@ -4,12 +4,16 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using AcFunDanmu.Im.Basic;
 using AcFunDanmu.Models.Client;
 using Google.Protobuf;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using static AcFunDanmu.ClientUtils;
 using HeartbeatTimer = System.Timers.Timer;
@@ -18,9 +22,144 @@ namespace AcFunDanmu
 {
     public partial class Client
     {
-        public async Task<bool> Login(string username, string password)
+        public event SignalHandler Handler;
+        public event Initialize OnInitialize;
+        public event Start OnStart;
+        public event End OnEnd;
+
+        public async Task<bool> InitializeWithLogin(string username, string password, string uid)
         {
-            if (IsSignIn) return IsSignIn;
+            await Login(username, password);
+            return await Initialize(uid);
+        }
+
+        private async Task<bool> Initialize(string hostId)
+        {
+            if (long.TryParse(hostId, out var id)) return await Initialize(id);
+
+            Logger.LogError("Invalid user id: {HostId}", hostId);
+            return false;
+        }
+
+        private async Task<bool> Initialize(long hostId)
+        {
+            OnInitialize?.Invoke();
+            HostId = hostId;
+            Logger.LogInformation("Client initializing");
+            try
+            {
+                using (var client = CreateHttpClient(LIVE_URI))
+                {
+                    if (_userId == -1 || string.IsNullOrEmpty(_serviceToken) || _securityKey == null)
+                    {
+                        if (_isSignIn)
+                            using (var getContent = new FormUrlEncodedContent(GetTokenForm))
+                            {
+                                using (var get = await client.PostAsync(GET_TOKEN_URI, getContent))
+                                {
+                                    if (!get.IsSuccessStatusCode)
+                                    {
+                                        Logger.LogError("Get token error: {Content}",
+                                            await get.Content.ReadAsStringAsync());
+                                        return false;
+                                    }
+
+                                    var token = JsonConvert.DeserializeObject<MidgroundToken>(
+                                        await get.Content.ReadAsStringAsync());
+                                    if (token == null)
+                                    {
+                                        Logger.LogError("Unable to deserialize MidgroundToken");
+                                        return false;
+                                    }
+
+                                    _userId = token.UserId;
+                                    _serviceToken = token.ServiceToken;
+                                    _securityKey = Encoding.UTF8.GetBytes(token.SecurityKey);
+                                }
+                            }
+                        else
+                            using (var loginContent = new FormUrlEncodedContent(LoginForm))
+                            {
+                                using (var login = await client.PostAsync(LOGIN_URI, loginContent))
+                                {
+                                    if (!login.IsSuccessStatusCode)
+                                    {
+                                        Logger.LogError("Get token error: {Content}",
+                                            await login.Content.ReadAsStringAsync());
+                                        return false;
+                                    }
+
+                                    var token = JsonConvert.DeserializeObject<VisitorToken>(
+                                        await login.Content.ReadAsStringAsync());
+                                    if (token == null)
+                                    {
+                                        Logger.LogError("Unable to deserialize VisitorToken");
+                                        return false;
+                                    }
+
+                                    _userId = token.UserId;
+                                    _serviceToken = token.ServiceToken;
+                                    _securityKey = Encoding.UTF8.GetBytes(token.SecurityKey);
+                                }
+                            }
+                    }
+
+                    using (var form = new FormUrlEncodedContent(new Dictionary<string, string>
+                               { { "authorId", $"{hostId}" }, { "pullStreamType", "FLV" } }))
+                    {
+                        using (var play = await client.PostAsync(
+                                   string.Format(PLAY_URL, _userId, DeviceId, _isSignIn ? MIDGROUND_ST : VISITOR_ST,
+                                       _serviceToken), form))
+                        {
+                            if (!play.IsSuccessStatusCode)
+                            {
+                                Logger.LogError("Get play info error: {Content}",
+                                    await play.Content.ReadAsStringAsync());
+                                return false;
+                            }
+
+                            var playData = JsonConvert.DeserializeObject<Play>(await play.Content.ReadAsStringAsync());
+                            if (playData == null)
+                            {
+                                Logger.LogError("Unable to deserialize Play");
+                                return false;
+                            }
+
+                            if (playData.Result > 1)
+                            {
+                                Logger.LogError("PlayData error message: {Message}", playData.ErrorMsg);
+                                return false;
+                            }
+
+                            _tickets = playData.Data?.AvailableTickets ?? Array.Empty<string>();
+                            _enterRoomAttach = playData.Data?.EnterRoomAttach;
+                            LiveId = playData.Data?.LiveId;
+
+                            if (Gifts.Count == 0) UpdateGiftList();
+
+                            Logger.LogInformation("Client initialized");
+
+                            return true;
+                        }
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Logger.LogError(ex, "Initialize exception");
+                return await Initialize(hostId);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Logger.LogError(ex, "Initialize exception");
+                return await Initialize(hostId);
+            }
+        }
+
+
+        public static async Task<bool> Login(string username, string password)
+        {
+            if (_isSignIn) return _isSignIn;
             Logger.LogInformation("Client signing in");
             try
             {
@@ -87,7 +226,7 @@ namespace AcFunDanmu
                                             Value = safetyId.Id
                                         });
 
-                                        IsSignIn = true;
+                                        _isSignIn = true;
                                     }
                                 }
                             }
@@ -106,130 +245,18 @@ namespace AcFunDanmu
                 return await Login(username, password);
             }
 
-            return IsSignIn;
-        }
-
-        private async Task<PlayData> Initialize(long hostId)
-        {
-            OnInitialize?.Invoke();
-            HostId = hostId;
-            Logger.LogInformation("Client initializing");
-            try
-            {
-                using (var client = CreateHttpClient(LIVE_URI))
-                {
-                    if (IsSignIn)
-                        using (var getContent = new FormUrlEncodedContent(GetTokenForm))
-                        {
-                            using (var get = await client.PostAsync(GET_TOKEN_URI, getContent))
-                            {
-                                if (!get.IsSuccessStatusCode)
-                                {
-                                    Logger.LogError("Get token error: {Content}",
-                                        await get.Content.ReadAsStringAsync());
-                                    return null;
-                                }
-
-                                var token = JsonConvert.DeserializeObject<MidgroundToken>(
-                                    await get.Content.ReadAsStringAsync());
-                                if (token == null)
-                                {
-                                    Logger.LogError("Unable to deserialize MidgroundToken");
-                                    return null;
-                                }
-
-                                UserId = token.UserId;
-                                ServiceToken = token.ServiceToken;
-                                SecurityKey = token.SecurityKey;
-                            }
-                        }
-                    else
-                        using (var loginContent = new FormUrlEncodedContent(LoginForm))
-                        {
-                            using (var login = await client.PostAsync(LOGIN_URI, loginContent))
-                            {
-                                if (!login.IsSuccessStatusCode)
-                                {
-                                    Logger.LogError("Get token error: {Content}",
-                                        await login.Content.ReadAsStringAsync());
-                                    return null;
-                                }
-
-                                var token = JsonConvert.DeserializeObject<VisitorToken>(
-                                    await login.Content.ReadAsStringAsync());
-                                if (token == null)
-                                {
-                                    Logger.LogError("Unable to deserialize VisitorToken");
-                                    return null;
-                                }
-
-                                UserId = token.UserId;
-                                ServiceToken = token.ServiceToken;
-                                SecurityKey = token.SecurityKey;
-                            }
-                        }
-
-                    using (var form = new FormUrlEncodedContent(new Dictionary<string, string>
-                               { { "authorId", $"{hostId}" }, { "pullStreamType", "FLV" } }))
-                    {
-                        using (var play = await client.PostAsync(
-                                   string.Format(PLAY_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST,
-                                       ServiceToken), form))
-                        {
-                            if (!play.IsSuccessStatusCode)
-                            {
-                                Logger.LogError("Get play info error: {Content}",
-                                    await play.Content.ReadAsStringAsync());
-                                return null;
-                            }
-
-                            var playData = JsonConvert.DeserializeObject<Play>(await play.Content.ReadAsStringAsync());
-                            if (playData == null)
-                            {
-                                Logger.LogError("Unable to deserialize Play");
-                                return null;
-                            }
-
-                            if (playData.Result > 1)
-                            {
-                                Logger.LogError("PlayData error message: {Message}", playData.ErrorMsg);
-                                return null;
-                            }
-
-                            Tickets = playData.Data?.AvailableTickets ?? Array.Empty<string>();
-                            EnterRoomAttach = playData.Data?.EnterRoomAttach;
-                            LiveId = playData.Data?.LiveId;
-
-                            if (Gifts.Count == 0) UpdateGiftList();
-
-                            Logger.LogInformation("Client initialized");
-
-                            return playData.Data;
-                        }
-                    }
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                Logger.LogError(ex, "Initialize exception");
-                return await Initialize(hostId);
-            }
-            catch (TaskCanceledException ex)
-            {
-                Logger.LogError(ex, "Initialize exception");
-                return await Initialize(hostId);
-            }
+            return _isSignIn;
         }
 
         private async void UpdateGiftList()
         {
-            if (string.IsNullOrEmpty(SecurityKey)) return;
+            if (_securityKey == null) return;
 
             try
             {
                 using (var client = CreateHttpClient(LIVE_URI))
                 {
-                    var sign = Sign(GiftAll, SecurityKey);
+                    var sign = Sign(GiftAll, _securityKey);
 
                     using (var gift = await client.PostAsync($"{KuaishouZt}{GiftAll}?{Query}&__clientSign={sign}",
                                null))
@@ -264,7 +291,7 @@ namespace AcFunDanmu
 
         public async Task<WatchingUser[]> WatchingList()
         {
-            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(LiveId))
+            if (_userId == -1 || string.IsNullOrEmpty(_serviceToken) || string.IsNullOrEmpty(LiveId))
                 return Array.Empty<WatchingUser>();
 
             try
@@ -273,13 +300,13 @@ namespace AcFunDanmu
                 {
                     using (var watchingContent = new FormUrlEncodedContent(new Dictionary<string, string>
                            {
-                               { "visitorId", $"{UserId}" },
+                               { "visitorId", $"{_userId}" },
                                { "uperId", LiveId }
                            }))
                     {
                         using (var watching = await client.PostAsync(
-                                   string.Format(WATCHING_URL, UserId, DeviceId, IsSignIn ? MIDGROUND_ST : VISITOR_ST,
-                                       ServiceToken), watchingContent))
+                                   string.Format(WATCHING_URL, _userId, DeviceId, _isSignIn ? MIDGROUND_ST : VISITOR_ST,
+                                       _serviceToken), watchingContent))
                         {
                             if (!watching.IsSuccessStatusCode) return Array.Empty<WatchingUser>();
 
@@ -305,13 +332,10 @@ namespace AcFunDanmu
 
         public async void Start(long hostId)
         {
-            if (UserId == -1 || string.IsNullOrEmpty(ServiceToken) || string.IsNullOrEmpty(SecurityKey) ||
-                string.IsNullOrEmpty(LiveId) ||
-                string.IsNullOrEmpty(EnterRoomAttach) || Tickets == null ||
-                Tickets.Length == 0 || HostId != hostId)
+            if (string.IsNullOrEmpty(LiveId) || string.IsNullOrEmpty(_enterRoomAttach) || _tickets == null ||
+                _tickets.Length == 0 || HostId != hostId)
             {
-                var data = await Initialize(hostId);
-                if (data == null)
+                if (!await Initialize(hostId))
                 {
                     Logger.LogInformation("Client initialize failed, maybe live is end");
                     return;
@@ -320,8 +344,6 @@ namespace AcFunDanmu
 
             var owner = ArrayPool<byte>.Shared;
 
-            _utils = new ClientRequestUtils(UserId, DeviceId, ServiceToken, SecurityKey, LiveId, EnterRoomAttach,
-                Tickets);
             if (_tcpClient != null)
             {
                 if (_tcpStream != null)
@@ -341,14 +363,10 @@ namespace AcFunDanmu
 
             #region Timers
 
-            using (HeartbeatTimer heartbeatTimer = new HeartbeatTimer(), deathTimer = new HeartbeatTimer())
+            using (var heartbeatTimer = new HeartbeatTimer())
             {
                 heartbeatTimer.Elapsed += Heartbeat;
                 heartbeatTimer.AutoReset = true;
-
-                deathTimer.Interval = TimeSpan.FromSeconds(10).TotalMilliseconds;
-                deathTimer.AutoReset = false;
-                deathTimer.Elapsed += (s, e) => { Stop("dead"); };
 
                 #endregion
 
@@ -359,7 +377,7 @@ namespace AcFunDanmu
 
                     _tcpStream = _tcpClient.GetStream();
 
-                    _utils.HandshakeRequest(_tcpStream);
+                    HandshakeRequest(_tcpStream);
 
                     #region Main loop
 
@@ -371,7 +389,7 @@ namespace AcFunDanmu
                         {
                             var _ = await _tcpStream.ReadAsync(buffer, 0, 1024 * 1024);
 
-                            var downstream = Decode(DownstreamPayload.Parser, buffer, SecurityKey, _utils.SessionKey,
+                            var downstream = Decode(DownstreamPayload.Parser, buffer, _securityKey, _sessionKey,
                                 out var header);
                             owner.Return(buffer);
 
@@ -381,7 +399,7 @@ namespace AcFunDanmu
                                 continue;
                             }
 
-                            HandleCommand(header, downstream, heartbeatTimer, deathTimer);
+                            HandleCommand(header, downstream, heartbeatTimer);
                         }
                         catch (Exception ex)
                         {
@@ -393,7 +411,6 @@ namespace AcFunDanmu
 
                     Logger.LogDebug("Client disconnected");
                     heartbeatTimer.Stop();
-                    deathTimer.Stop();
 
                     #endregion
                 }
@@ -416,8 +433,8 @@ namespace AcFunDanmu
             {
                 if (_tcpClient == null || !_tcpClient.Connected || _tcpStream == null) return;
 
-                _utils.UserExitRequest(_tcpStream);
-                _utils.UnRegisterRequest(_tcpStream);
+                UserExitRequest(_tcpStream);
+                UnRegisterRequest(_tcpStream);
 
                 _tcpStream.Close();
                 _tcpStream.Dispose();
@@ -437,10 +454,11 @@ namespace AcFunDanmu
 
                 IsRunning = false;
 
-                UserId = -1;
+                _enterRoomAttach = null;
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void Heartbeat(object sender, ElapsedEventArgs e)
         {
             if (_tcpClient != null && _tcpClient.Connected)
@@ -448,10 +466,10 @@ namespace AcFunDanmu
                 Logger.LogDebug("HEARTBEAT");
                 try
                 {
-                    _utils.HeartbeatRequest(_tcpStream);
+                    HeartbeatRequest(_tcpStream);
 
-                    if (_utils.HeartbeatSeqId % 5 == 4)
-                        _utils.KeepAliveRequest(_tcpStream);
+                    if (_heartbeatSeqId % 5 == 4)
+                        KeepAliveRequest(_tcpStream);
                 }
                 catch (Exception ex)
                 {
@@ -465,37 +483,40 @@ namespace AcFunDanmu
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void HandleHandshake(DownstreamPayload payload)
         {
             var handshake = HandshakeResponse.Parser.ParseFrom(payload.PayloadData);
             Logger.LogDebug("\t{HandShake}", handshake);
 
-            _utils.RegisterRequest(_tcpStream);
+            RegisterRequest(_tcpStream);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void HandleKeepAlive(DownstreamPayload payload)
         {
             var keepAlive = KeepAliveResponse.Parser.ParseFrom(payload.PayloadData);
             Logger.LogDebug("\t{KeepAlive}", keepAlive);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void HandlePing(DownstreamPayload payload)
         {
             var ping = PingResponse.Parser.ParseFrom(payload.PayloadData);
             Logger.LogDebug("\t{Ping}", ping);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void HandleRegister(int appId, DownstreamPayload payload)
         {
             var register = RegisterResponse.Parser.ParseFrom(payload.PayloadData);
-            _utils.Register(appId, register.InstanceId, register.SessKey.ToBase64(),
-                register.SdkOption.Lz4CompressionThresholdBytes);
+            Register(appId, register);
             Logger.LogDebug("\t{Register}", register);
 
             try
             {
-                _utils.KeepAliveRequest(_tcpStream);
-                _utils.EnterRoomRequest(_tcpStream);
+                KeepAliveRequest(_tcpStream);
+                EnterRoomRequest(_tcpStream);
             }
             catch (Exception ex)
             {
@@ -503,11 +524,12 @@ namespace AcFunDanmu
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SendPushMessageResponse(PacketHeader header)
         {
             try
             {
-                _utils.PushMessageResponse(_tcpStream, header.SeqId);
+                PushMessageResponse(_tcpStream, header.SeqId);
             }
             catch (Exception ex)
             {
@@ -515,15 +537,16 @@ namespace AcFunDanmu
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void HandleTicketInvalid(ByteString payload)
         {
             var ticketInvalid = ZtLiveScTicketInvalid.Parser.ParseFrom(payload);
             Logger.LogDebug("\t\t{TicketInvalid}", ticketInvalid);
 
-            _utils.NextTicket();
+            NextTicket();
             try
             {
-                _utils.EnterRoomRequest(_tcpStream);
+                EnterRoomRequest(_tcpStream);
             }
             catch (Exception ex)
             {
@@ -531,6 +554,7 @@ namespace AcFunDanmu
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static HttpClient CreateHttpClient(Uri referer)
         {
             var client = new HttpClient(
@@ -545,6 +569,36 @@ namespace AcFunDanmu
             client.DefaultRequestHeaders.Referrer = referer;
             return client;
         }
+
+        internal static ILogger<Client> Logger { get; private set; } = new NullLogger<Client>();
+
+        public Client(ILogger<Client> logger = null)
+        {
+            if (logger != null)
+                Logger = logger;
+        }
+
+        public Client(long userId, string serviceToken, byte[] securityKey, string[] tickets, string enterRoomAttach,
+            string liveId, ILogger<Client> logger = null) : this(logger)
+        {
+            _userId = userId;
+            _serviceToken = serviceToken;
+            _securityKey = securityKey;
+            _tickets = tickets;
+            _enterRoomAttach = enterRoomAttach;
+            LiveId = liveId;
+        }
+
+
+        public string LiveId { get; private set; }
+
+        private string _serviceToken;
+        private byte[] _securityKey;
+        private string _enterRoomAttach;
+        private string[] _tickets;
+
+        private TcpClient _tcpClient;
+        private NetworkStream _tcpStream;
     }
 }
 #endif

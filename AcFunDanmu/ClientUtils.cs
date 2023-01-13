@@ -20,7 +20,19 @@ namespace AcFunDanmu
         private const int HEADER_OFFSET = 12;
         private const int IV_LENGTH = 16;
 
-        private static readonly SortedList<string, string> QueryDict = new SortedList<string, string>()
+        private const int HMAC_SHA256_SIZE = 32;
+
+        private const int NONCE_SIZE = sizeof(long);
+
+        public const string KuaishouZt = "https://api.kuaishouzt.com";
+        public const string AuthorAuth = "/rest/zt/live/authorAuth";
+        public const string LiveConfig = "/rest/zt/live/web/obs/config";
+        public const string LiveStatus = "/rest/zt/live/web/obs/status";
+        public const string StartPush = "/rest/zt/live/startPush";
+        public const string StopPush = "/rest/zt/live/stopPush";
+        public const string GiftAll = "/rest/zt/live/gift/all";
+
+        private static readonly SortedList<string, string> QueryDict = new SortedList<string, string>
         {
             { "appver", "1.9.0.200" },
             { "sys", "PC_10" },
@@ -70,8 +82,13 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        public static void EncodeAndSend(in NetworkStream? tcpStream, in PacketHeader header, in UpstreamPayload body,
+            in byte[] key)
+#elif NETSTANDARD2_0_OR_GREATER
         public static void EncodeAndSend(in NetworkStream tcpStream, in PacketHeader header, in UpstreamPayload body,
-            in string key)
+            in byte[] key)
+#endif
         {
             var (iv, encrypted) = Encrypt(key, body);
 
@@ -97,7 +114,7 @@ namespace AcFunDanmu
 
             //Decode<UpstreamPayload>(data, key, key, out _);
 
-#if NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
             tcpStream?.Write(data);
 #elif NETSTANDARD2_0_OR_GREATER
             tcpStream?.Write(data.ToArray(), 0, len);
@@ -136,21 +153,62 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        public static T? Decode<T>(in MessageParser<T> parser, in ReadOnlySpan<byte> bytes, in string securityKey,
+            in byte[] sessionKey, out PacketHeader header) where T : class, IMessage<T>
+#elif NETSTANDARD2_0_OR_GREATER
         public static T Decode<T>(in MessageParser<T> parser, in ReadOnlySpan<byte> bytes, in string securityKey,
-            in string sessionKey,
-            out PacketHeader header) where T : class, IMessage<T>
+            in byte[] sessionKey, out PacketHeader header) where T : class, IMessage<T>
+#endif
+        {
+            return Decode(parser, bytes, Convert.FromBase64String(securityKey), sessionKey, out header);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        public static T? Decode<T>(in MessageParser<T> parser, in ReadOnlySpan<byte> bytes, in byte[] securityKey,
+            in string sessionKey, out PacketHeader header) where T : class, IMessage<T>
+#elif NETSTANDARD2_0_OR_GREATER
+        public static T Decode<T>(in MessageParser<T> parser, in ReadOnlySpan<byte> bytes, in byte[] securityKey,
+            in string sessionKey, out PacketHeader header) where T : class, IMessage<T>
+#endif
+        {
+            return Decode(parser, bytes, securityKey, Convert.FromBase64String(sessionKey), out header);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        public static T? Decode<T>(in MessageParser<T> parser, in ReadOnlySpan<byte> bytes, in string securityKey,
+            in string sessionKey, out PacketHeader header) where T : class, IMessage<T>
+#elif NETSTANDARD2_0_OR_GREATER
+        public static T Decode<T>(in MessageParser<T> parser, in ReadOnlySpan<byte> bytes, in string securityKey,
+            in string sessionKey, out PacketHeader header) where T : class, IMessage<T>
+#endif
+        {
+            return Decode(parser, bytes, Convert.FromBase64String(securityKey), Convert.FromBase64String(sessionKey),
+                out header);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        public static T? Decode<T>(in MessageParser<T> parser, in ReadOnlySpan<byte> bytes, in byte[] securityKey,
+            in byte[] sessionKey, out PacketHeader header) where T : class, IMessage<T>
+#elif NETSTANDARD2_0_OR_GREATER
+        public static T Decode<T>(in MessageParser<T> parser, in ReadOnlySpan<byte> bytes, in byte[] securityKey,
+            in byte[] sessionKey, out PacketHeader header) where T : class, IMessage<T>
+#endif
         {
             var (headerLength, payloadLength) = DecodeLengths(bytes);
 
             header = PacketHeader.Parser.ParseFrom(bytes.Slice(HEADER_OFFSET, headerLength).ToArray());
 
-#if NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
             var payload = header.EncryptionMode switch
             {
                 PacketHeader.Types.EncryptionMode.KEncryptionServiceToken => Decrypt(
-                    bytes.Slice(HEADER_OFFSET + headerLength, payloadLength), securityKey, header.DecodedPayloadLen),
+                    bytes.Slice(HEADER_OFFSET + headerLength, payloadLength), securityKey),
                 PacketHeader.Types.EncryptionMode.KEncryptionSessionKey => Decrypt(
-                    bytes.Slice(HEADER_OFFSET + headerLength, payloadLength), sessionKey, header.DecodedPayloadLen),
+                    bytes.Slice(HEADER_OFFSET + headerLength, payloadLength), sessionKey),
                 _ => bytes.Slice(HEADER_OFFSET + headerLength, payloadLength)
             };
 #elif NETSTANDARD2_0_OR_GREATER
@@ -160,11 +218,11 @@ namespace AcFunDanmu
                 case PacketHeader.Types.EncryptionMode.KEncryptionServiceToken:
                     payload = Decrypt(
                         bytes.Slice(HEADER_OFFSET + headerLength, payloadLength),
-                        securityKey, header.DecodedPayloadLen);
+                        securityKey);
                     break;
                 case PacketHeader.Types.EncryptionMode.KEncryptionSessionKey:
                     payload = Decrypt(
-                        bytes.Slice(HEADER_OFFSET + headerLength, payloadLength), sessionKey, header.DecodedPayloadLen);
+                        bytes.Slice(HEADER_OFFSET + headerLength, payloadLength), sessionKey);
                     break;
                 case PacketHeader.Types.EncryptionMode.KEncryptionNone:
                 default:
@@ -172,15 +230,15 @@ namespace AcFunDanmu
                     break;
             }
 #endif
-            //Client.Logger.LogDebug("Payload length: {0} | DecodedPayloadLen: {1}", payload.Length, header.DecodedPayloadLen);
-            //Client.Logger.LogDebug("Payload Base64: {0}", Convert.ToBase64String(payload));
+            //Client.Logger?.LogDebug("Payload length: {0} | DecodedPayloadLen: {1}", payload.Length, header.DecodedPayloadLen);
+            //Client.Logger?.LogDebug("Payload Base64: {0}", Convert.ToBase64String(payload));
             //Dump(payload);
 
             Debug.Assert(payload != null, nameof(payload) + " != null");
             if (Convert.ToUInt32(payload.Length) != header.DecodedPayloadLen)
             {
-                Client.Logger.LogError("Payload length does not match");
-                Client.Logger.LogDebug("Payload Data: {Data}", Convert.ToBase64String(payload));
+                Client.Logger?.LogError("Payload length does not match");
+                Client.Logger?.LogDebug("Payload Data: {Data}", Convert.ToBase64String(payload));
                 return null;
             }
 
@@ -188,56 +246,51 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static (byte[], byte[]) Encrypt(in string key, in UpstreamPayload body)
+        private static (byte[], byte[]) Encrypt(in byte[] key, in UpstreamPayload body)
         {
-#if NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
             using var aes = Aes.Create();
 
-            using var encryptor = aes.CreateEncryptor(Convert.FromBase64String(key), aes.IV);
+            using var encryptor = aes.CreateEncryptor(key, aes.IV);
             using var ms = new MemoryStream();
             using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
-            body.WriteTo(cs);
-            cs.FlushFinalBlock();
 
-            return (aes.IV, ms.ToArray());
-        }
 #elif NETSTANDARD2_0_OR_GREATER
             using (var aes = Aes.Create())
             {
-                using (var encryptor = aes.CreateEncryptor(Convert.FromBase64String(key), aes.IV))
+                using (var encryptor = aes.CreateEncryptor(key, aes.IV))
                 {
                     using (var ms = new MemoryStream())
                     {
                         using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
                         {
-                            body.WriteTo(cs);
-                            cs.FlushFinalBlock();
+#endif
+            body.WriteTo(cs);
+            cs.FlushFinalBlock();
 
-                            return (aes.IV, ms.ToArray());
+            return (aes.IV, ms.ToArray());
+#if NETSTANDARD2_0
                         }
                     }
                 }
             }
-        }
 #endif
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static byte[] Decrypt(in ReadOnlySpan<byte> bytes, in string key, in uint decryptedLength)
+        private static byte[] Decrypt(in ReadOnlySpan<byte> bytes, in byte[] key)
         {
-#if NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER|| NET6_0_OR_GREATER
             using var aes = Aes.Create();
-            aes.Key = Convert.FromBase64String(key);
-            aes.IV = bytes[..IV_LENGTH].ToArray();
-            using var decryptor = aes.CreateDecryptor();
-            return decryptor.TransformFinalBlock(bytes.ToArray(), IV_LENGTH, bytes.Length - IV_LENGTH);
+            using var decryptor = aes.CreateDecryptor(key, bytes[..IV_LENGTH].ToArray());
 #elif NETSTANDARD2_0_OR_GREATER
             using (var aes = Aes.Create())
             {
-                aes.Key = Convert.FromBase64String(key);
-                aes.IV = bytes.Slice(0, IV_LENGTH).ToArray();
-                using (var decryptor = aes.CreateDecryptor())
+                using (var decryptor = aes.CreateDecryptor(key, bytes.Slice(0, IV_LENGTH).ToArray()))
                 {
-                    return decryptor.TransformFinalBlock(bytes.ToArray(), IV_LENGTH, bytes.Length - IV_LENGTH);
+#endif
+            return decryptor.TransformFinalBlock(bytes.ToArray(), IV_LENGTH, bytes.Length - IV_LENGTH);
+#if NETSTANDARD2_0
                 }
             }
 #endif
@@ -258,16 +311,10 @@ namespace AcFunDanmu
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ByteString GZip(in CompressionMode mode, in ByteString payload)
         {
-#if NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
             using var input = new MemoryStream(payload.ToByteArray());
             using var gzip = new GZipStream(input, mode);
             using var output = new MemoryStream();
-
-            gzip.CopyTo(output);
-
-            output.Position = 0;
-
-            return ByteString.FromStream(output);
 #elif NETSTANDARD2_0_OR_GREATER
             using (var input = new MemoryStream(payload.ToByteArray()))
             {
@@ -275,25 +322,31 @@ namespace AcFunDanmu
                 {
                     using (var output = new MemoryStream())
                     {
-                        gzip.CopyTo(output);
+#endif
+            gzip.CopyTo(output);
 
-                        output.Position = 0;
+            output.Position = 0;
 
-                        return ByteString.FromStream(output);
+            return ByteString.FromStream(output);
+#if NETSTANDARD2_0
                     }
                 }
             }
 #endif
         }
 
-        private const int HMAC_SHA256_SIZE = 32;
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe string Sign(in string uri, in string key, in Nonce nonce,
-            in IEnumerable<KeyValuePair<string, string>> extra = null)
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        private static unsafe string Sign(in string uri, in byte[] key, in Nonce nonce,
+            in IEnumerable<KeyValuePair<string, string>>? extra = null)
+#elif NETSTANDARD2_0_OR_GREATER
+        private static unsafe string Sign(in string uri, in byte[] key, in Nonce nonce,
+            in IEnumerable<KeyValuePair<string, string>> extra
+                = null)
+#endif
         {
-#if NET6_0_OR_GREATER
-            using var hmac = new HMACSHA256(Convert.FromBase64String(key));
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+            using var hmac = new HMACSHA256(key);
             var query =
                 extra == null
                     ? Query
@@ -306,7 +359,7 @@ namespace AcFunDanmu
             Span<byte> sign = stackalloc byte[NONCE_SIZE + hash.Length];
 #elif NETSTANDARD2_0_OR_GREATER
             byte[] hash;
-            using (var hmac = new HMACSHA256(Convert.FromBase64String(key)))
+            using (var hmac = new HMACSHA256(key))
             {
                 var query = extra == null
                     ? Query
@@ -360,8 +413,14 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe string Sign(in string url, in string key, in long nonce,
-            in SortedList<string, string> extra = null)
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        private static unsafe string Sign(in string url, in byte[] key, in long nonce,
+            in IEnumerable<KeyValuePair<string, string>>? extra = null)
+#elif NETSTANDARD2_0_OR_GREATER
+        private static unsafe string Sign(in string url, in byte[] key, in long nonce,
+            in IEnumerable<KeyValuePair<string, string>> extra
+                = null)
+#endif
         {
             fixed (long* ptr = &nonce)
             {
@@ -370,8 +429,13 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string Sign(in string url, in string key,
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        public static string Sign(in string url, in byte[] key,
+            in IEnumerable<KeyValuePair<string, string>>? extra = null)
+#elif NETSTANDARD2_0_OR_GREATER
+        public static string Sign(in string url, in byte[] key,
             in IEnumerable<KeyValuePair<string, string>> extra = null)
+#endif
         {
             return Sign(url, key, Random(), extra);
         }
@@ -380,9 +444,19 @@ namespace AcFunDanmu
         private static unsafe Nonce Random()
         {
             var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds() / 60;
-
 #if NET6_0_OR_GREATER
             var bytes = RandomNumberGenerator.GetBytes(4);
+#elif NETSTANDARD2_1_OR_GREATER
+            using var generator = RandomNumberGenerator.Create();
+#elif NETSTANDARD2_0_OR_GREATER
+            using (var generator = RandomNumberGenerator.Create())
+            {
+#endif
+#if NETSTANDARD2_0_OR_GREATER
+            var bytes = new byte[4];
+            generator.GetNonZeroBytes(bytes);
+#endif
+
             fixed (byte* pByte = bytes)
             {
                 var nonce = new Nonce
@@ -395,24 +469,7 @@ namespace AcFunDanmu
                 nonce.Random[3] = *(pByte + 3);
                 return nonce;
             }
-#elif NETSTANDARD2_0_OR_GREATER
-            using (var generator = RandomNumberGenerator.Create())
-            {
-                var bytes = new byte[4];
-                generator.GetNonZeroBytes(bytes);
-
-                fixed (byte* pByte = bytes)
-                {
-                    var nonce = new Nonce
-                    {
-                        Result = now
-                    };
-                    nonce.Random[0] = *(pByte + 0);
-                    nonce.Random[1] = *(pByte + 1);
-                    nonce.Random[2] = *(pByte + 2);
-                    nonce.Random[3] = *(pByte + 3);
-                    return nonce;
-                }
+#if NETSTANDARD2_0
             }
 #endif
         }
@@ -426,17 +483,14 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
         private static string ToBase64Url(in ReadOnlySpan<byte> data)
-        {
-            return Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
-        }
 #elif NETSTANDARD2_0_OR_GREATER
         private static string ToBase64Url(in byte[] data)
+#endif
         {
             return Convert.ToBase64String(data).Replace('/', '_').Replace('+', '-').Trim('=');
         }
-#endif
 
         [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 4)]
         private readonly struct Length
@@ -447,8 +501,6 @@ namespace AcFunDanmu
             [FieldOffset(3)] public readonly byte b3;
         }
 
-        private const int NONCE_SIZE = sizeof(long);
-
         [StructLayout(LayoutKind.Explicit, Pack = NONCE_SIZE, Size = NONCE_SIZE)]
         private unsafe struct Nonce
         {
@@ -456,13 +508,5 @@ namespace AcFunDanmu
             [FieldOffset(4)] public fixed byte Random[NONCE_SIZE >> 1];
             [FieldOffset(0)] public fixed byte Data[NONCE_SIZE];
         }
-
-        public const string KuaishouZt = "https://api.kuaishouzt.com";
-        public const string AuthorAuth = "/rest/zt/live/authorAuth";
-        public const string LiveConfig = "/rest/zt/live/web/obs/config";
-        public const string LiveStatus = "/rest/zt/live/web/obs/status";
-        public const string StartPush = "/rest/zt/live/startPush";
-        public const string StopPush = "/rest/zt/live/stopPush";
-        public const string GiftAll = "/rest/zt/live/gift/all";
     }
 }
