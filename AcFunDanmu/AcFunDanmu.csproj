@@ -16,9 +16,6 @@
 		<DebugType>embedded</DebugType>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net7.0'">
-		<PublishAot>true</PublishAot>
-		<StripSymbols>true</StripSymbols>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
