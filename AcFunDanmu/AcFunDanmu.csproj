@@ -2,13 +2,13 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>wpscott</Authors>
 		<Product />
 		<Version>2.6.0</Version>
 		<Description>AcFun直播弹幕客户端</Description>
 		<PackageProjectUrl>https://github.com/wpscott/AcFunDanmaku</PackageProjectUrl>
 		<Company />
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/wpscott/AcFunDanmaku/tree/master/AcFunDanmu</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
