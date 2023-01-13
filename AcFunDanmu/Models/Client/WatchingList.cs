@@ -1,19 +1,16 @@
-﻿using System;
-#if NET5_0_OR_GREATER
-using System.Text.Json.Serialization;
-
-#elif NETSTANDARD2_0_OR_GREATER
-using Newtonsoft.Json;
-#endif
+﻿#pragma warning disable CS8618
+using System;
 
 namespace AcFunDanmu.Models.Client
 {
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+
     public sealed record WatchingList
     {
         [JsonPropertyName("result")] public long Result { get; set; }
 
-        [JsonPropertyName("data")] public WatchingData Data { get; set; }
+        [JsonPropertyName("data")] public WatchingData? Data { get; set; }
 
         [JsonPropertyName("host")] public string Host { get; set; }
     }
@@ -53,6 +50,8 @@ namespace AcFunDanmu.Models.Client
         [JsonPropertyName("freeTraffic")] public bool FreeTraffic { get; set; }
     }
 #elif NETSTANDARD2_0_OR_GREATER
+    using Newtonsoft.Json;
+
     public sealed class WatchingList
     {
         [JsonProperty("result")] public long Result { get; set; }
@@ -97,3 +96,4 @@ namespace AcFunDanmu.Models.Client
     }
 #endif
 }
+#pragma warning restore CS8618

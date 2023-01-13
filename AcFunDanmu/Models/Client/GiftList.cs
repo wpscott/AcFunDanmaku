@@ -1,19 +1,16 @@
-﻿using System;
-#if NET5_0_OR_GREATER
-using System.Text.Json.Serialization;
-
-#elif NETSTANDARD2_0_OR_GREATER
-using Newtonsoft.Json;
-#endif
+﻿#pragma warning disable CS8618
+using System;
 
 namespace AcFunDanmu.Models.Client
 {
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+
     public sealed record GiftList
     {
         [JsonPropertyName("result")] public int Result { get; set; }
 
-        [JsonPropertyName("data")] public GiftData Data { get; set; }
+        [JsonPropertyName("data")] public GiftData? Data { get; set; }
 
         [JsonPropertyName("host")] public string Host { get; set; }
     }
@@ -94,7 +91,10 @@ namespace AcFunDanmu.Models.Client
 
         [JsonPropertyName("pic")] public Uri Pic { get; set; }
     }
+
 #elif NETSTANDARD2_0_OR_GREATER
+    using Newtonsoft.Json;
+
     public sealed class GiftList
     {
         [JsonProperty("result")] public int Result { get; set; }
@@ -188,3 +188,4 @@ namespace AcFunDanmu.Models.Client
     }
 #endif
 }
+#pragma warning restore CS8618

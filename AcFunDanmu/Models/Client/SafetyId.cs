@@ -1,13 +1,9 @@
-﻿#if NET5_0_OR_GREATER
-using System.Text.Json.Serialization;
-
-#elif NETSTANDARD2_0_OR_GREATER
-using Newtonsoft.Json;
-#endif
-
+﻿#pragma warning disable CS8618
 namespace AcFunDanmu.Models.Client
 {
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+
     public sealed record SafetyId
     {
         [JsonPropertyName("code")] public int Code { get; set; }
@@ -17,6 +13,8 @@ namespace AcFunDanmu.Models.Client
         [JsonPropertyName("safety_id")] public string Id { get; set; }
     }
 #elif NETSTANDARD2_0_OR_GREATER
+    using Newtonsoft.Json;
+
     public sealed class SafetyId
     {
         [JsonProperty("code")] public int Code { get; set; }
@@ -27,3 +25,4 @@ namespace AcFunDanmu.Models.Client
     }
 #endif
 }
+#pragma warning restore CS8618

@@ -1,13 +1,9 @@
-﻿#if NET5_0_OR_GREATER
-using System.Text.Json.Serialization;
-
-#elif NETSTANDARD2_0_OR_GREATER
-using Newtonsoft.Json;
-#endif
-
+﻿#pragma warning disable CS8618
 namespace AcFunDanmu.Models.Client
 {
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+
     public sealed record Play
     {
         [JsonPropertyName("Result")]
@@ -15,7 +11,7 @@ namespace AcFunDanmu.Models.Client
 
         [JsonPropertyName("error_msg")] public string ErrorMsg { get; set; }
 
-        [JsonPropertyName("data")] public PlayData Data { get; set; }
+        [JsonPropertyName("data")] public PlayData? Data { get; set; }
 
         [JsonPropertyName("host")] public string Host { get; set; }
     }
@@ -62,15 +58,19 @@ namespace AcFunDanmu.Models.Client
         [JsonPropertyName("giftSlotSize")] public long GiftSlotSize { get; set; }
     }
 #elif NETSTANDARD2_0_OR_GREATER
+    using Newtonsoft.Json;
+
     public sealed class Play
     {
         [JsonProperty("Result")]
         public int Result { get; set; } // 129004: LiveNotOpen, 129015 UserBanned, 380205 LiveNotPaid
 
         [JsonProperty("error_msg")] public string ErrorMsg { get; set; }
-
+#if NETSTANDARD2_1_OR_GREATER
+        [JsonProperty("data")] public PlayData? Data { get; set; }
+#elif NETSTANDARD2_0
         [JsonProperty("data")] public PlayData Data { get; set; }
-
+#endif
         [JsonProperty("host")] public string Host { get; set; }
     }
 
@@ -117,3 +117,4 @@ namespace AcFunDanmu.Models.Client
     }
 #endif
 }
+#pragma warning restore CS8618
