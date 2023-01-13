@@ -1,18 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-  </PropertyGroup>
+		<PublishAot>true</PublishAot>
+		<StripSymbols>true</StripSymbols>
 
-  <ItemGroup>
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
-    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
-  </ItemGroup>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AcFunDanmu\AcFunDanmu.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AcFunDanmu\AcFunDanmu.csproj" />
+	</ItemGroup>
 
 </Project>
