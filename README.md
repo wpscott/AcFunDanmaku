@@ -9,7 +9,7 @@ AcFun直播弹幕解析工具。
 测试数据来源于`m.acfun.cn.har`，可以在Chrome或Firefox中导入并查看websockets。
 
 ### 使用方式
-1. 在Visual Studio中使用**NuGet Package Manager**搜索并添加AcFunDanmu或在控制台/终端中输入`dotnet add package AcFunDanmu`
+1. 在Visual Studio中使用**NuGet Package Manager**搜索并添加[AcFunDanmu](https://www.nuget.org/packages/AcFunDanmu)或在控制台/终端中输入`dotnet add package AcFunDanmu`
 2. 添加以下代码片段
 ```
 Using AcFunDanmu;
