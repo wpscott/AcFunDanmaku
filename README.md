@@ -21,7 +21,7 @@ client.OnEnd += (你的自定义函数);
 
 client.Start(主播ID);
 ```
-*具体请参考AcFunDanmuConsole*
+*具体请参考[AcFunDanmuConsole](https://github.com/wpscott/AcFunDanmaku/tree/master/AcFunDanmuConsole)*
 
 ## AcFunDanmuConsole
 使用AcFunDanmu的控制台AcFun直播弹幕输出工具。
