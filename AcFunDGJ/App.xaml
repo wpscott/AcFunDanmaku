@@ -1,9 +1,0 @@
-﻿<Application x:Class="AcFunDGJ.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:AcFunDGJ"
-             StartupUri="MainWindow.xaml">
-    <Application.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-    </Application.Resources>
-</Application>
