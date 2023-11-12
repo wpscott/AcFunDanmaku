@@ -19,4 +19,10 @@
 		<ProjectReference Include="..\AcFunDanmu\AcFunDanmu.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="Hars\*.har">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

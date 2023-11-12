@@ -1,4 +1,13 @@
-﻿using System;
+﻿using AcFunDanmu;
+using AcFunDanmu.Enums;
+using AcFunDanmu.Im.Basic;
+using AcFunDanmu.Im.Cloud.Config;
+using AcFunDanmu.Im.Cloud.Message;
+using AcFunDanmu.Im.Message;
+using Google.Protobuf;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,16 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using AcFunDanmu;
-using AcFunDanmu.Enums;
-using AcFunDanmu.Im.Basic;
-using AcFunDanmu.Im.Cloud.Config;
-using AcFunDanmu.Im.Cloud.Message;
-using AcFunDanmu.Im.Message;
-using Google.Protobuf;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Extensions.Logging;
 using static AcFunDanmu.ClientUtils;
 using Timer = System.Timers.Timer;
 
@@ -41,9 +40,9 @@ internal class Program
             .WriteTo.Debug()
             .CreateLogger();
 
-        await Start(args);
+        //await Start(args);
 
-        //DecodeHar(@".\34195163.har");
+        DecodeHar(@".\37181305.har");
     }
 
     private static byte[] StreamConvert(in string stream)
@@ -150,15 +149,15 @@ internal class Program
                         case PushMessage.NotifySignal.VIOLATION_ALERT:
                         case PushMessage.NotifySignal.LIVE_MANAGER_STATE:
                             break;
-                        case PushMessage.ActionSignal.THROW_BANANA:
-                            foreach (var pl in item.Payload)
-                            {
-                                var enter = AcfunActionSignalThrowBanana.Parser.ParseFrom(pl);
-                                Log.Information("{0} - {1}({2}) throwed {3} banana(s)", enter.SendTimeMs,
-                                    enter.Visitor.Name, enter.Visitor.UserId, enter.Count);
-                            }
+                        //case PushMessage.ActionSignal.THROW_BANANA:
+                        //    foreach (var pl in item.Payload)
+                        //    {
+                        //        var enter = AcfunActionSignalThrowBanana.Parser.ParseFrom(pl);
+                        //        Log.Information("{0} - {1}({2}) throwed {3} banana(s)", enter.SendTimeMs,
+                        //            enter.Visitor.Name, enter.Visitor.UserId, enter.Count);
+                        //    }
 
-                            break;
+                        //    break;
                         case PushMessage.ActionSignal.GIFT:
                             foreach (var pl in item.Payload)
                             {
@@ -166,7 +165,7 @@ internal class Program
                                  * Item Id
                                  * 1 - 香蕉
                                  * 2 - 吃瓜
-                                 * 3 - 
+                                 * 3 -
                                  * 4 - 牛啤
                                  * 5 - 手柄
                                  * 6 - 魔法棒
@@ -181,17 +180,17 @@ internal class Program
                                  * 15 - AC机娘
                                  * 16 - 猴岛
                                  * 17 - 快乐水
-                                 * 18 - 
-                                 * 19 - 
-                                 * 20 - 
+                                 * 18 -
+                                 * 19 -
+                                 * 20 -
                                  * 21 - 生日快乐
                                  * 22 - 六一快乐
-                                 * 23 - 
-                                 * 24 - 
-                                 * 25 - 
-                                 * 26 - 
-                                 * 27 - 
-                                 * 28 - 
+                                 * 23 -
+                                 * 24 -
+                                 * 25 -
+                                 * 26 -
+                                 * 27 -
+                                 * 28 -
                                  * 29 - 大触
                                  * 30 - 鸽鸽
                                  * 31 - 金坷垃
@@ -245,7 +244,7 @@ internal class Program
                             {
 #if DEBUG
                                 Log.Information("Unhandled action type: {0}, content: {1}", item.SignalType,
-                                    item.Payload);
+                                    p.ToBase64());
 #endif
                             }
 
@@ -341,6 +340,13 @@ internal class Program
         [JsonPropertyName("data")] public string Data { get; init; }
     }
 
+    private static readonly HashSet<string> Servers = new HashSet<string>()
+    {
+        "wss://klink-newproduct-ws1.kwaizt.com/",
+        "wss://klink-newproduct-ws2.kwaizt.com/",
+        "wss://klink-newproduct-ws3.kwaizt.com/",
+    };
+
     private static void DecodeHar(string filePath)
     {
         var sessionKey = string.Empty;
@@ -358,7 +364,7 @@ internal class Program
         var securityKey = login.RootElement.GetProperty("acSecurity").ToString();
 
         var ws = json.RootElement.GetProperty("log").GetProperty("entries").EnumerateArray().First(item =>
-            item.GetProperty("request").GetProperty("url").ToString() == "wss://klink-newproduct-ws3.kwaizt.com/");
+            Servers.Contains(item.GetProperty("request").GetProperty("url").ToString()));
 
         var messages = JsonSerializer.Deserialize<Message[]>(ws.GetProperty("_webSocketMessages").ToString());
 
