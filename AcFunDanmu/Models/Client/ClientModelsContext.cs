@@ -1,5 +1,4 @@
-﻿#if NET6_0_OR_GREATER
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace AcFunDanmu.Models.Client
 {
@@ -14,4 +13,3 @@ namespace AcFunDanmu.Models.Client
     {
     }
 }
-#endif

@@ -2,10 +2,8 @@
 using AcFunDanmu.Im.Basic;
 using Google.Protobuf;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using static AcFunDanmu.ClientUtils;
 
 namespace AcFunDanmu
@@ -27,7 +25,7 @@ namespace AcFunDanmu
         private long _lz4CompressionThreshold;
 
         private long _seqId = 1;
-        private byte[] _sessionKey = Array.Empty<byte>();
+        private byte[]? _sessionKey;
         private int _ticketIndex;
 
         private string Ticket => _tickets == null ? string.Empty : _tickets[_ticketIndex];
@@ -49,11 +47,7 @@ namespace AcFunDanmu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
         private void HandshakeRequest(in NetworkStream? tcpStream)
-#elif NETSTANDARD2_0_OR_GREATER
-        private void HandshakeRequest(in NetworkStream tcpStream)
-#endif
         {
             var handshake = new HandshakeRequest
             {
@@ -71,24 +65,20 @@ namespace AcFunDanmu
                 Token = ByteString.FromBase64(_serviceToken)
             };
 #if DEBUG
-            Logger.LogDebug("--------");
-            Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+            Logger.LogTrace("--------");
+            Logger.LogTrace("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
                 payload.Command);
-            Logger.LogDebug("Header: {Header}", header);
-            Logger.LogDebug("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
-            Logger.LogDebug("Payload: {Payload}", payload);
-            Logger.LogDebug("\t{Handshake}", handshake);
-            Logger.LogDebug("--------");
+            Logger.LogTrace("Header: {Header}", header);
+            Logger.LogTrace("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
+            Logger.LogTrace("Payload: {Payload}", payload);
+            Logger.LogTrace("\t{Handshake}", handshake);
+            Logger.LogTrace("--------");
 #endif
             EncodeAndSend(tcpStream, header, payload, _securityKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER ||NET6_0_OR_GREATER
         private void RegisterRequest(in NetworkStream? tcpStream)
-#elif NETSTANDARD2_0_OR_GREATER
-        private void RegisterRequest(in NetworkStream tcpStream)
-#endif
         {
             var register = new RegisterRequest
             {
@@ -125,24 +115,20 @@ namespace AcFunDanmu
 
             Interlocked.Increment(ref _seqId);
 #if DEBUG
-            Logger.LogDebug("--------");
-            Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+            Logger.LogTrace("--------");
+            Logger.LogTrace("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
                 payload.Command);
-            Logger.LogDebug("Header: {Header}", header);
-            Logger.LogDebug("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
-            Logger.LogDebug("Payload: {Payload}", payload);
-            Logger.LogDebug("\t{Register}", register);
-            Logger.LogDebug("--------");
+            Logger.LogTrace("Header: {Header}", header);
+            Logger.LogTrace("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
+            Logger.LogTrace("Payload: {Payload}", payload);
+            Logger.LogTrace("\t{Register}", register);
+            Logger.LogTrace("--------");
 #endif
             EncodeAndSend(tcpStream, header, payload, _securityKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER||NET6_0_OR_GREATER
         private void KeepAliveRequest(in NetworkStream? tcpStream)
-#elif NETSTANDARD2_0_OR_GREATER
-        private void KeepAliveRequest(in NetworkStream tcpStream)
-#endif
         {
             var keepAlive = new KeepAliveRequest
             {
@@ -156,24 +142,20 @@ namespace AcFunDanmu
 
             Interlocked.Increment(ref _seqId);
 #if DEBUG
-            Logger.LogDebug("--------");
-            Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+            Logger.LogTrace("--------");
+            Logger.LogTrace("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
                 payload.Command);
-            Logger.LogDebug("Header: {Header}", header);
-            Logger.LogDebug("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
-            Logger.LogDebug("Payload: {Payload}", payload);
-            Logger.LogDebug("\t{KeepAlive}", keepAlive);
-            Logger.LogDebug("--------");
+            Logger.LogTrace("Header: {Header}", header);
+            Logger.LogTrace("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
+            Logger.LogTrace("Payload: {Payload}", payload);
+            Logger.LogTrace("\t{KeepAlive}", keepAlive);
+            Logger.LogTrace("--------");
 #endif
             EncodeAndSend(tcpStream, header, payload, _sessionKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER||NET6_0_OR_GREATER
         private void EnterRoomRequest(in NetworkStream? tcpStream)
-#elif NETSTANDARD2_0_OR_GREATER
-        private void EnterRoomRequest(in NetworkStream tcpStream)
-#endif
         {
             var enterRoom = new ZtLiveCsEnterRoom
             {
@@ -189,47 +171,41 @@ namespace AcFunDanmu
 
             Interlocked.Increment(ref _seqId);
 #if DEBUG
-            Logger.LogDebug("--------");
-            Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+            Logger.LogTrace("--------");
+            Logger.LogTrace("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
                 payload.Command);
-            Logger.LogDebug("Header: {Header}", header);
-            Logger.LogDebug("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
-            Logger.LogDebug("Payload: {Payload}", payload);
-            Logger.LogDebug("\t{Command}", cmd);
-            Logger.LogDebug("\t\t{EnterRoom}", enterRoom);
-            Logger.LogDebug("--------");
+            Logger.LogTrace("Header: {Header}", header);
+            Logger.LogTrace("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
+            Logger.LogTrace("Payload: {Payload}", payload);
+            Logger.LogTrace("\t{Command}", cmd);
+            Logger.LogTrace("\t\t{EnterRoom}", enterRoom);
+            Logger.LogTrace("--------");
 #endif
             EncodeAndSend(tcpStream, header, payload, _sessionKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER||NET6_0_OR_GREATER
         private void PushMessageResponse(in NetworkStream? tcpStream, in long headerSeqId)
-#elif NETSTANDARD2_0_OR_GREATER
-        private void PushMessageResponse(in NetworkStream tcpStream, in long headerSeqId)
-#endif
         {
             var payload = GeneratePayload(Command.PUSH_MESSAGE);
 
             var header = GenerateHeader(payload.CalculateSize());
             header.SeqId = headerSeqId;
 #if DEBUG
-            Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+            Logger.LogTrace("--------");
+            Logger.LogTrace("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
                 payload.Command);
-            Logger.LogDebug("Header: {Header}", header);
-            Logger.LogDebug("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
-            Logger.LogDebug("Payload: {Payload}", payload);
-            Logger.LogDebug("\t{PushMessage}", "Empty");
+            Logger.LogTrace("Header: {Header}", header);
+            Logger.LogTrace("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
+            Logger.LogTrace("Payload: {Payload}", payload);
+            Logger.LogTrace("\t{PushMessage}", "Empty");
+            Logger.LogTrace("--------");
 #endif
             EncodeAndSend(tcpStream, header, payload, _sessionKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER||NET6_0_OR_GREATER
         private void HeartbeatRequest(in NetworkStream? tcpStream)
-#elif NETSTANDARD2_0_OR_GREATER
-        private void HeartbeatRequest(in NetworkStream tcpStream)
-#endif
         {
             var heartbeat = new ZtLiveCsHeartbeat
             {
@@ -246,25 +222,21 @@ namespace AcFunDanmu
             _heartbeatSeqId++;
             Interlocked.Increment(ref _seqId);
 #if DEBUG
-            Logger.LogDebug("--------");
-            Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+            Logger.LogTrace("--------");
+            Logger.LogTrace("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
                 payload.Command);
-            Logger.LogDebug("Header: {Header}", header);
-            Logger.LogDebug("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
-            Logger.LogDebug("Payload: {Payload}", payload);
-            Logger.LogDebug("\t{Command}", cmd);
-            Logger.LogDebug("\t\t{Heartbeat}", heartbeat);
-            Logger.LogDebug("--------");
+            Logger.LogTrace("Header: {Header}", header);
+            Logger.LogTrace("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
+            Logger.LogTrace("Payload: {Payload}", payload);
+            Logger.LogTrace("\t{Command}", cmd);
+            Logger.LogTrace("\t\t{Heartbeat}", heartbeat);
+            Logger.LogTrace("--------");
 #endif
             EncodeAndSend(tcpStream, header, payload, _sessionKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER||NET6_0_OR_GREATER
         private void UserExitRequest(in NetworkStream? tcpStream)
-#elif NETSTANDARD2_0_OR_GREATER
-        private void UserExitRequest(in NetworkStream tcpStream)
-#endif
         {
             var userExit = GenerateCommand(GlobalCommand.USER_EXIT);
 
@@ -274,47 +246,39 @@ namespace AcFunDanmu
 
             Interlocked.Increment(ref _seqId);
 #if DEBUG
-            Logger.LogDebug("--------");
-            Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+            Logger.LogTrace("--------");
+            Logger.LogTrace("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
                 payload.Command);
-            Logger.LogDebug("Header: {Header}", header);
-            Logger.LogDebug("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
-            Logger.LogDebug("Payload: {Payload}", payload);
-            Logger.LogDebug("\t{UserExit}", userExit);
-            Logger.LogDebug("--------");
+            Logger.LogTrace("Header: {Header}", header);
+            Logger.LogTrace("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
+            Logger.LogTrace("Payload: {Payload}", payload);
+            Logger.LogTrace("\t{UserExit}", userExit);
+            Logger.LogTrace("--------");
 #endif
             EncodeAndSend(tcpStream, header, payload, _sessionKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER||NET6_0_OR_GREATER
         private void UnRegisterRequest(in NetworkStream? tcpStream)
-#elif NETSTANDARD2_0_OR_GREATER
-        private void UnRegisterRequest(in NetworkStream tcpStream)
-#endif
         {
             var payload = GeneratePayload(Command.UNREGISTER);
 
             var header = GenerateHeader(payload.CalculateSize());
 #if DEBUG
-            Logger.LogDebug("--------");
-            Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+            Logger.LogTrace("--------");
+            Logger.LogTrace("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
                 payload.Command);
-            Logger.LogDebug("Header: {Header}", header);
-            Logger.LogDebug("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
-            Logger.LogDebug("Payload: {Payload}", payload);
-            Logger.LogDebug("\t{UnRegister}", "Empty");
-            Logger.LogDebug("--------");
+            Logger.LogTrace("Header: {Header}", header);
+            Logger.LogTrace("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
+            Logger.LogTrace("Payload: {Payload}", payload);
+            Logger.LogTrace("\t{UnRegister}", "Empty");
+            Logger.LogTrace("--------");
 #endif
             EncodeAndSend(tcpStream, header, payload, _sessionKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER||NET6_0_OR_GREATER
         private void PingRequest(in NetworkStream? tcpStream)
-#elif NETSTANDARD2_0_OR_GREATER
-        private void PingRequest(in NetworkStream tcpStream)
-#endif
         {
             var ping = new PingRequest
             {
@@ -325,42 +289,31 @@ namespace AcFunDanmu
 
             var header = GenerateHeader(payload.CalculateSize());
 #if DEBUG
-            Logger.LogDebug("--------");
-            Logger.LogDebug("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
+            Logger.LogTrace("--------");
+            Logger.LogTrace("Up\t\t {HeaderSeqId}, {SeqId}, {Command}", header.SeqId, payload.SeqId,
                 payload.Command);
-            Logger.LogDebug("Header: {Header}", header);
-            Logger.LogDebug("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
-            Logger.LogDebug("Payload: {Payload}", payload);
-            Logger.LogDebug("\t{Ping}", ping);
-            Logger.LogDebug("--------");
+            Logger.LogTrace("Header: {Header}", header);
+            Logger.LogTrace("Payload Base64: {Payload}", payload.ToByteString().ToBase64());
+            Logger.LogTrace("Payload: {Payload}", payload);
+            Logger.LogTrace("\t{Ping}", ping);
+            Logger.LogTrace("--------");
 #endif
             EncodeAndSend(tcpStream, header, payload, _sessionKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER||NET6_0_OR_GREATER
-        private ZtLiveCsCmd GenerateCommand(in string command, in IMessage? msg = null)
-#elif NETSTANDARD2_0_OR_GREATER
-        private ZtLiveCsCmd GenerateCommand(in string command, in IMessage msg = null)
-#endif
-        {
-            return new ZtLiveCsCmd
+        private ZtLiveCsCmd GenerateCommand(in string command, in IMessage? msg = null) =>
+            new()
             {
                 CmdType = command,
                 Ticket = Ticket,
                 LiveId = LiveId,
                 Payload = msg?.ToByteString() ?? ByteString.Empty
             };
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NETSTANDARD2_1_OR_GREATER||NET6_0_OR_GREATER
-        private UpstreamPayload GeneratePayload(in string command, in IMessage? msg = null)
-#elif NETSTANDARD2_0_OR_GREATER
-        private UpstreamPayload GeneratePayload(in string command, in IMessage msg = null)
-#endif
-        {
-            return new UpstreamPayload
+        private UpstreamPayload GeneratePayload(in string command, in IMessage? msg = null) =>
+            new()
             {
                 Command = command,
                 RetryCount = RETRY_COUNT,
@@ -368,14 +321,12 @@ namespace AcFunDanmu
                 SubBiz = SUB_BIZ,
                 PayloadData = msg?.ToByteString() ?? ByteString.Empty
             };
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private PacketHeader GenerateHeader(in int bodyLength,
             in PacketHeader.Types.EncryptionMode encryptionMode =
-                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey)
-        {
-            return new PacketHeader
+                PacketHeader.Types.EncryptionMode.KEncryptionSessionKey) =>
+            new()
             {
                 AppId = _appId,
                 Uid = _userId,
@@ -385,6 +336,5 @@ namespace AcFunDanmu
                 SeqId = _seqId,
                 Kpn = KPN
             };
-        }
     }
 }

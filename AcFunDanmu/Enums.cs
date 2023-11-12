@@ -1,4 +1,6 @@
-﻿namespace AcFunDanmu.Enums
+﻿using System;
+
+namespace AcFunDanmu.Enums
 {
     public static class Command
     {
@@ -43,7 +45,10 @@
             public const string LIKE = "CommonActionSignalLike";
             public const string ENTER_ROOM = "CommonActionSignalUserEnterRoom";
             public const string FOLLOW = "CommonActionSignalUserFollowAuthor";
+
+            [Obsolete($"Use {nameof(PushMessage)}.{nameof(ActionSignal)}.{nameof(GIFT)} instead")]
             public const string THROW_BANANA = "AcfunActionSignalThrowBanana";
+
             public const string GIFT = "CommonActionSignalGift";
             public const string RICH_TEXT = "CommonActionSignalRichText";
             public const string JOIN_CLUB = "AcfunActionSignalJoinClub";

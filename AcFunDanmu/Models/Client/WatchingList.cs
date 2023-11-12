@@ -1,6 +1,4 @@
 ﻿#pragma warning disable CS8618
-using System;
-
 namespace AcFunDanmu.Models.Client;
 
 using System.Text.Json.Serialization;
