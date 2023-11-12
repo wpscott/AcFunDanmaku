@@ -40,9 +40,9 @@ internal class Program
             .WriteTo.Debug()
             .CreateLogger();
 
-        //await Start(args);
+        await Start(args);
 
-        DecodeHar(@".\37181305.har");
+        //DecodeHar(@".\hars\37181305.har");
     }
 
     private static byte[] StreamConvert(in string stream)
