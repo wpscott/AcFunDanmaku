@@ -37,6 +37,7 @@ namespace AcFunDanmu.Im.Cloud.Voice.Call {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class VoiceCallAlreadyProcessedEvent : pb::IMessage<VoiceCallAlreadyProcessedEvent>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

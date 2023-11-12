@@ -37,6 +37,7 @@ namespace AcFunDanmu.Im.Cloud.Channel {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ChannelUnsubscribeRequest : pb::IMessage<ChannelUnsubscribeRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

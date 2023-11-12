@@ -46,6 +46,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class AcFunUserInfo : pb::IMessage<AcFunUserInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -272,6 +273,7 @@ namespace AcFunDanmu {
 
   }
 
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class AcfunActionSignalThrowBanana : pb::IMessage<AcfunActionSignalThrowBanana>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -544,6 +546,7 @@ namespace AcFunDanmu {
 
   }
 
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class AcfunStateSignalDisplayInfo : pb::IMessage<AcfunStateSignalDisplayInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -733,6 +736,7 @@ namespace AcFunDanmu {
 
   }
 
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class AcfunActionSignalJoinClub : pb::IMessage<AcfunActionSignalJoinClub>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

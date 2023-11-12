@@ -40,6 +40,7 @@ namespace AcFunDanmu.Im.Cloud.Message {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class UserGroupInfo : pb::IMessage<UserGroupInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

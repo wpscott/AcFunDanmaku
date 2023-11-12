@@ -40,6 +40,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class KwaiStateSignalEcommerceCartItemPopup : pb::IMessage<KwaiStateSignalEcommerceCartItemPopup>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

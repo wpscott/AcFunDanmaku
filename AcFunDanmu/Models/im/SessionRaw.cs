@@ -38,6 +38,7 @@ namespace AcFunDanmu.Im.Message {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SessionRaw : pb::IMessage<SessionRaw>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -170,7 +171,7 @@ namespace AcFunDanmu.Im.Message {
       if (other == null) {
         return;
       }
-      raw_.Add(other.raw_);
+      raw_.MergeFrom(other.raw_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 

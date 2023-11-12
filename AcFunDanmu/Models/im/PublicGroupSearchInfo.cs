@@ -42,6 +42,7 @@ namespace AcFunDanmu.Im.Cloud.Search {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class PublicGroupSearchInfo : pb::IMessage<PublicGroupSearchInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

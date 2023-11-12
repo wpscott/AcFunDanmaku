@@ -37,6 +37,7 @@ namespace AcFunDanmu.Im.Message {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class B2CMessageDeleteResponse : pb::IMessage<B2CMessageDeleteResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

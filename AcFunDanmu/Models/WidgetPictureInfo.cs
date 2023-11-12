@@ -38,6 +38,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class WidgetPictureInfo : pb::IMessage<WidgetPictureInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

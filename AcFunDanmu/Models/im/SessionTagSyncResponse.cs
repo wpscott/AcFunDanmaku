@@ -40,6 +40,7 @@ namespace AcFunDanmu.Im.Cloud.SessionTag {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SessionTagSyncResponse : pb::IMessage<SessionTagSyncResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

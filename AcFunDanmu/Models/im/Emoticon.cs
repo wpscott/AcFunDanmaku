@@ -45,6 +45,7 @@ namespace AcFunDanmu.Im.Cloud.Message {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class Emoticon : pb::IMessage<Emoticon>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -483,6 +484,7 @@ namespace AcFunDanmu.Im.Cloud.Message {
         [pbr::OriginalName("SCRIPT")] Script = 5,
       }
 
+      [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
       public sealed partial class Code : pb::IMessage<Code>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           , pb::IBufferMessage

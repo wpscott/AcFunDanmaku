@@ -37,6 +37,7 @@ namespace AcFunDanmu.Im.Cloud.Profile {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ProfileKickUserLoginDeviceRequest : pb::IMessage<ProfileKickUserLoginDeviceRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

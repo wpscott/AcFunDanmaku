@@ -39,6 +39,7 @@ namespace AcFunDanmu.Im.Cloud.Message {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class GroupJoinReqListResponse : pb::IMessage<GroupJoinReqListResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

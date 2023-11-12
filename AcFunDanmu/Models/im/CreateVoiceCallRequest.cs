@@ -45,6 +45,7 @@ namespace AcFunDanmu.Im.Cloud.Voice.Call {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CreateVoiceCallRequest : pb::IMessage<CreateVoiceCallRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

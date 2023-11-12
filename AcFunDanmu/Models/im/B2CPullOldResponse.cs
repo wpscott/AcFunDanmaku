@@ -38,6 +38,7 @@ namespace AcFunDanmu.Im.Message {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class B2CPullOldResponse : pb::IMessage<B2CPullOldResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

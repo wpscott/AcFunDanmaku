@@ -39,6 +39,7 @@ namespace AcFunDanmu.Im.Message {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class B2CSessionStickyOnTopRequest : pb::IMessage<B2CSessionStickyOnTopRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

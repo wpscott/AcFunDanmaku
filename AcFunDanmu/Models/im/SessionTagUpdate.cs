@@ -39,6 +39,7 @@ namespace AcFunDanmu.Im.Cloud.Data.Update {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SessionTagUpdate : pb::IMessage<SessionTagUpdate>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

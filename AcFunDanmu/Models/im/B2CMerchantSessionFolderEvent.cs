@@ -43,6 +43,7 @@ namespace AcFunDanmu.Im.Cloud.SessionFolder {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class B2CMerchantSessionFolderEvent : pb::IMessage<B2CMerchantSessionFolderEvent>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

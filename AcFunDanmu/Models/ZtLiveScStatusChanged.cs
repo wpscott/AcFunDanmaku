@@ -43,6 +43,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ZtLiveScStatusChanged : pb::IMessage<ZtLiveScStatusChanged>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -326,6 +327,7 @@ namespace AcFunDanmu {
         [pbr::OriginalName("LIVE_BANNED")] LiveBanned = 4,
       }
 
+      [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
       public sealed partial class BannedInfo : pb::IMessage<BannedInfo>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           , pb::IBufferMessage

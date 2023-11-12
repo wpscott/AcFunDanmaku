@@ -39,6 +39,7 @@ namespace AcFunDanmu.Im.Cloud.SessionFolder {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SessionFolderBasic : pb::IMessage<SessionFolderBasic>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

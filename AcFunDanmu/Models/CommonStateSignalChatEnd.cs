@@ -45,6 +45,7 @@ namespace AcFunDanmu {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CommonStateSignalChatEnd : pb::IMessage<CommonStateSignalChatEnd>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -332,6 +333,7 @@ namespace AcFunDanmu {
         [pbr::OriginalName("PEER_LIVE_STOPPED")] PeerLiveStopped = 8,
       }
 
+      [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
       public sealed partial class BannedInfo : pb::IMessage<BannedInfo>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           , pb::IBufferMessage

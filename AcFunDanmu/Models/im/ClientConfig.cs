@@ -61,6 +61,7 @@ namespace AcFunDanmu.Im.Cloud.Config {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ClientConfig : pb::IMessage<ClientConfig>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

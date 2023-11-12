@@ -37,6 +37,7 @@ namespace AcFunDanmu.Im.Basic {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class I18nCopyWriting : pb::IMessage<I18nCopyWriting>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

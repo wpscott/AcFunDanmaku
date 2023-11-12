@@ -41,6 +41,7 @@ namespace AcFunDanmu.Im.Cloud.Channel {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ChannelBasicInfoNotify : pb::IMessage<ChannelBasicInfoNotify>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
