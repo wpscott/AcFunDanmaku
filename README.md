@@ -1,5 +1,5 @@
 # AcFunDanmaku
-AcFunDanmaku是用C# 和 .Net 6编写的AcFun直播弹幕工具。
+AcFunDanmaku是用 C# 和 .NetStandard 2.1 编写的AcFun直播弹幕工具。
 
 ## AcFunDanmu 
 AcFun直播弹幕解析工具。
