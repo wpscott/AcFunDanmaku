@@ -6,8 +6,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
+using ProtoGenerator;
 
-HashSet<string> BuiltInTypes = new()
+const string header = "syntax = \"proto3\";";
+
+HashSet<string> builtInTypes = new()
 {
     "double",
     "float",
@@ -26,12 +29,29 @@ HashSet<string> BuiltInTypes = new()
     "bytes"
 };
 
+var importsToRemove = new[]
+{
+    "Im.Basic.",
+    "Im.Message.",
+    "Im.Cloud.Channel.",
+    "Im.Cloud.Config.",
+    "Im.Cloud.Data.Update.",
+    "Im.Cloud.Message.",
+    "Im.Cloud.Profile.",
+    "Im.Cloud.Search.",
+    "Im.Cloud.SessionFolder.",
+    "Im.Cloud.SessionTag.",
+    "Im.Cloud.Voice.Call.",
+};
+
 foreach (var name in args)
 {
     var file = File.OpenRead(name);
     var json = await JsonDocument.ParseAsync(file);
     Process(json.RootElement, ImmutableArray<string>.Empty);
 }
+
+return;
 
 void Process(in JsonElement json, in ImmutableArray<string> args)
 {
@@ -48,8 +68,6 @@ void Process(in JsonElement json, in ImmutableArray<string> args)
     }
 }
 
-const string Header = "syntax = \"proto3\";\r\n\r\n";
-
 void Generate(in JsonElement json, in ImmutableArray<string> args)
 {
     var path = "../../../../AcFunDanmu/protos/" + string.Join('/', args);
@@ -64,22 +82,29 @@ void Generate(in JsonElement json, in ImmutableArray<string> args)
 
         var builder = new StringBuilder();
         var imports = new SortedSet<string>();
-        builder.Append(Header);
-        builder.Append($"package {package};\r\n\r\n");
+        builder
+            .Append(header)
+            .AppendLine()
+            .AppendLine()
+            .Append($"package {package};")
+            .AppendLine()
+            .AppendLine();
         var content = ProcessPackage(message, imports);
         if (imports.Count > 0)
         {
             foreach (var import in imports.OrderBy(import => import))
             {
-                builder.Append(import);
-                builder.Append("\r\n");
+                builder
+                    .Append(import)
+                    .AppendLine();
             }
 
-            builder.Append("\r\n");
+            builder.AppendLine();
         }
 
-        builder.Append(content);
-        builder.Append("\r\n");
+        builder
+            .Append(content)
+            .AppendLine();
 
         writer.Write(builder.ToString());
         Console.WriteLine(builder.ToString());
@@ -106,25 +131,31 @@ string ProcessPackage(in JsonProperty message, in SortedSet<string> imports, in 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 void ProcessEnum(StringBuilder builder, in int indentation, in JsonProperty message, in JsonElement values)
 {
-    Indent(builder, indentation);
-    builder.Append($"enum {message.Name} {{\r\n");
+    builder
+        .AddIndention(indentation)
+        .Append($"enum {message.Name} {{")
+        .AppendLine();
 
     if (message.Value.TryGetProperty("options", out var options))
         foreach (var option in options.EnumerateObject())
         {
-            Indent(builder, indentation + 1);
-            builder.Append($"option {option.Name} = {option.Value.ToString().ToLower()};\r\n");
+            builder
+                .AddIndention(indentation + 1)
+                .Append($"option {option.Name} = {option.Value.ToString().ToLower()};")
+                .AppendLine();
         }
 
     foreach (var value in values.EnumerateObject())
     {
-        Indent(builder, indentation + 1);
-
-        builder.Append($"{value.Name} = {value.Value.GetDecimal()};\r\n");
+        builder
+            .AddIndention(indentation + 1)
+            .Append($"{value.Name} = {value.Value.GetDecimal()};")
+            .AppendLine();
     }
 
-    Indent(builder, indentation);
-    builder.Append("}");
+    builder
+        .AddIndention(indentation)
+        .Append('}');
 }
 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -133,28 +164,36 @@ void ProcessOneof(StringBuilder builder, in SortedSet<string> imports, in int in
 {
     var fields = message.Value.GetProperty("fields");
 
-    Indent(builder, indentation);
-    builder.Append($"message {message.Name} {{\r\n");
+    builder
+        .AddIndention(indentation)
+        .Append($"message {message.Name} {{")
+        .AppendLine();
     var used = new HashSet<string>();
     var hasFields = false;
     foreach (var oneof in oneofs.EnumerateObject())
     {
-        Indent(builder, indentation + 1);
-        builder.Append($"oneof {oneof.Name} {{\r\n");
+        builder
+            .AddIndention(indentation + 1)
+            .Append($"oneof {oneof.Name} {{")
+            .AppendLine();
 
         foreach (var value in oneof.Value.GetProperty("oneof").EnumerateArray())
         {
-            Indent(builder, indentation + 2);
             var field = fields.GetProperty(value.ToString());
             var type = CheckImports(imports, field);
             var id = field.GetProperty("id").GetInt32();
 
-            builder.Append($"{type} {value} = {id};\r\n");
+            builder
+                .AddIndention(indentation + 2)
+                .Append($"{type} {value} = {id};")
+                .AppendLine();
             used.Add(value.ToString());
         }
 
-        Indent(builder, indentation + 1);
-        builder.Append("}\r\n");
+        builder
+            .AddIndention(indentation + 1)
+            .Append('}')
+            .AppendLine();
 
         foreach (var field in fields.EnumerateObject().Where(field => !used.Contains(field.Name)))
         {
@@ -163,28 +202,30 @@ void ProcessOneof(StringBuilder builder, in SortedSet<string> imports, in int in
             var id = field.Value.GetProperty("id").GetInt32();
 
             hasFields = true;
-            builder.Append("\r\n");
-            Indent(builder, indentation + 1);
-            builder.Append($"{type} {field.Name} = {id};");
+            builder
+                .AppendLine()
+                .AddIndention(indentation + 1)
+                .Append($"{type} {field.Name} = {id};");
         }
     }
 
-    if (hasFields) builder.Append("\r\n");
+    if (hasFields) builder.AppendLine();
 
-    Indent(builder, indentation);
-    builder.Append("}");
+    builder
+        .AddIndention(indentation)
+        .Append('}');
 }
 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 void ProcessMessage(StringBuilder builder, in SortedSet<string> imports, in int indentation, in JsonProperty message,
     in JsonElement fields)
 {
-    Indent(builder, indentation);
-    builder.Append($"message {message.Name} {{");
+    builder.AddIndention(indentation).Append($"message {message.Name} {{");
     foreach (var field in fields.EnumerateObject())
     {
-        builder.Append("\r\n");
-        Indent(builder, indentation + 1);
+        builder
+            .AppendLine()
+            .AddIndention(indentation + 1);
         var type = CheckImports(imports, field.Value);
         var id = field.Value.GetProperty("id").GetInt32();
         if (field.Value.TryGetProperty("keyType", out var keyType))
@@ -199,39 +240,34 @@ void ProcessMessage(StringBuilder builder, in SortedSet<string> imports, in int 
         }
     }
 
-    builder.Append("\r\n");
+    builder.AppendLine();
 
     if (message.Value.TryGetProperty("nested", out var nested))
     {
-        builder.Append("\r\n");
+        builder.AppendLine();
         foreach (var nestedMessage in nested.EnumerateObject())
         {
             builder.Append(ProcessPackage(nestedMessage, imports, indentation + 1));
-            builder.Append("\r\n");
+            builder.AppendLine();
         }
     }
 
-    Indent(builder, indentation);
-    builder.Append("}");
-}
-
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-void Indent(in StringBuilder builder, in int indentation)
-{
-    for (var i = 0; i < indentation; i++) builder.Append('\t');
+    builder
+        .AddIndention(indentation)
+        .Append('}');
 }
 
 [MethodImpl(MethodImplOptions.AggressiveInlining)]
 string CheckImports(in SortedSet<string> imports, in JsonElement field)
 {
     var type = field.GetProperty("type").ToString().Replace("Kuaishou.", string.Empty);
-    if (BuiltInTypes.Contains(type)) return type;
-    var file = type.Replace("Im.Basic.", string.Empty).Replace("Im.Message.", string.Empty)
-        .Replace("Im.Cloud.Channel.", string.Empty).Replace("Im.Cloud.Config.", string.Empty)
-        .Replace("Im.Cloud.Data.Update.", string.Empty).Replace("Im.Cloud.Message.", string.Empty)
-        .Replace("Im.Cloud.Profile.", string.Empty).Replace("Im.Cloud.Search.", string.Empty)
-        .Replace("Im.Cloud.SessionFolder.", string.Empty).Replace("Im.Cloud.SessionTag.", string.Empty)
-        .Replace("Im.Cloud.Voice.Call.", string.Empty).Split('.').First();
+    if (builtInTypes.Contains(type)) return type;
+
+    var file = importsToRemove
+        .Aggregate(type, (current, import) => current.Replace(import, string.Empty))
+        .Split('.')
+        .First();
+
     imports.Add(@$"import ""{file}.proto"";");
 
     return type;
