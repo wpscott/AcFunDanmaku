@@ -217,6 +217,29 @@ internal class Program
                             }
 
                             break;
+                        case PushMessage.ActionSignal.RICH_TEXT:
+                            foreach (var pl in item.Payload)
+                            {
+                                var richText = CommonActionSignalRichText.Parser.ParseFrom(pl);
+                                foreach (var segment in richText.Segments)
+                                {
+                                    switch (segment.SegmentCase)
+                                    {
+                                        case CommonActionSignalRichText.Types.RichTextSegment.SegmentOneofCase.None:
+                                            break;
+                                        case CommonActionSignalRichText.Types.RichTextSegment.SegmentOneofCase.UserInfo:
+                                            break;
+                                        case CommonActionSignalRichText.Types.RichTextSegment.SegmentOneofCase.Plain:
+                                            break;
+                                        case CommonActionSignalRichText.Types.RichTextSegment.SegmentOneofCase.Image:
+                                            break;
+                                        default:
+                                            throw new ArgumentOutOfRangeException();
+                                    }
+                                }
+                            }
+
+                            break;
                         default:
                             foreach (var p in item.Payload)
                             {
